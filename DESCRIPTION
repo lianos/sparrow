@@ -1,7 +1,7 @@
-Package: multiGSEA
+Package: sparrow
 Type: Package
-Title: A unified interface to a plethora of gene set enrichment analysis methods
-Version: 1.1.99
+Title: Take command of set enrichment analyses via a unified interface to them all.
+Version: 0.99.0
 Authors@R: c(
     person("Steve", "Lianoglou", , "slianoglou@gmail.com", c("aut", "cre")),
     person("Denali Therapeutics", role = c("fnd"), comment = "2018+"),

@@ -1,31 +1,31 @@
 
-# multiGSEA
+# sparrow
 
 <!-- badges: start -->
 
-[![R build
-status](https://github.com/lianos/multiGSEA/workflows/R-CMD-check/badge.svg)](https://github.com/lianos/multiGSEA/actions)
-![pkgdown](https://github.com/lianos/multiGSEA/workflows/pkgdown/badge.svg)
-[![Project Status:
-Active](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
-[![Lifecycle:
-stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
-[![codecov](https://codecov.io/gh/lianos/multiGSEA/branch/develop/graph/badge.svg)](https://codecov.io/gh/lianos/multiGSEA)
+[![R build status](https://github.com/lianos/sparrow/workflows/R-CMD-check/badge.svg)](https://github.com/lianos/sparrow/actions)
+![pkgdown](https://github.com/lianos/sparrow/workflows/pkgdown/badge.svg)
+[![Project Status: Active](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+[![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
+[![codecov](https://codecov.io/gh/lianos/sparrow/branch/develop/graph/badge.svg)](https://codecov.io/gh/lianos/sparrow)
 <!-- badges: end -->
 
-The `multiGSEA` package was built to facilitate the use of gene sets in
-the analysis of high throughput genomics data (primarily RNA-seq).
-Analysts can orchestrate any number of GSEA methods across a specific
-contrast using the unified interface provided by the `multiGSEA`
-function, and a shiny application is provided that facilitates the
-exploration and interpretation of GSEA results.
+`sparrow` (formerly [sparrow](https://github.com/lianos/sparrow)) was built
+to facilitate the use of gene sets in the analysis of high throughput genomics
+data (primarily RNA-seq). Analysts can orchestrate any number of GSEA methods
+across a specific contrast using the unified interface provided by the
+`seas` (formerly `sparrow`) function, and a shiny application
+is provided that facilitates the exploration and interpretation of GSEA results.
 
-  - The `multiGSEA` function is a wrapper that orchestrates the
-    execution of any number of user-specified gene set enrichment
-    analyses (GSEA) over a particular experimental contrast of interest.
-    This will create a `MultiGSEAResult` object which stores the results
-    of each GSEA method internally, allowing for easy query and
-    retrieval.
+**NOTE 2020-11-12: This package is currently under transition due to renaming it
+from sparrow to sparrow, will be functional soon**.
+
+  - The `seas` function is a wrapper that orchestrates the execution of any
+  number of user-specified gene set enrichment analyses (GSEA) over a particular
+  experimental contrast of interest. This will create a `MultiGSEAResult`
+  object which stores the results of each GSEA method internally, allowing
+  for easy query and retrieval.
+
   - A sister
     [`multiGSEA.shiny`](https://github.com/lianos/multiGSEA.shiny)
     package provides an `explore` function, which is invoked on
@@ -59,9 +59,9 @@ mg <- multiGSEA(gdb, vm, vm$design, "tumor", methods=c("camera", "fry"))
 We can view the top “camera” results with the smallest pvalues like so:
 
 ``` r
-results(mg, "camera") %>% 
-  arrange(pval) %>% 
-  select(collection, name, padj) %>% 
+results(mg, "camera") %>%
+  arrange(pval) %>%
+  select(collection, name, padj) %>%
   head
 #>   collection                                        name         padj
 #> 1         C2      SOTIRIOU_BREAST_CANCER_GRADE_1_VS_3_UP 1.037263e-36
