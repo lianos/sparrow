@@ -28,7 +28,7 @@
 ## User Visible Changes
 
 * MSigGeneSetDb updated to v6.1 and data refactored out into GeneSetDb.* packages
-* `geneSet,MultiGSEAResult` method does not remove duplicated columns present
+* `geneSet,SparrowResult` method does not remove duplicated columns present
   in both `geneSet(gdb)` and `logFC`, but rather appends a `*.gs` suffix to
   the duplicated columns from `geneSet`. This happened because I defined
   a geneset with a `logFC` column (from the experiment the set was derived)
@@ -152,7 +152,7 @@
 
 ## New Features
 
-* `multiGSEA` returns a `MultiGSEAResult` object which holds all of the things
+* `multiGSEA` returns a `SparrowResult` object which holds all of the things
   one would need to analyze/plot/poke at the results of the function call.
 
 * Plotting functions added so user can plot results of arbitrary genesets.

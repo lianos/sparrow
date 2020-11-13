@@ -3,7 +3,7 @@
 \name{geneSetSummaryByGenes}
 \alias{geneSetSummaryByGenes}
 \alias{geneSetSummaryByGenes,GeneSetDb-method}
-\alias{geneSetSummaryByGenes,MultiGSEAResult-method}
+\alias{geneSetSummaryByGenes,SparrowResult-method}
 \title{Summarize geneset:feature relationships for specified set of features}
 \usage{
 geneSetSummaryByGenes(
@@ -23,7 +23,7 @@ geneSetSummaryByGenes(
   as.dt = FALSE
 )
 
-\S4method{geneSetSummaryByGenes}{MultiGSEAResult}(
+\S4method{geneSetSummaryByGenes}{SparrowResult}(
   x,
   features,
   with.features = TRUE,
@@ -36,18 +36,18 @@ geneSetSummaryByGenes(
 )
 }
 \arguments{
-\item{x}{\code{GeneSetDb} or \code{MultiGSEAResult}}
+\item{x}{\code{GeneSetDb} or \code{SparrowResult}}
 
 \item{features}{a character vector of featureIds}
 
 \item{with.features}{Include columns for \code{features}? If \code{x} is
 is a \code{GeneSetDb}, these columns are \code{TRUE}/\code{FALSE}. If
-\code{x} is a \code{MultiGSEAResult} object, the values are the logFC of
+\code{x} is a \code{SparrowResult} object, the values are the logFC of
 the feature if present in the gene set, otherwise its \code{NA}.}
 
 \item{feature.rename}{if \code{NULL}, the feature columns are prefixed with
 \code{featureId_}, if \code{FALSE}, no renaming is done. If \code{x} is
-a \code{MultiGSEAResult}, then this can be the column name found in
+a \code{SparrowResult}, then this can be the column name found in
 \code{logFC(x)}, in which case the value for the feature from the given
 column name would be used (setting this to \code{"symbol"}) would be a
 common thing to do, for instance.}

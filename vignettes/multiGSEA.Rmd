@@ -46,14 +46,14 @@ by providing these top-line functionalities:
 
 * The `multiGSEA` function is a wrapper that orchestrates the execution of any
   number of user-specified gene set enrichment analyses (GSEA) over a particular
-  experimental contrast of interest. This will create a `MultiGSEAResult`
+  experimental contrast of interest. This will create a `SparrowResult`
   object which stores the results of each GSEA method internally, allowing
   for easy query and retrieval.
 * A sister `multiGSEA.shiny` package provides an `explore` function, which is
-  invoked on `MultiGSEAREsult` objects returned from a call to `multiGSEA`.
+  invoked on `SparrowResult` objects returned from a call to `multiGSEA`.
   The shiny application facilitates interactive exploration of these GSEA
   results. This application can also be deployed to a shiny server and can be
-  initialized by uploading a serialized `MultiGSEAResult` `*.rds` file.
+  initialized by uploading a serialized `SparrowResult` `*.rds` file.
 * An "over representation analysis" method `ora()` which wraps the biased
   enrichment functionality found within `limma::kegga` and generalizes it to
   work against data.frame inputs with arbitrary genesets.
@@ -96,7 +96,7 @@ stored primarily as tables / data.frames.
 Currently supported gene set enrichment methods include:
 
 ```{r multiGSEA-methods, echo=FALSE, message=FALSE, warning=FALSE}
-dplyr::select(multiGSEA::multiGSEA_methods(),
+dplyr::select(multiGSEA::sparrow_methods(),
               method, test_type, package, comment)
 ```
 
@@ -250,7 +250,7 @@ simply requires you to provide a `GeneSetDb` object along with your data and an
 enumeration of the methods you want to use in your analysis.
 
 The call to `multiGSEA` will perform these analyses and return a
-`MultiGSEAResult` object which you can then use for downstream analysis.
+`SparrowResult` object which you can then use for downstream analysis.
 
 ```{r run-multi-GSEA, eval=!exists('mg'), results='hide', warning=FALSE}
 mg <- seas(
@@ -278,7 +278,7 @@ a `matrix`, `ExpressionSet` or `EList` into `multiGSEA`, a *limma*-based
 `glmQLFit %>% (glmQLFTest | glmTreat) %>% topTags` pipeline.
 
 The result of the internally run differential expression analysis is accessible
-via a call to `logFC` function on the `MultiGSEAResult` object:
+via a call to `logFC` function on the `SparrowResult` object:
 
 ```{r logFC-results}
 lfc <- logFC(mg)
@@ -322,7 +322,7 @@ The table above enumerates the different GSEA methods run over each geneset
 collection in the rows. The columns enumerate the number of genesets that the
 collection has in total (`geneset_count`), and how many were found significant
 at a given FDR, which is set to 20% by default. The `show` command for the
-`MultiGSEAResult` object simply calls the `tabulateResults` function, which
+`SparrowResult` object simply calls the `tabulateResults` function, which
 you can call directly with the value of `max.p` that you might find more
 appropriate.
 
@@ -331,7 +331,7 @@ appropriate.
 GSEA results can be examined interactively via the command line, or via a shiny
 application. You can use the `resultNames` function to find out what GSEA
 methods were run, and therefore available to you, within the the
-`MultiGSEAResult` object:
+`SparrowResult` object:
 
 ```{r resultnames}
 resultNames(mg)
@@ -406,7 +406,7 @@ iplot(mg, 'H', 'HALLMARK_WNT_BETA_CATENIN_SIGNALING',
 #### Interactive Exploration
 
 A sister `multiGSEA.shiny` package is available that can be used to
-interactively explore `MultiGSEAResult` objects. The application can be invoked
+interactively explore `SparrowResult` objects. The application can be invoked
 as follows:
 
 ```r

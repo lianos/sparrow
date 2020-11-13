@@ -22,7 +22,7 @@ iplot(
 )
 }
 \arguments{
-\item{x}{A \code{\link[=MultiGSEAResult]{MultiGSEAResult()}} object}
+\item{x}{A \code{\link[=SparrowResult]{SparrowResult()}} object}
 
 \item{y}{the name of the gene set collection}
 
@@ -62,7 +62,7 @@ You can visualize this behavior via a \code{type = "density"} plot, or a
 \verb{type = "boxplot". It is also common to plot either the individual log fold changes }value = "logFC"\verb{or t-statistics}value = "t"`.
 }
 \examples{
-mgr <- exampleMultiGSEAResult()
+mgr <- exampleSparrowResult()
 iplot(mgr, "c2", "BURTON_ADIPOGENESIS_PEAK_AT_2HR", c("t-statistic" = "t"),
       type = "density")
 iplot(mgr, "c2", "BURTON_ADIPOGENESIS_PEAK_AT_2HR", c("t-statistic" = "t"),

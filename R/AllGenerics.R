@@ -13,14 +13,14 @@
 #' the target expression object uses. To change this behavior, tweak the values
 #' for the `active.only` and `value` parameters, respectively.
 #'
-#' `x` can be either a `GeneSetDb` or a `MultiGSEAResult`. If its the latter,
+#' `x` can be either a `GeneSetDb` or a `SparrowResult`. If its the latter,
 #' then this call simply delegates to the internal `GeneSetDb`.
 #'
 #' @rdname featureIds
 #' @exportMethod featureIds
 #'
 #' @param x Object to retrieve the gene set from, either a `GeneSetDb` or a
-#'   `MultiGSEAResult`.
+#'   `SparrowResult`.
 #' @param i,j The collection,name compound key identifier of the gene set
 #' @param value What form do you want the id's in?
 #'   * `"feature_id"`: the IDs used in the original geneset definitions
@@ -229,7 +229,7 @@ setGeneric("org<-", signature="x", function(x, i, value) {
 #' Instead, gene sets are returned as a data.frame, the rows of which enumerate
 #' the features that belong to them.
 #'
-#' When `x` is a [MultiGSEAResult()], this function will append
+#' When `x` is a [SparrowResult()], this function will append
 #' the differential expression statistics for the individual features generated
 #' across the contrast that defined `x`.
 #'
@@ -243,13 +243,13 @@ setGeneric("org<-", signature="x", function(x, i, value) {
 #' @param ... passed down to inner functinos
 #' @template asdt-param
 #' @return a `data.(frame|table)` of gene set information. If \code{x} is a
-#'   `MultiGSEAResult` object, then differential expression statistics
+#'   `SparrowResult` object, then differential expression statistics
 #'   are added as columns to this result.
 setGeneric("geneSet", signature="x", function(x, i, j, ...) {
   standardGeneric("geneSet")
 })
 
-#' Fetch the active (or all) gene sets from a GeneSetDb or MultiGSEAResult
+#' Fetch the active (or all) gene sets from a GeneSetDb or SparrowResult
 #'
 #' @export
 #' @inheritParams featureIds
@@ -274,15 +274,15 @@ setGeneric("geneSets", function(x, ...) standardGeneric('geneSets'))
 #' @rdname geneSetSummaryByGenes
 #' @exportMethod geneSetSummaryByGenes
 #'
-#' @param x `GeneSetDb` or `MultiGSEAResult`
+#' @param x `GeneSetDb` or `SparrowResult`
 #' @param features a character vector of featureIds
 #' @param with.features Include columns for `features`? If `x` is
 #'  is a `GeneSetDb`, these columns are `TRUE`/`FALSE`. If
-#'  `x` is a `MultiGSEAResult` object, the values are the logFC of
+#'  `x` is a `SparrowResult` object, the values are the logFC of
 #'  the feature if present in the gene set, otherwise its `NA`.
 #' @param feature.rename if `NULL`, the feature columns are prefixed with
 #'   `featureId_`, if `FALSE`, no renaming is done. If `x` is
-#'   a `MultiGSEAResult`, then this can be the column name found in
+#'   a `SparrowResult`, then this can be the column name found in
 #'   `logFC(x)`, in which case the value for the feature from the given
 #'   column name would be used (setting this to `"symbol"`) would be a
 #'   common thing to do, for instance.

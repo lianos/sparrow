@@ -63,7 +63,7 @@ function(x, features, with.features=TRUE, feature.rename=NULL, ...,
 })
 
 #' @rdname geneSetSummaryByGenes
-setMethod("geneSetSummaryByGenes", c(x="MultiGSEAResult"),
+setMethod("geneSetSummaryByGenes", c(x="SparrowResult"),
 function(x, features, with.features=TRUE, feature.rename=NULL,
          method=NULL, max.p=0.3, p.col=c('padj', 'padj.by.collection', 'pval'),
          ..., as.dt=FALSE) {

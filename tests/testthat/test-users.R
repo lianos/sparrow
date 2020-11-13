@@ -13,7 +13,7 @@ test_that("multiGSEA fails with a 1-geneset GeneSetDb", {
                   ## customize camera parameter:
                   inter.gene.cor=0.04)
 
-  # Calling the show,MultiGSEAResult method is how this was identified,
+  # Calling the show,SparrowResult method is how this was identified,
   # so let's make sure that works, first.
   printed <- tryCatch(capture.output(show(mg)), error = function(e) NULL)
   expect_is(printed, "character")

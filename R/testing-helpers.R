@@ -121,9 +121,9 @@ exampleGeneSetDF <- function() {
 #' @export
 #' @rdname examples
 #' @aliases exampleGeneSetDF
-exampleMultiGSEAResult <- function(cached=TRUE) {
+exampleSparrowResult <- function(cached=TRUE) {
   if (cached) {
-    fn <- system.file('extdata', 'testdata', 'test-MultiGSEAResult.rds',
+    fn <- system.file('extdata', 'testdata', 'test-SparrowResult.rds',
                       package='multiGSEA')
     out <- readRDS(fn)
   } else {

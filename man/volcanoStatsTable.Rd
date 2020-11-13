@@ -15,7 +15,7 @@ volcanoStatsTable(
 )
 }
 \arguments{
-\item{x}{A \code{MultiGSEAResult} object, or a \code{data.frame}}
+\item{x}{A \code{SparrowResult} object, or a \code{data.frame}}
 
 \item{stats}{One of \code{"dge"} or \code{resultNames(x)}}
 
@@ -40,18 +40,18 @@ xvalues, and transformed yvalues, respectively
 }
 \description{
 You can, in theory, create a volcano plot from a number of different parts
-of a \code{\link[=MultiGSEAResult]{MultiGSEAResult()}} object. Most often you want to create a volcano
+of a \code{\link[=SparrowResult]{SparrowResult()}} object. Most often you want to create a volcano
 plot from the differential expressino results, but you could imagine
 building a volcan plot where each point is a geneset. In this case, you
 would extract the pvalues from the method you like in the
-\code{\link[=MultiGSEAResult]{MultiGSEAResult()}} object using the \code{stats} parameter.
+\code{\link[=SparrowResult]{SparrowResult()}} object using the \code{stats} parameter.
 }
 \details{
 Like the \code{\link[=volcanoPlot]{volcanoPlot()}} function, this is mostly used by the
 \emph{multiGSEA.shiny} package.
 }
 \examples{
-mg <- exampleMultiGSEAResult()
+mg <- exampleSparrowResult()
 v.dge <- volcanoStatsTable(mg)
 v.camera <- volcanoStatsTable(mg, 'camera')
 }

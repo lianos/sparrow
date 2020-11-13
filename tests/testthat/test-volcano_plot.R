@@ -1,7 +1,7 @@
 # context("Interactive Volcano")
 #
 # expect_that("volcano plots with hexbins", {
-#   x <- exampleMultiGSEAResult()
+#   x <- exampleSparrowResult()
 #
 #   stats='dge'; xaxis='logFC'; yaxis='pval'
 #   xtfrm <- identity

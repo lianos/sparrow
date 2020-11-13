@@ -22,17 +22,17 @@ from sparrow to sparrow, will be functional soon**.
 
   - The `seas` function is a wrapper that orchestrates the execution of any
   number of user-specified gene set enrichment analyses (GSEA) over a particular
-  experimental contrast of interest. This will create a `MultiGSEAResult`
+  experimental contrast of interest. This will create a `SparrowResult`
   object which stores the results of each GSEA method internally, allowing
   for easy query and retrieval.
 
   - A sister
     [`multiGSEA.shiny`](https://github.com/lianos/multiGSEA.shiny)
     package provides an `explore` function, which is invoked on
-    `MultiGSEAREsult` objects returned from a call to `multiGSEA`. The
+    `SparrowResult` objects returned from a call to `multiGSEA`. The
     shiny application facilitates interactive exploration of these GSEA
     results. This application can also be deployed to a shiny server and
-    can be initialized by uploading a serialized `MultiGSEAResult`
+    can be initialized by uploading a serialized `SparrowResult`
     `*.rds` file.
 
 Full details that outline the use of this software package is provided

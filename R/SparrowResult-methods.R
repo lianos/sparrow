@@ -1,10 +1,10 @@
-#' Makes MultiGSEAResult objects compatible with old GNE multiGSEA Explorer App
+#' Makes SparrowResult objects compatible with old GNE multiGSEA Explorer App
 #'
 #' This is not documented or exported on purpose and will be removed in the near
 #' future without warning, so: don't use it.
 #' @noRd
 downgradeObject <- function(x) {
-  stopifnot(is(x, 'MultiGSEAResult'))
+  stopifnot(is(x, 'SparrowResult'))
   x@results <- sapply(names(x@results), function(res) {
     out <- result(x, res, as.dt=TRUE)
     setattr(out, 'rawresult', FALSE)
@@ -12,7 +12,7 @@ downgradeObject <- function(x) {
   x
 }
 
-#' Combines two MultiGSEAResult objects together.
+#' Combines two SparrowResult objects together.
 #'
 #' This would be useful when you want to add a GSEA result to an already
 #' existing one. `append` would be more appropriate, but ...
@@ -23,8 +23,8 @@ downgradeObject <- function(x) {
 #' immediately after they each finish (ie. in combination with the promises
 #' package).
 #'
-#' @param x A `MultiGSEAResult` object
-#' @param y A `MultiGSEAResult` object
+#' @param x A `SparrowResult` object
+#' @param y A `SparrowResult` object
 #' @param rename.x A named vector that used to match resultNames(x) and remane
 #'   them to something different. `names(rename.x)` should match whatever you
 #'   want to change in `resultNames(x)`, and the values are the new names of
@@ -34,18 +34,18 @@ downgradeObject <- function(x) {
 #'
 #' @importMethodsFrom BiocGenerics combine
 #' @exportMethod combine
-#' @return A combined `MultiGSEAResult` object
+#' @return A combined `SparrowResult` object
 #' @examples
-#' mg1 <- exampleMultiGSEAResult()
-#' mg2 <- exampleMultiGSEAResult()
+#' mg1 <- exampleSparrowResult()
+#' mg2 <- exampleSparrowResult()
 #' mgc <- combine(mg1, mg2)
-setMethod("combine", c(x = "MultiGSEAResult", y = "MultiGSEAResult"),
+setMethod("combine", c(x = "SparrowResult", y = "SparrowResult"),
 function(x, y, rename.x = NULL, rename.y = NULL, ...) {
   if (!isTRUE(all.equal(geneSetDb(x), geneSetDb(y)))) {
-    stop("Can't combine MultiGSEAResults with different internal GeneSetDb's")
+    stop("Can't combine SparrowResults with different internal GeneSetDb's")
   }
   if (!isTRUE(all.equal(logFC(x), logFC(y)))) {
-    stop("Can't combine MultiGSEAResults with different internal logFC stats")
+    stop("Can't combine SparrowResults with different internal logFC stats")
   }
 
   xnames <- .replace(resultNames(x), rename.x)
@@ -57,12 +57,12 @@ function(x, y, rename.x = NULL, rename.y = NULL, ...) {
   out
 })
 
-#' Fetches the GeneSetDb from MultiGSEAResult
+#' Fetches the GeneSetDb from SparrowResult
 #'
 #' @export
 #'
-#' @rdname MultiGSEAResult-utilities
-#' @param x \code{MultiGSEAResult}
+#' @rdname SparrowResult-utilities
+#' @param x \code{SparrowResult}
 #' @return The \code{GeneSetDb}
 #'
 #' @examples
@@ -71,16 +71,16 @@ function(x, y, rename.x = NULL, rename.y = NULL, ...) {
 #' mg <- seas(gdb, vm, vm$design, 'tumor', methods=NULL)
 #' geneSetDb(mg)
 geneSetDb <- function(x) {
-  stopifnot(is(x, 'MultiGSEAResult'))
+  stopifnot(is(x, 'SparrowResult'))
   x@gsd
 }
 
 #' @rdname geneSet
-setMethod("geneSet", c(x="MultiGSEAResult"),
+setMethod("geneSet", c(x="SparrowResult"),
 function(x, i, j, active.only=TRUE, with.feature.map=FALSE, ...,
          collection = NULL, name = NULL, as.dt=FALSE) {
   if (!isTRUE(active.only)) {
-    warning("active.only set to TRUE for geneSet,MultiGSEAResult")
+    warning("active.only set to TRUE for geneSet,SparrowResult")
     active.only <- TRUE
   }
   gdb <- geneSetDb(x)
@@ -101,35 +101,35 @@ function(x, i, j, active.only=TRUE, with.feature.map=FALSE, ...,
   out
 })
 
-setMethod("geneSets", c(x="MultiGSEAResult"),
+setMethod("geneSets", c(x="SparrowResult"),
 function(x, ..., as.dt=FALSE) {
   geneSets(geneSetDb(x), active.only=TRUE, as.dt=as.dt)
 })
 
 # Here's your chance to vectorize this. Once that's done push this code down
 # into geneSetUrl,GeneSetDb
-setMethod("geneSetURL", c(x="MultiGSEAResult"), function(x, i, j, ...) {
+setMethod("geneSetURL", c(x="SparrowResult"), function(x, i, j, ...) {
   geneSetURL(geneSetDb(x), i, j, ...)
 })
 
-setMethod("geneSetCollectionURLfunction", "MultiGSEAResult",
+setMethod("geneSetCollectionURLfunction", "SparrowResult",
 function(x, i, ...) {
   geneSetCollectionURLfunction(geneSetDb(x), i, ...)
 })
 
 #' @rdname featureIds
-setMethod("featureIds", c(x="MultiGSEAResult"),
+setMethod("featureIds", c(x="SparrowResult"),
 function(x, i, j, value=c('feature_id', 'x.id', 'x.idx'),
          active.only=TRUE, ...) {
   value <- match.arg(value)
   if (!isTRUE(active.only)) {
-    warning("The featureIds() accessor for a MultiGSEAResult enforces ",
+    warning("The featureIds() accessor for a SparrowResult enforces ",
             "`active.only` to be set to TRUE")
   }
   featureIds(geneSetDb(x), i, j, value=value, active.only=TRUE, ...)
 })
 
-#' Summarizes useful statistics per gene set from a MultiGSEAResult
+#' Summarizes useful statistics per gene set from a SparrowResult
 #'
 #' This function calculates the number of genes that move up/down for the
 #' given contrasts, as well as mean and trimmed mean of the logFC and
@@ -139,7 +139,7 @@ function(x, i, j, value=c('feature_id', 'x.id', 'x.idx'),
 #'
 #' @export
 #'
-#' @param x A `MultiGSEAResult` object
+#' @param x A `SparrowResult` object
 #' @param feature.min.logFC used with `feature.max.padj` to identify
 #'   the individual features that are to be considered differentially
 #'   expressed.
@@ -180,7 +180,7 @@ function(x, i, j, value=c('feature_id', 'x.id', 'x.idx'),
 geneSetsStats <- function(x, feature.min.logFC=1, feature.max.padj=0.10,
                           trim=0.10, reannotate.significance = FALSE,
                           as.dt=FALSE) {
-  stopifnot(is(x, 'MultiGSEAResult'))
+  stopifnot(is(x, 'SparrowResult'))
   lfc <- logFC(x, as.dt=TRUE)
 
   # reannotate.significance was added to better accommodate annotations that
@@ -245,7 +245,7 @@ geneSetsStats <- function(x, feature.min.logFC=1, feature.max.padj=0.10,
 #' expression object.
 #'
 #' @export
-#' @param x A [MultiGSEAResult()]
+#' @param x A [SparrowResult()]
 #' @template asdt-param
 #' @return The log fold change `data.table``
 #'
@@ -255,17 +255,17 @@ geneSetsStats <- function(x, feature.min.logFC=1, feature.max.padj=0.10,
 #' mg <- seas(gdb, vm, vm$design, 'tumor', methods=NULL)
 #' lfc <- logFC(mg)
 logFC <- function(x, as.dt=FALSE) {
-  stopifnot(is(x, 'MultiGSEAResult'))
+  stopifnot(is(x, 'SparrowResult'))
   out <- x@logFC
   if (!as.dt) out <- setDF(copy(out))
   out
 }
 
-#' Helper funtion: returns method names that were not run on a MultiGSEAResult
+#' Helper funtion: returns method names that were not run on a SparrowResult
 #'
 #' @noRd
 invalidMethods <- function(x, names, as.error=FALSE) {
-  stopifnot(is(x, 'MultiGSEAResult'))
+  stopifnot(is(x, 'SparrowResult'))
   stopifnot(is.character(names))
   if (length(names) == 0 && FALSE) {
     warning("No mehod `names` passed to invalidMethods", immediate.=TRUE)
@@ -277,13 +277,13 @@ invalidMethods <- function(x, names, as.error=FALSE) {
   bad.names
 }
 
-#' Interrogate the results of a multiGSEA analysis stored in a MultiGSEAResult
+#' Interrogate the results of a multiGSEA analysis stored in a SparrowResult
 #'
 #' @description
 #' The `resultNames`, `result`, and `results` functions enable
 #' you to explore the results of the analysis run with \code{\link{multiGSEA}}.
 #'
-#' The results that are stored within a `MultiGSEAResult` object have a
+#' The results that are stored within a `SparrowResult` object have a
 #' more or less 1:1 mapping with the values passed as `methods`, parameter
 #' of the [seas()] call.
 #'
@@ -308,7 +308,7 @@ invalidMethods <- function(x, names, as.error=FALSE) {
 #' @examples
 #' ## Refer to the examples in ?multiGSEA
 resultNames <- function(x) {
-  stopifnot(is(x, 'MultiGSEAResult'))
+  stopifnot(is(x, 'SparrowResult'))
   names(x@results)
 }
 
@@ -320,7 +320,7 @@ result <- function(x, ...) {
 
 #' @export
 #' @rdname results
-#' @param x MultiGSEAResult
+#' @param x SparrowResult
 #' @param name the names of the results desired
 #' @param stats.only logical, set to `FALSE` if you want to return all
 #'   (column-wise) data for each result. By default only the pvalues,
@@ -336,10 +336,10 @@ result <- function(x, ...) {
 #'   `pval.camera`.
 #'
 #' @return a data.table with the results from the requested method.
-result.MultiGSEAResult <- function(x, name = NULL, stats.only=FALSE,
+result.SparrowResult <- function(x, name = NULL, stats.only=FALSE,
                                    rank.by=c('pval', 't', 'logFC'),
                                    add.suffix=FALSE, as.dt=FALSE, ...) {
-  stopifnot(is(x, 'MultiGSEAResult'))
+  stopifnot(is(x, 'SparrowResult'))
   if (is.null(resultNames(x)) || length(resultNames(x)) == 0) {
     return(results(x, name, as.dt=as.dt))
   }
@@ -435,7 +435,7 @@ result.MultiGSEAResult <- function(x, name = NULL, stats.only=FALSE,
 results <- function(x, names=resultNames(x), stats.only=TRUE,
                     rank.by=c('pval', 'logFC', 't'),
                     add.suffix=length(names) > 1L, as.dt=FALSE) {
-  stopifnot(is(x, 'MultiGSEAResult'))
+  stopifnot(is(x, 'SparrowResult'))
   if (is.null(resultNames(x)) || length(resultNames(x)) == 0L) {
     ## No methods were run, you can only return geneset stats
     if (!is.null(names) || length(names) > 0L) {
@@ -486,7 +486,7 @@ results <- function(x, names=resultNames(x), stats.only=TRUE,
 #' @export
 #' @rdname results
 #'
-#' @param x A [MultiGSEAResult()] object.
+#' @param x A [SparrowResult()] object.
 #' @param names the names of the GSEA methods to be reported. By default,
 #'   this function will display results for all methods.
 #' @param max.p The maximum padj value to consider a result significant
@@ -497,7 +497,7 @@ results <- function(x, names=resultNames(x), stats.only=TRUE,
 tabulateResults <- function(x, names=resultNames(x), max.p=0.20,
                             p.col=c('padj', 'padj.by.collection', 'pval'),
                             as.dt=FALSE) {
-  stopifnot(is(x, 'MultiGSEAResult'))
+  stopifnot(is(x, 'SparrowResult'))
   invalidMethods(x, names)
   stopifnot(isSingleNumeric(max.p))
   p.col <- match.arg(p.col)
@@ -527,14 +527,17 @@ tabulateResults <- function(x, names=resultNames(x), max.p=0.20,
 }
 
 
-setMethod("show", "MultiGSEAResult", function(object) {
-  msg <- paste("multiGSEA result (max FDR by collection set to 20%)",
-               "---------------------------------------------------", sep='\n')
+setMethod("show", "SparrowResult", function(object) {
+  def.fdr <- getOption("sparrow.max.padj", 0.20)
+  msg <- paste(
+    sprintf("SparrowResult (max FDR by collection set to %0.2f%%)", def.fdr),
+    "---------------------------------------------------", sep='\n')
   cat(msg, "\n")
   if (length(resultNames(object)) == 0) {
     cat("No GSEA methods were run, only geneset level statistics calculated")
   } else {
-    base::print.data.frame(as.data.frame(tabulateResults(object, max.p=0.20)))
+    adf <- as.data.frame(tabulateResults(object, max.p = def.fdr))
+    base::print.data.frame(adf)
   }
   cat("\n")
 })
@@ -545,7 +548,7 @@ setMethod("show", "MultiGSEAResult", function(object) {
 #' GSEA methods you tried. I think I did, once, so here it is.
 #'
 #' @export
-#' @param x A [MultiGSEAResult()] object.
+#' @param x A [SparrowResult()] object.
 #' @param names the entries from `resultNames(x)` that you want to include
 #'   in the matrix. By default we take all of them.
 #' @param pval Are we testing pvalues or adjusted pvalues?
@@ -555,11 +558,11 @@ setMethod("show", "MultiGSEAResult", function(object) {
 #' # vm <- exampleExpressionSet(do.voom=TRUE)
 #' # gdb <- exampleGeneSetDb()
 #' # mg <- seas(gdb, vm, vm$design, 'tumor', methods=c('cameraPR'))
-#' mg <- exampleMultiGSEAResult()
+#' mg <- exampleSparrowResult()
 #' pm <- p.matrix(mg)
 p.matrix <- function(x, names=resultNames(x),
                      pcol=c('padj', 'padj.by.collection', 'pval')) {
-  stopifnot(is(x, 'MultiGSEAResult'))
+  stopifnot(is(x, 'SparrowResult'))
   invalidMethods(x, names)
   pcol <- match.arg(pcol)
   res <- results(x, names, add.suffix=TRUE, as.dt=TRUE)

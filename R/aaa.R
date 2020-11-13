@@ -14,7 +14,7 @@
 #'   package it is found in.
 #' @return a character vector of GSEA names, or a list of metadata for each
 #'   method.
-multiGSEA_methods <- function() {
+sparrow_methods <- function() {
   methods <- list(
     camera = list(package = "edgeR", type = "required"),
     cameraPR = list(package = "edgeR", type = "required"),
@@ -46,7 +46,7 @@ check.gsea.methods <- function(methods) {
     stop("No `methods` are specified (length(methods) == 0)")
   }
 
-  mg.methods <- multiGSEA_methods()
+  mg.methods <- sparrow_methods()
   bad.methods <- setdiff(methods, mg.methods[["method"]])
   if (length(bad.methods)) {
     stop("unknown GSEA methods: ", paste(bad.methods, collapse=', '))

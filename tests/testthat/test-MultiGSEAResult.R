@@ -1,7 +1,7 @@
-context("MultiGSEAResult")
+context("SparrowResult")
 
-test_that("subset.MultiGSEAResult works", {
-  ## TODO: Test subset.MultiGSEAResult
+test_that("subset.SparrowResult works", {
+  ## TODO: Test subset.SparrowResult
 })
 
 test_that("GeneSetDb defined with logFC-like column names are kosher", {

@@ -3,7 +3,7 @@
 \name{geneSets}
 \alias{geneSets}
 \alias{geneSets,GeneSetDb-method}
-\title{Fetch the active (or all) gene sets from a GeneSetDb or MultiGSEAResult}
+\title{Fetch the active (or all) gene sets from a GeneSetDb or SparrowResult}
 \usage{
 geneSets(x, ...)
 
@@ -11,7 +11,7 @@ geneSets(x, ...)
 }
 \arguments{
 \item{x}{Object to retrieve the gene set from, either a \code{GeneSetDb} or a
-\code{MultiGSEAResult}.}
+\code{SparrowResult}.}
 
 \item{active.only}{only look for gene sets that are "active"? Defaults to
 \code{TRUE} if \code{x} is conformed to a target expression object, else \code{FALSE}.
@@ -25,7 +25,7 @@ to keep this object as a \code{data.table}}
 a data.table with geneset information.
 }
 \description{
-Fetch the active (or all) gene sets from a GeneSetDb or MultiGSEAResult
+Fetch the active (or all) gene sets from a GeneSetDb or SparrowResult
 }
 \examples{
 gdb <- exampleGeneSetDb()

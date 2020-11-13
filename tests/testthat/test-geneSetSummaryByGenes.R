@@ -29,7 +29,7 @@ test_that("geneSetSummaryByGenes,GeneSetDb returns a legit result", {
   expect_equal(db.result, db.expect)
 })
 
-test_that("geneSetSummaryByGenes,MultiGSEAResult returns a legit result", {
+test_that("geneSetSummaryByGenes,SparrowResult returns a legit result", {
   set.seed(0xBEEF)
   vm <- exampleExpressionSet()
   gdb <- exampleGeneSetDb()
@@ -76,7 +76,7 @@ test_that("geneSetSummaryByGenes,MultiGSEAResult returns a legit result", {
   expect_equal(lfc.s, lfc.ex)
 })
 
-test_that("geneSetSummary,MultiGSEAResult properly filters significant genesets", {
+test_that("geneSetSummary,SparrowResult properly filters significant genesets", {
   set.seed(0xBEEF)
   vm <- exampleExpressionSet()
   gdb <- exampleGeneSetDb()

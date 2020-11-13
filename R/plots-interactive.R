@@ -14,7 +14,7 @@
 #' @export
 #' @importFrom ggplot2 theme_bw
 #'
-#' @param x A [MultiGSEAResult()] object
+#' @param x A [SparrowResult()] object
 #' @param y the name of the gene set collection
 #' @param j the name of the gene set name
 #' @param value A string indicating the column name for the value of the
@@ -35,7 +35,7 @@
 #'   that both the FDR <= 10% and the logFC >= 1
 #' @return the ploty plot ojbect
 #' @examples
-#' mgr <- exampleMultiGSEAResult()
+#' mgr <- exampleSparrowResult()
 #' iplot(mgr, "c2", "BURTON_ADIPOGENESIS_PEAK_AT_2HR", c("t-statistic" = "t"),
 #'       type = "density")
 #' iplot(mgr, "c2", "BURTON_ADIPOGENESIS_PEAK_AT_2HR", c("t-statistic" = "t"),
@@ -51,7 +51,7 @@ iplot <- function(x, y, j, value = "logFC",
     main <- NULL; type <- 'boxplot'; with.legend <- TRUE
   }
 
-  stopifnot(is(x, 'MultiGSEAResult'))
+  stopifnot(is(x, 'SparrowResult'))
   type <- match.arg(type)
   lfc <- copy(logFC(x, as.dt = TRUE)[, group := "bg"])
   match.arg(value, colnames(lfc))
@@ -235,7 +235,7 @@ iplot.density.plotly <- function(x, y, j, value, main, dat, with.legend=TRUE,
                                  legend.pos=c('inside', 'outside'),
                                  height=NULL, width=NULL, trim=0.02,
                                  square=TRUE, ...) {
-  stopifnot(is(x, 'MultiGSEAResult'))
+  stopifnot(is(x, 'SparrowResult'))
   legend.pos <- match.arg(legend.pos)
   gs.dat <- subset(dat, group == 'geneset') %>% setDF
   cols <- c('bg'='black', 'geneset'='red',

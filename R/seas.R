@@ -20,7 +20,7 @@
 #' the parameters in the [calculateIndividualLogFC()] function, and
 #' passing them down through `...` here. The results of the differential
 #' expression analysis (ie. the [limma::topTable()]) are accessible by calling
-#' the [logFC()] function on the [MultiGSEAResult()] object returned from this
+#' the [logFC()] function on the [SparrowResult()] object returned from this
 #' function call.
 #'
 #' **Please Note**: be sure to cite the original GSEA method when using
@@ -145,7 +145,7 @@
 #'   specified and `.parallel = TRUE`, then the [BiocParallel::bpparam()] object
 #'   will be used. If `.parallel = FALSE`, this parameter is explicitly ignored
 #'   and replaced with a [BiocParallel]::SerialParam()] object.
-#' @return A [MultiGSEAResult()] which holds the results of all the analyses
+#' @return A [SparrowResult()] which holds the results of all the analyses
 #'   specified in the `methods` parameter.
 #'
 #' @examples
@@ -301,7 +301,7 @@ seas <- function(gsd, x, design=NULL, contrast=NULL,
     names(results) <- sub('\\.all$', '', names(results))
   }
 
-  out <- .MultiGSEAResult(gsd=gsd, results=results, logFC=logFC)
+  out <- .SparrowResult(gsd=gsd, results=results, logFC=logFC)
   gs.stats <- geneSetsStats(out, feature.min.logFC=feature.min.logFC,
                             feature.max.padj=feature.max.padj,
                             trim=trim, reannotate.significance = FALSE,
@@ -310,7 +310,7 @@ seas <- function(gsd, x, design=NULL, contrast=NULL,
   axe.gsd.cols <- intersect(axe.gsd.cols, colnames(out@gsd@table))
   new.table <- copy(out@gsd@table)
   ## Remove any columns in gs.stats that are already in the GeneSetDb@table
-  ## (ie. if we got a GeneSetDb from a previous MultiGSEAResult and we don't
+  ## (ie. if we got a GeneSetDb from a previous SparrowResult and we don't
   ## remove these columns, you will get thigns like mean.logFC.x and
   ## mean.logFC.y
   if (length(axe.gsd.cols)) {

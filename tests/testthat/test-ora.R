@@ -132,7 +132,7 @@ test_that("'naked' ora call vs multiGSEA pipeline are equivalent", {
     pcol <- paste0("P.", ename)
     cmp <- nres[, c("Pathway", "N", ename, pcol)]
 
-    # Pull out of MultiGSEAResult object
+    # Pull out of SparrowResult object
     mname <- groups[i]
     mg <- result(mres, mname)
     mg <- mg[, c("collection", "name", "N", "n", "n.drawn", "pval")]

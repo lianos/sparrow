@@ -41,7 +41,7 @@ objects we generate in this package. This is mostly used by the
 \emph{multiGSEA.shiny} package.
 }
 \examples{
-mg <- exampleMultiGSEAResult()
+mg <- exampleSparrowResult()
 volcanoPlot(mg)
 volcanoPlot(mg, xhex=1, yhex=0.05)
 }

@@ -64,10 +64,10 @@
 #'
 #' Want the details of a particular gene set? Try the [geneSet()] function.
 #' This will return a `data.frame` of the gene set definition. Calling
-#' [geneSet()] on a [MultiGSEAResult()] will return the same `data.frame` along
+#' [geneSet()] on a [SparrowResult()] will return the same `data.frame` along
 #' with the differential expression statistics for the individual members of the
 #' geneSet across the contrast that was tested in the [seas()] call that
-#' created the [MultiGSEAResult()].
+#' created the [SparrowResult()].
 #'
 #' @section GeneSetDb manipulation:
 #'

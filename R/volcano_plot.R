@@ -1,6 +1,6 @@
 .volcano.sources <- c(
-  'MultiGSEAResultContainer',
-  'MultiGSEAResult',
+  'SparrowResultContainer',
+  'SparrowResult',
   'data.frame')
 
 #' Create an interactive volcano plot
@@ -20,7 +20,7 @@
 #'   that we can extract the featureIds from for this purpose.
 #'
 #' @examples
-#' mg <- exampleMultiGSEAResult()
+#' mg <- exampleSparrowResult()
 #' volcanoPlot(mg)
 #' volcanoPlot(mg, xhex=1, yhex=0.05)
 volcanoPlot <- function(x, stats='dge', xaxis='logFC', yaxis='pval', idx,
@@ -202,7 +202,7 @@ approx.target.from.transformed <- function(target, orig, xformed,
 
 #' @noRd
 extract.genes <- function(x, ...) {
-  stopifnot(is.character(x) || is(x, 'GeneSetDb') || is(x, 'MultiGSEAResult'))
+  stopifnot(is.character(x) || is(x, 'GeneSetDb') || is(x, 'SparrowResult'))
   if (is.character(x)) {
     return(x)
   }
@@ -221,18 +221,18 @@ volcano.source.type <- function(x) {
 #' Extracts x and y axis values from objects to create input for volcano plot
 #'
 #' You can, in theory, create a volcano plot from a number of different parts
-#' of a [MultiGSEAResult()] object. Most often you want to create a volcano
+#' of a [SparrowResult()] object. Most often you want to create a volcano
 #' plot from the differential expressino results, but you could imagine
 #' building a volcan plot where each point is a geneset. In this case, you
 #' would extract the pvalues from the method you like in the
-#' [MultiGSEAResult()] object using the `stats` parameter.
+#' [SparrowResult()] object using the `stats` parameter.
 #'
 #' Like the [volcanoPlot()] function, this is mostly used by the
 #' *multiGSEA.shiny* package.
 #'
 #' @export
 #'
-#' @param x A \code{MultiGSEAResult} object, or a \code{data.frame}
+#' @param x A \code{SparrowResult} object, or a \code{data.frame}
 #' @param stats One of \code{"dge"} or \code{resultNames(x)}
 #' @param xaxis,yaxis the column of the the provided (or extracted)
 #'   \code{data.frame} to use for the xaxis and yaxis of the volcano
@@ -248,7 +248,7 @@ volcano.source.type <- function(x) {
 #'   \code{.xvy} columns that represent the xvalues, yvalues, transformed
 #'   xvalues, and transformed yvalues, respectively
 #' @examples
-#' mg <- exampleMultiGSEAResult()
+#' mg <- exampleSparrowResult()
 #' v.dge <- volcanoStatsTable(mg)
 #' v.camera <- volcanoStatsTable(mg, 'camera')
 volcanoStatsTable <- function(x, stats='dge', xaxis='logFC', yaxis='pval',
@@ -257,10 +257,10 @@ volcanoStatsTable <- function(x, stats='dge', xaxis='logFC', yaxis='pval',
                              ytfrm=function(vals) -log10(vals)) {
   stopifnot(is.function(xtfrm), is.function(ytfrm))
   type <- volcano.source.type(x)
-  if (is(x, 'MultiGSEAResultContainer')) {
+  if (is(x, 'SparrowResultContainer')) {
     x <- x$mg
   }
-  if (is(x, 'MultiGSEAResult')) {
+  if (is(x, 'SparrowResult')) {
     stats <- match.arg(stats, c('dge', resultNames(x)))
     if (stats == 'dge') {
       x <- logFC(x, as.dt=TRUE)

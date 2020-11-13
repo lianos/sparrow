@@ -5,7 +5,7 @@
 \alias{exampleGeneSets}
 \alias{exampleGeneSetDb}
 \alias{exampleGeneSetDF}
-\alias{exampleMultiGSEAResult}
+\alias{exampleSparrowResult}
 \alias{exampleDgeResult}
 \title{Functions that load data for use in examples and testing.}
 \usage{
@@ -20,7 +20,7 @@ exampleGeneSetDb()
 
 exampleGeneSetDF()
 
-exampleMultiGSEAResult(cached = TRUE)
+exampleSparrowResult(cached = TRUE)
 
 exampleDgeResult(species = "human", id.type = "ensembl", induce.bias = NULL)
 }
