@@ -118,7 +118,7 @@ test_that("'naked' ora call vs multiGSEA pipeline are equivalent", {
                               induce.bias = "effective_length")
   nres <- ora(gdb., dfinput, selected = "selected", groups = "direction",
                      feature.bias = "effective_length")
-  mres <- multiGSEA(gdb., setNames(dfinput$t, dfinput$feature_id),
+  mres <- seas(gdb., setNames(dfinput$t, dfinput$feature_id),
                     methods = "ora", feature.bias = "effective_length",
                     xmeta. = dfinput)
 
@@ -149,7 +149,7 @@ test_that("ora over ANOVA anaysis works through multiGSEA", {
   di <- model.matrix(~ PAM50subtype, data = y$samples)
   vm <- voom(y, di)
   gdb <- exampleGeneSetDb()
-  mg <- multiGSEA(gdb, vm, vm$design, contrast = 2:3, methods = "ora")
+  mg <- seas(gdb, vm, vm$design, contrast = 2:3, methods = "ora")
   r <- result(mg)
   expect_numeric(r[["pval"]])
   expect_true(sum(r[["pval"]] < 0.002) > 0)

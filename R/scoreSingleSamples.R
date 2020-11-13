@@ -2,7 +2,7 @@
 #'
 #' It is common to assess the activity of a gene set in a given sample. There
 #' are many ways to do that, and this method is analogous to the
-#' [multiGSEA()] function in that it enables the user to run a multitude of
+#' [seas()] function in that it enables the user to run a multitude of
 #' single-sample-gene-set-scoring algorithms over a target expression matrix
 #' using a [GeneSetDb()] object.
 #'

@@ -127,7 +127,7 @@ Want the details of a particular gene set? Try the \code{\link[=geneSet]{geneSet
 This will return a \code{data.frame} of the gene set definition. Calling
 \code{\link[=geneSet]{geneSet()}} on a \code{\link[=MultiGSEAResult]{MultiGSEAResult()}} will return the same \code{data.frame} along
 with the differential expression statistics for the individual members of the
-geneSet across the contrast that was tested in the \code{\link[=multiGSEA]{multiGSEA()}} call that
+geneSet across the contrast that was tested in the \code{\link[=seas]{seas()}} call that
 created the \code{\link[=MultiGSEAResult]{MultiGSEAResult()}}.
 }
 

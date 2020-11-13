@@ -129,7 +129,7 @@ exampleMultiGSEAResult <- function(cached=TRUE) {
   } else {
     vm <- exampleExpressionSet()
     gdb <- exampleGeneSetDb()
-    out <- multiGSEA(gdb, vm, vm$design, "tumor", c('camera', 'fry'))
+    out <- seas(gdb, vm, vm$design, "tumor", c('camera', 'fry'))
   }
   out
 }

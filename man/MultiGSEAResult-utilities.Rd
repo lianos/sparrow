@@ -18,6 +18,6 @@ Fetches the GeneSetDb from MultiGSEAResult
 \examples{
 vm <- exampleExpressionSet(do.voom=TRUE)
 gdb <- exampleGeneSetDb()
-mg <- multiGSEA(gdb, vm, vm$design, 'tumor', methods=NULL)
+mg <- seas(gdb, vm, vm$design, 'tumor', methods=NULL)
 geneSetDb(mg)
 }

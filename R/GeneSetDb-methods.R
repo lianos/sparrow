@@ -18,7 +18,7 @@
 #' @examples
 #' vm <- exampleExpressionSet()
 #' gdb <- exampleGeneSetDb()
-#' mg <- multiGSEA(gdb, vm, vm$design, 'tumor', methods=NULL)
+#' mg <- seas(gdb, vm, vm$design, 'tumor', methods=NULL)
 #' lfc <- logFC(mg)
 #' annotated <- annotateGeneSetMembership(lfc, gdb, 'feature_id')
 #'

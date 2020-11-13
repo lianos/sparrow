@@ -43,7 +43,7 @@ validate.inputs.goseq <- function(x, design, contrast, feature.bias,
 #' and included in downstream reporting.
 #'
 #' **This function is not meant to be called directly.** It should only be
-#' called internally within [multiGSEA()].
+#' called internally within [seas()].
 #'
 #' @param gsd The \code{\link{GeneSetDb}} for analysis
 #' @param x The expression object
@@ -86,7 +86,7 @@ do.goseq <- function(gsd, x, design, contrast=ncol(design),
                      plot.fit=FALSE, use.treat=FALSE,
                      feature.min.logFC=if (use.treat) log2(1.25) else 1,
                      feature.max.padj=0.10, logFC=NULL, ...) {
-  # .Deprecated("multiGSEA(..., methods = 'enrich')")
+  # .Deprecated("seas(..., methods = 'enrich')")
 
   stopifnot(is.conformed(gsd, x))
   direction <- match.arg(direction)

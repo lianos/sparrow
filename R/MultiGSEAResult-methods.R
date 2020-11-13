@@ -68,7 +68,7 @@ function(x, y, rename.x = NULL, rename.y = NULL, ...) {
 #' @examples
 #' vm <- exampleExpressionSet(do.voom=TRUE)
 #' gdb <- exampleGeneSetDb()
-#' mg <- multiGSEA(gdb, vm, vm$design, 'tumor', methods=NULL)
+#' mg <- seas(gdb, vm, vm$design, 'tumor', methods=NULL)
 #' geneSetDb(mg)
 geneSetDb <- function(x) {
   stopifnot(is(x, 'MultiGSEAResult'))
@@ -157,7 +157,7 @@ function(x, i, j, value=c('feature_id', 'x.id', 'x.idx'),
 #'
 #' * `n.sig`: The number of individual features whose `abs(logFC)` and padj
 #'    thersholds satisfy the criteria of the `feature.min.logFC` and
-#'    `feature.max.padj` parameters of the original [multiGSEA()] call
+#'    `feature.max.padj` parameters of the original [seas()] call
 #' * `n.neutral`: The number of individual features whose abs(logFC) and padj
 #'    thersholds do not satisfy the `feature.*` criteria named above.
 #' * `n.up, n.down`: The number of individual features with `logFC > 0` or
@@ -167,7 +167,7 @@ function(x, i, j, value=c('feature_id', 'x.id', 'x.idx'),
 #'   `feature.*` thresholds and have logFC > 0 or logFC < 0, respectively.
 #' * `mean.logFC, mean.logFC.trim`: The mean (or trimmed mean) of the individual
 #'   logFC estimates for the features in the gene set. The amount of trim is
-#'   specified in the `trim` parameter of the [multiGSEA()] call.
+#'   specified in the `trim` parameter of the [seas()] call.
 #' * `mean.t, mean.t.trim`: The mean (or trimmed mean) of the individual
 #'   t-statistics for the features in the gene sets. These are `NA` if the input
 #'   expression object was a `DGEList`.
@@ -175,7 +175,7 @@ function(x, i, j, value=c('feature_id', 'x.id', 'x.idx'),
 #' @examples
 #' vm <- exampleExpressionSet(do.voom=TRUE)
 #' gdb <- exampleGeneSetDb()
-#' mg <- multiGSEA(gdb, vm, vm$design, 'tumor')
+#' mg <- seas(gdb, vm, vm$design, 'tumor')
 #' head(geneSetsStats(mg))
 geneSetsStats <- function(x, feature.min.logFC=1, feature.max.padj=0.10,
                           trim=0.10, reannotate.significance = FALSE,
@@ -252,7 +252,7 @@ geneSetsStats <- function(x, feature.min.logFC=1, feature.max.padj=0.10,
 #' @examples
 #' vm <- exampleExpressionSet(do.voom=TRUE)
 #' gdb <- exampleGeneSetDb()
-#' mg <- multiGSEA(gdb, vm, vm$design, 'tumor', methods=NULL)
+#' mg <- seas(gdb, vm, vm$design, 'tumor', methods=NULL)
 #' lfc <- logFC(mg)
 logFC <- function(x, as.dt=FALSE) {
   stopifnot(is(x, 'MultiGSEAResult'))
@@ -285,7 +285,7 @@ invalidMethods <- function(x, names, as.error=FALSE) {
 #'
 #' The results that are stored within a `MultiGSEAResult` object have a
 #' more or less 1:1 mapping with the values passed as `methods`, parameter
-#' of the [multiGSEA()] call.
+#' of the [seas()] call.
 #'
 #' @details
 #' The product of an indivdual GSEA is consumed by the corresponding
@@ -480,7 +480,7 @@ results <- function(x, names=resultNames(x), stats.only=TRUE,
 #'
 #' Generates a table to indicate the number of genesets per collection that
 #' pass a given FDR. The table provides separate groups of rows for each of
-#' the `methods` run in the [multiGSEA()] call that generated that
+#' the `methods` run in the [seas()] call that generated that
 #' generated `x`.
 #'
 #' @export
@@ -554,7 +554,7 @@ setMethod("show", "MultiGSEAResult", function(object) {
 #' @examples
 #' # vm <- exampleExpressionSet(do.voom=TRUE)
 #' # gdb <- exampleGeneSetDb()
-#' # mg <- multiGSEA(gdb, vm, vm$design, 'tumor', methods=c('cameraPR'))
+#' # mg <- seas(gdb, vm, vm$design, 'tumor', methods=c('cameraPR'))
 #' mg <- exampleMultiGSEAResult()
 #' pm <- p.matrix(mg)
 p.matrix <- function(x, names=resultNames(x),

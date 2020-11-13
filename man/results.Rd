@@ -78,11 +78,11 @@ you to explore the results of the analysis run with \code{\link{multiGSEA}}.
 
 The results that are stored within a \code{MultiGSEAResult} object have a
 more or less 1:1 mapping with the values passed as \code{methods}, parameter
-of the \code{\link[=multiGSEA]{multiGSEA()}} call.
+of the \code{\link[=seas]{seas()}} call.
 
 Generates a table to indicate the number of genesets per collection that
 pass a given FDR. The table provides separate groups of rows for each of
-the \code{methods} run in the \code{\link[=multiGSEA]{multiGSEA()}} call that generated that
+the \code{methods} run in the \code{\link[=seas]{seas()}} call that generated that
 generated \code{x}.
 }
 \details{

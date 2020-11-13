@@ -2,12 +2,12 @@
 
 ## New Features
 
-* Adds preliminary support for data-frame based inputs to `multiGSEA()` to more
+* Adds preliminary support for data-frame based inputs to `seas()` to more
   easily support pre-ranked and ORA-like tests. When `x` is a data.frame, use
   the `rank_by` parameter to specify the column name that holds the rank metric,
-  and `rank_order` to specify how to order the ranks (`"descending"`, 
+  and `rank_order` to specify how to order the ranks (`"descending"`,
   `"ascending"`, or `"ordered"`).
-  
+
   The implementation is still tied to the original design of package which only
   supported a numeric ranking vector, and hijacks the whole `xmeta.` workaround.
   Consider using `FacileAnalysis::ffsea(data.frame, gdb)` if you want a more
@@ -22,7 +22,7 @@
 
 * `enrichtest` renamed to `ora` (over representation analysis) to be more inline
   with nomenclature in the field
-  
+
 # multiGSEA 0.10
 
 ## User Visible Changes
@@ -137,7 +137,7 @@
 
   To get the previous v4.0 genesets (provided by WEHI), you would simply
   specify version='v4.0' in the getMSigDBSet like so:
-  
+
       ```r
       gdb5 <- getMSigDBsetc(c('c2', 'c7'), species='mouse')
       gdb4 <- getMSigDBsetc(c('c2', 'c7'), species='mouse', version='v4.0')
@@ -164,7 +164,7 @@
   now), as well as significant additions to the API of this packages.  The
   changes are too numerous to report here. The previous version before the
   refactor have been put here for posterity:
-  
+
    * http://resscm.gene.com/bioinfo/projects/R/tags/multiGSEA_pre-refactor
    * http://resscm.gene.com/bioinfo/projects/R/tags/rmd.plugins_pre-refactor
 

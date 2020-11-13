@@ -16,7 +16,7 @@ test_that("geneSetTest matches re-implememtation", {
   expected <- sapply(gsi, limma::geneSetTest, tstats, nsim = nsim)
 
   set.seed(seed)
-  mg <- multiGSEA(gdb, vm, vm$design, ncol(vm$design), methods = "geneSetTest",
+  mg <- seas(gdb, vm, vm$design, ncol(vm$design), methods = "geneSetTest",
                   score.by = "t")
   res <- result(mg, "geneSetTest")
   my <- setNames(res$pval, encode_gskey(res))

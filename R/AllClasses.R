@@ -62,7 +62,7 @@
 
 #' A MultiGSEAResult object holds the results from a multiGSEA call.
 #'
-#' @description A call to [multiGSEA()] will produce analyses for an
+#' @description A call to [seas()] will produce analyses for an
 #' arbitrary number of GSEA methods, the results of which will be stored and
 #' accessible here using the [result()], [results()], and [resultNames()].
 #'

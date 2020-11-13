@@ -9,7 +9,7 @@ test_that("multiGSEA calculate t and preranked t match fgsea results", {
   # Since Bioc 3.5, running fgsea warns about ties in preranked stats
   set.seed(123)
   expect_warning({
-    mgt <- multiGSEA(gdb, vm, vm$design, 'tumor', 'fgsea', score.by = 't',
+    mgt <- seas(gdb, vm, vm$design, 'tumor', 'fgsea', score.by = 't',
                      nPermSimple = nperm, gseaParam = gseaParam)
   }, "ties")
   mgres <- mgt %>%
@@ -41,7 +41,7 @@ test_that("multiGSEA calculate t and preranked t match fgsea results", {
   # passing in a preranked vector gives same results ---------------------------
   set.seed(123)
   expect_warning({
-    mgpre <- multiGSEA(gdb, ranks.t, methods = "fgsea", nperm = nperm,
+    mgpre <- seas(gdb, ranks.t, methods = "fgsea", nperm = nperm,
                        gseaParam = gseaParam, score.by = "t")
   }, "ties")
 
@@ -52,7 +52,7 @@ test_that("multiGSEA calculate t and preranked t match fgsea results", {
   # Passing in data.frame works, too -------------------------------------------
   set.seed(123)
   expect_warning({
-    mgdf <- multiGSEA(gdb, lfc, methods = "fgsea", nperm = nperm,
+    mgdf <- seas(gdb, lfc, methods = "fgsea", nperm = nperm,
                       rank_by = "t", rank_order = "descending",
                       gseaParam = gseaParam)
   }, "ties")

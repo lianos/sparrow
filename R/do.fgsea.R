@@ -13,14 +13,14 @@ validate.x.fgsea <- validate.X
 #' Deafults fgsea functionality was changed to [fgsea::fgseaMultilevel()] in
 #' 1.13.2 and the default parameters here reflect that. If you want to use the
 #' original "fgseaSimple" you have to pass in `use.fgsea.simple = TRUE` in your
-#' `multiGSEA()` call.
+#' `seas()` call.
 #'
 #' `minSize` and `maxSize` are already set by the `conform` logic that was
-#' specified in the call to [multiGSEA()] via the `min.gs.size` and
+#' specified in the call to [seas()] via the `min.gs.size` and
 #' `max.gs.size` parameters.
 #'
 #' **This function is not meant to be called directly.** It should only be
-#' called internally within [multiGSEA()].
+#' called internally within [seas()].
 #'
 #' @param gsd The [GeneSetDb()] for analysis
 #' @inheritParams calculateIndividualLogFC

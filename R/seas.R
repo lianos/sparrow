@@ -1,6 +1,6 @@
 #' Performs a plethora of GSEA analyses over a contrast of interest.
 #'
-#' multiGSEA is wrapper function that delegates GSEA analyses to different
+#' This is a wrapper function that delegates GSEA analyses to different
 #' "workers", each of which implements the flavor of GSEA of your choosing.
 #' The particular analyses that are performed are specified by the
 #' `methods` argument, and these methods are fine tuned by passing their
@@ -61,7 +61,7 @@
 #' directly by the user, and are therefore not exported. Look at the respective
 #' method's help page (ie. if you are running `"camera"`, look at the
 #' [limma::camera()] help page for full details. The formal parameters that
-#' these methods take can be passed to them via the `...` in this `multiGSEA()`
+#' these methods take can be passed to them via the `...` in this `seas()`
 #' function.
 #'
 #' @section GSEA Method Parameterization:
@@ -84,7 +84,7 @@
 #'
 #' @section Differential Gene Expression:
 #'
-#' When the `multiGSEA()` call is given an expression matrix, design, and
+#' When the `seas()` call is given an expression matrix, design, and
 #' contrast, it will also internally orchestrate a gene level differential
 #' expression analysis. Depending on the type of expression object passed in
 #' via `x`, this function will guess on the best method to use for this
@@ -151,7 +151,7 @@
 #' @examples
 #' vm <- exampleExpressionSet()
 #' gdb <- exampleGeneSetDb()
-#' mg <- multiGSEA(gdb, vm, vm$design, 'tumor',
+#' mg <- seas(gdb, vm, vm$design, 'tumor',
 #'                 methods=c('camera', 'fry'),
 #'                 # customzie camera parameter:
 #'                 inter.gene.cor = 0.04)
@@ -159,14 +159,14 @@
 #' res.camera <- result(mg, 'camera')
 #' res.fry <- result(mg, 'fry')
 #' res.all <- results(mg)
-multiGSEA <- function(gsd, x, design=NULL, contrast=NULL,
-                      methods=NULL, use.treat=FALSE,
-                      feature.min.logFC=if (use.treat) log2(1.25) else 1,
-                      feature.max.padj=0.10, trim=0.10, verbose=FALSE, ...,
-                      rank_by = NULL, select_by = NULL,
-                      rank_order = c("ordered", "descending", "ascending"),
-                      group_by = NULL, biased_by = NULL,
-                      xmeta. = NULL, .parallel=FALSE, BPPARAM=bpparam()) {
+seas <- function(gsd, x, design=NULL, contrast=NULL,
+                 methods=NULL, use.treat=FALSE,
+                 feature.min.logFC=if (use.treat) log2(1.25) else 1,
+                 feature.max.padj=0.10, trim=0.10, verbose=FALSE, ...,
+                 rank_by = NULL, select_by = NULL,
+                 rank_order = c("ordered", "descending", "ascending"),
+                 group_by = NULL, biased_by = NULL,
+                 xmeta. = NULL, .parallel=FALSE, BPPARAM=bpparam()) {
   if (!is(gsd, "GeneSetDb")) {
     if (is(gsd, "GeneSetCollection") || is(gsd, "GeneSet")) {
       stop("A GeneSetDb is required. GeneSetCollections can be converted to a ",

@@ -66,7 +66,7 @@
 #' This will return a `data.frame` of the gene set definition. Calling
 #' [geneSet()] on a [MultiGSEAResult()] will return the same `data.frame` along
 #' with the differential expression statistics for the individual members of the
-#' geneSet across the contrast that was tested in the [multiGSEA()] call that
+#' geneSet across the contrast that was tested in the [seas()] call that
 #' created the [MultiGSEAResult()].
 #'
 #' @section GeneSetDb manipulation:

@@ -8,7 +8,7 @@ test_that("multiGSEA fails with a 1-geneset GeneSetDb", {
   gdb <- gdb[geneSets(gdb)$name == 'GOZGIT_ESR1_TARGETS_DN']
 
   test.methods <- c("camera", "roast", "fry", "geneSetTest")
-  mg <- multiGSEA(gdb, vm, vm$design, 'tumor',
+  mg <- seas(gdb, vm, vm$design, 'tumor',
                   methods=test.methods,
                   ## customize camera parameter:
                   inter.gene.cor=0.04)
@@ -34,10 +34,10 @@ test_that("multiGSEA pipeine can handle EList without a genes data.frame", {
   vm.noG <- vm
   vm.noG$genes <- NULL
 
-  mg <- multiGSEA(gdb, vm, vm$design, "tumor", "camera")
+  mg <- seas(gdb, vm, vm$design, "tumor", "camera")
 
   mg.noG <- expect_warning(
-    multiGSEA(gdb, vm.noG, vm.noG$design, "tumor", "camera"),
+    seas(gdb, vm.noG, vm.noG$design, "tumor", "camera"),
     "no.*genes", ignore.case = TRUE)
 
   r <- result(mg)

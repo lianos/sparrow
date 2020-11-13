@@ -34,7 +34,7 @@ test_that('romer runs equivalently from do.romer vs direct call', {
 
   # multiGSEA pass through & result call matches raw result
   set.seed(seed)
-  mg <- multiGSEA(gdb, y, y$design, ncol(y$design), method = "romer",
+  mg <- seas(gdb, y, y$design, ncol(y$design), method = "romer",
                   nrot = nrot)
   res <- result(mg, "romer")
   res$key <- encode_gskey(res)

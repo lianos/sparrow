@@ -54,12 +54,12 @@ correspond to those IDs
 Deafults fgsea functionality was changed to \code{\link[fgsea:fgseaMultilevel]{fgsea::fgseaMultilevel()}} in
 1.13.2 and the default parameters here reflect that. If you want to use the
 original "fgseaSimple" you have to pass in \code{use.fgsea.simple = TRUE} in your
-\code{multiGSEA()} call.
+\code{seas()} call.
 
 \code{minSize} and \code{maxSize} are already set by the \code{conform} logic that was
-specified in the call to \code{\link[=multiGSEA]{multiGSEA()}} via the \code{min.gs.size} and
+specified in the call to \code{\link[=seas]{seas()}} via the \code{min.gs.size} and
 \code{max.gs.size} parameters.
 
 \strong{This function is not meant to be called directly.} It should only be
-called internally within \code{\link[=multiGSEA]{multiGSEA()}}.
+called internally within \code{\link[=seas]{seas()}}.
 }

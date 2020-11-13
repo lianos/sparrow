@@ -1,19 +1,19 @@
 context("goseq")
 
-test_that("multiGSEA(method='goseq') requires valid feature.bias vector", {
+test_that("seas(method='goseq') requires valid feature.bias vector", {
   vm <- exampleExpressionSet()
   gsl <- exampleGeneSets()
   gsd <- GeneSetDb(gsl)
   gsd <- conform(gsd, vm)
 
-  mg <- multiGSEA(gsd, vm, vm$design)
+  mg <- seas(gsd, vm, vm$design)
   lfc <- logFC(mg)
   selected <- subset(lfc, significant)$feature_id
   universe <- rownames(vm)
 
   expect_error({
     suppressWarnings({
-      multiGSEA(gsd, vm, vm$design, methods='goseq', split.updown=FALSE)
+      seas(gsd, vm, vm$design, methods='goseq', split.updown=FALSE)
     })
   })
 })
@@ -26,7 +26,7 @@ test_that("internal goseq mimics goseq package", {
   gsd <- conform(gsd, vm)
 
   ## Identify differentially expressed genes
-  mg <- multiGSEA(gsd, vm, vm$design)
+  mg <- seas(gsd, vm, vm$design)
   lfc <- logFC(mg)
   selected <- subset(lfc, significant)$feature_id
   universe <- rownames(vm)
@@ -58,7 +58,7 @@ test_that("internal goseq mimics goseq package", {
   expect_equal(goseq.res, my.res, check.attributes=FALSE)
 
   ## Run goseq through multiGSEA to make sure it matches goseq.res
-  mg <- multiGSEA(gsd, vm, vm$design, methods="goseq", feature.bias=mylens)
+  mg <- seas(gsd, vm, vm$design, methods="goseq", feature.bias=mylens)
   expect_true(setequal(resultNames(mg), c("goseq", "goseq.up", "goseq.down")))
   my2 <- result(mg, 'goseq')
   my2$key <- encode_gskey(my2)
