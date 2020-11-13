@@ -29,7 +29,7 @@ validate.x.romer <- function(x, xmeta. = NULL, ...) {
 #' and therefore doesn't work with a voom'd dataset.
 #'
 #' **This function is not meant to be called directly.** It should only be
-#' called internally within [multiGSEA()].
+#' called internally within [seas()].
 #'
 #' @noRd
 #' @importFrom limma romer

@@ -81,5 +81,5 @@ so that this information is kicked back to the caller multiGSEA function
 and included in downstream reporting.
 
 \strong{This function is not meant to be called directly.} It should only be
-called internally within \code{\link[=multiGSEA]{multiGSEA()}}.
+called internally within \code{\link[=seas]{seas()}}.
 }

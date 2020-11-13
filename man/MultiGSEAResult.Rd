@@ -7,7 +7,7 @@
 \alias{MultiGSEAResult}
 \title{A MultiGSEAResult object holds the results from a multiGSEA call.}
 \description{
-A call to \code{\link[=multiGSEA]{multiGSEA()}} will produce analyses for an
+A call to \code{\link[=seas]{seas()}} will produce analyses for an
 arbitrary number of GSEA methods, the results of which will be stored and
 accessible here using the \code{\link[=result]{result()}}, \code{\link[=results]{results()}}, and \code{\link[=resultNames]{resultNames()}}.
 

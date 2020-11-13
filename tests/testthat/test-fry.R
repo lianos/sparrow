@@ -37,7 +37,7 @@ test_that("fry runs through multiGSEA wrapper", {
   gsi <- gsi[names(gsd.idxs)]
   fried <- limma::fry(vm, gsi, vm$design, ncol(vm$design), sort=FALSE)
 
-  my <- multiGSEA(gsd, vm, vm$design, ncol(vm$design), methods='fry')
+  my <- seas(gsd, vm, vm$design, ncol(vm$design), methods='fry')
   mgres <- transform(result(my, 'fry'),
                      key=encode_gskey(collection, name),
                      stringsAsFactors=FALSE)

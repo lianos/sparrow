@@ -36,7 +36,7 @@ are summarized below:
 \itemize{
 \item \code{n.sig}: The number of individual features whose \code{abs(logFC)} and padj
 thersholds satisfy the criteria of the \code{feature.min.logFC} and
-\code{feature.max.padj} parameters of the original \code{\link[=multiGSEA]{multiGSEA()}} call
+\code{feature.max.padj} parameters of the original \code{\link[=seas]{seas()}} call
 \item \code{n.neutral}: The number of individual features whose abs(logFC) and padj
 thersholds do not satisfy the \verb{feature.*} criteria named above.
 \item \verb{n.up, n.down}: The number of individual features with \code{logFC > 0} or
@@ -46,7 +46,7 @@ referenced above.
 \verb{feature.*} thresholds and have logFC > 0 or logFC < 0, respectively.
 \item \verb{mean.logFC, mean.logFC.trim}: The mean (or trimmed mean) of the individual
 logFC estimates for the features in the gene set. The amount of trim is
-specified in the \code{trim} parameter of the \code{\link[=multiGSEA]{multiGSEA()}} call.
+specified in the \code{trim} parameter of the \code{\link[=seas]{seas()}} call.
 \item \verb{mean.t, mean.t.trim}: The mean (or trimmed mean) of the individual
 t-statistics for the features in the gene sets. These are \code{NA} if the input
 expression object was a \code{DGEList}.
@@ -62,6 +62,6 @@ of the analysis.
 \examples{
 vm <- exampleExpressionSet(do.voom=TRUE)
 gdb <- exampleGeneSetDb()
-mg <- multiGSEA(gdb, vm, vm$design, 'tumor')
+mg <- seas(gdb, vm, vm$design, 'tumor')
 head(geneSetsStats(mg))
 }

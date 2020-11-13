@@ -60,7 +60,7 @@ library(multiGSEA)
 library(dplyr)
 gdb <- getMSigGeneSetDb(c('H', 'C2'), species = 'human', id.type = "entrez")
 vm <- exampleExpressionSet(dataset = 'tumor-vs-normal', do.voom = TRUE)
-mg <- multiGSEA(gdb, vm, vm$design, "tumor", methods=c("camera", "fry"))
+mg <- seas(gdb, vm, vm$design, "tumor", methods=c("camera", "fry"))
 ```
 
 We can view the top "camera" results with the smallest pvalues like so:

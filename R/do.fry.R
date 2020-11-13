@@ -14,7 +14,7 @@ validate.x.fry <- function(x, xmeta., ...) {
 #' Worker function to run fry from within a multiGSEA pipeline
 #'
 #' **This function is not meant to be called directly.** It should only be
-#' called internally within [multiGSEA()].
+#' called internally within [seas()].
 #'
 #' @noRd
 #' @importFrom limma fry

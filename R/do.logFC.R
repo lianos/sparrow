@@ -12,7 +12,7 @@ validate.x.logFC <- validate.X
 #' geneSets, ie. mean.logFC, mean.t for each geneset.
 #'
 #' **This function is not meant to be called directly.** It should only be
-#' called internally within [multiGSEA()].
+#' called internally within [seas()].
 #'
 #' @noRd
 do.logFC <- function(gsd, x, design, contrast=ncol(design), outdir=NULL,

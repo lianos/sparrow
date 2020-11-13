@@ -24,6 +24,6 @@ expression object.
 \examples{
 vm <- exampleExpressionSet(do.voom=TRUE)
 gdb <- exampleGeneSetDb()
-mg <- multiGSEA(gdb, vm, vm$design, 'tumor', methods=NULL)
+mg <- seas(gdb, vm, vm$design, 'tumor', methods=NULL)
 lfc <- logFC(mg)
 }

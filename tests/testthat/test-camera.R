@@ -17,7 +17,7 @@ test_that("camera result() is decorated correctly and has correct stats", {
   vm <- exampleExpressionSet(do.voom=TRUE)
   gsd <- conform(exampleGeneSetDb(), vm)
   gsi <- as.list(gsd, value='x.idx')
-  mg <- multiGSEA(gsd, vm, vm$design, ncol(vm$design), methods='camera')
+  mg <- seas(gsd, vm, vm$design, ncol(vm$design), methods='camera')
 
   photo <- limma::camera(vm, gsi, vm$design, ncol(vm$design))
   res <- result(mg, 'camera', as.dt=TRUE)
@@ -34,11 +34,11 @@ test_that("cameraPR pass through method works like direct call", {
   gsd <- conform(exampleGeneSetDb(), vm)
   gsi <- as.list(gsd, value='x.idx')
 
-  lfc <- logFC(multiGSEA(gsd, vm, vm$design, 'tumor'))
+  lfc <- logFC(seas(gsd, vm, vm$design, 'tumor'))
 
   expected <- cameraPR(setNames(lfc$t, lfc$entrez_id), gsi, inter.gene.cor=0.01)
 
-  mg <- multiGSEA(gsd, vm, vm$design, 'tumor',
+  mg <- seas(gsd, vm, vm$design, 'tumor',
                   methods=c('camera', 'cameraPR'),
                   inter.gene.cor=0.01)
 

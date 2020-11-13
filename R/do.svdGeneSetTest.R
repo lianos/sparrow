@@ -18,7 +18,7 @@ validate.x.svdGeneSetTest <- validate.X
 #' if you like (or, please contact me to tell me why it's a bad idea!)
 #'
 #' **This function is not meant to be called directly.** It should only be
-#' called internally within [multiGSEA()].
+#' called internally within [seas()].
 #'
 #' @noRd
 #' @importFrom edgeR cpm
