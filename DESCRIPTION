@@ -1,15 +1,13 @@
 Package: sparrow
 Type: Package
-Title: Take command of set enrichment analyses via a unified interface to them all.
+Title: Take command of set enrichment analyses through a unified interface.
 Version: 0.99.0
 Authors@R: c(
     person("Steve", "Lianoglou", , "slianoglou@gmail.com", c("aut", "cre")),
     person("Denali Therapeutics", role = c("fnd"), comment = "2018+"),
     person("Genentech", role = c("fnd"), comment = "2014 - 2017"))
 Description: Provides a unified interface to orchestrate a plethora of GSEA
-    methods over a contrast of interest as well as single sample gene set
-    scoring methods. This package also provides robust interactive tools to
-    explore GSEA results.
+    methods and quickly interrogate their results.
 Imports:
     BiocGenerics,
     BiocParallel,

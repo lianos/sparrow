@@ -2,7 +2,7 @@
 on:
   push:
     branches:
-      - master
+      - main
       - develop # This will eventually require a different container
     paths:
       - 'R/**'
@@ -32,10 +32,11 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
         with:
-          ref: 'develop'
+          ref: 'main'
 
       - name: Setup R
-        uses: r-lib/actions/setup-r@2fac31217e602dd30286b4c984a0ccf1afb18cbd
+        # uses: r-lib/actions/setup-r@2fac31217e602dd30286b4c984a0ccf1afb18cbd
+        uses: r-lib/actions/setup-r@v1
         with:
           install-r: false
 
