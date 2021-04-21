@@ -218,7 +218,6 @@ seas <- function(gsd, x, design=NULL, contrast=NULL,
 
   # ----------------------------------------------------------------------------
   # Argument sanity checking and input sanitization
-
   inputs <- validateInputs(x, design, contrast, methods, xmeta. = xmeta.,
                            require.x.rownames=TRUE, ...)
 
@@ -233,7 +232,6 @@ seas <- function(gsd, x, design=NULL, contrast=NULL,
 
   # ----------------------------------------------------------------------------
   # Run the analyses
-
   # First calculate differential expression statistics, or wrap a pre-ranked
   # vector into a data.frame returned by an internal dge analysis
   treat.lfc <- if (use.treat) feature.min.logFC else NULL
