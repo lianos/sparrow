@@ -15,7 +15,7 @@ Imports:
     circlize,
     ComplexHeatmap (>= 2.0),
     DelayedMatrixStats,
-    msigdb.data,
+    msigdbr (>= 7.2.1.9001),
     limma,
     edgeR (>= 3.18.1),
     ggplot2 (>= 2.2.0),
@@ -54,7 +54,7 @@ Suggests:
     testthat,
     webshot
 Remotes:
-    lianos/msigdb.data@master
+    igordot/msigdbr
 biocViews: DifferentialExpression, GeneExpression, GeneSetEnrichment, Pathways
 VignetteBuilder: knitr
 License: MIT + file LICENSE

@@ -12,6 +12,7 @@ getMSigGeneSetDb(
   allow_multimap = TRUE,
   min_ortho_sources = 2,
   promote_subcategory_to_collection = TRUE,
+  prefix_collection = TRUE,
   version = NULL,
   ...
 )
