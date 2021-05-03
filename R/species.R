@@ -5,7 +5,7 @@
 species_info <- function(query, ...) {
   info <- read.csv(
     stringsAsFactors = FALSE,
-    system.file("extdata", "species-info.csv", package = "multiGSEA"))
+    system.file("extdata", "species-info.csv", package = "sparrow"))
   query <- assert_string(query)
   query <- gsub(" +", "_", tolower(query))
   idx <- NA

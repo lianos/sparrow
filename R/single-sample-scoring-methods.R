@@ -296,7 +296,6 @@ gsdScore <- function(x, eigengene = 1L, center = TRUE, scale = TRUE,
   egene <- s$u %*% s$D %*% t(s$v)
 
   # The data was centered externally and passed in the uncentering vector
-  # browser()
   if (isFALSE(center) && is.numeric(uncenter)) {
     if (length(uncenter) < nrow(x)) stop("Illegal uncenter vector, too short")
     if (!is.null(names(uncenter))) {

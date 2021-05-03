@@ -36,8 +36,9 @@ test_that("internal goseq mimics goseq package", {
 
   ## Run internal version of goseq
   my.res <- suppressWarnings({
-    multiGSEA::goseq(gsd, selected, universe, mylens, method='Wallenius',
-                     use_genes_without_cat=TRUE, .pipelined=TRUE)
+    sparrow::goseq(gsd, selected, universe, mylens,
+                   method = "Wallenius",
+                   use_genes_without_cat = TRUE, .pipelined = TRUE)
   })
   ## pwf <- attr(my.res, 'pwf')
 
@@ -57,7 +58,7 @@ test_that("internal goseq mimics goseq package", {
   goseq.res <- goseq.res[match(my.res$category, goseq.res$category),]
   expect_equal(goseq.res, my.res, check.attributes=FALSE)
 
-  ## Run goseq through multiGSEA to make sure it matches goseq.res
+  ## Run goseq through seas to make sure it matches goseq.res
   mg <- seas(gsd, vm, vm$design, methods="goseq", feature.bias=mylens)
   expect_true(setequal(resultNames(mg), c("goseq", "goseq.up", "goseq.down")))
   my2 <- result(mg, 'goseq')

@@ -42,7 +42,7 @@ test_that("logFC's calculated from contrast vectors are correct", {
   expect_equal(tt.lumA, tt0.lumA)
   expect_equal(tt.her2, tt0.her2)
 
-  ## logFC via multiGSEA codepath ----------------------------------------------
+  ## logFC via seas codepath ---------------------------------------------------
   ## 1. Using coef from design matrix
   my.tt.lumA <- calculateIndividualLogFC(vmi, vmi$design, 'LumA')
   my.tt.her2 <- calculateIndividualLogFC(vmi, vmi$design, 'Her2')

@@ -1,6 +1,6 @@
 context("Errors submitted by users")
 
-test_that("multiGSEA fails with a 1-geneset GeneSetDb", {
+test_that("seas fails with a 1-geneset GeneSetDb", {
   # Submitted by Thomas Sandmann:
   # https://github.com/lianos/multiGSEA/issues/7
   vm <- exampleExpressionSet()
@@ -26,7 +26,7 @@ test_that("multiGSEA fails with a 1-geneset GeneSetDb", {
   }
 })
 
-test_that("multiGSEA pipeine can handle EList without a genes data.frame", {
+test_that("seas pipeine can handle EList without a genes data.frame", {
   # Thanks to @RussBainer for reporting
   gdb <- exampleGeneSetDb()
   vm <- exampleExpressionSet()

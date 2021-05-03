@@ -4,7 +4,7 @@ NULL
 validate.inputs.camera <- .validate.inputs.full.design
 validate.x.camera <- validate.X
 
-#' Worker function to run camera from within a multiGSEA pipeline
+#' Worker function to run camera from within a seas pipeline
 #'
 #' @description
 #' camera as originally implemented tends to be very conservative, this is

@@ -59,7 +59,6 @@ remap_identifiers <- function(x, xref, original_id = colnames(xref)[1L],
 #'
 #' These tables are gnerated by the `inst/scripts/genereate-id-maps.R`
 #'
-#' @export
 #' @param species The name of the species to load the entrez <-> ensembl xref
 #'   table for. Currently we only provide tables for human and mouse ... and we
 #'   shouldn't even provide those in here, but ...
@@ -68,7 +67,7 @@ load_id_xref <- function(species, ..., as.dt = FALSE) {
   assert_string(species)
   sinfo <- species_info(species)
   fn <- sprintf("%s-entrez-ensembl.csv.gz", sinfo[["alias"]])
-  fn <- system.file("extdata", "identifiers", fn, package = "multiGSEA")
+  fn <- system.file("extdata", "identifiers", fn, package = "sparrow")
   if (!test_file_exists(fn)) {
     stop("Can not find `extdata/idenifiers` xref table for: ", species)
   }

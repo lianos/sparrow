@@ -7,7 +7,7 @@
 #' using a [GeneSetDb()] object.
 #'
 #' Please refer to the "Generating Single Sample Gene Set Scores" of the
-#' multiGSEA vignette for further exposition.
+#' sparrow vignette for further exposition.
 #'
 #' @section Single Sample Scoring Methods:
 #' The following `methods` are currenly provided.

@@ -53,7 +53,7 @@ test_that("ora,groups variable accepts column or list", {
   }
 
   # This is some metadata that is required for correctly processing these
-  # results inside the 'multiGSEA' pipeline
+  # results inside the 'seas' pipeline
   expect_true(attr(g1, "mgunlist"))
   expect_setequal(attr(g1, "groups"), c("all", names(group.list)))
   expect_true(attr(g1, "rawresult"))
@@ -66,7 +66,7 @@ test_that("ora and goseq give probably approximately correct answers", {
   # no bias correction
   e1 <- ora(gdb., dfinput, selected = "selected", groups = "direction")
   g1 <- expect_warning({
-    multiGSEA::goseq(
+    sparrow::goseq(
       gdb.,
       subset(dfinput, selected)$feature_id,
       dfinput$feature_id,
@@ -81,7 +81,7 @@ test_that("ora and goseq give probably approximately correct answers", {
   e2 <- ora(gdb., dfinput, selected = "selected", groups = "direction",
                    feature.bias = "effective_length")
   g2 <- expect_warning({
-    multiGSEA::goseq(
+    sparrow::goseq(
       gdb.,
       subset(dfinput, selected)$feature_id,
       dfinput$feature_id,
@@ -113,7 +113,7 @@ test_that("ora and goseq give probably approximately correct answers", {
   expect_lt(mean(pval.diff), 0.025)
 })
 
-test_that("'naked' ora call vs multiGSEA pipeline are equivalent", {
+test_that("'naked' ora call vs seas pipeline are equivalent", {
   dfinput <- exampleDgeResult("human", "ensembl",
                               induce.bias = "effective_length")
   nres <- ora(gdb., dfinput, selected = "selected", groups = "direction",
@@ -144,7 +144,7 @@ test_that("'naked' ora call vs multiGSEA pipeline are equivalent", {
   }
 })
 
-test_that("ora over ANOVA anaysis works through multiGSEA", {
+test_that("ora over ANOVA anaysis works through seas", {
   y <- exampleExpressionSet('tumor-subtype', do.voom=FALSE)
   di <- model.matrix(~ PAM50subtype, data = y$samples)
   vm <- voom(y, di)

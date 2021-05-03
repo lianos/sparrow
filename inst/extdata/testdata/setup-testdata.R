@@ -5,7 +5,7 @@ set.seed(123)
 per.group <- 5
 
 library(DESeq2)
-brca.fn <- file.path('/Users/lianogls/GNE/data/TCGA/v6/rnaseq'
+brca.fn <- file.path('/Users/lianogls/GNE/data/TCGA/v6/rnaseq',
                      'TCGA-rnaseq-BRCA.rds')
 x <- readRDS(brca.fn)
 
@@ -33,7 +33,7 @@ saveRDS(es, 'TCGA-BRCA-some.es.rds')
 
 ## -----------------------------------------------------------------------------
 ## Setup the most base of genesets
-load_pkg('multiGSEA')
+load_pkg('sparrow')
 .gsets <- getMSigGeneSetDb(c('c2', 'c6', 'c7'))
 
 ## This list is of the type that GeneSetDb expects, ie: a list of lists,
@@ -46,7 +46,7 @@ load_pkg('multiGSEA')
 
 
 ## g.some.gs: This will be used a the geneset "list-of-lists" that can
-##            construct multiGSEA::GeneSetDb objects.
+##            construct sparrow::GeneSetDb objects.
 ##
 ##            30 GeneSets in total, 10 of them are hopefully
 ##            "breast cancer specific"
@@ -61,7 +61,7 @@ g.gsets.lol <- lapply(.gsets, function(x) {
   x[unique(c(specific, random))]
 })
 
-saveRDS(g.gsets.lol, 'genesets-multiGSEA-list-of-lists.rds')
+saveRDS(g.gsets.lol, 'genesets-sparrow-list-of-lists.rds')
 
 ## Create index vectors into vm.all that the "normal" limma GSEA methods
 ## expect as input.

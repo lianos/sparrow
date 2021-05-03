@@ -66,27 +66,57 @@
 #'   gdb.h.ens <- getMSigGeneSetDb(c("h", "c2"), "human", "ensembl")
 #'   gdb.m.entrez <- getMSigGeneSetDb(c("h", "c2"), "mouse", "entrez")
 #' }
-getMSigGeneSetDb <- function(collection = "H",
+getMSigGeneSetDb <- function(collection = NULL,
                              species = "human",
                              id.type = c("ensembl", "entrez", "symbol"),
                              with.kegg = FALSE,
                              allow_multimap = TRUE, min_ortho_sources = 2,
                              promote_subcategory_to_collection = TRUE,
-                             prefix_collection = TRUE,
+                             prefix_collection = FALSE,
                              version = NULL, ...) {
   id.type <- match.arg(id.type)
-  msig.db <- msigdb_retrieve(
-    collection, species, id.type, allow_multimap = allow_multimap,
-    min_ortho_sources = min_ortho_sources,
-    promote_subcategory_to_collection = promote_subcategory_to_collection, ...)
-
   species.info <- species_info(species)
   valid.cols <- c("H", paste0("C", 1:8))
-  if (species.info$alias != "human") {
-    valid.cols <- setdiff(valid.cols, "C1")
+  if (species.info$alias != "human") valid.cols <- setdiff(valid.cols, "C1")
+  if (!is.null(collection)) {
+    collection <- assert_subset(toupper(collection), valid.cols)
   }
-  collection <- assert_subset(toupper(collection), valid.cols)
-  sigs.all <- as.data.table(msigdbr::msigdbr(species.info$species))
+
+  sigs.all <- copy(.pkgcache[["msigdb"]][[species.info$species]])
+  if (is.null(sigs.all)) {
+    sigs.all <- as.data.table(msigdbr::msigdbr(species.info$species))
+    axe.cols <- c("gs_pmid", "gs_geoid", "gs_url",
+                  "gs_description", "species_name", "species_common_name",
+                  "ortholog_sources", "num_ortholog_sources")
+    axe.cols <- intersect(axe.cols, colnames(sigs.all))
+    for (axe in axe.cols) sigs.all[, (axe) := NULL]
+    setkeyv(sigs.all, c("gs_cat", "gs_name"))
+    .pkgcache[["msigdb"]][[species.info$species]] <- copy(sigs.all)
+  }
+
+  if (!is.null(collection)) {
+    out <- sigs.all[gs_cat %in% collection]
+  } else {
+    out <- sigs.all
+  }
+
+  if (!with.kegg) {
+    out <- out[gs_subcat != "CP:KEGG"]
+  }
+
+  if (prefix_collection) {
+    out[, collection := paste0("MSigDB_", out$gs_cat)]
+  } else {
+    out[, collection := gs_cat]
+  }
+
+  if (promote_subcategory_to_collection) {
+    out[, collection := {
+      ifelse(nchar(out$gs_subcat) == 0L,
+             out$collection,
+             paste(out$collection, out$gs_subcat, sep = "_"))
+    }]
+  }
 
   if (id.type == "ensembl") {
     idtype <- GSEABase::ENSEMBLIdentifier()
@@ -99,42 +129,24 @@ getMSigGeneSetDb <- function(collection = "H",
     idcol <- "gene_symbol"
   }
 
-  out <- sigs.all[gs_cat %in% collection]
-  if ("C2" %in% collection && !with.kegg) {
-    out <- out[gs_subcat != "CP:KEGG"]
-  }
-
-  if (prefix_collection) {
-    out[, collection := paste0("MSigDB_", out$gs_cat)]
-  } else {
-    out[, collection := out$gs_cat]
-  }
-
-  if (promote_subcategory_to_collection) {
-    out[, collection := ifelse(
-      nchar(out$gs_subcat) == 0L,
-      out$collection,
-      paste(out$collection, out$gs_subcat, sep = "_"))]
-  }
-
-  ret <- out[, c("collection", "gs_name", idcol), with = FALSE]
-  setnames(ret, c("collection", "name", "feature_id"))
-  ret[, feature_id := as.character(feature_id)]
+  ret <- out[, {
+    list(collection, name = gs_name, feature_id = as.character(.SD[[idcol]]),
+         subcategory = gs_subcat)
+  }, .SDcols = c("collection", "gs_name", idcol)]
   if (id.type != "symbol") {
     ret[, symbol := out[["gene_symbol"]]]
   } else {
     ret[, ensembl_id := out[["ensembl_gene"]]]
   }
-  ret[, gs_id := ifelse(grepl("GO:", out$gs_exact_source),
-                        out$gs_exact_source, out$gs_id)]
+  ret[, gs_id := {
+    ifelse(grepl("GO:", out$gs_exact_source), out$gs_exact_source, out$gs_id)
+  }]
 
   ret <- ret[!is.na(feature_id)]
   ret <- unique(ret, by = c("collection", "name", "feature_id"))
-
   gdb <- GeneSetDb(ret)
 
   # Beef up collectionMetadata
-
   url.fn <- function(collection, name, ...) {
     url <- "http://www.broadinstitute.org/gsea/msigdb/cards/%s.html"
     sprintf(url, name)
@@ -152,3 +164,4 @@ getMSigGeneSetDb <- function(collection = "H",
   gdb
 }
 
+.msigdb.cache <- new.env()

@@ -70,7 +70,7 @@ do.ora <- function(gsd, x, design, contrast = ncol(design),
   #    with pvals hammered to 1.
 
   stopifnot(is.conformed(gsd, x))
-  # stop("testing graceful method failure in multiGSEA call")
+  # stop("testing graceful method failure in seas call")
   if (is.null(logFC)) {
     treat.lfc <- if (use.treat) feature.min.logFC else NULL
     logFC <- calculateIndividualLogFC(x, design, contrast, treat.lfc=treat.lfc,

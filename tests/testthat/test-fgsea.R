@@ -1,6 +1,6 @@
 context("fgsea")
 
-test_that("multiGSEA calculate t and preranked t match fgsea results", {
+test_that("seas calculate t and preranked t match fgsea results", {
   gseaParam <- 1
 
   vm <- exampleExpressionSet()

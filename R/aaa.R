@@ -25,16 +25,16 @@ sparrow_methods <- function() {
     romer = list(package = "edgeR", type = "required"),
     goseq = list(package = "goseq", type = "suggested"),
     geneSetTest = list(package = "edgeR", type = "required"),
-    logFC = list(package="multiGSEA", type = "required"),
-    svdGeneSetTest = list(package="multiGSEA", type = "required")
+    logFC = list(package="sparrow", type = "required"),
+    svdGeneSetTest = list(package="sparrow", type = "required")
   )
 
-  fn <- system.file("extdata", "gsea-methods.csv", package = "multiGSEA")
+  fn <- system.file("extdata", "gsea-methods.csv", package = "sparrow")
   methods <- read.csv(fn, stringsAsFactors = FALSE)
   methods
 }
 
-#' Helper function to check if a method is supported in multiGSEA
+#' Helper function to check if a method is supported in sparrow
 #'
 #' @noRd
 #' @param methods a character string of methods

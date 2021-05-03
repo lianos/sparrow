@@ -7,7 +7,7 @@
 #'
 #' Convenience function to create volcano plots from differents types of
 #' objects we generate in this package. This is mostly used by the
-#' *multiGSEA.shiny* package.
+#' *sparrow.shiny* package.
 #'
 #' @export
 #' @importFrom ggplot2 aes ggplot geom_hex
@@ -228,7 +228,7 @@ volcano.source.type <- function(x) {
 #' [SparrowResult()] object using the `stats` parameter.
 #'
 #' Like the [volcanoPlot()] function, this is mostly used by the
-#' *multiGSEA.shiny* package.
+#' *sparrow.shiny* package.
 #'
 #' @export
 #'

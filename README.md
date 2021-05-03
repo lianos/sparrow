@@ -27,9 +27,9 @@ from sparrow to sparrow, will be functional soon**.
   for easy query and retrieval.
 
   - A sister
-    [`multiGSEA.shiny`](https://github.com/lianos/multiGSEA.shiny)
+    [`sparrow.shiny`](https://github.com/lianos/sparrow.shiny)
     package provides an `explore` function, which is invoked on
-    `SparrowResult` objects returned from a call to `multiGSEA`. The
+    `SparrowResult` objects returned from a call to `seas()`. The
     shiny application facilitates interactive exploration of these GSEA
     results. This application can also be deployed to a shiny server and
     can be initialized by uploading a serialized `SparrowResult`
@@ -37,16 +37,16 @@ from sparrow to sparrow, will be functional soon**.
 
 Full details that outline the use of this software package is provided
 in the [package’s
-vignette](https://lianos.github.io/multiGSEA/articles/multiGSEA.html),
+vignette](https://lianos.github.io/sparrow/articles/sparrow.html),
 however a brief description is outlined below.
 
 # Usage
 
 A subset of the RNA-seq data tumor/normal samples in the BRCA indication
 from the TCGA are provided in this package. We will use that data to
-perform a “camera” and “fry” gene set enrichment analysis of tumor vs
+perform a 'camera" and "fry" gene set enrichment analysis of tumor vs
 normal samples using the MSigDB hallmark and c2 gene set collections
-with `multiGSEA`.
+with `sparow::seas`.
 
 ``` r
 library(multiGSEA)

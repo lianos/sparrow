@@ -4,7 +4,7 @@ NULL
 validate.inputs.geneSetTest <- .validate.inputs.logFC.only
 validate.x.geneSetTest <- validate.X
 
-#' Worker function to run geneSetTest from within a multiGSEA pipeline
+#' Worker function to run geneSetTest from within a seas pipeline
 #'
 #' **This function is not meant to be called directly.** It should only be
 #' called internally within [seas()].

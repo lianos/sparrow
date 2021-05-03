@@ -4,7 +4,7 @@ NULL
 validate.inputs.logFC <- .validate.inputs.logFC.only
 validate.x.logFC <- validate.X
 
-#' Worker function that is never really called within a multiGSEA pipeline
+#' Worker function that is never really called within a seas pipeline
 #'
 #' @description
 #' This is a "pass through" function. The caller asks for \code{method="logFC"}

@@ -61,7 +61,7 @@ scale_rows.matrix <- function(x, center = TRUE, scale = TRUE, ...,
                               base.attributes = FALSE) {
   center. <- .target_column_idxs(x, center)
   if (test_integerish(center., lower = 1, upper = ncol(x))) {
-    center. <- rowMeans(x[, center., drop = FALSE])
+    center. <- rowMeans2(x, cols = center.)
   }
   if (!isFALSE(center.)) {
     assert_numeric(center., len = nrow(x))
@@ -70,7 +70,8 @@ scale_rows.matrix <- function(x, center = TRUE, scale = TRUE, ...,
 
   scale. <- .target_column_idxs(x, scale)
   if (test_integerish(scale., lower = 1, upper = ncol(x))) {
-    scale. <- rowSds(x[, scale., drop = FALSE], center = FALSE)
+    scale. <- rowSds(x, cols = scale.)
+
   }
   if (!isFALSE(scale.)) {
     assert_numeric(scale., len = nrow(x))

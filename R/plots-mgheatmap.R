@@ -230,7 +230,6 @@ mgheatmap <- function(x, gdb = NULL, col = NULL,
         center <- FALSE
         recenter <- FALSE
       }
-      # browser()
       X <- scoreSingleSamples(gdb, X, methods = aggregate.by, as.matrix=TRUE,
                               center = center, scale = scale, ...)
 

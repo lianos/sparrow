@@ -52,7 +52,7 @@
 #'   like the `collection`, `name`, and `feature_id` required for a `GeneSetDb`.
 #'   Simply rename the appropriate columns to the ones prescribed here, and pass
 #'   that into the constructor. Any other additional columns (symbol, direction,
-#'   etc.) will be copied into the \code{GeneSetDb}.
+#'   etc.) will be copied into the `GeneSetDb`.
 #'
 #' @section Interrogating a GeneSetDb:
 #'
@@ -175,7 +175,8 @@ GeneSetDb.default <- function(x, featureIdMap = NULL, collectionName = NULL,
 }
 
 #' @noRd
-.GeneSetDb.data.frame <- function(x, featureIdMap=NULL, collectionName=NULL) {
+.GeneSetDb.data.frame <- function(x, featureIdMap = NULL,
+                                  collectionName = NULL) {
   stopifnot(is.data.frame(x) && nrow(x) > 0)
   proto <- new("GeneSetDb")
   x <- setDT(as.data.frame(copy(x)))
@@ -191,8 +192,8 @@ GeneSetDb.default <- function(x, featureIdMap = NULL, collectionName = NULL,
   }
 
   if (!"feature_id" %in% colnames(x)) {
-    if ("feature_id" %in% colnames(x)) {
-      setnames(x, "feature_id", "feature_id")
+    if ("featureId" %in% colnames(x)) {
+      setnames(x, "featureId", "feature_id")
     }
   }
 
@@ -203,15 +204,41 @@ GeneSetDb.default <- function(x, featureIdMap = NULL, collectionName = NULL,
          paste(cols.missed, collapse=", "))
   }
 
+  if (any(is.na(x[["feature_id"]]))) {
+    message("Removing NA feature_id's from input")
+    x <- x[!is.na(feature_id)]
+  }
+
   if (is.factor(x[["collection"]])) x[, collection := as.character(collection)]
   if (is.factor(x[["name"]])) x[, name := as.character(name)]
+  if (!is.character(x[["feature_id"]])) x[, feature_id := as.character(feature_id)]
 
-  x <- unique(x, by=req.cols)
-  lol <- sapply(unique(x[['collection']]), function(col) {
-    with(x[collection == col], split(feature_id, name))
-  }, simplify=FALSE)
+  x <- unique(x, by = req.cols)
+  # lol <- sapply(unique(x[['collection']]), function(col) {
+  #   with(x[collection == col], split(feature_id, name))
+  # }, simplify=FALSE)
 
-  gdb <- GeneSetDb(lol, featureIdMap=featureIdMap)
+  # gdb <- GeneSetDb(lol, featureIdMap=featureIdMap)
+  db <- x[, key(proto@db), with = FALSE]
+  setkeyv(db, key(proto@db))
+  tbl <- init.gsd.table.from.db(db)
+
+  meta <- tbl[, {
+    list(name = c("url_function"),
+         value = list(function(x, y, ...) NA_character_))
+  }, by = 'collection']
+  setkeyv(meta, key(proto@collectionMetadata))
+
+  if (is.null(featureIdMap)) {
+    .ids <- unique(db$feature_id)
+    featureIdMap <- data.table(feature_id = .ids, x.id = .ids, x.idx = NA_integer_)
+    setkeyv(featureIdMap, key(featureIdMap(proto, as.dt = TRUE)))
+  }
+
+  gdb <- .GeneSetDb(table = tbl,
+                    db = db,
+                    featureIdMap = featureIdMap,
+                    collectionMetadata = meta)
 
   # If the input data.frame has extra columns, we will either add them as
   # annotations to the individual genes in the geneset, or as metadata for the
@@ -239,7 +266,7 @@ GeneSetDb.default <- function(x, featureIdMap = NULL, collectionName = NULL,
             all(!is.na(vals) & vals == vals[1L])
           }
         })
-      }, by = c("collection", "name")]
+      }, by = c("collection", "name"), .SDcols = add.cols]
       sapply(xtype[, add.cols, with = FALSE], all)
     })
     gs.level <- names(is.gs.level)[is.gs.level]
@@ -304,24 +331,25 @@ GeneSetDb.default <- function(x, featureIdMap = NULL, collectionName = NULL,
   names(x) <- collectionName
 
   db <- init.gsd.db.from.list.of.lists(x)
-  tbl <- init.gsd.table.from.db(db)
-
-  meta <- tbl[, {
-    list(name = c("url_function"),
-         value = list(function(x, y, ...) NA_character_))
-  }, by = 'collection']
-  setkeyv(meta, c('collection', 'name'))
-
-  if (is.null(featureIdMap)) {
-    .ids <- unique(db$feature_id)
-    featureIdMap <- data.table(feature_id=.ids, x.id=.ids, x.idx=NA_integer_)
-    setkeyv(featureIdMap, key(featureIdMap(proto, as.dt=TRUE)))
-  }
-
-  out <- .GeneSetDb(table=tbl,
-                    db=db,
-                    featureIdMap=featureIdMap,
-                    collectionMetadata=meta)
+  out <- .GeneSetDb.data.frame(db, featureIdMap = featureIdMap)
+  # tbl <- init.gsd.table.from.db(db)
+  #
+  # meta <- tbl[, {
+  #   list(name = c("url_function"),
+  #        value = list(function(x, y, ...) NA_character_))
+  # }, by = 'collection']
+  # setkeyv(meta, c('collection', 'name'))
+  #
+  # if (is.null(featureIdMap)) {
+  #   .ids <- unique(db$feature_id)
+  #   featureIdMap <- data.table(feature_id=.ids, x.id=.ids, x.idx=NA_integer_)
+  #   setkeyv(featureIdMap, key(featureIdMap(proto, as.dt=TRUE)))
+  # }
+  #
+  # out <- .GeneSetDb(table=tbl,
+  #                   db=db,
+  #                   featureIdMap=featureIdMap,
+  #                   collectionMetadata=meta)
   out
 }
 
@@ -374,6 +402,7 @@ setAs("GeneSetCollection", "GeneSetDb", function(from) {
 
 ## Constructor Helper Functions ------------------------------------------------
 
+#' Turns a list of lists GeneSetDb representation into a data.frame
 #' @noRd
 init.gsd.db.from.list.of.lists <- function(x) {
   proto <-.GeneSetDb()

@@ -17,7 +17,7 @@ downgradeObject <- function(x) {
 #' This would be useful when you want to add a GSEA result to an already
 #' existing one. `append` would be more appropriate, but ...
 #'
-#' When would you want to do that? Imagine a shiny app that drives multiGSEA.
+#' When would you want to do that? Imagine a shiny app that drives sparrow.
 #' You might want to present the results of each analysis as they come "online",
 #' so you would run them independently and make them available to the user
 #' immediately after they each finish (ie. in combination with the promises
@@ -184,7 +184,7 @@ geneSetsStats <- function(x, feature.min.logFC=1, feature.max.padj=0.10,
   lfc <- logFC(x, as.dt=TRUE)
 
   # reannotate.significance was added to better accommodate annotations that
-  # were passed in the xmeta. data.frame through the multiGSEA call. You
+  # were passed in the xmeta. data.frame through the seas call. You
   # should revisit this when you revisit how data.frame input support superseds
   # the xmeta. hacks we have in place now.
   annotate.lfc <- !all(c('significant', 'direction') %in% names(lfc))
@@ -277,11 +277,11 @@ invalidMethods <- function(x, names, as.error=FALSE) {
   bad.names
 }
 
-#' Interrogate the results of a multiGSEA analysis stored in a SparrowResult
+#' Interrogate the results of a sparrow::seas analysis stored in a SparrowResult
 #'
 #' @description
 #' The `resultNames`, `result`, and `results` functions enable
-#' you to explore the results of the analysis run with \code{\link{multiGSEA}}.
+#' you to explore the results of the analysis run with [seas()].
 #'
 #' The results that are stored within a `SparrowResult` object have a
 #' more or less 1:1 mapping with the values passed as `methods`, parameter
@@ -306,7 +306,7 @@ invalidMethods <- function(x, names, as.error=FALSE) {
 #' @rdname results
 #'
 #' @examples
-#' ## Refer to the examples in ?multiGSEA
+#' ## Refer to the examples in ?seas
 resultNames <- function(x) {
   stopifnot(is(x, 'SparrowResult'))
   names(x@results)
@@ -542,7 +542,7 @@ setMethod("show", "SparrowResult", function(object) {
   cat("\n")
 })
 
-#' Assembles a matrix of nominal or adjusted pvalues from a multiGSEA result
+#' Assembles a matrix of nominal or adjusted pvalues from a sparrow::seas result
 #'
 #' You might want a matrix of pvalues (or FDRs) for the gene sets across all
 #' GSEA methods you tried. I think I did, once, so here it is.

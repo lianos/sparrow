@@ -22,7 +22,7 @@ validate.x.romer <- function(x, xmeta. = NULL, ...) {
   return(TRUE)
 }
 
-##' Worker function to run romer from within a multiGSEA pipeline
+##' Worker function to run romer from within a sparrow::seas pipeline
 ##'
 #' Note that romer works on a DGEList or a "normal" EList, ie. it has not
 #' been updated to work with an \code{EList} with a \code{$weights} matrix,

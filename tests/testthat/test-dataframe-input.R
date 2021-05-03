@@ -1,4 +1,4 @@
-context("data.frame ranks/DGE input to multiGSEA")
+context("data.frame ranks/DGE input to seas")
 
 xdf <- exampleDgeResult()
 scores <- setNames(xdf$logFC, xdf$feature_id)
@@ -38,7 +38,7 @@ test_that("enrichment-based methods work", {
   mgres$key <- encode_gskey(mgres)
 
   gseq <- expect_warning({
-    multiGSEA::goseq(
+    sparrow::goseq(
       gdb,
       selected = subset(xdf, significant)$feature_id,
       universe = xdf$feature_id,

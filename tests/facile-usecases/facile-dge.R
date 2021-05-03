@@ -20,7 +20,7 @@ dge.tn <- tsamples %>%
   fdge(method = "voom")
 
 # GSEA Stuff ===================================================================
-library(multiGSEA)
+library(sparrow)
 # devtools::load_all(".")
 gdb <- getMSigGeneSetDb(c("h"), "human", "ensembl")
 x <- dge.tn
