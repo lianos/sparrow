@@ -5,17 +5,6 @@
 #' [MSigDB](http://software.broadinstitute.org/gsea/msigdb). Collections can
 #' be retrieved by their collection name, ie `c("H", "C2", "C7")`.
 #'
-#' Some subsets of curated genesets from within C2 can be retrieved by name,
-#' like `"reactome"`, `"kegg"`, `"biocarta"`, and `"pid"`. You can, for
-#' instance, call this function with`collection = c("reactome", "H")`, and
-#' the reactome subset of C2 will be returned, along with all of the hallmark
-#' genesets. When invoked like this, these "blessed" subsets of collections
-#' will be promoted out of the C2 collection and into its own. This happens
-#' when `promote_subcategory_to_collection = FALSE` (the default).
-#'
-#' The GO collection (C5) will also be promoted out of C5 and into their own
-#' `"GO_MP"`, `"GO_BP"`, and `"GO_MF"` collections.
-#'
 #' @section KEGG Gene Sets:
 #' Due to the licensing restrictions over the KEGG collections, they are not
 #' returned from this function unless they are explicitly asked for. You can
@@ -71,7 +60,7 @@ getMSigGeneSetDb <- function(collection = NULL,
                              id.type = c("ensembl", "entrez", "symbol"),
                              with.kegg = FALSE,
                              allow_multimap = TRUE, min_ortho_sources = 2,
-                             promote_subcategory_to_collection = TRUE,
+                             promote_subcategory_to_collection = FALSE,
                              prefix_collection = FALSE,
                              version = NULL, ...) {
   id.type <- match.arg(id.type)

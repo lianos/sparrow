@@ -60,7 +60,7 @@
     validate.fn=list(),
     do.fn=list()))
 
-#' A SparrowResult object holds the results from a multiGSEA call.
+#' A SparrowResult object holds the results from a sparrow::seas() call.
 #'
 #' @description A call to [seas()] will produce analyses for an
 #' arbitrary number of GSEA methods, the results of which will be stored and

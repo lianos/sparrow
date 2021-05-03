@@ -39,7 +39,7 @@ validate.inputs.goseq <- function(x, design, contrast, feature.bias,
 #' `min.logFC` and `max.padj` parameters, respectfully.
 #'
 #' Note that we are intentionally adding a hyperG.selected column by reference
-#' so that this information is kicked back to the caller multiGSEA function
+#' so that this information is kicked back to the calling `seas()` function
 #' and included in downstream reporting.
 #'
 #' **This function is not meant to be called directly.** It should only be
@@ -90,7 +90,7 @@ do.goseq <- function(gsd, x, design, contrast=ncol(design),
 
   stopifnot(is.conformed(gsd, x))
   direction <- match.arg(direction)
-  # stop("testing graceful method failure in multiGSEA call")
+  # stop("testing graceful method failure in seas call")
   if (is.null(logFC)) {
     treat.lfc <- if (use.treat) feature.min.logFC else NULL
     logFC <- calculateIndividualLogFC(x, design, contrast, treat.lfc=treat.lfc,

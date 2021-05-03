@@ -6,7 +6,7 @@
 .valid.x <- c('matrix', 'eSet', 'EList', 'DGEList', 'SummarizedExperiment',
               'Matrix')
 
-#' Lists the supported GSEA methods by multiGSEA
+#' Lists the supported GSEA methods by sparrow
 #'
 #' @export
 #' @param names.only if `TRUE` (default), only returns the names of the methods,

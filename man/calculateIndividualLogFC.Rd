@@ -98,7 +98,7 @@ however for each parameter, there is an analagous function/parameter that
 will be delegated to.
 
 Lastly, if \code{x} is simply a single column matrix, we assume that we are
-just passing a single pre-ranked vector of statistics through multiGSEA's
+just passing a single pre-ranked vector of statistics through sparrow::seas's
 analysis pipelines (for use in methods like "fgsea", "cameraPR", etc.), and
 a logFC-like data.frame is constructed with these statistics in the
 \code{logFC} and \code{t} columns.

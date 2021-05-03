@@ -48,7 +48,7 @@ would extract the pvalues from the method you like in the
 }
 \details{
 Like the \code{\link[=volcanoPlot]{volcanoPlot()}} function, this is mostly used by the
-\emph{multiGSEA.shiny} package.
+\emph{sparrow.shiny} package.
 }
 \examples{
 mg <- exampleSparrowResult()

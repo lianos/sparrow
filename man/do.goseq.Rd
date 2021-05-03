@@ -77,7 +77,7 @@ passing a maximum FDR and minimum log fold change as perscribed by the
 }
 \details{
 Note that we are intentionally adding a hyperG.selected column by reference
-so that this information is kicked back to the caller multiGSEA function
+so that this information is kicked back to the calling \code{seas()} function
 and included in downstream reporting.
 
 \strong{This function is not meant to be called directly.} It should only be

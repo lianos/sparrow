@@ -32,7 +32,7 @@ If a value is passed here, it will overide any names stored in the list of
 \code{x}.}
 }
 \description{
-Please refer to the multiGSEA vignette (\code{vignette("multiGSEA")}),
+Please refer to the sparrow vignette (\code{vignette("sparrow")}),
 (and the "The GeneSetDb Class" section, in particular) for a more deatiled
 description of the sematnics of this central data object.
 

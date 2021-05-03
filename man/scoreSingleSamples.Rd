@@ -60,7 +60,7 @@ using a \code{\link[=GeneSetDb]{GeneSetDb()}} object.
 }
 \details{
 Please refer to the "Generating Single Sample Gene Set Scores" of the
-multiGSEA vignette for further exposition.
+sparrow vignette for further exposition.
 }
 \section{Single Sample Scoring Methods}{
 

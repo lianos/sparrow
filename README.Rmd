@@ -77,13 +77,13 @@ with the `iplot` function below. This plot produces interactive graphics, but
 rasterized versions are saved for use with this `README` file:
 
 ```{r, eval = FALSE}
-iplot(mg, 'c2', 'SOTIRIOU_BREAST_CANCER_GRADE_1_VS_3_UP', type = "density")
+iplot(mg, 'C2', 'SOTIRIOU_BREAST_CANCER_GRADE_1_VS_3_UP', type = "density")
 ```
 
 <img src="man/figures/README_iplot_density.png" />
 
 ```{r, eval = FALSE}
-iplot(mg, 'c2', 'SOTIRIOU_BREAST_CANCER_GRADE_1_VS_3_UP', type = "boxplot")
+iplot(mg, 'C2', 'SOTIRIOU_BREAST_CANCER_GRADE_1_VS_3_UP', type = "boxplot")
 ```
 
 <img src="man/figures/README_iplot_boxplot.png" />
