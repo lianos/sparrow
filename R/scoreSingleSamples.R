@@ -35,7 +35,6 @@
 #' * `"plage"`: Using "plage" as implemented in the GSVA package
 #'
 #' @export
-#' @importFrom DelayedMatrixStats rowSds
 #' @param gdb A GeneSetDb
 #' @param y An expression matrix to score genesets against
 #' @param methods A character vector that enumerates the scoring methods you

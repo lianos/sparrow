@@ -11,7 +11,7 @@ getMSigGeneSetDb(
   with.kegg = FALSE,
   allow_multimap = TRUE,
   min_ortho_sources = 2,
-  promote_subcategory_to_collection = TRUE,
+  promote_subcategory_to_collection = FALSE,
   prefix_collection = FALSE,
   version = NULL,
   ...
@@ -45,18 +45,6 @@ a \code{GeneSetDb} object
 This provides versioned genesets from gene set collections defined in
 \href{http://software.broadinstitute.org/gsea/msigdb}{MSigDB}. Collections can
 be retrieved by their collection name, ie \code{c("H", "C2", "C7")}.
-}
-\details{
-Some subsets of curated genesets from within C2 can be retrieved by name,
-like \code{"reactome"}, \code{"kegg"}, \code{"biocarta"}, and \code{"pid"}. You can, for
-instance, call this function with\code{collection = c("reactome", "H")}, and
-the reactome subset of C2 will be returned, along with all of the hallmark
-genesets. When invoked like this, these "blessed" subsets of collections
-will be promoted out of the C2 collection and into its own. This happens
-when \code{promote_subcategory_to_collection = FALSE} (the default).
-
-The GO collection (C5) will also be promoted out of C5 and into their own
-\code{"GO_MP"}, \code{"GO_BP"}, and \code{"GO_MF"} collections.
 }
 \section{KEGG Gene Sets}{
 

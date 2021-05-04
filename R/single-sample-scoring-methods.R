@@ -207,7 +207,6 @@ zScore <- function(x, summary = c('mean', 'sqrt'), trim = 0, ...) {
 #'
 #' @export
 #' @importFrom irlba svdr
-#' @importFrom DelayedMatrixStats rowSds
 #' @param x An expression matrix of genes x samples. When using this to score
 #'   geneset activity, you want to reduce the rows of \code{x} to be only the
 #'   genes from the given gene set.

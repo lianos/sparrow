@@ -1,5 +1,3 @@
-context("scale_rows")
-
 M <- list(
   wide = matrix(rnorm(50, mean = 1, sd = 2), nrow = 5,
                 dimnames = list(LETTERS[1:5], letters[1:10])),
@@ -24,12 +22,13 @@ test_that("scale and center are flags", {
   }
 })
 
-test_that("centering on a subgroup of specified coloumns", {
+test_that("centering on a subgroup of specified columns", {
   ctrl <- c("b", "d", "e")
   params <- expand.grid(scale = c(TRUE, FALSE))
   for (orientation in names(M)) {
     m <- M[[orientation]]
-    means <- Matrix::rowMeans(m[, ctrl])
+    means <- matrixStats::rowMeans2(m, cols = match(ctrl, colnames(m)))
+    sds <- matrixStats::rowSds(m, cols = match(ctrl, colnames(m)))
     for (i in seq(nrow(params))) {
       p <- params[i,,drop = FALSE]
       info <- paste(names(p), unname(unlist(p)), sep = ":", collapse = ",")
@@ -42,11 +41,13 @@ test_that("centering on a subgroup of specified coloumns", {
       resl <- scale_rows(m, center = colnames(m) %in% ctrl, scale = p$scale,
                          base.attributes = TRUE)
 
-      ex <- t(scale(t(m), center = means, scale = p$scale))
-
-      expect_equal(res, ex, info = info)
-      expect_equal(resi, ex, info = paste(info, "[by index]"))
-      expect_equal(resl, ex, info = paste(info, "[by logical]"))
+      ex <- t(scale(t(m), center = means, scale = if (p$scale) sds else FALSE))
+      expect_equal(res, ex, info = info,
+                   check.attributes = FALSE)
+      expect_equal(resi, ex, info = paste(info, "[by index]"),
+                   check.attributes = FALSE)
+      expect_equal(resl, ex, info = paste(info, "[by logical]"),
+                   check.attributes = FALSE)
     }
   }
 })
@@ -68,7 +69,8 @@ test_that("centering on pre-calculate values", {
                         base.attributes = TRUE)
       ex <- t(scale(t(m), center = means, scale = p$scale))
 
-      expect_equal(res, ex, info = info)
+      expect_equal(res, ex, info = info,
+                   check.attributes = FALSE)
     }
   }
 })

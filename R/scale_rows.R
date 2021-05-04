@@ -61,18 +61,49 @@ scale_rows.matrix <- function(x, center = TRUE, scale = TRUE, ...,
                               base.attributes = FALSE) {
   center. <- .target_column_idxs(x, center)
   if (test_integerish(center., lower = 1, upper = ncol(x))) {
-    center. <- rowMeans2(x, cols = center.)
+    center.idx <- center.
+    center. <- DelayedMatrixStats::rowMeans2(x, cols = center.)
+    names(center.) <- rownames(x)
+    custom.center <- FALSE
+  } else {
+    center.idx <- seq(ncol(x))
+    custom.center <- TRUE
   }
   if (!isFALSE(center.)) {
+    if (isTRUE(scale)) {
+      if (length(center.idx) < 3) {
+        warning("Can't scale matrix with less than 3 columns, ",
+                "scaling set to FALSE")
+      } else {
+        scale <- center.idx
+      }
+    }
     assert_numeric(center., len = nrow(x))
     x <- x - center.
   }
 
   scale. <- .target_column_idxs(x, scale)
   if (test_integerish(scale., lower = 1, upper = ncol(x))) {
-    scale. <- rowSds(x, cols = scale.)
-
+    # We better be taking the standard-dev of the same columns that we centered
+    if (!setequal(center.idx, scale.)) {
+      stop("If you scale the rows by a subset of columns, they need to be the ",
+           "same subset used for centering")
+    }
+    # The logic below mimics the scale-ing implementation in [base::scale()],
+    # which divides by the root-mean-square. If `center == TRUE`, this is the
+    # same as the standard deviation.
+    if (!isFALSE(center.) && !custom.center) {
+      scale. <- DelayedMatrixStats::rowSds(x, cols = scale.)
+    } else {
+      rms <- function(v) {
+        v <- v[!is.na(v)]
+        sqrt(sum(v^2)/max(1, length(v) - 1L))
+      }
+      scale. <- apply(x[, scale., drop = FALSE], 1L, rms)
+    }
+    names(scale.) <- rownames(x)
   }
+
   if (!isFALSE(scale.)) {
     assert_numeric(scale., len = nrow(x))
     x <- x / scale.
@@ -116,6 +147,10 @@ scale_rows.sparseMatrix <- function(x, center = TRUE, scale = TRUE, ...) {
   # User specified row-values to use for centering or scaling
   if (test_numeric(target, min.len = nrow(x)) &&
       !test_integerish(x, lower = 1)) {
+    # User passed in a vector of pre-calculated values for the mean/scale
+    # to remove from each row. The length of target can be longer than x, in
+    # which case we will extract the values that are a subsetted by the rownames
+    # of x
     if (test_subset(rownames(x), names(target))) {
       target <- target[rownames(x)]
     }
