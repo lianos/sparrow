@@ -15,7 +15,6 @@ Imports:
     circlize,
     ComplexHeatmap (>= 2.0),
     DelayedMatrixStats,
-    msigdbr (>= 7.2.1.9001),
     limma,
     edgeR (>= 3.18.1),
     ggplot2 (>= 2.2.0),
@@ -25,7 +24,7 @@ Imports:
     irlba,
     magrittr,
     Matrix,
-    matrixStats,
+    matrixStats,k
     methods,
     plotly (>= 4.9.0),
     viridis
@@ -40,7 +39,7 @@ Suggests:
     fgsea,
     GO.db,
     goseq,
-    msigdbr (>= 7.0.1),
+    msigdbr (>= 7.2.1.9001),
     KernSmooth,
     knitr,
     org.Hs.eg.db,

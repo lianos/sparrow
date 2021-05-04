@@ -63,6 +63,9 @@ getMSigGeneSetDb <- function(collection = NULL,
                              promote_subcategory_to_collection = FALSE,
                              prefix_collection = FALSE,
                              version = NULL, ...) {
+  if (!requireNamespace("msigdbr", quietly = TRUE)) {
+    stop("The msigdbr package is required for this functionality")
+  }
   id.type <- match.arg(id.type)
   species.info <- species_info(species)
   valid.cols <- c("H", paste0("C", 1:8))
