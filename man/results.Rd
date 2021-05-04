@@ -6,7 +6,7 @@
 \alias{result.SparrowResult}
 \alias{results}
 \alias{tabulateResults}
-\title{Interrogate the results of a multiGSEA analysis stored in a SparrowResult}
+\title{Interrogate the results of a sparrow::seas analysis stored in a SparrowResult}
 \usage{
 resultNames(x)
 
@@ -74,7 +74,7 @@ per collection for the GSEA that was run
 }
 \description{
 The \code{resultNames}, \code{result}, and \code{results} functions enable
-you to explore the results of the analysis run with \code{\link{multiGSEA}}.
+you to explore the results of the analysis run with \code{\link[=seas]{seas()}}.
 
 The results that are stored within a \code{SparrowResult} object have a
 more or less 1:1 mapping with the values passed as \code{methods}, parameter
@@ -101,5 +101,5 @@ tallies the number of significant genesets per collection, per method at
 the specified FDR thresholds.
 }
 \examples{
-## Refer to the examples in ?multiGSEA
+## Refer to the examples in ?seas
 }

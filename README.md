@@ -3,41 +3,44 @@
 
 <!-- badges: start -->
 
-[![R build status](https://github.com/lianos/sparrow/workflows/R-CMD-check/badge.svg)](https://github.com/lianos/sparrow/actions)
+[![R build
+status](https://github.com/lianos/sparrow/workflows/R-CMD-check/badge.svg)](https://github.com/lianos/sparrow/actions)
 ![pkgdown](https://github.com/lianos/sparrow/workflows/pkgdown/badge.svg)
-[![Project Status: Active](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
-[![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
+[![Project Status:
+Active](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+[![Lifecycle:
+stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
 [![codecov](https://codecov.io/gh/lianos/sparrow/branch/develop/graph/badge.svg)](https://codecov.io/gh/lianos/sparrow)
 <!-- badges: end -->
 
-`sparrow` (formerly [sparrow](https://github.com/lianos/sparrow)) was built
-to facilitate the use of gene sets in the analysis of high throughput genomics
-data (primarily RNA-seq). Analysts can orchestrate any number of GSEA methods
-across a specific contrast using the unified interface provided by the
-`seas` (formerly `sparrow`) function, and a shiny application
-is provided that facilitates the exploration and interpretation of GSEA results.
+`sparrow` (formerly [sparrow](https://github.com/lianos/sparrow)) was
+built to facilitate the use of gene sets in the analysis of high
+throughput genomics data (primarily RNA-seq). Analysts can orchestrate
+any number of GSEA methods across a specific contrast using the unified
+interface provided by the `seas` (formerly `sparrow`) function, and a
+shiny application is provided that facilitates the exploration and
+interpretation of GSEA results.
 
-**NOTE 2020-11-12: This package is currently under transition due to renaming it
-from sparrow to sparrow, will be functional soon**.
+**NOTE 2020-11-12: This package is currently under transition due to
+renaming it from sparrow to sparrow, will be functional soon**.
 
-  - The `seas` function is a wrapper that orchestrates the execution of any
-  number of user-specified gene set enrichment analyses (GSEA) over a particular
-  experimental contrast of interest. This will create a `SparrowResult`
-  object which stores the results of each GSEA method internally, allowing
-  for easy query and retrieval.
+-   The `seas` function is a wrapper that orchestrates the execution of
+    any number of user-specified gene set enrichment analyses (GSEA)
+    over a particular experimental contrast of interest. This will
+    create a `SparrowResult` object which stores the results of each
+    GSEA method internally, allowing for easy query and retrieval.
 
-  - A sister
-    [`multiGSEA.shiny`](https://github.com/lianos/multiGSEA.shiny)
+-   A sister [`sparrow.shiny`](https://github.com/lianos/sparrow.shiny)
     package provides an `explore` function, which is invoked on
-    `SparrowResult` objects returned from a call to `multiGSEA`. The
-    shiny application facilitates interactive exploration of these GSEA
+    `SparrowResult` objects returned from a call to `seas()`. The shiny
+    application facilitates interactive exploration of these GSEA
     results. This application can also be deployed to a shiny server and
-    can be initialized by uploading a serialized `SparrowResult`
-    `*.rds` file.
+    can be initialized by uploading a serialized `SparrowResult` `*.rds`
+    file.
 
 Full details that outline the use of this software package is provided
 in the [package’s
-vignette](https://lianos.github.io/multiGSEA/articles/multiGSEA.html),
+vignette](https://lianos.github.io/sparrow/articles/sparrow.html),
 however a brief description is outlined below.
 
 # Usage
@@ -46,10 +49,10 @@ A subset of the RNA-seq data tumor/normal samples in the BRCA indication
 from the TCGA are provided in this package. We will use that data to
 perform a “camera” and “fry” gene set enrichment analysis of tumor vs
 normal samples using the MSigDB hallmark and c2 gene set collections
-with `multiGSEA`.
+with `sparrow::seas()`.
 
 ``` r
-library(multiGSEA)
+library(sparrow)
 library(dplyr)
 gdb <- getMSigGeneSetDb(c('H', 'C2'), species = 'human', id.type = "entrez")
 vm <- exampleExpressionSet(dataset = 'tumor-vs-normal', do.voom = TRUE)
@@ -64,12 +67,12 @@ results(mg, "camera") %>%
   select(collection, name, padj) %>%
   head
 #>   collection                                        name         padj
-#> 1         C2      SOTIRIOU_BREAST_CANCER_GRADE_1_VS_3_UP 1.037263e-36
-#> 2         C2 ROSTY_CERVICAL_CANCER_PROLIFERATION_CLUSTER 1.037263e-36
-#> 3         C2         NAKAYAMA_SOFT_TISSUE_TUMORS_PCA2_DN 1.718472e-23
-#> 4         C2              KANG_DOXORUBICIN_RESISTANCE_UP 1.203816e-22
-#> 5         C2               CROONQUIST_IL6_DEPRIVATION_DN 2.486087e-22
-#> 6         C2                     BENPORATH_PROLIFERATION 7.471399e-22
+#> 1     C2_CGP      SOTIRIOU_BREAST_CANCER_GRADE_1_VS_3_UP 1.414146e-36
+#> 2     C2_CGP ROSTY_CERVICAL_CANCER_PROLIFERATION_CLUSTER 1.414146e-36
+#> 3     C2_CGP         NAKAYAMA_SOFT_TISSUE_TUMORS_PCA2_DN 1.959876e-23
+#> 4     C2_CGP              KANG_DOXORUBICIN_RESISTANCE_UP 1.372923e-22
+#> 5     C2_CGP               CROONQUIST_IL6_DEPRIVATION_DN 2.835322e-22
+#> 6     C2_CGP                     BENPORATH_PROLIFERATION 8.520949e-22
 ```
 
 The shift in expression of the genes within the top gene set can be
@@ -94,17 +97,16 @@ document, the user can hover of the genes (dots) to see their name and
 differential expression statistics.
 
 For an immersive, interactive way to explore the GSEA results, use the
-`multiGSEA.shiny::explore(mg)` method\!
+`sparrow.shiny::explore(mg)` method!
 
 # Installation
 
-The multiGSEA suite of packages will soon be submitted to bioconductor
-and installable via the recommended `BiocManager::install()` mechanism.
-In the meantime, install this package *<multiGSEA.shiny@develop>* branch
-from github, which sould install both multiGSEA.shiny and multiGSEA
-packages.
+The sparrow suite of packages will soon be submitted to bioconductor and
+installable via the recommended `BiocManager::install()` mechanism. In
+the meantime, install this package *<sparrow.shiny@develop>* branch from
+github, which sould install both sparrow.shiny and sparrow packages.
 
 ``` r
 # install.packages("BiocManager")
-BiocManager::install("lianos/multiGSEA.shiny@develop")
+BiocManager::install("lianos/sparrow.shiny@develop")
 ```

@@ -28,7 +28,7 @@ This would be useful when you want to add a GSEA result to an already
 existing one. \code{append} would be more appropriate, but ...
 }
 \details{
-When would you want to do that? Imagine a shiny app that drives multiGSEA.
+When would you want to do that? Imagine a shiny app that drives sparrow.
 You might want to present the results of each analysis as they come "online",
 so you would run them independently and make them available to the user
 immediately after they each finish (ie. in combination with the promises

@@ -39,7 +39,7 @@ validate.inputs.goseq <- function(x, design, contrast, feature.bias,
 #' `min.logFC` and `max.padj` parameters, respectfully.
 #'
 #' Note that we are intentionally adding a hyperG.selected column by reference
-#' so that this information is kicked back to the caller multiGSEA function
+#' so that this information is kicked back to the calling `seas()` function
 #' and included in downstream reporting.
 #'
 #' **This function is not meant to be called directly.** It should only be
@@ -90,7 +90,7 @@ do.goseq <- function(gsd, x, design, contrast=ncol(design),
 
   stopifnot(is.conformed(gsd, x))
   direction <- match.arg(direction)
-  # stop("testing graceful method failure in multiGSEA call")
+  # stop("testing graceful method failure in seas call")
   if (is.null(logFC)) {
     treat.lfc <- if (use.treat) feature.min.logFC else NULL
     logFC <- calculateIndividualLogFC(x, design, contrast, treat.lfc=treat.lfc,
@@ -122,9 +122,9 @@ do.goseq <- function(gsd, x, design, contrast=ncol(design),
       up = logFC[significant == TRUE & direction == "up"]$feature_id,
       down = logFC[significant == TRUE & direction == "down"]$feature_id)
     res <- suppressWarnings({
-      multiGSEA::goseq(gsd, drawn, rownames(x), feature.bias, goseq.method,
-                       repcnt, use_genes_without_cat, plot.fit=plot.fit,
-                       do.conform=FALSE, as.dt=FALSE, .pipelined=TRUE)
+      sparrow::goseq(gsd, drawn, rownames(x), feature.bias, goseq.method,
+                     repcnt, use_genes_without_cat, plot.fit=plot.fit,
+                     do.conform=FALSE, as.dt=FALSE, .pipelined=TRUE)
     })
   }, simplify=FALSE)
   if (length(out) == 1L) {
@@ -140,7 +140,7 @@ do.goseq <- function(gsd, x, design, contrast=ncol(design),
 #' Note that we do not import things from goseq directly, and only load
 #' it if this function is fired. I can't figure out a way to selectively
 #' import functions from the goseq package without it having to load its
-#' dependencies, which take a long time -- and I don't want loading multiGSEA
+#' dependencies, which take a long time -- and I don't want loading sparrow
 #' to take a long time. So, the goseq package has moved to Suggests and then
 #' is loaded within this function when necessary.
 #'
@@ -169,11 +169,11 @@ do.goseq <- function(gsd, x, design, contrast=ncol(design),
 #' @param do.conform By default \code{TRUE}: does some gymnastics to conform
 #'   the \code{gsd} to the \code{universe} vector. This should neber be set
 #'   to \code{FALSE}, but this parameter is here so that when this function
-#'   is called from the \code{\link{multiGSEA}} codepath, we do not have to
+#'   is called from the [seas()] codepath, we do not have to
 #'   reconform the \code{GeneSetDb} object, because it has already been done.
-#' @param active.only If \code{TRUE}, only "active" genesets are used
+#' @param active.only If `TRUE`, only "active" genesets are used
 #' @param value The feature_id types to extract from \code{gsd}
-#' @param .pipelined If this is being external to a multiGSEA pipeline, then
+#' @param .pipelined If this is being external to a seas pipeline, then
 #'   some additional cleanup of columns name output will be done. Otherwise
 #'   the column renaming and post processing is left to the do.goseq caller
 #'   (Default: \code{FALSE}).

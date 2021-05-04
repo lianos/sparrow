@@ -5,7 +5,7 @@
 \alias{SparrowResult-class}
 \alias{.SparrowResult}
 \alias{SparrowResult}
-\title{A SparrowResult object holds the results from a multiGSEA call.}
+\title{A SparrowResult object holds the results from a sparrow::seas() call.}
 \description{
 A call to \code{\link[=seas]{seas()}} will produce analyses for an
 arbitrary number of GSEA methods, the results of which will be stored and
@@ -17,7 +17,7 @@ expression analysis is available via \code{\link[=logFC]{logFC()}}.
 
 Visualizing results of a geneset based analysis also are functions that
 operate over a \code{SparrowResult} object, for instance see the
-\code{\link[=iplot]{iplot()}} and \code{\link[multiGSEA.shiny:explore]{multiGSEA.shiny::explore()}} functions.
+\code{\link[=iplot]{iplot()}} and \code{\link[sparrow.shiny:explore]{sparrow.shiny::explore()}} functions.
 }
 \section{Slots}{
 

@@ -21,8 +21,8 @@ test_that('roast runs equivalently from do.roast vs direct call', {
                            sort='none')
 
   set.seed(seed)
-  my <- multiGSEA:::do.roast(gsd, vm, vm$design, ncol(vm$design), nrot=nrot,
-                             use.cache=FALSE)
+  my <- sparrow:::do.roast(gsd, vm, vm$design, ncol(vm$design), nrot=nrot,
+                           use.cache=FALSE)
 
   ## Internal result should match external call
   expect_true(setequal(rownames(my), rownames(roasted)))

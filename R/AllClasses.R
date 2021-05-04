@@ -1,6 +1,6 @@
 #' A container for geneset definitions.
 #'
-#' Please refer to the multiGSEA vignette (\code{vignette("multiGSEA")}),
+#' Please refer to the sparrow vignette (\code{vignette("sparrow")}),
 #' (and the "The GeneSetDb Class" section, in particular) for a more deatiled
 #' description of the sematnics of this central data object.
 #'
@@ -50,7 +50,7 @@
       value=list(),
       key=c('collection', 'name'))))
 
-.MultiGSEARegistry <- setClass("MultiGSEARegistry",
+.SparrowRegistry <- setClass("SparrowRegistry",
   slots=c(
     methods="character",
     validate.fn="list",
@@ -60,7 +60,7 @@
     validate.fn=list(),
     do.fn=list()))
 
-#' A SparrowResult object holds the results from a multiGSEA call.
+#' A SparrowResult object holds the results from a sparrow::seas() call.
 #'
 #' @description A call to [seas()] will produce analyses for an
 #' arbitrary number of GSEA methods, the results of which will be stored and
@@ -72,7 +72,7 @@
 #'
 #' Visualizing results of a geneset based analysis also are functions that
 #' operate over a `SparrowResult` object, for instance see the
-#' [iplot()] and [multiGSEA.shiny::explore()] functions.
+#' [iplot()] and [sparrow.shiny::explore()] functions.
 #'
 #' @exportClass SparrowResult
 #' @rdname SparrowResult

@@ -38,7 +38,7 @@ be hexbinned.}
 \description{
 Convenience function to create volcano plots from differents types of
 objects we generate in this package. This is mostly used by the
-\emph{multiGSEA.shiny} package.
+\emph{sparrow.shiny} package.
 }
 \examples{
 mg <- exampleSparrowResult()

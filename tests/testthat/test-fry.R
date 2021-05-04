@@ -13,18 +13,18 @@ test_that('fry runs equivalently from do.roast vs direct call', {
   gsi <- gsi[names(gsd.idxs)]
 
   fried <- limma::fry(vm, gsi, vm$design, ncol(vm$design), sort=FALSE)
-  my <- multiGSEA:::do.fry(gsd, vm, vm$design, ncol(vm$design))
+  my <- sparrow:::do.fry(gsd, vm, vm$design, ncol(vm$design))
 
   expect_equal(my, fried, check.attributes=FALSE)
 
-  mgr <- multiGSEA:::mgres.fry(my, gsd)
+  mgr <- sparrow:::mgres.fry(my, gsd)
   gs.tuple <- split_gskey(rownames(my))
 
   expect_equal(mgr$collection, gs.tuple$collection)
   expect_equal(mgr$name, gs.tuple$name)
 })
 
-test_that("fry runs through multiGSEA wrapper", {
+test_that("fry runs through seas wrapper", {
   vm <- exampleExpressionSet()
   gsi <- exampleGeneSets(vm)
   gsl <- exampleGeneSets()

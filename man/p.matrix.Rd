@@ -2,7 +2,7 @@
 % Please edit documentation in R/SparrowResult-methods.R
 \name{p.matrix}
 \alias{p.matrix}
-\title{Assembles a matrix of nominal or adjusted pvalues from a multiGSEA result}
+\title{Assembles a matrix of nominal or adjusted pvalues from a sparrow::seas result}
 \usage{
 p.matrix(
   x,

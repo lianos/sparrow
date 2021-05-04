@@ -7,7 +7,7 @@
 #' using a [GeneSetDb()] object.
 #'
 #' Please refer to the "Generating Single Sample Gene Set Scores" of the
-#' multiGSEA vignette for further exposition.
+#' sparrow vignette for further exposition.
 #'
 #' @section Single Sample Scoring Methods:
 #' The following `methods` are currenly provided.
@@ -35,7 +35,6 @@
 #' * `"plage"`: Using "plage" as implemented in the GSVA package
 #'
 #' @export
-#' @importFrom DelayedMatrixStats rowSds
 #' @param gdb A GeneSetDb
 #' @param y An expression matrix to score genesets against
 #' @param methods A character vector that enumerates the scoring methods you

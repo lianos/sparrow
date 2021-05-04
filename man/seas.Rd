@@ -159,15 +159,15 @@ function.
 Each GSEA method can be tweaked via a custom set of parameters. We leave the
 documentation of these parameters and how they affect their respective GSEA
 methods to the documentation available in the packages where they are
-defined. The \code{multiGSEA} call simply has to pass these parameters down
-into the \code{...} parameters here. The \code{multiGSEA} function will then
-pass these along to their worker functions.
+defined. The \code{seas()} call simply has to pass these parameters down
+into the \code{...} parameters here. The \code{seas} function will then pass these
+along to their worker functions.
 
 \strong{What happens when two different GSEA methods have parameters with the
 same name?}
 
 Unfortunately you currently cannot provide different values for these
-parameters. An upcoming version version of multiGSEA will support this
+parameters. An upcoming version version of sparrow will support this
 feature via slightly different calling semantics. This will also allow the
 caller to call the same GSEA method with different parameterizations so that
 even these can be compared against each other.
@@ -190,9 +190,9 @@ limma's \code{\link[limma:dupcor]{limma::duplicateCorrelation()}} functionality,
 
 The parameters of this differential expression analysis can also be
 customized. Please refer to the \code{\link[=calculateIndividualLogFC]{calculateIndividualLogFC()}} function for
-more information. The multiGSEA \code{use.treat}, \code{feature.min.logFC},
-\code{feature.max.padj}, as well as the \code{...} parameters are passed down to that
-funciton.
+more information. The \code{use.treat}, \code{feature.min.logFC},
+\code{feature.max.padj}, as well as the \code{...} parameters from this function are
+passed down to that funciton.
 }
 
 \examples{

@@ -5,17 +5,6 @@
 #' [MSigDB](http://software.broadinstitute.org/gsea/msigdb). Collections can
 #' be retrieved by their collection name, ie `c("H", "C2", "C7")`.
 #'
-#' Some subsets of curated genesets from within C2 can be retrieved by name,
-#' like `"reactome"`, `"kegg"`, `"biocarta"`, and `"pid"`. You can, for
-#' instance, call this function with`collection = c("reactome", "H")`, and
-#' the reactome subset of C2 will be returned, along with all of the hallmark
-#' genesets. When invoked like this, these "blessed" subsets of collections
-#' will be promoted out of the C2 collection and into its own. This happens
-#' when `promote_subcategory_to_collection = FALSE` (the default).
-#'
-#' The GO collection (C5) will also be promoted out of C5 and into their own
-#' `"GO_MP"`, `"GO_BP"`, and `"GO_MF"` collections.
-#'
 #' @section KEGG Gene Sets:
 #' Due to the licensing restrictions over the KEGG collections, they are not
 #' returned from this function unless they are explicitly asked for. You can
@@ -66,61 +55,102 @@
 #'   gdb.h.ens <- getMSigGeneSetDb(c("h", "c2"), "human", "ensembl")
 #'   gdb.m.entrez <- getMSigGeneSetDb(c("h", "c2"), "mouse", "entrez")
 #' }
-getMSigGeneSetDb <- function(collection = "H",
+getMSigGeneSetDb <- function(collection = NULL,
                              species = "human",
                              id.type = c("ensembl", "entrez", "symbol"),
                              with.kegg = FALSE,
                              allow_multimap = TRUE, min_ortho_sources = 2,
-                             promote_subcategory_to_collection = TRUE,
+                             promote_subcategory_to_collection = FALSE,
+                             prefix_collection = FALSE,
                              version = NULL, ...) {
   id.type <- match.arg(id.type)
-  msig.db <- msigdb_retrieve(
-    collection, species, id.type, allow_multimap = allow_multimap,
-    min_ortho_sources = min_ortho_sources,
-    promote_subcategory_to_collection = promote_subcategory_to_collection, ...)
-
-  if (!with.kegg && !"kegg" %in% tolower(collection)) {
-    # If we didn't ask for kegg explicitly, we will remove these collections
-    # due to their licensing policy. Better to be conservative here than not.
-    msig.db <- subset(msig.db, !subcategory %in% "CP:KEGG")
+  species.info <- species_info(species)
+  valid.cols <- c("H", paste0("C", 1:8))
+  if (species.info$alias != "human") valid.cols <- setdiff(valid.cols, "C1")
+  if (!is.null(collection)) {
+    collection <- assert_subset(toupper(collection), valid.cols)
   }
 
-  gdb <- GeneSetDb(msig.db)
+  sigs.all <- copy(.pkgcache[["msigdb"]][[species.info$species]])
+  if (is.null(sigs.all)) {
+    sigs.all <- as.data.table(msigdbr::msigdbr(species.info$species))
+    axe.cols <- c("gs_pmid", "gs_geoid", "gs_url",
+                  "gs_description", "species_name", "species_common_name",
+                  "ortholog_sources", "num_ortholog_sources")
+    axe.cols <- intersect(axe.cols, colnames(sigs.all))
+    for (axe in axe.cols) sigs.all[, (axe) := NULL]
+    setkeyv(sigs.all, c("gs_cat", "gs_name"))
+    .pkgcache[["msigdb"]][[species.info$species]] <- copy(sigs.all)
+  }
 
-  # Beef up collectionMetadata
+  if (!is.null(collection)) {
+    out <- sigs.all[gs_cat %in% collection]
+  } else {
+    out <- sigs.all
+  }
+
+  if (!with.kegg) {
+    out <- out[gs_subcat != "CP:KEGG"]
+  }
+
+  if (prefix_collection) {
+    out[, collection := paste0("MSigDB_", out$gs_cat)]
+  } else {
+    out[, collection := gs_cat]
+  }
+
+  if (promote_subcategory_to_collection) {
+    out[, collection := {
+      ifelse(nchar(out$gs_subcat) == 0L,
+             out$collection,
+             paste(out$collection, out$gs_subcat, sep = "_"))
+    }]
+  }
+
   if (id.type == "ensembl") {
     idtype <- GSEABase::ENSEMBLIdentifier()
+    idcol <- "ensembl_gene"
   } else if (id.type == "entrez") {
     idtype <- GSEABase::EntrezIdentifier()
+    idcol <- "entrez_gene"
   } else {
     idtype <- GSEABase::SymbolIdentifier()
+    idcol <- "gene_symbol"
   }
 
+  ret <- out[, {
+    list(collection, name = gs_name, feature_id = as.character(.SD[[idcol]]),
+         subcategory = gs_subcat)
+  }, .SDcols = c("collection", "gs_name", idcol)]
+  if (id.type != "symbol") {
+    ret[, symbol := out[["gene_symbol"]]]
+  } else {
+    ret[, ensembl_id := out[["ensembl_gene"]]]
+  }
+  ret[, gs_id := {
+    ifelse(grepl("GO:", out$gs_exact_source), out$gs_exact_source, out$gs_id)
+  }]
+
+  ret <- ret[!is.na(feature_id)]
+  ret <- unique(ret, by = c("collection", "name", "feature_id"))
+  gdb <- GeneSetDb(ret)
+
+  # Beef up collectionMetadata
   url.fn <- function(collection, name, ...) {
     url <- "http://www.broadinstitute.org/gsea/msigdb/cards/%s.html"
     sprintf(url, name)
   }
 
-  # this is for when we promote certain subcategories to their own collections,
-  # ie. promote_subcategory_to_collection = TRUE
-  promoted.url.fn <- function(collection, name, ...) {
-    name.prefix <- sub("_.*$", "", collection)
-    new.name <- paste(name.prefix, name, sep = "_")
-    url <- "http://www.broadinstitute.org/gsea/msigdb/cards/%s.html"
-    sprintf(url, new.name)
-  }
-
   for (col in unique(geneSets(gdb)$collection)) {
-    is.promoted <- !toupper(col) %in% c("H", paste0("C", 1:7))
-    fn <- if (is.promoted) promoted.url.fn else url.fn
-    geneSetCollectionURLfunction(gdb, col) <- fn
+    geneSetCollectionURLfunction(gdb, col) <- url.fn
     featureIdType(gdb, col) <- idtype
-    gdb <- addCollectionMetadata(gdb, col, 'source',
-                                 attr(msig.db, "msigdb_version"))
+    gdb <- addCollectionMetadata(
+      gdb, col, 'source', as.character(packageVersion("msigdbr")))
   }
 
-  org(gdb) <- attr(msig.db, "species_info")[["species_name_"]]
+  org(gdb) <- gsub(" ", "_", species.info[["species"]])
   gdb@collectionMetadata <- gdb@collectionMetadata[name != "count"]
   gdb
 }
 
+.msigdb.cache <- new.env()

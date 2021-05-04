@@ -2,7 +2,7 @@
 % Please edit documentation in R/aaa.R
 \name{sparrow_methods}
 \alias{sparrow_methods}
-\title{Lists the supported GSEA methods by multiGSEA}
+\title{Lists the supported GSEA methods by sparrow}
 \usage{
 sparrow_methods()
 }
@@ -16,5 +16,5 @@ a character vector of GSEA names, or a list of metadata for each
 method.
 }
 \description{
-Lists the supported GSEA methods by multiGSEA
+Lists the supported GSEA methods by sparrow
 }

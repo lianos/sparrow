@@ -284,7 +284,7 @@ disp.estimated <- function(x) {
   errs
 }
 
-#' Check inputs when we are running multiGSEA with `method = "logFC"`
+#' Check inputs when we are running seas with `method = "logFC"`
 #' @noRd
 .validate.inputs.logFC.only <- function(x, design, contrast, xmeta. = NULL,
                                         ...) {
@@ -305,7 +305,7 @@ disp.estimated <- function(x) {
 #' logFC's or t-statistcs, like limma::geneSetTest or fgsea, for example.
 #' The user shoudl be able to simply provide such a pre-ranked vector, or can
 #' provide a "full.design" set of inputs from which logFC's or t-statistics
-#' could be computed using multiGSEA's internal calculateIndividualLogFC
+#' could be computed using sparrow's internal calculateIndividualLogFC
 #' function.
 #'
 #' @noRd

@@ -4,7 +4,7 @@ NULL
 validate.inputs.roast <- .validate.inputs.full.design
 validate.x.roast <- validate.X
 
-#' Worker function to run roast from within a multiGSEA pipeline
+#' Worker function to run roast from within a seas pipeline
 #'
 #' **This function is not meant to be called directly.** It should only be
 #' called internally within [seas()].

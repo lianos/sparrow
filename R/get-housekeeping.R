@@ -22,7 +22,7 @@ getHousekeepingGeneSetDb <- function(species=c("human", "mouse"),
   id.type <- match.arg(id.type)
 
   fn <- system.file("extdata", "signatures", "housekeeping",
-                    "qiagen-rt2-pcr-array.csv", package = "multiGSEA",
+                    "qiagen-rt2-pcr-array.csv", package = "sparrow",
                     mustWork = TRUE)
 
   gsets <- read.csv(fn, colClasses = "character")

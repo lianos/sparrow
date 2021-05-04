@@ -143,7 +143,7 @@ test_that("eigenWeightedMean can handle 0sd features", {
 
   # 0 out low variance genes: these will provide minor contributions to the
   # geneset score anyway
-  rvars <- matrixStats::rowVars(E.o)
+  rvars <- DelayedMatrixStats::rowVars(E.o)
   rvorder <- order(rvars)
   nuke.n <- 3
   zero.idxs <- head(rvorder, nuke.n)

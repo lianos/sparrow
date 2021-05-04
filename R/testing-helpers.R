@@ -26,7 +26,7 @@ exampleExpressionSet <- function(dataset=c('tumor-vs-normal', 'tumor-subtype'),
                                  do.voom=TRUE) {
   dataset <- match.arg(dataset)
   fn <- system.file("extdata", "testdata", "TCGA-BRCA-some.DGEList.rds",
-                    package = "multiGSEA", mustWork = TRUE)
+                    package = "sparrow", mustWork = TRUE)
   y.all <- readRDS(fn)
 
   # Two samples seem to be outliers:
@@ -67,8 +67,8 @@ exampleExpressionSet <- function(dataset=c('tumor-vs-normal', 'tumor-subtype'),
 #'   for the genes in the given geneset.
 exampleGeneSets <- function(x, unlist=!missing(x)) {
   gsl.fn <- system.file('extdata', 'testdata',
-                        'genesets-multiGSEA-list-of-lists.rds',
-                        package='multiGSEA')
+                        'genesets-sparrow-list-of-lists.rds',
+                        package='sparrow')
   gsl <- readRDS(gsl.fn)
   if (!missing(x)) {
     gsl <- lapply(gsl, function(col) {
@@ -113,7 +113,7 @@ exampleGeneSetDb <- function() {
 #' @aliases exampleGeneSetDF
 exampleGeneSetDF <- function() {
   gs.df <- system.file('extdata', 'testdata', 'custom-sigs.csv',
-                       package='multiGSEA')
+                       package='sparrow')
   read.csv(gs.df, stringsAsFactors=FALSE, colClasses='character')
 }
 
@@ -124,7 +124,7 @@ exampleGeneSetDF <- function() {
 exampleSparrowResult <- function(cached=TRUE) {
   if (cached) {
     fn <- system.file('extdata', 'testdata', 'test-SparrowResult.rds',
-                      package='multiGSEA')
+                      package='sparrow')
     out <- readRDS(fn)
   } else {
     vm <- exampleExpressionSet()
@@ -149,7 +149,7 @@ exampleDgeResult <- function(species = "human", id.type = "ensembl",
   species <- match.arg(species, "human")
   id.type <- match.arg(id.type, "ensembl")
   dge.fn <- system.file("extdata", "testdata", "dataframe-input.csv",
-                        package = "multiGSEA")
+                        package = "sparrow")
   out <- read.csv(dge.fn, stringsAsFactors = FALSE)
   if (is.character(induce.bias)) {
     bias <- match.arg(induce.bias, c("effective_length", "AveExpr"))

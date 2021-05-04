@@ -1,17 +1,17 @@
 ---
-title: "Performing gene set enrichment analyses with multiGSEA"
+title: "Performing gene set enrichment analyses with sparrow"
 author: "Steve Lianoglou"
 date: "`r BiocStyle::doc_date()`"
-package: "`r BiocStyle::pkg_ver('multiGSEA')`"
+package: "`r BiocStyle::pkg_ver('sparrow')`"
 abstract: >
-  The multiGSEA package facilitates the use of gene sets in the analysis
+  The sparrow package facilitates the use of gene sets in the analysis
   of high throughput genomics data. It provides simple execution and
   comparison of several GSEA approaches for a single experimental contrast
   and provides tools to explore these results from within the user's
   workspace or interactively via a shiny application provided by the
-  multiGSEA.shiny package. This package also provides an easy wrapper to single
+  sparrow.shiny package. This package also provides an easy wrapper to single
   sample gene set scoring and geneset-centric heatmaps for visualization.
-  multiGSEA package version: `r packageVersion("multiGSEA")`
+  sparrow package version: `r packageVersion("sparrow")`
 output:
   BiocStyle::html_document:
     self_contained: yes
@@ -21,7 +21,7 @@ output:
     css: mystyles.css
     df_print: paged
 vignette: >
-  %\VignetteIndexEntry{Performing gene set enrichment analyses with multiGSEA}
+  %\VignetteIndexEntry{Performing gene set enrichment analyses with sparrow}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding[utf8]{inputenc}
 ---
@@ -40,17 +40,17 @@ knitr::opts_chunk$set(
 
 # Overview
 
-The `multiGSEA` package was built to facilitate the use of gene sets in the
+The `sparrow` package was built to facilitate the use of gene sets in the
 analysis of high throughput genomics data (primarily RNA-seq). It does so
 by providing these top-line functionalities:
 
-* The `multiGSEA` function is a wrapper that orchestrates the execution of any
+* The `seas` function is a wrapper that orchestrates the execution of any
   number of user-specified gene set enrichment analyses (GSEA) over a particular
   experimental contrast of interest. This will create a `SparrowResult`
   object which stores the results of each GSEA method internally, allowing
   for easy query and retrieval.
-* A sister `multiGSEA.shiny` package provides an `explore` function, which is
-  invoked on `SparrowResult` objects returned from a call to `multiGSEA`.
+* A sister `sparrow.shiny` package provides an `explore` function, which is
+  invoked on `SparrowResult` objects returned from a call to `seas`.
   The shiny application facilitates interactive exploration of these GSEA
   results. This application can also be deployed to a shiny server and can be
   initialized by uploading a serialized `SparrowResult` `*.rds` file.
@@ -69,13 +69,13 @@ by providing these top-line functionalities:
 
 <div class="note">
 The [BiocSet][] package was introduced in Bioconductor version 3.10, which
-should supersede the `GeneSetDb` class introduced here. multiGSEA will endeavor
+should supersede the `GeneSetDb` class introduced here. sparrow will endeavor
 to transition to using that class to store gene set collections in the near
 future.
 </div>
 
-The initial GSEA methods that multiGSEA wrapped were the ones provided by limma
-and edgeR. As such, many analyses using multiGSEA expect you to re-use the same
+The initial GSEA methods that sparrow wrapped were the ones provided by limma
+and edgeR. As such, many analyses using sparrow expect you to re-use the same
 data objects used for differential expression analysis, namely:
 
 * Expression data (an `EList`, `DGEList`, or expression matrix)
@@ -86,7 +86,7 @@ Other methods only require the user to provide a ranked vector of statistics
 that represent some differential expression statistic per gene, and the GSEA is
 performed by analyzing the ranks of genes within this vector.
 
-The user can invoke one `multiGSEA` call that can orchestrate multiple analyses
+The user can invoke one `seas()` call that can orchestrate multiple analyses
 of any type.
 
 All GSEA methods require the use of a `GeneSetDb` object, which is a new class
@@ -95,16 +95,16 @@ stored primarily as tables / data.frames.
 
 Currently supported gene set enrichment methods include:
 
-```{r multiGSEA-methods, echo=FALSE, message=FALSE, warning=FALSE}
-dplyr::select(multiGSEA::sparrow_methods(),
+```{r sparrow-methods, echo=FALSE, message=FALSE, warning=FALSE}
+dplyr::select(sparrow::sparrow_methods(),
               method, test_type, package, comment)
 ```
 
 When using these methods in analyses that lead to publication, please cite
-the original papers that developed these methods and cite multiGSEA when its
+the original papers that developed these methods and cite sparrow when its
 functionality assisted in your interpretation and analysis.
 
-The multiGSEA package provides a small example expression dataset extracted from
+The sparrow package provides a small example expression dataset extracted from
 the TCGA BRCA dataset, which is available via the `exampleExpressionSet`
 function. In this vignette we will explore differential expression and gene
 set enrichment analysis by examining differences between basal and her2 PAM50
@@ -113,10 +113,10 @@ subtypes.
 # Standard Workflow
 
 Let's begin by setting up our work environment for exploratory analysis using
-the multiGSEA package.
+the sparrow package.
 
 ```{r init-env, warning=FALSE, message=FALSE}
-library(multiGSEA)
+library(sparrow)
 library(magrittr)
 library(reshape2)
 library(dplyr)
@@ -139,7 +139,7 @@ objects, they will always be returned a `data.frame`.
 
 ## Data Setup
 
-multiGSEA is most straightforward to use when our data objects and analysis are
+sparrow is most straightforward to use when our data objects and analysis are
 performed with either the edgeR or voom/limma pipelines and when we use
 Entrez IDs for gene gene identifiers.
 
@@ -201,13 +201,13 @@ tt <- topTable(fit, 'BvH', n=Inf, sort.by='none')
 ### Gene Set Enrichment Analysis
 
 Given that we now have all of the pieces of data required for a differential
-expression analysis, performing GSEA is trivial using the `multiGSEA` wrapper
+expression analysis, performing GSEA is trivial using the `seas` wrapper
 function. We simply need to now define (1) the battery of gene sets we want to
 test against, and (2) the GSEA methods we want to explore.
 
 #### Gene Sets to Test
 
-The *multiGSEA* package provides a `GeneSetDb` class, which is used instead of
+The *sparrow* package provides a `GeneSetDb` class, which is used instead of
 a `GSEABase::GeneSetCollection` to house collections of genesets. You
 can easily create a `GeneSetDb` object from a custom set of gene sets you have
 on hand, but the package also provides convenience wrappers to generate
@@ -215,17 +215,8 @@ on hand, but the package also provides convenience wrappers to generate
 [MSigDB][msigdb], [PANTHER][pantherdb], etc.
 
 We'll use the `getMSigGeneSetDb` convenience function provided by the
-*multiGSEA* package to load the [hallmark][hallmark] (`"h"`) and
+*sparrow* package to load the [hallmark][hallmark] (`"h"`) and
 [c2 (curated)][c2] (`"c2"`) gene set collections from [MSigDB][msigdb].
-
-[msigdb]: http://software.broadinstitute.org/gsea/msigdb/
-[hallmark]: http://www.cell.com/cell-systems/abstract/S2405-4712(15)00218-5
-[isigdb]: http://www.cell.com/immunity/abstract/S1074-7613(15)00532-4
-[c2]: http://software.broadinstitute.org/gsea/msigdb/collections.jsp#C2
-[c5]: http://software.broadinstitute.org/gsea/msigdb/collections.jsp#C5
-[c7]: http://software.broadinstitute.org/gsea/msigdb/collections.jsp#C7
-[pantherdb]: http://pantherdb.org
-[pgoslim]: http://www.pantherdb.org/panther/ontologies.jsp
 
 ```{r build-gdb, eval=!exists('gdb')}
 gdb <- getMSigGeneSetDb(c("h", "c2"), "human", id.type = "entrez")
@@ -243,13 +234,13 @@ geneSets(gdb) %>%
 For more details on creating and manipulating `GeneSetDb` objects, please jump
 the to *[The GeneSetDb Class](#the-genesetdb-class)* section.
 
-#### Running multiGSEA
+#### Running sparrow
 
 Performing multiple gene set enrichment analyses over your contrast of interest
 simply requires you to provide a `GeneSetDb` object along with your data and an
 enumeration of the methods you want to use in your analysis.
 
-The call to `multiGSEA` will perform these analyses and return a
+The call to `seas()` will perform these analyses and return a
 `SparrowResult` object which you can then use for downstream analysis.
 
 ```{r run-multi-GSEA, eval=!exists('mg'), results='hide', warning=FALSE}
@@ -266,15 +257,15 @@ mg <- seas(
   feature.bias = "size")
 ```
 
-We will unpack the details of the `multiGSEA` call shortly ...
+We will unpack the details of the `seas()` call shortly ...
 
 #### Implicit Differential Expression
 
 First, let's note that in addition to running a plethora of GSEA's over our data
 we've also run a standard differential expression analysis. If you've passed
-a `matrix`, `ExpressionSet` or `EList` into `multiGSEA`, a *limma*-based
+a `matrix`, `ExpressionSet` or `EList` into `seas()`, a *limma*-based
 `lmFit  %>% (eBayes|treat) %>% (topTable|topTreat)` pipeline was run. If a
-`DGEList` was passed, then `multiGSEA` utilizes the *edgeR*-based
+`DGEList` was passed, then `seas` utilizes the *edgeR*-based
 `glmQLFit %>% (glmQLFTest | glmTreat) %>% topTags` pipeline.
 
 The result of the internally run differential expression analysis is accessible
@@ -287,7 +278,7 @@ lfc %>%
   head
 ```
 
-We can confirm that the statistics generated internally in multiGSEA mimic our
+We can confirm that the statistics generated internally in `seas()` mimic our
 explicit analysis above by verifying that the t-statistics generated by both
 approaches are identical.
 
@@ -301,18 +292,18 @@ all.equal(comp$t.tt, comp$t.mg)
 The internally performed differential expression analysis within the `mulitGSEA`
 call can be customized almost as extensively as an explicitly performed analysis
 that you would run using limma or edgeR by sending more parameters through
-`multiGSEA`'s `...` argument.
+`seas()`'s `...` argument.
 
 See the
 *[Custom Differential Expression](#custom-differential-expression)*
 section further in the vignette as well as the help available in
-`?calculateIndividualLogFC` (which is called inside the `multiGSEA` function)
+`?calculateIndividualLogFC` (which is called inside the `seas()` function)
 for more information.
 
 #### Explicit GSEA
 
 We also have the results of all the GSEA analyses that we specified to our
-multiGSEA call via the `methods` parameter.
+`seas` call via the `methods` parameter.
 
 ```{r mg-res}
 mg
@@ -337,7 +328,7 @@ methods were run, and therefore available to you, within the the
 resultNames(mg)
 ```
 
-Note that when running a "goseq" analysis, multiGSEA will (by default) run
+Note that when running a "goseq" analysis, sparrow will (by default) run
 it three different ways. By running an enrichment analysis on all differentially
 expressed genes, then separately for only genes that go up in your contrast,
 and a third time for only the genes that go down.
@@ -379,7 +370,7 @@ are simply the ones generated from a differential expression analysis.
 
 #### Plotting
 
-*multiGSEA* provides a number of interactive plotting facilities to explore the
+*sparrow* provides a number of interactive plotting facilities to explore the
 enrichment of a single geneset under the given contrast. In the boxplots and
 density plots shown below, the log fold changes (logFCs) (or t-statistics) for
 all genes under the contrast are visualized in the "background" set, and these
@@ -405,16 +396,16 @@ iplot(mg, 'H', 'HALLMARK_WNT_BETA_CATENIN_SIGNALING',
 
 #### Interactive Exploration
 
-A sister `multiGSEA.shiny` package is available that can be used to
+A sister `sparrow.shiny` package is available that can be used to
 interactively explore `SparrowResult` objects. The application can be invoked
 as follows:
 
 ```r
-library("multiGSEA.shiny")
+library("sparrow.shiny")
 explore(mg)
 ```
 
-Please refer to the `"multiGSEA-shiny"`" vignette in the `multiGSEA.shiny`
+Please refer to the `"sparrow-shiny"`" vignette in the `sparrow.shiny`
 package for documentation on the application's use.
 
 # Singe Sample Gene Set Scoring
@@ -427,7 +418,7 @@ each sample.
 We can generate single sample gene set scores using the gene sets defined in a
 `GeneSetDb` using the `scoreSingleSamples` function. This function takes a
 `GeneSetDb`, an expression container, and a `methods` argument, which is
-analagous to the `methods` argument in the `multiGSEA` call: it defines
+analagous to the `methods` argument in the `seas()` call: it defines
 all of the scoring methos the user wants to apply to each sample.
 
 
@@ -475,7 +466,7 @@ scores <- scoreSingleSamples(gdb.sub, vm.bh,
 ```
 
 We can see how the scores from different methods compare to each other with
-using a little `reshape2` mojo and the `multiGSEA::corplot` function.
+using a little `reshape2` mojo and the `sparrow::corplot` function.
 
 ```{r sss-pairs}
 sm <- acast(scores, name + sample_id ~ method, value.var="score")
@@ -632,14 +623,13 @@ the annotation databases use these identifiers, as well.
 
 ## Building a GeneSetDb
 
-The multiGSEA package provides convenience funcitons to fetch genesets from many
+The sparrow package provides convenience funcitons to fetch genesets from many
 sources and convert them into a GeneSetDb object. The two most useful sources
 may be:
 
-* [MSigDB][msigdb] via `getMSigGeneSetDb(...)`. Although the core `multiGSEA`
-  package provides the getter function for these genesets, the user needs to
-  install the `msigdb.data` package to include the data and utility functions
-  for the identifier and species mapping.
+* [MSigDB][msigdb] via `getMSigGeneSetDb(...)`. Although the core `sparrow`
+  package provides the getter function for these genesets, the main data
+  retrieval functionality is provided through the [msigdbr][] package.
 * [PANTHER][pantherdb] (pathways and GOSLIM) via `getPantherGeneSetDb()`
 
 You can create a custom `GeneSetDb` via the `GeneSetDb` constructor, which
@@ -711,11 +701,8 @@ Update MSigDb Section ==========================================================
 -->
 
 TODO: This needs update to reflect our use of
-[msigdbr](https://cran.r-project.org/package=msigdbr) within the
-[msigdb.data](https://github.com/lianos/msigdb.data) package.
 
-
-The multiGSEA package provides the `getMSigGeneSetDb` utility function to provide
+The sparrow package provides the `getMSigGeneSetDb` utility function to provide
 easy access to [the MSigDB gene set collection][msigdb] for users. The data for
 this function is stored in data package that need to be downloaded first before
 use. The `GeneSetDb.MSigDB.Hsapiens.v*`, and `GeneSetDb.MSigDB.Mmusculus.v*`
@@ -753,7 +740,7 @@ vector of statistics). This step will index into the target expression object
 and identify which rows of the object correspond to which genes in the
 `GeneSetDb`.
 
-"Conformation" happens automatically within the `multiGSEA` call, but we call it
+"Conformation" happens automatically within the `seas()` call, but we call it
 explicitly below to outline its functionality. The command below conforms
 the `GeneSetDb` to our target "voomed" `EList`, and deactivates gene sets
 (i.e. removes them from downstream GSEA) that have less than 10 or more than 100
@@ -833,7 +820,7 @@ identifiers, but still ...
 
 The internal differential expression analysis as well the gene set enrichment
 analyses can be customized by passing parameters through the `...` in the
-`multiGSEA` function.
+`seas()` function.
 
 ## Custom Differential Expression
 
@@ -845,7 +832,7 @@ analysis (with a pre-voomed EList, expression matrix, or whatever).
 
 User's should refer to the `?calculateIndividualLogFC` help page to see
 which parameters are exposed for a differential expression analysis and
-configure them accordingly. When calling `multiGSEA` use these same parameters
+configure them accordingly. When calling `seas()` use these same parameters
 in the call and they will be provided to `calculateIndividualLogFC`.
 
 For instance, if you wanted to use limma's "treat" functionality to specify
@@ -866,9 +853,9 @@ like `goseq` and not tests like `camera`.
 
 ## Custom GSEA
 
-The GSEA methods that are wrapped by `multiGSEA` all take the same parameters
+The GSEA methods that are wrapped by `seas()` all take the same parameters
 that are defined by their implementation. Simply pass these parameters down
-via the `...` in the `multiGSEA` call.
+via the `...` in the `seas()` call.
 
 For instance, you can read `?camera` to find that the `camera` method accepts an
 `inter.gene.cor` parameter, and `?roast` will tell you that you can specify
@@ -880,7 +867,7 @@ mgx <- seas(gdb, vm, vm$design, cm[, 'BvH'],
                  inter.gene.cor=0.04, nrot=500)
 ```
 
-# Developing multiGSEA
+# Developing sparrow
 
 ## Adding new GSEA methods
 
@@ -889,8 +876,8 @@ This section needs more explanation
 </div>
 
 Suppose we wanted to add a new GSEA method named `superGSEA` to the methods that
-the `multiGSEA` can delegate to via its `methods` argument, we need to add the
-following internal multiGSEA methods.
+the `seas()` function can delegate to via its `methods` argument, we need to add
+the following internal sparrow methods.
 
 * `validate.inputs.superGSEA`: Choose either `.validate.inputs.full.design` or
   `.validate.inputs.preranked` depending on whether or not the method needs:
@@ -926,3 +913,13 @@ following internal multiGSEA methods.
 Look to the implementation in the `do.camera.R` file for a reference.
 
 [BiocSet]: http://bioconductor.org/packages/release/bioc/html/BiocSet.html
+[msigdb]: http://software.broadinstitute.org/gsea/msigdb/
+[msigdbr]: https://cran.r-project.org/package=msigdbr
+[msigdbpid]: https://www.gsea-msigdb.org/gsea/msigdb/genesets.jsp?collection=CP:PID
+[hallmark]: http://www.cell.com/cell-systems/abstract/S2405-4712(15)00218-5
+[isigdb]: http://www.cell.com/immunity/abstract/S1074-7613(15)00532-4
+[c2]: http://software.broadinstitute.org/gsea/msigdb/collections.jsp#C2
+[c5]: http://software.broadinstitute.org/gsea/msigdb/collections.jsp#C5
+[c7]: http://software.broadinstitute.org/gsea/msigdb/collections.jsp#C7
+[pantherdb]: http://pantherdb.org
+[pgoslim]: http://www.pantherdb.org/panther/ontologies.jsp

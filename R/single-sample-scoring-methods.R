@@ -207,7 +207,6 @@ zScore <- function(x, summary = c('mean', 'sqrt'), trim = 0, ...) {
 #'
 #' @export
 #' @importFrom irlba svdr
-#' @importFrom DelayedMatrixStats rowSds
 #' @param x An expression matrix of genes x samples. When using this to score
 #'   geneset activity, you want to reduce the rows of \code{x} to be only the
 #'   genes from the given gene set.
@@ -296,7 +295,6 @@ gsdScore <- function(x, eigengene = 1L, center = TRUE, scale = TRUE,
   egene <- s$u %*% s$D %*% t(s$v)
 
   # The data was centered externally and passed in the uncentering vector
-  # browser()
   if (isFALSE(center) && is.numeric(uncenter)) {
     if (length(uncenter) < nrow(x)) stop("Illegal uncenter vector, too short")
     if (!is.null(names(uncenter))) {

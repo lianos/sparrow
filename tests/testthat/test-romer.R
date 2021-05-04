@@ -21,7 +21,7 @@ test_that('romer runs equivalently from do.romer vs direct call', {
   expected <- limma::romer(y, gsd.idxs, y$design, ncol(y$design), nrot = nrot)
 
   set.seed(seed)
-  my <- multiGSEA:::do.romer(gdb, y, y$design, ncol(y$design), nrot = nrot)
+  my <- sparrow:::do.romer(gdb, y, y$design, ncol(y$design), nrot = nrot)
 
   # Test that inernal call matches direct limma call
   expect_true(setequal(rownames(my), rownames(expected)))
@@ -32,7 +32,7 @@ test_that('romer runs equivalently from do.romer vs direct call', {
   expect_equal(rownames(my), encode_gskey(geneSets(gdb)))
   expect_equal(my[, 'NGenes'], geneSets(gdb)$n, check.attributes=FALSE)
 
-  # multiGSEA pass through & result call matches raw result
+  # seas pass through & result call matches raw result
   set.seed(seed)
   mg <- seas(gdb, y, y$design, ncol(y$design), method = "romer",
                   nrot = nrot)

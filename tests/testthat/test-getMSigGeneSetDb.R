@@ -1,18 +1,14 @@
-context("MSigDB GeneSetDb")
-
 test_that("MSigDB retrieval respects collection subsets", {
-  gdb.all <- getMSigGeneSetDb(NULL, promote_subcategory_to_collection = FALSE)
-  expect_setequal(geneSets(gdb.all)$collection, c("H", paste0("C", 1:7)))
+  gdb.all <- getMSigGeneSetDb()
+  expect_setequal(geneSets(gdb.all)$collection, c("H", paste0("C", 1:8)))
   gdb.sub <- getMSigGeneSetDb(c("H", "C6"))
   expect_setequal(geneSets(gdb.sub)$collection, c("H", "C6"))
 })
 
 test_that("with.kegg honors inclusion/exclusion of KEGG gene sets", {
-  with.kegg <- getMSigGeneSetDb("c2", with.kegg = TRUE,
-                                promote_subcategory_to_collection = FALSE)
+  with.kegg <- getMSigGeneSetDb("c2", with.kegg = TRUE)
 
-  no.kegg <- getMSigGeneSetDb("c2", with.kegg = FALSE,
-                              promote_subcategory_to_collection = FALSE)
+  no.kegg <- getMSigGeneSetDb("c2", with.kegg = FALSE)
 
   gs.kegg <- subset(geneSets(with.kegg), subcategory == "CP:KEGG")
   expect_true(nrow(gs.kegg) > 0L)
@@ -22,50 +18,41 @@ test_that("with.kegg honors inclusion/exclusion of KEGG gene sets", {
 })
 
 test_that("url function stored correctly", {
-  go.df <- msigdb.data::msigdb_retrieve("C5", "human", "entrez")
-  gdb.o <- GeneSetDb(go.df)
+  go.bp.df <- sparrow:::.pkgcache$msigdb$`Homo sapiens`[gs_subcat == "GO:BP"]
+  go.mf.df <- sparrow:::.pkgcache$msigdb$`Homo sapiens`[gs_subcat == "GO:MF"]
+  go.cc.df <- sparrow:::.pkgcache$msigdb$`Homo sapiens`[gs_subcat == "GO:CC"]
 
-  # Let's change the collection to GO_MP, GO_BP, GO_CC and fix custom url
-  # functions
-  go.2 <- go.df %>%
-    mutate(collection = paste0("GO_", subcategory),
-           name = sub("^GO_", "", name)) %>%
-    select(-subcategory)
-  gdb.2 <- GeneSetDb(go.2)
+  gdb.pro <- getMSigGeneSetDb("C5", promote_subcategory_to_collection = TRUE)
+  gdb.npro <- getMSigGeneSetDb("C5")
 
-  go.url.fn <- function(collection, name, ...) {
-    name. <- paste("GO", name, sep = "_")
-    sprintf("http://www.broadinstitute.org/gsea/msigdb/cards/%s.html", name.)
+  genesets <- c(
+    BP = "GOBP_LIVER_REGENERATION",
+    MF = "GOMF_ENZYME_ACTIVATOR_ACTIVITY",
+    CC = "GOCC_GOLGI_APPARATUS")
+
+  base.url <- "http://www.broadinstitute.org/gsea/msigdb/cards/%s.html"
+
+  for (gocat in names(genesets)) {
+    goname <- genesets[[gocat]]
+    expected.url <- sprintf(base.url, goname)
+    pro.url <- geneSetURL(gdb.pro, sprintf("C5_GO:%s", gocat), goname)
+    expect_equal(unname(pro.url), expected.url,
+                 info = paste("promoted", gocat, goname, sep = ":"))
+    npro.url <- geneSetURL(gdb.pro, sprintf("C5", gocat), goname)
+    expect_equal(unname(pro.url), expected.url,
+                 info = paste("nopromo", gocat, goname, sep = ":"))
   }
-
-  for (col in unique(go.2$collection)) {
-    geneSetCollectionURLfunction(gdb.2, col) <- go.url.fn
-    featureIdType(gdb.2, col) <- GSEABase::EntrezIdentifier()
-    gdb.2 <- addCollectionMetadata(gdb.2, col, "source", "v7")
-  }
-
-  expect_equal(
-    basename(geneSetURL(gdb.2, "GO_MF", "ENZYME_ACTIVATOR_ACTIVITY")),
-    "GO_ENZYME_ACTIVATOR_ACTIVITY.html", info = "MF")
-
-  expect_equal(
-    basename(geneSetURL(gdb.2, "GO_BP", "LIVER_REGENERATION")),
-    "GO_LIVER_REGENERATION.html", info = "BP")
-
-  expect_equal(
-    basename(geneSetURL(gdb.2, "GO_CC", "GOLGI_APPARATUS")),
-    "GO_GOLGI_APPARATUS.html", info = "CC")
 })
 
-test_that("promotion of subcategory to collection is kosher", {
-  gdb <-  getMSigGeneSetDb(c("h", "reactome", "c5"))
-
-  go.url <- basename(geneSetURL(gdb, "GO_BP", "2FE_2S_CLUSTER_ASSEMBLY"))
-  expect_equal(go.url, "GO_2FE_2S_CLUSTER_ASSEMBLY.html")
-
-  react.url <- geneSetURL(
-    gdb, "REACTOME" ,"ACTIVATED_NTRK3_SIGNALS_THROUGH_PI3K")
-  react.url <- basename(react.url)
-
-  expect_equal(react.url, "REACTOME_ACTIVATED_NTRK3_SIGNALS_THROUGH_PI3K.html")
-})
+# test_that("promotion of subcategory to collection is kosher", {
+#   gdb <-  getMSigGeneSetDb(c("h", "reactome", "c5"))
+#
+#   go.url <- basename(geneSetURL(gdb, "GO_BP", "2FE_2S_CLUSTER_ASSEMBLY"))
+#   expect_equal(go.url, "GO_2FE_2S_CLUSTER_ASSEMBLY.html")
+#
+#   react.url <- geneSetURL(
+#     gdb, "REACTOME" ,"ACTIVATED_NTRK3_SIGNALS_THROUGH_PI3K")
+#   react.url <- basename(react.url)
+#
+#   expect_equal(react.url, "REACTOME_ACTIVATED_NTRK3_SIGNALS_THROUGH_PI3K.html")
+# })

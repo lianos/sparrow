@@ -6,7 +6,7 @@ test_that('camera runs equivalently from do.camera vs direct call', {
   gsi <- as.list(gsd, value='x.idx')
 
   photo <- limma::camera(vm, gsi, vm$design, ncol(vm$design))
-  my <- multiGSEA:::do.camera(gsd, vm, vm$design, ncol(vm$design))
+  my <- sparrow:::do.camera(gsd, vm, vm$design, ncol(vm$design))
   expect_true(setequal(rownames(photo), rownames(my)))
   my <- my[rownames(photo),]
 

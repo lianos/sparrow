@@ -26,7 +26,7 @@
 
 #' Utility function to ensure order of genesets in cached list used in do.*
 #' methods matches the active genesets extracted from the GeneSetDb used to run
-#' multiGSEA
+#' seas()
 #'
 #' @noRd
 .gsdlist_conforms_to_gsd <- function(gs.idxs, gsd, active.only = TRUE, ...) {
@@ -129,7 +129,7 @@ generate.preranked.stats <- function(x, design, contrast, logFC=NULL,
     score.by <- match.arg(score.by)
     out <- setNames(logFC[[score.by]], logFC[['feature_id']])
   } else {
-    ## If multiGSEA was called with a preranked vector, the validateInputs function
+    ## If seas was called with a preranked vector, the validateInputs function
     ## would have converted it into a column matrix with rownames, but most
     ## preranked functions want a named vector
     out <- setNames(as.vector(x), rownames(x))

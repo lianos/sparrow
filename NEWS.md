@@ -1,4 +1,4 @@
-# multiGSEA 1.0.0 (Bioconductor release)
+# sparrow 1.0.0 (Bioconductor release)
 
 ## New Features
 
@@ -22,6 +22,8 @@
 
 * `enrichtest` renamed to `ora` (over representation analysis) to be more inline
   with nomenclature in the field
+
+* Package renamed from multiGSEA -> sparrow, and all that entails.
 
 # multiGSEA 0.10
 

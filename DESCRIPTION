@@ -1,7 +1,7 @@
 Package: sparrow
 Type: Package
 Title: Take command of set enrichment analyses through a unified interface.
-Version: 0.99.0
+Version: 0.99.1
 Authors@R: c(
     person("Steve", "Lianoglou", , "slianoglou@gmail.com", c("aut", "cre")),
     person("Denali Therapeutics", role = c("fnd"), comment = "2018+"),
@@ -15,7 +15,7 @@ Imports:
     circlize,
     ComplexHeatmap (>= 2.0),
     DelayedMatrixStats,
-    msigdb.data,
+    msigdbr (>= 7.2.1.9001),
     limma,
     edgeR (>= 3.18.1),
     ggplot2 (>= 2.2.0),
@@ -54,7 +54,7 @@ Suggests:
     testthat,
     webshot
 Remotes:
-    lianos/msigdb.data@master
+    igordot/msigdbr
 biocViews: DifferentialExpression, GeneExpression, GeneSetEnrichment, Pathways
 VignetteBuilder: knitr
 License: MIT + file LICENSE
