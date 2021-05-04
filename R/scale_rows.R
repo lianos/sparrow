@@ -106,6 +106,9 @@ scale_rows.matrix <- function(x, center = TRUE, scale = TRUE, ...,
 
   if (!isFALSE(scale.)) {
     assert_numeric(scale., len = nrow(x))
+    if (length(center.idx) <= ncol(x)) {
+      warning("Scaling using the std-dev from a subset of columns is weird.")
+    }
     x <- x / scale.
   }
 
