@@ -53,7 +53,7 @@ Suggests:
     webshot
 Remotes:
     igordot/msigdbr
-biocViews: DifferentialExpression, GeneExpression, GeneSetEnrichment, Pathways
+biocViews: GeneSetEnrichment, Pathways
 VignetteBuilder: knitr
 License: MIT + file LICENSE
 Encoding: UTF-8

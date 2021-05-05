@@ -6,11 +6,10 @@ package: "`r BiocStyle::pkg_ver('sparrow')`"
 abstract: >
   The sparrow package facilitates the use of gene sets in the analysis
   of high throughput genomics data. It provides simple execution and
-  comparison of several GSEA approaches for a single experimental contrast
-  and provides tools to explore these results from within the user's
-  workspace or interactively via a shiny application provided by the
-  sparrow.shiny package. This package also provides an easy wrapper to single
-  sample gene set scoring and geneset-centric heatmaps for visualization.
+  comparison of several GSEA approaches through a unified interface 
+  within the user's workspace or interactively via a shiny application provided
+  by the sparrow.shiny package. This package also provides an easy wrapper to
+  single sample gene set scoring and geneset-centric heatmaps for visualization.
   sparrow package version: `r packageVersion("sparrow")`
 output:
   BiocStyle::html_document:
