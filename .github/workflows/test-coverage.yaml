@@ -9,7 +9,7 @@ name: test-coverage
 jobs:
   test-coverage:
     runs-on: ubuntu-latest
-    container: facilebio/facilebio
+    container: facilebio/facilebio_base_extra
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
       NOT_CRAN: true
@@ -25,7 +25,5 @@ jobs:
           install-r: false
 
       - name: Test coverage
-        run: |
-          BiocManager::install('igordot/msigdbr', update = FALSE, ask = FALSE)
-          covr::codecov(quiet = FALSE)
+        run: covr::codecov(quiet = FALSE)
         shell: Rscript {0}

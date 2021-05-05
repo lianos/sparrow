@@ -24,7 +24,7 @@ name: R-CMD-check
 jobs:
   R-CMD-check:
     runs-on: ubuntu-latest
-    container: facilebio/facilebio_base
+    container: facilebio/facilebio_base_extra
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
 
@@ -41,9 +41,7 @@ jobs:
 
       # I guess I didn't want to install this into the base
       - name: Install dependencies
-        run: |
-          BiocManager::install('igordot/msigdbr', update = FALSE, ask = FALSE)
-          remotes::install_deps(dependencies = TRUE, upgrade = FALSE)
+        run: remotes::install_deps(dependencies = TRUE, upgrade = FALSE)
         shell: Rscript {0}
 
       - name: Check
