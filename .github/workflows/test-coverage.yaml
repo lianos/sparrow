@@ -26,6 +26,6 @@ jobs:
 
       - name: Test coverage
         run: |
-          BiocManager::install("igordot/msigdbr")
+          BiocManager::install("igordot/msigdbr", update = FALSE, ask = FALSE)
           covr::codecov(quiet = FALSE)
         shell: Rscript {0}
