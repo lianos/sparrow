@@ -46,6 +46,7 @@ Suggests:
     PANTHER.db (>= 1.0.3),
     reactome.db,
     reshape2,
+    rmarkdown,
     SummarizedExperiment,
     statmod,
     stringr,

@@ -29,8 +29,8 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
-        with:
-          ref: 'develop'
+        # with:
+        #   ref: 'main'
 
       - name: Setup R
         uses: r-lib/actions/setup-r@v1
