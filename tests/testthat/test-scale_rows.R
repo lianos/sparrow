@@ -13,11 +13,11 @@ test_that("scale and center are flags", {
     m <- M[[orientation]]
     for (i in seq(nrow(params))) {
       p <- params[i,,drop = FALSE]
-      res <- scale_rows(m, center = p$center, scale = p$scale,
-                        base.attributes = TRUE)
+      res <- scale_rows(m, center = p$center, scale = p$scale)
       ex <- t(scale(t(m), center = p$center, scale = p$scale))
       info <- paste(names(p), unname(unlist(p)), sep = ":", collapse = ",")
-      expect_equal(res, ex, info = sprintf("%s (%s)", info, orientation))
+      expect_equal(res, ex, info = sprintf("%s (%s)", info, orientation),
+                   check.attributes = FALSE)
     }
   }
 })
@@ -34,16 +34,23 @@ test_that("centering on a subgroup of specified columns", {
       info <- paste(names(p), unname(unlist(p)), sep = ":", collapse = ",")
       info <- sprintf("%s (%s)", info, orientation)
 
-      res <- scale_rows(m, center = ctrl, scale = p$scale,
-                        base.attributes = TRUE)
-      resi <- scale_rows(m, center = match(ctrl, colnames(m)), scale = p$scale,
-                         base.attributes = TRUE)
-      resl <- scale_rows(m, center = colnames(m) %in% ctrl, scale = p$scale,
-                         base.attributes = TRUE)
+      if (p$scale) {
+        wrap <- function(expr) expect_warning(eval(expr), "weird")
+      } else {
+        wrap <- identity
+      }
 
+      res <- wrap({
+        scale_rows(m, center = ctrl, scale = p$scale)
+      })
+      resi <- wrap({
+        scale_rows(m, center = match(ctrl, colnames(m)), scale = p$scale)
+      })
+      resl <- wrap({
+        scale_rows(m, center = colnames(m) %in% ctrl, scale = p$scale)
+      })
       ex <- t(scale(t(m), center = means, scale = if (p$scale) sds else FALSE))
-      expect_equal(res, ex, info = info,
-                   check.attributes = FALSE)
+      expect_equal(res, ex, info = info, check.attributes = FALSE)
       expect_equal(resi, ex, info = paste(info, "[by index]"),
                    check.attributes = FALSE)
       expect_equal(resl, ex, info = paste(info, "[by logical]"),
@@ -52,7 +59,7 @@ test_that("centering on a subgroup of specified columns", {
   }
 })
 
-test_that("centering on pre-calculate values", {
+test_that("centering on pre-calculated values", {
   max.rows <- max(sapply(M, nrow))
   means.all <- setNames(rnorm(max.rows), sample(head(LETTERS, max.rows)))
 
@@ -69,8 +76,7 @@ test_that("centering on pre-calculate values", {
                         base.attributes = TRUE)
       ex <- t(scale(t(m), center = means, scale = p$scale))
 
-      expect_equal(res, ex, info = info,
-                   check.attributes = FALSE)
+      expect_equal(res, ex, info = info, check.attributes = FALSE)
     }
   }
 })

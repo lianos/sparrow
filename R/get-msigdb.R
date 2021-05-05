@@ -30,7 +30,6 @@
 #' * The source for the gene set as listed on the gene set page.
 #'
 #' @export
-#' @importFrom msigdb.data msigdb_retrieve
 #'
 #' @param collection character vector specifying the collections you want
 #'   (c1, c2, ..., c7, h). By default we load just the hallmark collecitons.

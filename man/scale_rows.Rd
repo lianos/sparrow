@@ -26,6 +26,9 @@ etc. to use to calculate means and sd's to use in the scaling function.
 \details{
 For instance, you might want to subtract the mean of a subset of columns
 from each row in the matrix (like the columns that come from control samples)
+
+Note that this method returns different attrs() for scaling and center
+than base:scale does. Our values are always named.
 }
 \section{Transformation based on specific columns}{
 

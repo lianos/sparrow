@@ -7,6 +7,9 @@
 #' For instance, you might want to subtract the mean of a subset of columns
 #' from each row in the matrix (like the columns that come from control samples)
 #'
+#' Note that this method returns different attrs() for scaling and center
+#' than base:scale does. Our values are always named.
+#'
 #' @section Transformation based on specific columns:
 #' `center` and `scale` can be a logical, character, or numeric-like vector.
 #' The flexibility enables the following scenarios:
@@ -52,13 +55,7 @@ scale_rows.default <- function(x, center = TRUE, scale = TRUE, ...) {
 
 #' @noRd
 #' @export
-#' @param base.attributes set to `TRUE` if you want to return the same
-#'   attr(x, "scaled:(center|scale)") combo that `base::scale` does. Mostly
-#'   for unit test purposes. When `FALSE` (default) if `center` or `scale`
-#'   are not triggered, then their respeict "scaled:XXX" attribute is set
-#'   to `FALSE`.
-scale_rows.matrix <- function(x, center = TRUE, scale = TRUE, ...,
-                              base.attributes = FALSE) {
+scale_rows.matrix <- function(x, center = TRUE, scale = TRUE, ...) {
   center. <- .target_column_idxs(x, center)
   if (test_integerish(center., lower = 1, upper = ncol(x))) {
     center.idx <- center.
@@ -76,6 +73,10 @@ scale_rows.matrix <- function(x, center = TRUE, scale = TRUE, ...,
                 "scaling set to FALSE")
       } else {
         scale <- center.idx
+      }
+    } else {
+      if (!isFALSE(scale) && !isTRUE(setequal(center.idx, scale))) {
+        stop("Don't scale on different columns used for centering")
       }
     }
     assert_numeric(center., len = nrow(x))
@@ -106,20 +107,14 @@ scale_rows.matrix <- function(x, center = TRUE, scale = TRUE, ...,
 
   if (!isFALSE(scale.)) {
     assert_numeric(scale., len = nrow(x))
-    if (length(center.idx) <= ncol(x)) {
-      warning("Scaling using the std-dev from a subset of columns is weird.")
+    if (length(center.idx) < ncol(x)) {
+      warning("Scaling all samples using a subset of the stdev is weird.")
     }
     x <- x / scale.
   }
 
-  if (base.attributes) {
-    if (!isFALSE(center.)) attr(x, "scaled:center") <- center.
-    if (!isFALSE(scale.)) attr(x, "scaled:scale") <- scale.
-  } else {
-    attr(x, "scaled:center") <- center.
-    attr(x, "scaled:scale") <- scale.
-  }
-
+  attr(x, "scaled:center") <- center.
+  attr(x, "scaled:scale") <- scale.
   x
 }
 
