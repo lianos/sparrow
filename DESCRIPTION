@@ -38,6 +38,7 @@ Suggests:
     fgsea,
     GO.db,
     goseq,
+    magrittr,
     msigdbr (>= 7.2.1.9002),
     KernSmooth,
     knitr,

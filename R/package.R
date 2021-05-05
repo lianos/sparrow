@@ -1,6 +1,5 @@
 #' @import data.table
 #' @import methods
-#' @import magrittr
 #' @import checkmate
 #' @importFrom circlize colorRamp2
 #' @importFrom utils packageVersion getFromNamespace head tail write.csv
