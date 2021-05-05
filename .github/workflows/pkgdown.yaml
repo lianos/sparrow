@@ -1,6 +1,6 @@
 on:
   push:
-    branches: develop # need to change this
+    branches: main # need to change this
     paths:
       - 'vignettes/**'
       - 'man/**'
@@ -33,14 +33,15 @@ jobs:
           ref: 'develop'
 
       - name: Setup R
-        uses: r-lib/actions/setup-r@2fac31217e602dd30286b4c984a0ccf1afb18cbd
-        # uses: r-lib/actions/setup-r@master
-        # with:
-        #   install-r: false
+        uses: r-lib/actions/setup-r@v1
+        with:
+          install-r: false
 
       - name: Install dependencies
-        run: remotes::install_deps(dependencies = TRUE, upgrade = FALSE)
-        shell: Rscript {0}
+        run: |
+          remotes::install("igordot/msigdbr")
+          remotes::install_deps(dependencies = TRUE, upgrade = FALSE)
+      shell: Rscript {0}
 
       - name: Install package
         run: R CMD INSTALL .
