@@ -42,7 +42,7 @@ jobs:
       # I guess I didn't want to install this into the base
       - name: Install dependencies
         run: |
-          remotes::install("igordot/msigdbr")
+          BiocManager::install("igordot/msigdbr")
           remotes::install_deps(dependencies = TRUE, upgrade = FALSE)
         shell: Rscript {0}
 

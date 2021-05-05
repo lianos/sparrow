@@ -39,7 +39,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          remotes::install("igordot/msigdbr")
+          BiocManager::install("igordot/msigdbr")
           remotes::install_deps(dependencies = TRUE, upgrade = FALSE)
       shell: Rscript {0}
 
