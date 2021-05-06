@@ -1,7 +1,7 @@
 Package: sparrow
 Type: Package
 Title: Take command of set enrichment analyses through a unified interface.
-Version: 0.99.1
+Version: 0.98.0
 Authors@R: c(
     person("Steve", "Lianoglou", , "slianoglou@gmail.com", c("aut", "cre")),
     person("Denali Therapeutics", role = c("fnd"), comment = "2018+"),
@@ -39,11 +39,9 @@ Suggests:
     GO.db,
     goseq,
     magrittr,
-    msigdbr (>= 7.2.1.9002),
+    msigdbr (>= 7.4.1),
     KernSmooth,
     knitr,
-    org.Hs.eg.db,
-    org.Mm.eg.db,
     PANTHER.db (>= 1.0.3),
     reactome.db,
     reshape2,
@@ -53,8 +51,6 @@ Suggests:
     stringr,
     testthat,
     webshot
-Remotes:
-    igordot/msigdbr
 biocViews: GeneSetEnrichment, Pathways
 VignetteBuilder: knitr
 License: MIT + file LICENSE
