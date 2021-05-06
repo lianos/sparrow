@@ -54,8 +54,9 @@ of the data. When \code{do.voom = FALSE}, you will get a DGEList of the counts
 
 \section{exampleGeneSets}{
 
-Returns gene sets as either a list of feature identifiers or integers
-that index into a target expression object \code{x}.
+Returns gene sets as either a list of feature identifiers. Entrez identifiers
+are used. If \code{x} is provided, integers that index into the expression
+container \code{x} are used (this is a legacy feature that we should nuke).
 }
 
 \section{exampleGeneSetDb}{

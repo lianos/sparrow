@@ -51,8 +51,9 @@ exampleExpressionSet <- function(dataset=c('tumor-vs-normal', 'tumor-subtype'),
 
 
 #' @section exampleGeneSets:
-#' Returns gene sets as either a list of feature identifiers or integers
-#' that index into a target expression object `x`.
+#' Returns gene sets as either a list of feature identifiers. Entrez identifiers
+#' are used. If `x` is provided, integers that index into the expression
+#' container `x` are used (this is a legacy feature that we should nuke).
 #'
 #' @rdname examples
 #' @aliases exampleGeneSets
