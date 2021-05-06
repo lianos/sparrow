@@ -210,19 +210,19 @@ geneset. <code>NA</code> is returned if the geneset is not "active" (ie. listed 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>gdb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='exampleExpressionSet.html'>exampleGeneSetDb</a></span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: cannot open compressed file '', probable reason 'No such file or directory'</span></div><div class='output co'>#&gt; <span class='error'>Error in gzfile(file, "rb"): cannot open the connection</span></div><div class='input'><span class='va'>fids.gs</span> <span class='op'>&lt;-</span> <span class='fu'>featureIds</span><span class='op'>(</span><span class='va'>gdb</span>, <span class='st'>'c2'</span>, <span class='st'>'BIOCARTA_AGPCR_PATHWAY'</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'featureIds': object 'gdb' not found</span></div><div class='input'><span class='va'>fids.c2</span> <span class='op'>&lt;-</span> <span class='fu'>featureIds</span><span class='op'>(</span><span class='va'>gdb</span>, <span class='st'>'c2'</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'featureIds': object 'gdb' not found</span></div><div class='input'><span class='va'>fids.all</span> <span class='op'>&lt;-</span> <span class='fu'>featureIds</span><span class='op'>(</span><span class='va'>gdb</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'featureIds': object 'gdb' not found</span></div><div class='input'>
+<span class='va'>fids.gs</span> <span class='op'>&lt;-</span> <span class='fu'>featureIds</span><span class='op'>(</span><span class='va'>gdb</span>, <span class='st'>'c2'</span>, <span class='st'>'BIOCARTA_AGPCR_PATHWAY'</span><span class='op'>)</span>
+<span class='va'>fids.c2</span> <span class='op'>&lt;-</span> <span class='fu'>featureIds</span><span class='op'>(</span><span class='va'>gdb</span>, <span class='st'>'c2'</span><span class='op'>)</span>
+<span class='va'>fids.all</span> <span class='op'>&lt;-</span> <span class='fu'>featureIds</span><span class='op'>(</span><span class='va'>gdb</span><span class='op'>)</span>
+
 <span class='va'>vm</span> <span class='op'>&lt;-</span> <span class='fu'><a href='exampleExpressionSet.html'>exampleExpressionSet</a></span><span class='op'>(</span>do.voom<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
 <span class='va'>gdb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='conform.html'>conform</a></span><span class='op'>(</span><span class='va'>gdb</span>, <span class='va'>vm</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'conform': object 'gdb' not found</span></div><div class='input'><span class='co'>## fewer than before</span>
+<span class='co'>## fewer than before</span>
 <span class='va'>fids.gs2</span> <span class='op'>&lt;-</span> <span class='fu'>featureIds</span><span class='op'>(</span><span class='va'>gdb</span>, <span class='st'>'c2'</span>, <span class='st'>'BIOCARTA_AGPCR_PATHWAY'</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'featureIds': object 'gdb' not found</span></div><div class='input'><span class='co'>## same as before</span>
+<span class='co'>## same as before</span>
 <span class='va'>fids.gs3</span> <span class='op'>&lt;-</span> <span class='fu'>featureIds</span><span class='op'>(</span><span class='va'>gdb</span>, <span class='st'>'c2'</span>, <span class='st'>'BIOCARTA_AGPCR_PATHWAY'</span>, active.only<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'featureIds': object 'gdb' not found</span></div><div class='input'><span class='co'>## returned as row indices into vm</span>
+<span class='co'>## returned as row indices into vm</span>
 <span class='va'>fids.idxs</span> <span class='op'>&lt;-</span> <span class='fu'>featureIds</span><span class='op'>(</span><span class='va'>gdb</span>, <span class='st'>'c2'</span>, value<span class='op'>=</span><span class='st'>'x.idx'</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'featureIds': object 'gdb' not found</span></div></pre>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -175,8 +175,9 @@ of the data. When <code>do.voom = FALSE</code>, you will get a DGEList of the co
 
     
 
-<p>Returns gene sets as either a list of feature identifiers or integers
-that index into a target expression object <code>x</code>.</p>
+<p>Returns gene sets as either a list of feature identifiers. Entrez identifiers
+are used. If <code>x</code> is provided, integers that index into the expression
+container <code>x</code> are used (this is a legacy feature that we should nuke).</p>
     <h2 class="hasAnchor" id="examplegenesetdb"><a class="anchor" href="#examplegenesetdb"></a>exampleGeneSetDb</h2>
 
     
