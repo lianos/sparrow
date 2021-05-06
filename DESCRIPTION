@@ -9,6 +9,7 @@ Authors@R: c(
 Description: Provides a unified interface to orchestrate a plethora of GSEA
     methods and quickly interrogate their results.
 Imports:
+    babelgene (>= 21.4),
     BiocGenerics,
     BiocParallel,
     checkmate,

@@ -6,7 +6,8 @@
   ## Setup default option values
   opts <- options()
 
-  species <- msigdbr::msigdbr_species()[["species_name"]]
+  # Having this in .onLoad requires that babelgene is in Imports not Suggests
+  species <- babelgene::species()[["scientific_name"]]
   .pkgcache[["msigdb"]] <- sapply(species, function(x) NULL, simplify = FALSE)
   invisible()
 }
