@@ -220,9 +220,9 @@ iplot.gsea.plot <- function(lfc, geneset, rank_by, title, gseaParam = 1,
       title = title)
 
   if (!.plot_static) {
-    g <- plotly::ggplotly(g, tooltip = "label") %>%
-      layout(dragmode="select") %>%
-      config(displaylogo=FALSE)
+    g <- plotly::ggplotly(g, tooltip = "label")
+    g <- layout(d, dragmode="select")
+    g <- config(g, displaylogo=FALSE)
   }
 
   g
@@ -237,7 +237,7 @@ iplot.density.plotly <- function(x, y, j, value, main, dat, with.legend=TRUE,
                                  square=TRUE, ...) {
   stopifnot(is(x, 'SparrowResult'))
   legend.pos <- match.arg(legend.pos)
-  gs.dat <- subset(dat, group == 'geneset') %>% setDF
+  gs.dat <- setDF(subset(dat, group == 'geneset'))
   cols <- c('bg'='black', 'geneset'='red',
             'notsig'='grey', 'psig'='lightblue', 'sig'='darkblue')
 
@@ -274,12 +274,12 @@ iplot.density.plotly <- function(x, y, j, value, main, dat, with.legend=TRUE,
     xrange <- c(-extreme, extreme)
   }
 
-  p <- plot_ly(source=shiny_source, width=width, height=height) %>%
-    add_lines(x=bgd$x, y=bgd$y, name='All Genes', hoverinfo='none', line=lmeta) %>%
-    add_lines(x=gsd$x, y=gsd$y, name='Geneset', hoverinfo='none', line=lmeta) %>%
-    layout(xaxis=list(title=label, range=xrange),
-           yaxis=list(title="Density"),
-           showlegend = with.legend, title=main, dragmode="select")
+  p <- plot_ly(source=shiny_source, width=width, height=height)
+  p <- add_lines(p, x=bgd$x, y=bgd$y, name='All Genes', hoverinfo='none', line=lmeta)
+  p <- add_lines(p, x=gsd$x, y=gsd$y, name='Geneset', hoverinfo='none', line=lmeta)
+  p <- layout(p, xaxis=list(title=label, range=xrange),
+              yaxis=list(title="Density"),
+              showlegend = with.legend, title=main, dragmode="select")
   if ('symbol' %in% names(gs.dat) && with.points) {
     p <- add_markers(p, x=~val, y=~y, key=~feature_id, data=gs.dat, name="Genes",
                      hoverinfo='text',
@@ -287,7 +287,8 @@ iplot.density.plotly <- function(x, y, j, value, main, dat, with.legend=TRUE,
                                   'logFC: ', sprintf('%.3f', logFC), '<br>',
                                   'FDR: ', sprintf('%.3f', padj)))
   } else if (with.points) {
-    p <- add_markers(p, x=~val, y=~y, key=~feature_id, data=gs.dat, name="Genes",
+    p <- add_markers(p, x=~val, y=~y, key=~feature_id, data=gs.dat,
+                     name="Genes",
                      text=~paste0('feature_id: ', feature_id, '<br>',
                                   'logFC: ', logFC, '<br>',
                                   'FDR: ', padj))
@@ -307,8 +308,8 @@ iplot.boxplot.plotly <- function(x, y, j, value, main, dat, with.legend=TRUE,
                                  height=NULL, width=NULL, ggtheme=theme_bw(),
                                  trim=0.02, ...) {
   is.gs <- dat[['group']] == 'geneset'
-  gs <- subset(dat, is.gs) %>% setDF
-  bg <- subset(dat, !is.gs) %>% setDF
+  gs <- setDF(subset(dat, is.gs))
+  bg <- setDF(subset(dat, !is.gs))
   n.gs <- sum(is.gs)
 
   if (is.null(names(value))) {
