@@ -221,8 +221,8 @@ iplot.gsea.plot <- function(lfc, geneset, rank_by, title, gseaParam = 1,
 
   if (!.plot_static) {
     g <- plotly::ggplotly(g, tooltip = "label")
-    g <- layout(d, dragmode="select")
-    g <- config(g, displaylogo=FALSE)
+    g <- layout(g, dragmode = "select")
+    g <- config(g, displaylogo = FALSE)
   }
 
   g
