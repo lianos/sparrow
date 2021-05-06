@@ -42,9 +42,6 @@
 #'   restricted license, so by default we do not return them as part of the
 #'   GeneSetDb. To include the KEGG gene sets when asking for the c2
 #'   collection, set this flag to `TRUE`.
-#' @param allow_multimap,min_ortho_sources configure how to handle orthology
-#'   mapping (allow multimappers, and what type of level of db suport required).
-#'   See help in [msigdb.data::msigdb_retrieve()]
 #' @param version the version of the MSigDB database to use.
 #' @return a `GeneSetDb` object
 #' @examples
@@ -58,7 +55,6 @@ getMSigGeneSetDb <- function(collection = NULL,
                              species = "human",
                              id.type = c("ensembl", "entrez", "symbol"),
                              with.kegg = FALSE,
-                             allow_multimap = TRUE, min_ortho_sources = 2,
                              promote_subcategory_to_collection = FALSE,
                              prefix_collection = FALSE,
                              version = NULL, ...) {

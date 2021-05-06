@@ -27,9 +27,8 @@
 #' Calling [scoreSingleSamples()] with `method = "ewm", normalize = TRUE`
 #' handles this transparently.
 #'
-#' This idea to implement this method of normalizatition was inspried from
-#' the `ctrl.score` normalization found in Seurat's
-#' [Seurat::AddModuleScore()] function.
+#' This idea to implement this method of normalizatition was inspired from
+#' the `ctrl.score` normalization found in Seurat's `AddModuleScore()` function.
 #'
 #' @md
 #' @export

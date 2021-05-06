@@ -97,9 +97,8 @@ the \code{all.x} parameter, whose columns match 1:1 to the columns in \code{x}.
 Calling \code{\link[=scoreSingleSamples]{scoreSingleSamples()}} with \verb{method = "ewm", normalize = TRUE}
 handles this transparently.
 
-This idea to implement this method of normalizatition was inspried from
-the \code{ctrl.score} normalization found in Seurat's
-\code{\link[Seurat:AddModuleScore]{Seurat::AddModuleScore()}} function.
+This idea to implement this method of normalizatition was inspired from
+the \code{ctrl.score} normalization found in Seurat's \code{AddModuleScore()} function.
 }
 
 \examples{

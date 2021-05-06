@@ -72,7 +72,7 @@
 #'
 #' Visualizing results of a geneset based analysis also are functions that
 #' operate over a `SparrowResult` object, for instance see the
-#' [iplot()] and [sparrow.shiny::explore()] functions.
+#' [iplot()] and the `sparrow.shiny` package.
 #'
 #' @exportClass SparrowResult
 #' @rdname SparrowResult

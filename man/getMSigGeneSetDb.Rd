@@ -9,8 +9,6 @@ getMSigGeneSetDb(
   species = "human",
   id.type = c("ensembl", "entrez", "symbol"),
   with.kegg = FALSE,
-  allow_multimap = TRUE,
-  min_ortho_sources = 2,
   promote_subcategory_to_collection = FALSE,
   prefix_collection = FALSE,
   version = NULL,
@@ -31,10 +29,6 @@ genesets as part of the c2 collection. These genesets come with a
 restricted license, so by default we do not return them as part of the
 GeneSetDb. To include the KEGG gene sets when asking for the c2
 collection, set this flag to \code{TRUE}.}
-
-\item{allow_multimap, min_ortho_sources}{configure how to handle orthology
-mapping (allow multimappers, and what type of level of db suport required).
-See help in \code{\link[msigdb.data:msigdb_retrieve]{msigdb.data::msigdb_retrieve()}}}
 
 \item{version}{the version of the MSigDB database to use.}
 }

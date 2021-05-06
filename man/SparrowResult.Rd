@@ -17,7 +17,7 @@ expression analysis is available via \code{\link[=logFC]{logFC()}}.
 
 Visualizing results of a geneset based analysis also are functions that
 operate over a \code{SparrowResult} object, for instance see the
-\code{\link[=iplot]{iplot()}} and \code{\link[sparrow.shiny:explore]{sparrow.shiny::explore()}} functions.
+\code{\link[=iplot]{iplot()}} and the \code{sparrow.shiny} package.
 }
 \section{Slots}{
 
