@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Checks equality (feature parity) between GeneSetDb objects — all.equal.GeneSetDb • sparrow</title>
+<title>Rename the collections in a GeneSetDb — renameCollections • sparrow</title>
 
 
 <!-- jquery -->
@@ -41,8 +41,9 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Checks equality (feature parity) between GeneSetDb objects — all.equal.GeneSetDb" />
-<meta property="og:description" content="Checks equality (feature parity) between GeneSetDb objects" />
+<meta property="og:title" content="Rename the collections in a GeneSetDb — renameCollections" />
+<meta property="og:description" content="This function remaps names of collections in the database from their current
+names to ones specified by the user." />
 
 
 
@@ -111,46 +112,44 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Checks equality (feature parity) between GeneSetDb objects</h1>
+    <h1>Rename the collections in a GeneSetDb</h1>
     
-    <div class="hidden name"><code>all.equal.GeneSetDb.Rd</code></div>
+    <div class="hidden name"><code>renameCollections.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Checks equality (feature parity) between GeneSetDb objects</p>
+    <p>This function remaps names of collections in the database from their current
+names to ones specified by the user.</p>
     </div>
 
-    <pre class="usage"><span class='co'># S3 method for GeneSetDb</span>
-<span class='fu'><a href='https://rdrr.io/r/base/all.equal.html'>all.equal</a></span><span class='op'>(</span><span class='va'>target</span>, <span class='va'>current</span>, features.only <span class='op'>=</span> <span class='cn'>TRUE</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>renameCollections</span><span class='op'>(</span><span class='va'>x</span>, rename <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>target</th>
-      <td><p>The reference <code>GeneSetDb</code> to compare against</p></td>
+      <th>x</th>
+      <td><p>A GeneSetDb object</p></td>
     </tr>
     <tr>
-      <th>current</th>
-      <td><p>The <code>GeneSetDb</code> you wan to compare</p></td>
-    </tr>
-    <tr>
-      <th>features.only</th>
-      <td><p>Only compare the "core" columns of <code>target@db</code>
-and <code>target@table</code>. It is possible that you added additional columns
-(to keep track of symbols in <code>target@db</code>, for instance) that you
-want to ignore for the purposes of the equality test.</p></td>
+      <th>rename</th>
+      <td><p>a named character vector. <code><a href='https://rdrr.io/r/base/names.html'>names(rename)</a></code> are the names of
+the collection you want to rename, and their values are the new names.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>moar args.</p></td>
+      <td><p>pass it along</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>TRUE</code> if equal, or <code>character</code> vector of messages if not.</p>
-
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='va'>gdb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='exampleExpressionSet.html'>exampleGeneSetDb</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>ngdb</span> <span class='op'>&lt;-</span> <span class='fu'>renameCollections</span><span class='op'>(</span><span class='va'>gdb</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"c2"</span> <span class='op'>=</span> <span class='st'>"MSigDB C2"</span>, <span class='st'>"c7"</span> <span class='op'>=</span> <span class='st'>"ImmuneSigDb"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/all.equal.html'>all.equal</a></span><span class='op'>(</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/unname.html'>unname</a></span><span class='op'>(</span><span class='fu'><a href='collectionMetadata.html'>geneSetURL</a></span><span class='op'>(</span><span class='va'>gdb</span>, <span class='st'>"c7"</span>, <span class='st'>"GSE3982_BCELL_VS_TH2_DN"</span><span class='op'>)</span><span class='op'>)</span>,
+  <span class='fu'><a href='https://rdrr.io/r/base/unname.html'>unname</a></span><span class='op'>(</span><span class='fu'><a href='collectionMetadata.html'>geneSetURL</a></span><span class='op'>(</span><span class='va'>ngdb</span>, <span class='st'>"ImmuneSigDb"</span>, <span class='st'>"GSE3982_BCELL_VS_TH2_DN"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] TRUE</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
