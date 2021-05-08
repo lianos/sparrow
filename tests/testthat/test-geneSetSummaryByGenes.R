@@ -73,7 +73,7 @@ test_that("geneSetSummaryByGenes,SparrowResult returns a legit result", {
     dplyr::filter(logFC != 0) %>%
     dplyr::distinct(renamed, .keep_all=TRUE) %>%
     dplyr::arrange(renamed)
-  expect_equal(lfc.s, lfc.ex)
+  expect_equal(lfc.s, lfc.ex, check.attributes = FALSE)
 })
 
 test_that("geneSetSummary,SparrowResult properly filters significant genesets", {

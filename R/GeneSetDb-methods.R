@@ -689,14 +689,23 @@ function(x, i, value) {
               "and must also handle `...`")
       return(FALSE)
     }
-    url.test <- v("a", "b")
+    url.test <- tryCatch(v("a", "b"), error = function(e) NULL)
     if (!test_string(url.test)) {
       warning("geneSetURL does not return a string when called")
       return(FALSE)
     }
     TRUE
   }
-  addCollectionMetadata(x, i, 'url_function', value, valid)
+  # We explicitly strip the calling environment associated with the function
+  # as this can result in huge objects. Sometimes saveRDS'ing small GeneSetDb
+  # objects resulted in multi 100's of MB's worth of an *.rds file
+  #
+  # If the function's envirnment has a `.fn.local.vars` character vector, then
+  # only those arguments are kept in the environment, otherwise we only keep
+  # objects that are character vectors
+  environment(value) <- new.env(parent = parent.env(environment(value)))
+  added <- addCollectionMetadata(x, i, 'url_function', value, valid)
+  added
 })
 
 setReplaceMethod("featureIdType", "GeneSetDb", function(x, i, value) {
@@ -792,7 +801,7 @@ addCollectionMetadata <- function(x, xcoll, xname, value,
     }
 
     # the variable you want to enter here is not there yet, so we create an
-    # empty, singl-row data.table that will be added to the current metadata
+    # empty, single-row data.table that will be added to the current metadata
     add.me <- data.table(
       collection = xcoll,
       name = xname,
