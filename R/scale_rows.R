@@ -110,11 +110,20 @@ scale_rows.matrix <- function(x, center = TRUE, scale = TRUE, ...) {
     if (length(center.idx) < ncol(x)) {
       warning("Scaling all samples using a subset of the stdev is weird.")
     }
+    sd0 <- scale. < 1e-8
+    if (any(sd0)) {
+      warning("Rows with zero sd found, setting sd to 1e-4")
+      scale.[sd0] <- 1e-4
+      sd0 <- which(sd0)
+    } else {
+      sd0 <- NULL
+    }
     x <- x / scale.
   }
 
   attr(x, "scaled:center") <- center.
   attr(x, "scaled:scale") <- scale.
+  attr(x, "scaled:sd0") <- sd0
   x
 }
 
