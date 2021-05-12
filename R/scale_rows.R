@@ -119,6 +119,8 @@ scale_rows.matrix <- function(x, center = TRUE, scale = TRUE, ...) {
       sd0 <- NULL
     }
     x <- x / scale.
+  } else {
+    sd0 <- NULL
   }
 
   attr(x, "scaled:center") <- center.
