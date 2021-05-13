@@ -17,10 +17,10 @@ seas(
   verbose = FALSE,
   ...,
   rank_by = NULL,
-  select_by = NULL,
   rank_order = c("ordered", "descending", "ascending"),
+  select_by = NULL,
   group_by = NULL,
-  biased_by = NULL,
+  bias_by = NULL,
   xmeta. = NULL,
   .parallel = FALSE,
   BPPARAM = bpparam()
@@ -66,6 +66,27 @@ conjunction with \code{feature.min.logFC}.}
 
 \item{...}{The arguments are passed down into
 \code{\link[=calculateIndividualLogFC]{calculateIndividualLogFC()}} and the various geneset analysis functions.}
+
+\item{rank_by}{the name of a column that should be used to rank the features
+in \code{x} for pre-ranked gsea tests like cameraPR or fgsea. Only works when
+\code{x} is a data.frame-like input.}
+
+\item{rank_order}{specify how the features in \code{x} should be used to rank
+the features in \code{x} using the \code{rank_by} column. Accepted values are:
+\code{"ordered"} (default) means that the rows in \code{x} are pre-ranked already.
+\code{"descendeing"}, and \code{"ascending"}. Only used when \code{x} is a
+data.frame-like input.}
+
+\item{select_by}{The name of a logical vector in \code{x} which is used to select
+the features tested for over representation analysis tests, like \code{\link[=ora]{ora()}}
+or other similar tests. Entries that are \code{TRUE} indicate the feature should
+be selected for enrichment (ie. statistically significant differntially
+expressed genes would have \code{TRUE} values). Only used when \code{x} is a
+data.frame-like input.}
+
+\item{bias_by}{The name of a numeric colum in \code{x} that can be used in \code{\link[=ora]{ora()}}
+to adjust for bias in enrichment tests (like gene legnth, average
+expression, etc.). Only used when \code{x} is a data.frame-like input.}
 
 \item{.parallel}{by default, \code{.parallel=FALSE} runs each GSEA in a
 serial manner. If \code{.parallel=TRUE}, the GSEA execution loop is

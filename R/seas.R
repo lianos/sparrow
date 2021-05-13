@@ -134,6 +134,23 @@
 #' @param verbose make some noise during execution?
 #' @param ... The arguments are passed down into
 #'   [calculateIndividualLogFC()] and the various geneset analysis functions.
+#' @param rank_by the name of a column that should be used to rank the features
+#'   in `x` for pre-ranked gsea tests like cameraPR or fgsea. Only works when
+#'   `x` is a data.frame-like input.
+#' @param rank_order specify how the features in `x` should be used to rank
+#'   the features in `x` using the `rank_by` column. Accepted values are:
+#'   `"ordered"` (default) means that the rows in `x` are pre-ranked already.
+#'   `"descendeing"`, and `"ascending"`. Only used when `x` is a
+#'   data.frame-like input.
+#' @param select_by The name of a logical vector in `x` which is used to select
+#'   the features tested for over representation analysis tests, like [ora()]
+#'   or other similar tests. Entries that are `TRUE` indicate the feature should
+#'   be selected for enrichment (ie. statistically significant differntially
+#'   expressed genes would have `TRUE` values). Only used when `x` is a
+#'   data.frame-like input.
+#' @param bias_by The name of a numeric colum in `x` that can be used in [ora()]
+#'   to adjust for bias in enrichment tests (like gene legnth, average
+#'   expression, etc.). Only used when `x` is a data.frame-like input.
 #' @param .parallel by default, `.parallel=FALSE` runs each GSEA in a
 #'   serial manner. If `.parallel=TRUE`, the GSEA execution loop is
 #'   parallelized using the *BiocParallel* package. Note that you might want to
@@ -163,9 +180,9 @@ seas <- function(gsd, x, design=NULL, contrast=NULL,
                  methods=NULL, use.treat=FALSE,
                  feature.min.logFC=if (use.treat) log2(1.25) else 1,
                  feature.max.padj=0.10, trim=0.10, verbose=FALSE, ...,
-                 rank_by = NULL, select_by = NULL,
+                 rank_by = NULL,
                  rank_order = c("ordered", "descending", "ascending"),
-                 group_by = NULL, biased_by = NULL,
+                 select_by = NULL, group_by = NULL, bias_by = NULL,
                  xmeta. = NULL, .parallel=FALSE, BPPARAM=bpparam()) {
   if (!is(gsd, "GeneSetDb")) {
     if (is(gsd, "GeneSetCollection") || is(gsd, "GeneSet")) {
