@@ -13,16 +13,13 @@ stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://
 [![codecov](https://codecov.io/gh/lianos/sparrow/branch/develop/graph/badge.svg)](https://codecov.io/gh/lianos/sparrow)
 <!-- badges: end -->
 
-`sparrow` (formerly [sparrow](https://github.com/lianos/sparrow)) was
-built to facilitate the use of gene sets in the analysis of high
+`sparrow` (formerly [multiGSEA](https://github.com/lianos/multiGSEA))
+was built to facilitate the use of gene sets in the analysis of high
 throughput genomics data (primarily RNA-seq). Analysts can orchestrate
 any number of GSEA methods across a specific contrast using the unified
-interface provided by the `seas` (formerly `sparrow`) function, and a
-shiny application is provided that facilitates the exploration and
-interpretation of GSEA results.
-
-**NOTE 2020-11-12: This package is currently under transition due to
-renaming it from sparrow to sparrow, will be functional soon**.
+interface provided by the `seas`. A shiny application is provided via
+the [sparrow.shiny](https://github.com/lianos/sparrow.shiny) package
+that enables the interactive exploration of of GSEA results.
 
 -   The `seas` function is a wrapper that orchestrates the execution of
     any number of user-specified gene set enrichment analyses (GSEA)
@@ -30,7 +27,7 @@ renaming it from sparrow to sparrow, will be functional soon**.
     create a `SparrowResult` object which stores the results of each
     GSEA method internally, allowing for easy query and retrieval.
 
--   A sister [`sparrow.shiny`](https://github.com/lianos/sparrow.shiny)
+-   A sister [sparrow.shiny](https://github.com/lianos/sparrow.shiny)
     package provides an `explore` function, which is invoked on
     `SparrowResult` objects returned from a call to `seas()`. The shiny
     application facilitates interactive exploration of these GSEA
@@ -67,12 +64,12 @@ results(mg, "camera") %>%
   select(collection, name, padj) %>%
   head
 #>   collection                                        name         padj
-#> 1     C2_CGP      SOTIRIOU_BREAST_CANCER_GRADE_1_VS_3_UP 1.414146e-36
-#> 2     C2_CGP ROSTY_CERVICAL_CANCER_PROLIFERATION_CLUSTER 1.414146e-36
-#> 3     C2_CGP         NAKAYAMA_SOFT_TISSUE_TUMORS_PCA2_DN 1.959876e-23
-#> 4     C2_CGP              KANG_DOXORUBICIN_RESISTANCE_UP 1.372923e-22
-#> 5     C2_CGP               CROONQUIST_IL6_DEPRIVATION_DN 2.835322e-22
-#> 6     C2_CGP                     BENPORATH_PROLIFERATION 8.520949e-22
+#> 1         C2      SOTIRIOU_BREAST_CANCER_GRADE_1_VS_3_UP 1.422275e-36
+#> 2         C2 ROSTY_CERVICAL_CANCER_PROLIFERATION_CLUSTER 1.422275e-36
+#> 3         C2         NAKAYAMA_SOFT_TISSUE_TUMORS_PCA2_DN 1.971141e-23
+#> 4         C2              KANG_DOXORUBICIN_RESISTANCE_UP 1.380815e-22
+#> 5         C2               CROONQUIST_IL6_DEPRIVATION_DN 2.851619e-22
+#> 6         C2                     BENPORATH_PROLIFERATION 8.569928e-22
 ```
 
 The shift in expression of the genes within the top gene set can be
@@ -81,13 +78,13 @@ interactive graphics, but rasterized versions are saved for use with
 this `README` file:
 
 ``` r
-iplot(mg, 'c2', 'SOTIRIOU_BREAST_CANCER_GRADE_1_VS_3_UP', type = "density")
+iplot(mg, 'C2', 'SOTIRIOU_BREAST_CANCER_GRADE_1_VS_3_UP', type = "density")
 ```
 
 <img src="man/figures/README_iplot_density.png" />
 
 ``` r
-iplot(mg, 'c2', 'SOTIRIOU_BREAST_CANCER_GRADE_1_VS_3_UP', type = "boxplot")
+iplot(mg, 'C2', 'SOTIRIOU_BREAST_CANCER_GRADE_1_VS_3_UP', type = "boxplot")
 ```
 
 <img src="man/figures/README_iplot_boxplot.png" />
@@ -103,10 +100,11 @@ For an immersive, interactive way to explore the GSEA results, use the
 
 The sparrow suite of packages will soon be submitted to bioconductor and
 installable via the recommended `BiocManager::install()` mechanism. In
-the meantime, install this package *<sparrow.shiny@develop>* branch from
-github, which sould install both sparrow.shiny and sparrow packages.
+the meantime, you can install the
+[sparrow.shiny](https://github.com/lianos/sparrow.shiny) package from
+github.
 
 ``` r
 # install.packages("BiocManager")
-BiocManager::install("lianos/sparrow.shiny@develop")
+BiocManager::install("lianos/sparrow.shiny")
 ```

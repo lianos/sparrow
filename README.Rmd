@@ -20,15 +20,12 @@ knitr::opts_chunk$set(
 [![codecov](https://codecov.io/gh/lianos/sparrow/branch/develop/graph/badge.svg)](https://codecov.io/gh/lianos/sparrow)
 <!-- badges: end -->
 
-`sparrow` (formerly [sparrow](https://github.com/lianos/sparrow)) was built
+`sparrow` (formerly [multiGSEA](https://github.com/lianos/multiGSEA)) was built
 to facilitate the use of gene sets in the analysis of high throughput genomics
 data (primarily RNA-seq). Analysts can orchestrate any number of GSEA methods
 across a specific contrast using the unified interface provided by the
-`seas` (formerly `sparrow`) function, and a shiny application
-is provided that facilitates the exploration and interpretation of GSEA results.
-
-**NOTE 2020-11-12: This package is currently under transition due to renaming it
-from sparrow to sparrow, will be functional soon**.
+`seas`. A shiny application is provided via the [sparrow.shiny][] package that
+enables the interactive exploration of of GSEA results.
 
 * The `seas` function is a wrapper that orchestrates the execution of any
   number of user-specified gene set enrichment analyses (GSEA) over a particular
@@ -36,7 +33,7 @@ from sparrow to sparrow, will be functional soon**.
   object which stores the results of each GSEA method internally, allowing
   for easy query and retrieval.
 
-* A sister [`sparrow.shiny`](https://github.com/lianos/sparrow.shiny)
+* A sister [sparrow.shiny][]
   package provides an `explore` function, which is invoked on `SparrowResult`
   objects returned from a call to `seas()`. The shiny application facilitates
   interactive exploration of these GSEA results. This application can also be
@@ -47,6 +44,7 @@ Full details that outline the use of this software package is provided in the
 [package's vignette][vignette], however a brief description is outlined below.
 
 [vignette]: https://lianos.github.io/sparrow/articles/sparrow.html
+[sparrow.shiny]: https://github.com/lianos/sparrow.shiny
 
 # Usage
 
@@ -99,10 +97,9 @@ For an immersive, interactive way to explore the GSEA results, use the
 
 The sparrow suite of packages will soon be submitted to bioconductor and
 installable via the recommended `BiocManager::install()` mechanism. In the
-meantime, install this package *sparrow.shiny@develop* branch from github,
-which sould install both sparrow.shiny and sparrow packages.
+meantime, you can install the [sparrow.shiny] package from github.
 
 ```{r gh-installation, eval = FALSE}
 # install.packages("BiocManager")
-BiocManager::install("lianos/sparrow.shiny@develop")
+BiocManager::install("lianos/sparrow.shiny")
 ```
