@@ -141,10 +141,10 @@ arguments down through the <code>...</code> of this wrapper function.</p>
   verbose <span class='op'>=</span> <span class='cn'>FALSE</span>,
   <span class='va'>...</span>,
   rank_by <span class='op'>=</span> <span class='cn'>NULL</span>,
-  select_by <span class='op'>=</span> <span class='cn'>NULL</span>,
   rank_order <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"ordered"</span>, <span class='st'>"descending"</span>, <span class='st'>"ascending"</span><span class='op'>)</span>,
+  select_by <span class='op'>=</span> <span class='cn'>NULL</span>,
   group_by <span class='op'>=</span> <span class='cn'>NULL</span>,
-  biased_by <span class='op'>=</span> <span class='cn'>NULL</span>,
+  bias_by <span class='op'>=</span> <span class='cn'>NULL</span>,
   xmeta. <span class='op'>=</span> <span class='cn'>NULL</span>,
   .parallel <span class='op'>=</span> <span class='cn'>FALSE</span>,
   BPPARAM <span class='op'>=</span> <span class='fu'>bpparam</span><span class='op'>(</span><span class='op'>)</span>
@@ -214,6 +214,35 @@ conjunction with <code>feature.min.logFC</code>.</p></td>
       <th>...</th>
       <td><p>The arguments are passed down into
 <code><a href='calculateIndividualLogFC.html'>calculateIndividualLogFC()</a></code> and the various geneset analysis functions.</p></td>
+    </tr>
+    <tr>
+      <th>rank_by</th>
+      <td><p>the name of a column that should be used to rank the features
+in <code>x</code> for pre-ranked gsea tests like cameraPR or fgsea. Only works when
+<code>x</code> is a data.frame-like input.</p></td>
+    </tr>
+    <tr>
+      <th>rank_order</th>
+      <td><p>specify how the features in <code>x</code> should be used to rank
+the features in <code>x</code> using the <code>rank_by</code> column. Accepted values are:
+<code>"ordered"</code> (default) means that the rows in <code>x</code> are pre-ranked already.
+<code>"descendeing"</code>, and <code>"ascending"</code>. Only used when <code>x</code> is a
+data.frame-like input.</p></td>
+    </tr>
+    <tr>
+      <th>select_by</th>
+      <td><p>The name of a logical vector in <code>x</code> which is used to select
+the features tested for over representation analysis tests, like <code><a href='ora.html'>ora()</a></code>
+or other similar tests. Entries that are <code>TRUE</code> indicate the feature should
+be selected for enrichment (ie. statistically significant differntially
+expressed genes would have <code>TRUE</code> values). Only used when <code>x</code> is a
+data.frame-like input.</p></td>
+    </tr>
+    <tr>
+      <th>bias_by</th>
+      <td><p>The name of a numeric colum in <code>x</code> that can be used in <code><a href='ora.html'>ora()</a></code>
+to adjust for bias in enrichment tests (like gene legnth, average
+expression, etc.). Only used when <code>x</code> is a data.frame-like input.</p></td>
     </tr>
     <tr>
       <th>.parallel</th>
