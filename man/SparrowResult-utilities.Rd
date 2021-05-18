@@ -18,6 +18,6 @@ Fetches the GeneSetDb from SparrowResult
 \examples{
 vm <- exampleExpressionSet(do.voom=TRUE)
 gdb <- exampleGeneSetDb()
-mg <- seas(gdb, vm, vm$design, 'tumor', methods=NULL)
+mg <- seas(vm, gdb, design = vm$design, contrast = 'tumor')
 geneSetDb(mg)
 }

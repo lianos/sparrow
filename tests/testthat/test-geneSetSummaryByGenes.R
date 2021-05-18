@@ -33,7 +33,7 @@ test_that("geneSetSummaryByGenes,SparrowResult returns a legit result", {
   set.seed(0xBEEF)
   vm <- exampleExpressionSet()
   gdb <- exampleGeneSetDb()
-  mg <- seas(gdb, vm, vm$design, ncol(vm$design), method='camera')
+  mg <- seas(vm, gdb, "camera", design = vm$design, contrast = ncol(vm$design))
   mgdb <- geneSetDb(mg)
   features <- sample(featureIds(mg), 10)
 
@@ -80,7 +80,7 @@ test_that("geneSetSummary,SparrowResult properly filters significant genesets", 
   set.seed(0xBEEF)
   vm <- exampleExpressionSet()
   gdb <- exampleGeneSetDb()
-  mg <- seas(gdb, vm, vm$design, ncol(vm$design), method='camera')
+  mg <- seas(vm, gdb, "camera", design = vm$design, contrast = ncol(vm$design))
   p.thresh <- 0.20
   camera.sig <- dplyr::filter(result(mg, 'camera'), padj <= p.thresh)
 

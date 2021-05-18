@@ -5,11 +5,11 @@
 \title{Performs a plethora of GSEA analyses over a contrast of interest.}
 \usage{
 seas(
-  gsd,
   x,
+  gsd,
+  methods = NULL,
   design = NULL,
   contrast = NULL,
-  methods = NULL,
   use.treat = FALSE,
   feature.min.logFC = if (use.treat) log2(1.25) else 1,
   feature.max.padj = 0.1,
@@ -27,9 +27,17 @@ seas(
 )
 }
 \arguments{
+\item{x}{An object to run enrichment analyses over. This can be an
+ExpressoinSet-like object that you can differential expression over
+(for roast, fry, camera), a named (by feature_id) vector of scores to run
+ranked-based GSEA, a data.frame with feature_id's, ranks, scores, etc.}
+
 \item{gsd}{The \code{\link[=GeneSetDb]{GeneSetDb()}} that defines the gene sets of interest.}
 
-\item{x}{An ExpressoinSet-like object}
+\item{methods}{A character vector indicating the GSEA methods you want to
+run. Refer to the GSEA Methods section for more details.
+If no methods are specified, only differential gene expression and geneset
+level statistics for the contrast are computed.}
 
 \item{design}{A design matrix for the study}
 
@@ -38,11 +46,6 @@ name of \code{design}, or a contrast vector which performs "coefficient
 arithmetic" over the columns of \code{design}. The \code{design} and \code{contrast}
 parameters are interpreted in \emph{exactly} the same way as the same parameters
 in limma's \code{\link[limma:camera]{limma::camera()}} and \code{\link[limma:roast]{limma::roast()}} methods.}
-
-\item{methods}{A character vector indicating the GSEA methods you want to
-run. Refer to the GSEA Methods section for more details.
-If no methods are specified, only differential gene expression and geneset
-level statistics for the contrast are computed.}
 
 \item{use.treat}{should we use limma/edgeR's "treat" functionality for the
 gene-level differential expression analysis?}
@@ -219,10 +222,10 @@ passed down to that funciton.
 \examples{
 vm <- exampleExpressionSet()
 gdb <- exampleGeneSetDb()
-mg <- seas(gdb, vm, vm$design, 'tumor',
-                methods=c('camera', 'fry'),
-                # customzie camera parameter:
-                inter.gene.cor = 0.04)
+mg <- seas(vm, gdb, c('camera', 'fry'),
+           design = vm$design, contrast = 'tumor',
+           # customzie camera parameter:
+           inter.gene.cor = 0.04)
 resultNames(mg)
 res.camera <- result(mg, 'camera')
 res.fry <- result(mg, 'fry')

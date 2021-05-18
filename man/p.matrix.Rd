@@ -28,7 +28,7 @@ GSEA methods you tried. I think I did, once, so here it is.
 \examples{
 # vm <- exampleExpressionSet(do.voom=TRUE)
 # gdb <- exampleGeneSetDb()
-# mg <- seas(gdb, vm, vm$design, 'tumor', methods=c('cameraPR'))
+# mg <- seas(vm, gdb, "cameraPR", design = vm$design, contrast = 'tumor')
 mg <- exampleSparrowResult()
 pm <- p.matrix(mg)
 }

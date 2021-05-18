@@ -9,8 +9,9 @@ test_that("seas calculate t and preranked t match fgsea results", {
   # Since Bioc 3.5, running fgsea warns about ties in preranked stats
   set.seed(123)
   expect_warning({
-    mgt <- seas(gdb, vm, vm$design, 'tumor', 'fgsea', score.by = 't',
-                     nPermSimple = nperm, gseaParam = gseaParam)
+    mgt <- seas(vm, gdb, 'fgsea', design = vm$design, contrast = 'tumor',
+                score.by = 't',
+                nPermSimple = nperm, gseaParam = gseaParam)
   }, "ties")
   mgres <- mgt %>%
     result("fgsea") %>%
@@ -41,8 +42,8 @@ test_that("seas calculate t and preranked t match fgsea results", {
   # passing in a preranked vector gives same results ---------------------------
   set.seed(123)
   expect_warning({
-    mgpre <- seas(gdb, ranks.t, methods = "fgsea", nperm = nperm,
-                       gseaParam = gseaParam, score.by = "t")
+    mgpre <- seas(ranks.t, gdb, "fgsea", nperm = nperm,
+                  gseaParam = gseaParam, score.by = "t")
   }, "ties")
 
   rpre <- result(mgpre, 'fgsea')
@@ -52,9 +53,9 @@ test_that("seas calculate t and preranked t match fgsea results", {
   # Passing in data.frame works, too -------------------------------------------
   set.seed(123)
   expect_warning({
-    mgdf <- seas(gdb, lfc, methods = "fgsea", nperm = nperm,
-                      rank_by = "t", rank_order = "descending",
-                      gseaParam = gseaParam)
+    mgdf <- seas(lfc, gdb, "fgsea", nperm = nperm,
+                 rank_by = "t", rank_order = "descending",
+                 gseaParam = gseaParam)
   }, "ties")
   res.df <- result(mgdf)
   expect_equal(res.df[, comp.cols], mgres[, comp.cols])

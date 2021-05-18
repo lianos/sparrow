@@ -130,7 +130,8 @@ exampleSparrowResult <- function(cached=TRUE) {
   } else {
     vm <- exampleExpressionSet()
     gdb <- exampleGeneSetDb()
-    out <- seas(gdb, vm, vm$design, "tumor", c('camera', 'fry'))
+    out <- seas(vm, gdb, c('camera', 'fry'),
+                design = vm$design, contrast = "tumor")
   }
   out
 }
@@ -149,9 +150,9 @@ exampleDgeResult <- function(species = "human", id.type = "ensembl",
   # we only have human/ensembl for now
   species <- match.arg(species, "human")
   id.type <- match.arg(id.type, "ensembl")
-  dge.fn <- system.file("extdata", "testdata", "dataframe-input.csv",
+  dge.fn <- system.file("extdata", "testdata", "dataframe-input.csv.gz",
                         package = "sparrow")
-  out <- read.csv(dge.fn, stringsAsFactors = FALSE)
+  out <- data.table::fread(dge.fn, data.table = FALSE)
   if (is.character(induce.bias)) {
     bias <- match.arg(induce.bias, c("effective_length", "AveExpr"))
     o <- order(out[["pval"]])

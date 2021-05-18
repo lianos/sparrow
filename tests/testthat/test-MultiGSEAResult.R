@@ -8,7 +8,7 @@ test_that("GeneSetDb defined with logFC-like column names are kosher", {
   gdb <- exampleGeneSetDb()
   gdb@db$logFC <- rnorm(nrow(gdb@db))
   es <- exampleExpressionSet()
-  mg <- seas(gdb, es, es$design, methods = "camera")
+  mg <- seas(es, gdb, "camera", design = es$design)
 
   gs <- geneSet(mg, "c2", "BIOCARTA_AGPCR_PATHWAY")
   expect_true(all(c("logFC", "logFC.gs") %in% colnames(gs)))

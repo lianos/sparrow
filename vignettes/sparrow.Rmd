@@ -244,8 +244,8 @@ The call to `seas()` will perform these analyses and return a
 
 ```{r run-multi-GSEA, eval=!exists('mg'), results='hide', warning=FALSE}
 mg <- seas(
-  gdb, vm, vm$design, cm[, 'BvH'],
-  methods = c('camera', 'fry', 'ora'),
+  vm, gdb, c('camera', 'fry', 'ora'),
+  design = vm$design, contrast = cm[, 'BvH'],
   # these parameters define which genes are differentially expressed
   feature.max.padj = 0.05, feature.min.logFC = 1,
   # for camera:
@@ -839,11 +839,10 @@ a minimal log fold change threshold for statistical significance, you would do
 so as follows:
 
 ```{r, eval=FALSE}
-mg <- seas(gdb, vm, vm$design, cm[, 'BvH'],
-                methods=c('goseq'),
-                treat.lfc=log2(1.5),
-                ## feature length vector required for goseq
-                feature.bias=setNames(vm$genes$size, rownames(vm)))
+mg <- seas(vm, gdb, "goseq", design = vm$design, cm[, 'BvH'],
+           treat.lfc=log2(1.5),
+           ## feature length vector required for goseq
+           feature.bias=setNames(vm$genes$size, rownames(vm)))
 ```
 
 Using the internal `treat` functionality would really only affect enrichment
@@ -861,9 +860,9 @@ For instance, you can read `?camera` to find that the `camera` method accepts an
 the number of rotations used via the `nrot` parameter.
 
 ```{r, eval=FALSE}
-mgx <- seas(gdb, vm, vm$design, cm[, 'BvH'],
-                 methods=c('camera', 'roast'),
-                 inter.gene.cor=0.04, nrot=500)
+mgx <- seas(vm, gdb, c('camera', 'roast'), 
+            design = vm$design, contrast = cm[, 'BvH'],
+            inter.gene.cor = 0.04, nrot = 500)
 ```
 
 # Developing sparrow

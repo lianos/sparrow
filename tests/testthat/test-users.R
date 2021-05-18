@@ -8,10 +8,9 @@ test_that("seas fails with a 1-geneset GeneSetDb", {
   gdb <- gdb[geneSets(gdb)$name == 'GOZGIT_ESR1_TARGETS_DN']
 
   test.methods <- c("camera", "roast", "fry", "geneSetTest")
-  mg <- seas(gdb, vm, vm$design, 'tumor',
-                  methods=test.methods,
-                  ## customize camera parameter:
-                  inter.gene.cor=0.04)
+  mg <- seas(vm, gdb, test.methods, design = vm$design, contrast = 'tumor',
+             ## customize camera parameter:
+             inter.gene.cor = 0.04)
 
   # Calling the show,SparrowResult method is how this was identified,
   # so let's make sure that works, first.
@@ -34,11 +33,11 @@ test_that("seas pipeine can handle EList without a genes data.frame", {
   vm.noG <- vm
   vm.noG$genes <- NULL
 
-  mg <- seas(gdb, vm, vm$design, "tumor", "camera")
+  mg <- seas(vm, gdb, "camera", design = vm$design, contrast = "tumor")
 
-  mg.noG <- expect_warning(
-    seas(gdb, vm.noG, vm.noG$design, "tumor", "camera"),
-    "no.*genes", ignore.case = TRUE)
+  mg.noG <- expect_warning({
+    seas(vm.noG, gdb, "camera", design = vm.noG$design, contrast = "tumor")
+  }, "no.*genes", ignore.case = TRUE)
 
   r <- result(mg)
   r.noG <- result(mg.noG)

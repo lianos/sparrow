@@ -1,7 +1,7 @@
 Package: sparrow
 Type: Package
 Title: Take command of set enrichment analyses through a unified interface.
-Version: 0.98.4
+Version: 0.98.5
 Authors@R: c(
     person("Steve", "Lianoglou", , "slianoglou@gmail.com", c("aut", "cre")),
     person("Denali Therapeutics", role = c("fnd"), comment = "2018+"),
@@ -44,6 +44,7 @@ Suggests:
     KernSmooth,
     knitr,
     PANTHER.db (>= 1.0.3),
+    R.utils,
     reactome.db,
     reshape2,
     rmarkdown,

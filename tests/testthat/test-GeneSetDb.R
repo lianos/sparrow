@@ -405,7 +405,7 @@ test_that("conformed & unconformed GeneSetDb,incidenceMatrix is kosher", {
 test_that("annotateGeneSetMembership works", {
   vm <- exampleExpressionSet()
   gdb <- GeneSetDb(exampleGeneSets())
-  mg <- seas(gdb, vm, vm$design, ncol(vm$design), NULL)
+  mg <- seas(vm, gdb, design = vm$design, contrast = ncol(vm$design))
   lfc <- logFC(mg)
 
   ## Test that annotation is consistent with pre-conformed gdb vs uncormed

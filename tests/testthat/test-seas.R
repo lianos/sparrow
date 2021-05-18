@@ -10,7 +10,7 @@ test_that("seas fails on not-full-rank design matrix", {
   ## other columns: not full rank
   design <- cbind(design, extra=design[, 1] + design[, 2])
 
-  expect_error(suppressWarnings(seas(gsd, vm, design)))
+  expect_error(suppressWarnings(seas(vm, gsd, design)))
 })
 
 test_that("seas wrapper generates same results as individual do.*", {
@@ -21,7 +21,7 @@ test_that("seas wrapper generates same results as individual do.*", {
   methods <- c('camera', 'cameraPR')
   min.logFC <- log2(1.25)
   max.padj <- 0.10
-  mg <- seas(gsd, vm, vm$design, methods = methods,
+  mg <- seas(vm, gsd, methods, design = vm$design,
              nrot = 250, nsim = 500, split.updown = FALSE,
              feature.min.logFC = min.logFC, feature.max.padj = max.padj)
   lfc <- logFC(mg)

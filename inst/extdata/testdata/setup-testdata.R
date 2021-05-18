@@ -24,12 +24,13 @@ out <- out[,take]
 out <- out[rowSums(counts(out)) > 1,]
 rownames(out) <- sub('GeneID:', '', rownames(out))
 
-library(Biobase)
-es <- ExpressionSet(counts(out))
-fData(es) <- as.data.frame(rowData(out))[, 'symbol', drop=FALSE]
-pData(es) <- as.data.frame(colData(out))
-
-saveRDS(es, 'TCGA-BRCA-some.es.rds')
+library(edgeR)
+y <- edgeR::DGEList(
+  counts(out),
+  genes = as.data.frame(rowData(out))[, 'symbol', drop=FALSE],
+  samples = as.data.frame(colData(out)))
+y <- edgeR::calcNormFactors(y)
+saveRDS(y, 'TCGA-BRCA-some.DGEList.rds')
 
 ## -----------------------------------------------------------------------------
 ## Setup the most base of genesets

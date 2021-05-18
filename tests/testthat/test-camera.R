@@ -17,7 +17,7 @@ test_that("camera result() is decorated correctly and has correct stats", {
   vm <- exampleExpressionSet(do.voom=TRUE)
   gsd <- conform(exampleGeneSetDb(), vm)
   gsi <- as.list(gsd, value='x.idx')
-  mg <- seas(gsd, vm, vm$design, ncol(vm$design), methods='camera')
+  mg <- seas(vm, gsd, "camera", design = vm$design, contrast = ncol(vm$design))
 
   photo <- limma::camera(vm, gsi, vm$design, ncol(vm$design))
   res <- result(mg, 'camera', as.dt=TRUE)
@@ -34,13 +34,13 @@ test_that("cameraPR pass through method works like direct call", {
   gsd <- conform(exampleGeneSetDb(), vm)
   gsi <- as.list(gsd, value='x.idx')
 
-  lfc <- logFC(seas(gsd, vm, vm$design, 'tumor'))
+  lfc <- logFC(seas(vm, gsd, design = vm$design, contrast = 'tumor'))
 
   expected <- cameraPR(setNames(lfc$t, lfc$entrez_id), gsi, inter.gene.cor=0.01)
 
-  mg <- seas(gsd, vm, vm$design, 'tumor',
-                  methods=c('camera', 'cameraPR'),
-                  inter.gene.cor=0.01)
+  mg <- seas(vm, gsd, c('camera', 'cameraPR'),
+             design = vm$design, contrast = 'tumor',
+             inter.gene.cor=0.01)
 
   res.pr <- result(mg, 'cameraPR')
   res.pr$key <- encode_gskey(res.pr)
