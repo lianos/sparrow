@@ -37,7 +37,7 @@ test_that("fry runs through seas wrapper", {
   gsi <- gsi[names(gsd.idxs)]
   fried <- limma::fry(vm, gsi, vm$design, ncol(vm$design), sort=FALSE)
 
-  my <- seas(xvm, gdb, "fry", design = vm$design, contrast = ncol(vm$design))
+  my <- seas(vm, gsd, "fry", design = vm$design, contrast = ncol(vm$design))
   mgres <- transform(result(my, 'fry'),
                      key = encode_gskey(collection, name),
                      stringsAsFactors = FALSE)

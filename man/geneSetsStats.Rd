@@ -62,6 +62,6 @@ of the analysis.
 \examples{
 vm <- exampleExpressionSet(do.voom=TRUE)
 gdb <- exampleGeneSetDb()
-mg <- seas(gdb, vm, vm$design, 'tumor')
+mg <- seas(vm, gdb, design = vm$design, contrast = 'tumor')
 head(geneSetsStats(mg))
 }

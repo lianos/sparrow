@@ -15,7 +15,7 @@ test_that("t-stats and logFCs match full design when only stats passed", {
   gsl <- exampleGeneSets()
   gsd <- GeneSetDb(gsl)
 
-  mgf <- suppressWarnings(seas(vm, gsd, desgin = vm$design))
+  mgf <- suppressWarnings(seas(vm, gsd, design = vm$design))
   x <- logFC(mgf)
 
   tstats <- setNames(x$t, x$feature_id)
