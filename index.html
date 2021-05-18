@@ -68,9 +68,10 @@
       </header><div class="row">
   <div class="contents col-md-9">
 
-<div id="sparrow" class="section level1">
+<div id="sparrow-" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#sparrow" class="anchor"></a>sparrow</h1></div>
+<a href="#sparrow-" class="anchor"></a>sparrow <img src="reference/figures/sparrow.png" height="150" align="right">
+</h1></div>
 <!-- badges: start -->
 
 <p><code>sparrow</code> (formerly <a href="https://github.com/lianos/multiGSEA">multiGSEA</a>) was built to facilitate the use of gene sets in the analysis of high throughput genomics data (primarily RNA-seq). Analysts can orchestrate any number of GSEA methods across a specific contrast using the unified interface provided by the <code>seas</code>. A shiny application is provided via the <a href="https://github.com/lianos/sparrow.shiny">sparrow.shiny</a> package that enables the interactive exploration of of GSEA results.</p>
@@ -89,7 +90,7 @@
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
 <span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/getMSigGeneSetDb.html">getMSigGeneSetDb</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'H'</span>, <span class="st">'C2'</span><span class="op">)</span>, species <span class="op">=</span> <span class="st">'human'</span>, id.type <span class="op">=</span> <span class="st">"entrez"</span><span class="op">)</span>
 <span class="va">vm</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/exampleExpressionSet.html">exampleExpressionSet</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="st">'tumor-vs-normal'</span>, do.voom <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="va">mg</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/seas.html">seas</a></span><span class="op">(</span><span class="va">gdb</span>, <span class="va">vm</span>, <span class="va">vm</span><span class="op">$</span><span class="va">design</span>, <span class="st">"tumor"</span>, methods<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"camera"</span>, <span class="st">"fry"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<span class="va">mg</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/seas.html">seas</a></span><span class="op">(</span><span class="va">vm</span>, <span class="va">gdb</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"camera"</span>, <span class="st">"fry"</span><span class="op">)</span>, design <span class="op">=</span> <span class="va">vm</span><span class="op">$</span><span class="va">design</span>, contrast <span class="op">=</span> <span class="st">"tumor"</span><span class="op">)</span></code></pre></div>
 <p>We can view the top “camera” results with the smallest pvalues like so:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/resultNames.html">results</a></span><span class="op">(</span><span class="va">mg</span>, <span class="st">"camera"</span><span class="op">)</span> <span class="op">%&gt;%</span>
