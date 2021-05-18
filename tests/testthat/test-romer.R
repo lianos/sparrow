@@ -34,8 +34,8 @@ test_that('romer runs equivalently from do.romer vs direct call', {
 
   # seas pass through & result call matches raw result
   set.seed(seed)
-  mg <- seas(gdb, y, y$design, ncol(y$design), method = "romer",
-                  nrot = nrot)
+  mg <- seas(y, gdb, "romer", design = y$design, contrast = ncol(y$design),
+             nrot = nrot)
   res <- result(mg, "romer")
   res$key <- encode_gskey(res)
 

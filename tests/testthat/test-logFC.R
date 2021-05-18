@@ -5,8 +5,8 @@ test_that("logFC pass through generates expected gene-set stats", {
   gsl <- exampleGeneSets()
   gsd <- GeneSetDb(gsl)
 
-  mgc <- seas(gsd, vm, vm$design, methods='camera')
-  mgf <- seas(gsd, vm, vm$design)
+  mgc <- seas(vm, gsd, "camera", design = vm$design)
+  mgf <- seas(vm, gsd, design = vm$design)
   expect_equal(geneSets(mgc), geneSets(mgf))
 })
 
@@ -15,14 +15,14 @@ test_that("t-stats and logFCs match full design when only stats passed", {
   gsl <- exampleGeneSets()
   gsd <- GeneSetDb(gsl)
 
-  mgf <- suppressWarnings(seas(gsd, vm, vm$design))
+  mgf <- suppressWarnings(seas(vm, gsd, desgin = vm$design))
   x <- logFC(mgf)
 
   tstats <- setNames(x$t, x$feature_id)
   lfc <- setNames(x$logFC, x$feature_id)
 
-  mgt <- seas(gsd, tstats)
-  mgl <- seas(gsd, lfc)
+  mgt <- seas(tstats, gsd)
+  mgl <- seas(lfc, gsd)
 
   ro <- suppressWarnings(results(mgf))
   rt <- suppressWarnings(results(mgt))

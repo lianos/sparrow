@@ -68,7 +68,7 @@ function(x, y, rename.x = NULL, rename.y = NULL, ...) {
 #' @examples
 #' vm <- exampleExpressionSet(do.voom=TRUE)
 #' gdb <- exampleGeneSetDb()
-#' mg <- seas(gdb, vm, vm$design, 'tumor', methods=NULL)
+#' mg <- seas(vm, gdb, design = vm$design, contrast = 'tumor')
 #' geneSetDb(mg)
 geneSetDb <- function(x) {
   stopifnot(is(x, 'SparrowResult'))
@@ -175,7 +175,7 @@ function(x, i, j, value=c('feature_id', 'x.id', 'x.idx'),
 #' @examples
 #' vm <- exampleExpressionSet(do.voom=TRUE)
 #' gdb <- exampleGeneSetDb()
-#' mg <- seas(gdb, vm, vm$design, 'tumor')
+#' mg <- seas(vm, gdb, design = vm$design, contrast = 'tumor')
 #' head(geneSetsStats(mg))
 geneSetsStats <- function(x, feature.min.logFC=1, feature.max.padj=0.10,
                           trim=0.10, reannotate.significance = FALSE,
@@ -252,7 +252,7 @@ geneSetsStats <- function(x, feature.min.logFC=1, feature.max.padj=0.10,
 #' @examples
 #' vm <- exampleExpressionSet(do.voom=TRUE)
 #' gdb <- exampleGeneSetDb()
-#' mg <- seas(gdb, vm, vm$design, 'tumor', methods=NULL)
+#' mg <- seas(vm, gdb, design = vm$design, contrast = 'tumor')
 #' lfc <- logFC(mg)
 logFC <- function(x, as.dt=FALSE) {
   stopifnot(is(x, 'SparrowResult'))
@@ -557,7 +557,7 @@ setMethod("show", "SparrowResult", function(object) {
 #' @examples
 #' # vm <- exampleExpressionSet(do.voom=TRUE)
 #' # gdb <- exampleGeneSetDb()
-#' # mg <- seas(gdb, vm, vm$design, 'tumor', methods=c('cameraPR'))
+#' # mg <- seas(vm, gdb, "cameraPR", design = vm$design, contrast = 'tumor')
 #' mg <- exampleSparrowResult()
 #' pm <- p.matrix(mg)
 p.matrix <- function(x, names=resultNames(x),

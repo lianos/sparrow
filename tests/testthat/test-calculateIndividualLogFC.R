@@ -96,14 +96,14 @@ test_that("edgeR's glmLRT or QLF are used when asked", {
     glmQLFTest %>%
     topTags(n = Inf, sort.by = "none") %>%
     as.data.frame
-  mgq <- seas(gdb, y, y$design, use.qlf = TRUE)
+  mgq <- seas(y, gdb, design = y$design, use.qlf = TRUE)
   expect_equal(logFC(mgq)$pval, ex.qlf$PValue, info = "QLF")
 
   ex.lrt <- glmFit(y, y$design) %>%
     glmLRT %>%
     topTags(n = Inf, sort.by = "none") %>%
     as.data.frame
-  mgl <- seas(gdb, y, y$design, use.qlf = FALSE)
+  mgl <- seas(y, gdb, design = y$design, use.qlf = FALSE)
   expect_equal(logFC(mgl)$pval, ex.lrt$PValue, info = "LRT")
 
   # Pvalues from QLF and LRT should not be the same

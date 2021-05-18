@@ -130,7 +130,8 @@ exampleSparrowResult <- function(cached=TRUE) {
   } else {
     vm <- exampleExpressionSet()
     gdb <- exampleGeneSetDb()
-    out <- seas(gdb, vm, vm$design, "tumor", c('camera', 'fry'))
+    out <- seas(vm, gdb, c('camera', 'fry'),
+                design = vm$design, contrast = "tumor")
   }
   out
 }

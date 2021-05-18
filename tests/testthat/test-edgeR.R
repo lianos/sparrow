@@ -13,7 +13,7 @@ test_that("edgeR::quasiLikelihood pipeline run for logFC's of DGEList input", {
   res <- glmQLFTest(fit, 2)
   tte <- as.data.frame(topTags(res, Inf, sort.by='none'))
 
-  mge <- seas(gdb, y, d, 2, use.treat=FALSE)
+  mge <- seas(y, gdb, design = d, contrast = 2, use.treat = FALSE)
   lfc <- logFC(mge)
 
   ## seas calls does some reordering of output

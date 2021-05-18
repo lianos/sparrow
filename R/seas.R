@@ -105,18 +105,21 @@
 #' @export
 #' @importFrom BiocParallel bplapply SerialParam bpparam
 #'
+#' @param x An object to run enrichment analyses over. This can be an
+#'   ExpressoinSet-like object that you can differential expression over
+#'   (for roast, fry, camera), a named (by feature_id) vector of scores to run
+#'   ranked-based GSEA, a data.frame with feature_id's, ranks, scores, etc.
 #' @param gsd The [GeneSetDb()] that defines the gene sets of interest.
-#' @param x An ExpressoinSet-like object
+#' @param methods A character vector indicating the GSEA methods you want to
+#'   run. Refer to the GSEA Methods section for more details.
+#'   If no methods are specified, only differential gene expression and geneset
+#'   level statistics for the contrast are computed.
 #' @param design A design matrix for the study
 #' @param contrast The contrast of interest to analyze. This can be a column
 #'   name of `design`, or a contrast vector which performs "coefficient
 #'   arithmetic" over the columns of `design`. The `design` and `contrast`
 #'   parameters are interpreted in *exactly* the same way as the same parameters
 #'   in limma's [limma::camera()] and [limma::roast()] methods.
-#' @param methods A character vector indicating the GSEA methods you want to
-#'   run. Refer to the GSEA Methods section for more details.
-#'   If no methods are specified, only differential gene expression and geneset
-#'   level statistics for the contrast are computed.
 #' @param use.treat should we use limma/edgeR's "treat" functionality for the
 #'   gene-level differential expression analysis?
 #' @param feature.min.logFC The minimum logFC required for an individual
@@ -168,31 +171,24 @@
 #' @examples
 #' vm <- exampleExpressionSet()
 #' gdb <- exampleGeneSetDb()
-#' mg <- seas(gdb, vm, vm$design, 'tumor',
-#'                 methods=c('camera', 'fry'),
-#'                 # customzie camera parameter:
-#'                 inter.gene.cor = 0.04)
+#' mg <- seas(vm, gdb, c('camera', 'fry'),
+#'            design = vm$design, contrast = 'tumor',
+#'            # customzie camera parameter:
+#'            inter.gene.cor = 0.04)
 #' resultNames(mg)
 #' res.camera <- result(mg, 'camera')
 #' res.fry <- result(mg, 'fry')
 #' res.all <- results(mg)
-seas <- function(gsd, x, design=NULL, contrast=NULL,
-                 methods=NULL, use.treat=FALSE,
-                 feature.min.logFC=if (use.treat) log2(1.25) else 1,
-                 feature.max.padj=0.10, trim=0.10, verbose=FALSE, ...,
+seas <- function(x, gsd, methods = NULL,
+                 design = NULL, contrast = NULL, use.treat = FALSE,
+                 feature.min.logFC = if (use.treat) log2(1.25) else 1,
+                 feature.max.padj = 0.10, trim = 0.10, verbose = FALSE, ...,
                  rank_by = NULL,
                  rank_order = c("ordered", "descending", "ascending"),
                  select_by = NULL, group_by = NULL, bias_by = NULL,
-                 xmeta. = NULL, .parallel=FALSE, BPPARAM=bpparam()) {
+                 xmeta. = NULL, .parallel = FALSE, BPPARAM = bpparam()) {
   if (!is(gsd, "GeneSetDb")) {
-    if (is(gsd, "GeneSetCollection") || is(gsd, "GeneSet")) {
-      stop("A GeneSetDb is required. GeneSetCollections can be converted to a ",
-           "GeneSetDb via the GeneSetDb constructor, or a call to ",
-           "`as(gene_set_collection, 'GeneSetDb')`. See ?GeneSetDb for more ",
-           "details.")
-    }
-    stop("GeneSetDb required. Please see `?GeneSetDb` for ways to turn your ",
-         "gene sets into a GeneSetDb")
+    gsd <- GeneSetDb(gsd, ...)
   }
   if (missing(methods) || length(methods) == 0) {
     methods <- "logFC"

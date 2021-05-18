@@ -291,7 +291,7 @@ setGeneric("geneSets", function(x, ...) standardGeneric('geneSets'))
 #' @examples
 #' vm <- exampleExpressionSet(do.voom=TRUE)
 #' gdb <- conform(exampleGeneSetDb(), vm)
-#' mg <- seas(gdb, vm, vm$design, 'tumor', methods=NULL)
+#' mg <- seas(vm, gdb, design = vm$design, contrast = 'tumor')
 #' features <- c("55839", "8522", "29087")
 #' gsm.hit <- geneSetSummaryByGenes(gdb, features)
 #' gsm.fid <- geneSetSummaryByGenes(mg, features, feature.rename=NULL)
