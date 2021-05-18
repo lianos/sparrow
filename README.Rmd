@@ -10,7 +10,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# sparrow
+# sparrow <img src="man/figures/sparrow.png" height="150" align="right"/>
 
 <!-- badges: start -->
 [![R build status](https://github.com/lianos/sparrow/workflows/R-CMD-check/badge.svg)](https://github.com/lianos/sparrow/actions)

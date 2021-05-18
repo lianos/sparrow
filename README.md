@@ -1,5 +1,5 @@
 
-# sparrow
+# sparrow <img src="man/figures/sparrow.png" height="150" align="right"/>
 
 <!-- badges: start -->
 
@@ -53,7 +53,7 @@ library(sparrow)
 library(dplyr)
 gdb <- getMSigGeneSetDb(c('H', 'C2'), species = 'human', id.type = "entrez")
 vm <- exampleExpressionSet(dataset = 'tumor-vs-normal', do.voom = TRUE)
-mg <- seas(gdb, vm, vm$design, "tumor", methods=c("camera", "fry"))
+mg <- seas(vm, gdb, c("camera", "fry"), design = vm$design, contrast = "tumor")
 ```
 
 We can view the top “camera” results with the smallest pvalues like so:
