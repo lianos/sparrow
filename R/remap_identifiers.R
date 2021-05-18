@@ -21,10 +21,14 @@
 #'   ensembl <-> entrez data.frame, or you can provide your own.
 #' @return a remapped GeneSetDb object
 #' @examples
+#' \dontrun{
+#' # This function needs to be reimplemented using the {babelgene} package,
+#' # and these examples are left for posterity to remind us of what once was.
 #' gdb.entrez <- exampleGeneSetDb()
 #' gdb.ens <- remap_identifiers(gdb.entrez, "human",
 #'                              original_id = "entrezgene_id",
 #'                              target_id = "ensembl_gene_id")
+#' }
 remap_identifiers <- function(x, xref, original_id = colnames(xref)[1L],
                               target_id = colnames(xref)[2L], ...) {
   stop("Re-implement this using the babelgene package\n",

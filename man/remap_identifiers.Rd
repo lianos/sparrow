@@ -39,8 +39,12 @@ the source identifiers, and the second is the target_id you want to remap
 the identifiers to.
 }
 \examples{
+\dontrun{
+# This function needs to be reimplemented using the {babelgene} package,
+# and these examples are left for posterity to remind us of what once was.
 gdb.entrez <- exampleGeneSetDb()
 gdb.ens <- remap_identifiers(gdb.entrez, "human",
                              original_id = "entrezgene_id",
                              target_id = "ensembl_gene_id")
+}
 }
