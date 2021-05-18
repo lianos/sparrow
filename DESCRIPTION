@@ -44,6 +44,7 @@ Suggests:
     KernSmooth,
     knitr,
     PANTHER.db (>= 1.0.3),
+    R.utils,
     reactome.db,
     reshape2,
     rmarkdown,

@@ -27,6 +27,8 @@
 #'                              target_id = "ensembl_gene_id")
 remap_identifiers <- function(x, xref, original_id = colnames(xref)[1L],
                               target_id = colnames(xref)[2L], ...) {
+  stop("Re-implement this using the babelgene package\n",
+       "https://github.com/lianos/sparrow/issues/2")
   assert_class(x, "GeneSetDb")
   if (test_string(xref)) xref <- load_id_xref(xref)
   assert_multi_class(xref, c("data.frame", "data.table", "tbl"))
@@ -48,31 +50,5 @@ remap_identifiers <- function(x, xref, original_id = colnames(xref)[1L],
 
   out <- GeneSetDb(gs.dt)
   out@collectionMetadata <- x@collectionMetadata
-  out
-}
-
-#' Load the mouse or human ensembl <-> entrez id maps.
-#'
-#' For convenience, entrez <-> ensembl maps come bundled with the is package.
-#' While there are other sactioned ways to achieve this within the bioconductor
-#' ecosystem, we bundle it here to make our lives easier.
-#'
-#' These tables are gnerated by the `inst/scripts/genereate-id-maps.R`
-#'
-#' @param species The name of the species to load the entrez <-> ensembl xref
-#'   table for. Currently we only provide tables for human and mouse ... and we
-#'   shouldn't even provide those in here, but ...
-#' @return a table of ensembl and entrez ids for each species
-load_id_xref <- function(species, ..., as.dt = FALSE) {
-  assert_string(species)
-  sinfo <- species_info(species)
-  fn <- sprintf("%s-entrez-ensembl.csv.gz", sinfo[["alias"]])
-  fn <- system.file("extdata", "identifiers", fn, package = "sparrow")
-  if (!test_file_exists(fn)) {
-    stop("Can not find `extdata/idenifiers` xref table for: ", species)
-  }
-  out <- data.table::fread(fn)
-  out[, entrezgene_id := as.character(entrezgene_id)]
-  if (!as.dt) out <- setDF(copy(out))
   out
 }
