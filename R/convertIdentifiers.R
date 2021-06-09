@@ -4,8 +4,11 @@
 #' provide. Use this function to map the given identifiers to whichever type
 #' you like.
 #'
-#' You need to provie a data.frame that has a column for the current identifiers
-#' and another column for the target identifiers.
+#' You need to provide a data.frame that has a column for the current
+#' identifiers and another column for the target identifiers.
+#'
+#' If you don't provide a data.frame we can use to translate identifiers,
+#' we'll use hte babelgene package.
 #'
 #' When there are multiple target id's for the source id, they will all be
 #' returned. When there is no target id for the source id, the soure feature
@@ -25,12 +28,12 @@
 #' # This function needs to be reimplemented using the {babelgene} package,
 #' # and these examples are left for posterity to remind us of what once was.
 #' gdb.entrez <- exampleGeneSetDb()
-#' gdb.ens <- remap_identifiers(gdb.entrez, "human",
+#' gdb.ens <- convertIdentifiers(gdb.entrez, "human",
 #'                              original_id = "entrezgene_id",
 #'                              target_id = "ensembl_gene_id")
 #' }
-remap_identifiers <- function(x, xref, original_id = colnames(xref)[1L],
-                              target_id = colnames(xref)[2L], ...) {
+convertIdentifiers <- function(x, xref, original_id = colnames(xref)[1L],
+                               target_id = colnames(xref)[2L], ...) {
   stop("Re-implement this using the babelgene package\n",
        "https://github.com/lianos/sparrow/issues/2")
   assert_class(x, "GeneSetDb")
