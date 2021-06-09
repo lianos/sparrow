@@ -6,8 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Extract the individual fold changes statistics for elements in the
-expression object. — logFC • sparrow</title>
+<title>Converts the feature identifiers in a GeneSetDb to a set of new ones. — convertIdentifiers • sparrow</title>
 
 
 <!-- jquery -->
@@ -42,10 +41,10 @@ expression object. — logFC • sparrow</title>
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Extract the individual fold changes statistics for elements in the
-expression object. — logFC" />
-<meta property="og:description" content="Extract the individual fold changes statistics for elements in the
-expression object." />
+<meta property="og:title" content="Converts the feature identifiers in a GeneSetDb to a set of new ones. — convertIdentifiers" />
+<meta property="og:description" content="The various GeneSetDb data providers limit the identifier types that they
+provide. Use this function to map the given identifiers to whichever type
+you like." />
 
 
 
@@ -114,43 +113,64 @@ expression object." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Extract the individual fold changes statistics for elements in the
-expression object.</h1>
+    <h1>Converts the feature identifiers in a GeneSetDb to a set of new ones.</h1>
     
-    <div class="hidden name"><code>logFC.Rd</code></div>
+    <div class="hidden name"><code>convertIdentifiers.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Extract the individual fold changes statistics for elements in the
-expression object.</p>
+    <p>The various GeneSetDb data providers limit the identifier types that they
+provide. Use this function to map the given identifiers to whichever type
+you like.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>logFC</span><span class='op'>(</span><span class='va'>x</span>, as.dt <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>convertIdentifiers</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  <span class='va'>xref</span>,
+  original_id <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>xref</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1L</span><span class='op'>]</span>,
+  target_id <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>xref</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>2L</span><span class='op'>]</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>A <code><a href='SparrowResult-class.html'>SparrowResult()</a></code></p></td>
+      <td><p>The GeneSetDb with identifiers to convert</p></td>
     </tr>
     <tr>
-      <th>as.dt</th>
-      <td><p>If <code>FALSE</code> (default), the data.frame like thing that
-this funciton returns will be set to a data.frame. Set this to <code>TRUE</code>
-to keep this object as a <code>data.table</code></p></td>
+      <th>xref</th>
+      <td><p>If a species (<code>"mouse"</code> or <code>"human"</code>) we will load the internal
+ensembl &lt;-&gt; entrez data.frame, or you can provide your own.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The log fold change `data.table``</p>
+    <p>a remapped GeneSetDb object</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>You need to provide a data.frame that has a column for the current
+identifiers and another column for the target identifiers.</p>
+<p>If you don't provide a data.frame we can use to translate identifiers,
+we'll use hte babelgene package.</p>
+<p>When there are multiple target id's for the source id, they will all be
+returned. When there is no target id for the source id, the soure feature
+will be axed.</p>
+<p>By default, the first column of the <code>xref</code> data.frame is assumed to be
+the source identifiers, and the second is the target_id you want to remap
+the identifiers to.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>vm</span> <span class='op'>&lt;-</span> <span class='fu'><a href='exampleExpressionSet.html'>exampleExpressionSet</a></span><span class='op'>(</span>do.voom<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
-<span class='va'>gdb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='exampleExpressionSet.html'>exampleGeneSetDb</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='va'>mg</span> <span class='op'>&lt;-</span> <span class='fu'><a href='seas.html'>seas</a></span><span class='op'>(</span><span class='va'>vm</span>, <span class='va'>gdb</span>, design <span class='op'>=</span> <span class='va'>vm</span><span class='op'>$</span><span class='va'>design</span>, contrast <span class='op'>=</span> <span class='st'>'tumor'</span><span class='op'>)</span>
-<span class='va'>lfc</span> <span class='op'>&lt;-</span> <span class='fu'>logFC</span><span class='op'>(</span><span class='va'>mg</span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='co'># This function needs to be reimplemented using the {babelgene} package,</span>
+<span class='co'># and these examples are left for posterity to remind us of what once was.</span>
+<span class='va'>gdb.entrez</span> <span class='op'>&lt;-</span> <span class='fu'><a href='exampleExpressionSet.html'>exampleGeneSetDb</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>gdb.ens</span> <span class='op'>&lt;-</span> <span class='fu'>convertIdentifiers</span><span class='op'>(</span><span class='va'>gdb.entrez</span>, <span class='st'>"human"</span>,
+                             original_id <span class='op'>=</span> <span class='st'>"entrezgene_id"</span>,
+                             target_id <span class='op'>=</span> <span class='st'>"ensembl_gene_id"</span><span class='op'>)</span>
+<span class='op'>}</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
