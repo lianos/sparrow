@@ -1,7 +1,7 @@
 Package: sparrow
 Type: Package
 Title: Take command of set enrichment analyses through a unified interface.
-Version: 0.98.5
+Version: 0.98.6
 Authors@R: c(
     person("Steve", "Lianoglou", , "slianoglou@gmail.com", c("aut", "cre")),
     person("Denali Therapeutics", role = c("fnd"), comment = "2018+"),
@@ -21,6 +21,7 @@ Imports:
     ggplot2 (>= 2.2.0),
     GSEABase,
     GSVA,
+    hexbin,
     irlba,
     limma,
     Matrix,
@@ -30,6 +31,7 @@ Imports:
     viridis
 Suggests:
     AnnotationDbi,
+    babelgene (>= 21.4),
     BiasedUrn,
     Biobase (>= 2.24.0),
     BiocStyle,
@@ -67,6 +69,7 @@ Collate:
     'aaa.R'
     'bioc-accessors.R'
     'calculateIndividualLogFC.R'
+    'convertIdentifiers.R'
     'validateInputs.R'
     'do.camera.R'
     'do.cameraPR.R'
@@ -91,7 +94,6 @@ Collate:
     'plots-interactive.R'
     'plots-mgheatmap.R'
     'plots-mgheatmap2.R'
-    'remap_identifiers.R'
     'renameCollections.R'
     'rename_rows.R'
     'scale_rows.R'
