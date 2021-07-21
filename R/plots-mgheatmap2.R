@@ -126,7 +126,7 @@ mgheatmap2 <- function(x, gdb = NULL, col = NULL,
                        rm.dups = FALSE, recenter = FALSE, rescale = FALSE,
                        center = FALSE, scale = FALSE, rename.rows = NULL,
                        zlim = NULL, transpose = FALSE, ...) {
-  X <- as_matrix(x)
+  X <- as_matrix(x, ...)
   stopifnot(
     ncol(X) > 1L,
     !any(is.na(X)))
