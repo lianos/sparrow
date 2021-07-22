@@ -24,6 +24,12 @@
   x
 }
 
+#' An empty geneSetURL function to use when we got nothing specific
+#' @noRd
+.geneSetURL.NA <- function(collection, name, gdb, ...) {
+  NA_character_
+}
+
 #' Retrieves a function by its name, parses out namespace::function format
 #'
 #' `methods::getFunction` requires you to explicitly put the package namespace
