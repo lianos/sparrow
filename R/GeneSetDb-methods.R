@@ -657,7 +657,7 @@ setMethod("geneSetURL", c(x = "GeneSetDb"), function(x, i, j, ...) {
 
 setMethod("geneSetCollectionURLfunction", "GeneSetDb", function(x, i, ...) {
   stopifnot(isSingleCharacter(i))
-  fn.dt <- x@collectionMetadata[list(i, 'url_function'), nomatch=0]
+  fn.dt <- x@collectionMetadata[list(i, 'url_function'), nomatch = 0]
   if (nrow(fn.dt) == 0) {
     ## validObject(x) : this call is slow and should never be FALSE anyway
     stop(sprintf("No url_function for collection '%s' found", i))
@@ -668,6 +668,9 @@ setMethod("geneSetCollectionURLfunction", "GeneSetDb", function(x, i, ...) {
   }
 
   fn <- fn.dt$value[[1L]]
+  if (test_string(fn)) {
+    fn <- get_function(fn)
+  }
   if (!is.function(fn)) {
     ## validObject(x) : this call is slow and should never be FALSE anyway
     stop(sprintf("The URL function for collection '%s' is missing", i))
@@ -679,6 +682,8 @@ setMethod("geneSetCollectionURLfunction", "GeneSetDb", function(x, i, ...) {
 setReplaceMethod("geneSetCollectionURLfunction", "GeneSetDb",
 function(x, i, value) {
   valid <- function(v) {
+    # browser()
+    v <- get_function(v)
     if (!isTRUE(is.function(v))) return(FALSE)
     args <- formalArgs(v)
     # We didn't specify previously that the  names of the arguments had to be
@@ -703,7 +708,11 @@ function(x, i, value) {
   # If the function's envirnment has a `.fn.local.vars` character vector, then
   # only those arguments are kept in the environment, otherwise we only keep
   # objects that are character vectors
-  environment(value) <- new.env(parent = parent.env(environment(value)))
+  if (is.function(value)) {
+    warning("Storing actuall functions as a url_function inflates serialized ",
+            "consider storing the name of the function instead")
+    environment(value) <- new.env(parent = parent.env(environment(value)))
+  }
   added <- addCollectionMetadata(x, i, 'url_function', value, valid)
   added
 })

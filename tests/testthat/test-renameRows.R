@@ -1,9 +1,7 @@
-context("rename_rows")
-
-test_that("rename_rows works from an embedded metadata gene frame ($genes)", {
+test_that("renameRows works from an embedded metadata gene frame ($genes)", {
   vm <- exampleExpressionSet()
   vm$genes$symbol[3] <- NA
-  vms <- rename_rows(vm, "symbol")
+  vms <- renameRows(vm, "symbol")
 
   # Guarnatee same order of remapped object
   expect_equal(vms$E[,1], vm$E[,1], check.attributes = FALSE)
@@ -12,13 +10,13 @@ test_that("rename_rows works from an embedded metadata gene frame ($genes)", {
   expect_equal(rownames(vms), ifelse(is.symbol, vm$genes$symbol, rownames(vm)))
 })
 
-test_that("rename_rows works from custom data.frame", {
+test_that("renameRows works from custom data.frame", {
   vm <- exampleExpressionSet()
 
   # A small remap data.frame
   remap <- subset(vm$genes, symbol %in% sample(symbol, 5))
   remap <- remap[, c("entrez_id", "symbol")]
-  vms <- rename_rows(vm, remap)
+  vms <- renameRows(vm, remap)
 
   # Guarnatee same order of remapped object
   expect_equal(vms$E[,1], vm$E[,1], check.attributes = FALSE)
@@ -31,7 +29,7 @@ test_that("rename_rows works from custom data.frame", {
   vm.nona <- vm[!is.na(vm$genes$symbol),]
   vmsmall <- vm.nona[sample(nrow(vm.nona), 5),]
   remap2 <- vm.nona$genes[, c("entrez_id", "symbol")]
-  vmss <- rename_rows(vmsmall, remap2)
+  vmss <- renameRows(vmsmall, remap2)
 
   # Guarantee same order
   expect_equal(vmsmall$E[,1], vmss$E[,1], check.attributes = FALSE)
@@ -51,10 +49,10 @@ test_that("rename returns unique rownames when there are duplciates in map", {
   re$to.o <- re$to
   re$to.o <- ifelse(duplicated(re$to.o), re$from, re$to)
 
-  m.re <- rename_rows(m, re[, 1:2])
+  m.re <- renameRows(m, re[, 1:2])
   expect_equal(rownames(m.re), re$to.o)
 
-  m.re.u <- rename_rows(m, re[, 1:2],
+  m.re.u <- renameRows(m, re[, 1:2],
                         rename.duplicates = "make.unique")
   expect_equal(sub("\\..*$", "", rownames(m.re.u)), re$to)
 })

@@ -72,6 +72,7 @@ getGOslimGeneSetDb <- function(species=c('human', 'mouse')) {
 
 #' @noRd
 getPantherPathways <- function(p.db, org.db) {
+  cname <- "PANTHER pathway"
   aselect <- getFromNamespace('select', 'AnnotationDbi')
   p.all <- aselect(p.db, AnnotationDbi::keys(p.db, keytype="PATHWAY_ID"),
                    columns=c("PATHWAY_ID", "PATHWAY_TERM", "UNIPROT"),
@@ -80,29 +81,27 @@ getPantherPathways <- function(p.db, org.db) {
   umap <- aselect(org.db, p.all$UNIPROT, c('UNIPROT', 'ENTREZID'), 'UNIPROT')
   m <- merge(p.all, umap, by='UNIPROT')
   m <- m[!is.na(m[['ENTREZID']]),,drop=FALSE]
-  lol <- list(`panther pathway`=split(m$ENTREZID, m$PATHWAY_TERM))
+  names(m) <- c("uniprot_id", "pathway_id", "name", "feature_id")
 
-  idxref <- unique(as.data.table(p.all)[, c('PATHWAY_TERM', 'PATHWAY_ID'), with=FALSE])
-  setkeyv(idxref, 'PATHWAY_TERM')
-
-  url.fn <- function(coll, name, ...) {
-    ## Captures the lookup table for future use from parent.frame(!)
-    ## Not sure if this will cause any serious memory leak, but ...
-    pid <- idxref[list(name)]$PATHWAY_ID
-    if (is.na(pid)) {
-      return("http://pantherdb.org/panther/prowler.jsp?reset=1&selectedView=5")
-    }
-    paste0('http://pantherdb.org/pathway/pathwayDiagram.jsp?catAccession=', pid)
-  }
-
-  gdb <- GeneSetDb(lol)
-  geneSetCollectionURLfunction(gdb, names(lol)) <- url.fn
-  featureIdType(gdb, names(lol)) <- EntrezIdentifier()
+  gdb <- GeneSetDb(m, collection = cname)
+  geneSetCollectionURLfunction(gdb, cname) <- ".geneSetURL.PANTHERpathway"
+  featureIdType(gdb, cname) <- EntrezIdentifier()
   gdb
+}
+
+.geneSetURL.PANTHERpathway <- function(coll, gsname, gdb, ...) {
+  info <- gdb@table[collection == coll & name == gsname]
+  if (nrow(info) == 0) {
+    "http://pantherdb.org/panther/prowler.jsp?reset=1&selectedView=5"
+  } else {
+    paste0("http://pantherdb.org/pathway/pathwayDiagram.jsp?catAccession=",
+           info$pathway_id)
+  }
 }
 
 #' @noRd
 getPantherGOSLIM <- function(p.db, org.db) {
+  cname <- "GOSLIM"
   if (!requireNamespace("GO.db")) {
     stop("GO.db is required for this functionality")
   }
@@ -114,48 +113,45 @@ getPantherGOSLIM <- function(p.db, org.db) {
   p.all <- p.all[!is.na(p.all[['ENTREZ']]),,drop=FALSE]
   p.all <- p.all[order(p.all[['ENTREZ']]),]
 
-  go <- aselect(GO.db::GO.db,
-                unique(p.all[['GOSLIM_ID']]),
-                c('GOID', 'TERM'),
-                'GOID')
-  go.missed <- go[is.na(go[['TERM']]),,drop=FALSE]
-  ## 2015-09-02 (Bioc 3.1)
-  ##       GOID TERM
-  ## GO:0005083   NA
-  ## GO:0006917   NA
-  ## GO:0019204   NA
-  go.add <- data.frame(
-    GOID=c("GO:0005083", "GO:0006917", "GO:0019204"),
-    TERM=c(
-      "GTPase regulator activity",
-      "apoptotic process",
-      "nucleotide phosphatase activity (obsolete)"
-    ), stringsAsFactors=FALSE)
-  go <- rbind(
-    go[!is.na(go[['TERM']]),,drop=FALSE],
-    go.add
-  )
+  go.all <- aselect(
+    GO.db::GO.db,
+    unique(p.all[['GOSLIM_ID']]),
+    c('GOID', 'TERM'),
+    'GOID')
+  go <- go.all[!is.na(go.all[['TERM']]),,drop=FALSE]
+  go <- go[!duplicated(go$GOID),]
 
-  GO <- merge(p.all, go, by.x='GOSLIM_ID', by.y='GOID', all.x=TRUE)
+  GO <- merge(p.all, go, by.x = 'GOSLIM_ID', by.y = 'GOID', all.x = TRUE)
+  names(GO) <- c("gs_id", "feature_id", "ontology", "name")
+  GO <- GO[!is.na(GO$name),]
 
-  missed <- is.na(GO$TERM)
-  mids <- unique(GO$GOSLIM_ID[missed])
-  if (length(mids)) {
-    warning(length(missed), " GOSLIM terms were not found in GO.db",
-            immediate.=TRUE)
-    GO$TERM <- ifelse(missed, GO$GOSLIM_ID, GO$TERM)
+  if (FALSE) {
+    u <- unique(as.data.table(GO), by = c("ontology", "name", "gs_id"))
+    sum(duplicated(u$name))
+    u[name %in% u$name[duplicated(u$name)]]
   }
 
-  lol <- split(GO$ENTREZ, GO$TERM)
-  url.fn <- function(x, y, ...) {
-    "http://www.pantherdb.org/panther/ontologies.jsp"
+  GO$collection <- sprintf("GOSLIM_%s", GO$ontology)
+  GO$ontology <- NULL
+
+  gdb <- GeneSetDb(GO)
+
+  for (coll in unique(GO$collection)) {
+    geneSetCollectionURLfunction(gdb, coll) <- ".geneSetURL.GOSLIM"
+    featureIdType(gdb, coll) <- EntrezIdentifier()
   }
 
-  gdb <- GeneSetDb(lol, collectionName='GOSLIM')
-  xref <- match(gdb@table$name, GO$TERM)
-  gdb@table$GOID <- GO$GOSLIM_ID[xref]
-  gdb@table$ontology <- GO$GOSLIM_TERM[xref]
-  geneSetCollectionURLfunction(gdb, 'GOSLIM') <- url.fn
-  featureIdType(gdb, 'GOSLIM') <- EntrezIdentifier()
   gdb
+}
+
+.geneSetURL.GOSLIM <- function(coll, gsname, gdb = NULL, ...) {
+  if (!is(gdb, "GeneSetDb")) {
+    return("http://www.pantherdb.org/panther/goSlim.jsp")
+  }
+  info <- gdb@table[collection == coll & name == gsname]
+  if (nrow(info) != 1) {
+    "http://www.pantherdb.org/panther/goSlim.jsp"
+  } else {
+    sprintf("http://amigo.geneontology.org/amigo/term/%s", info$gs_id)
+  }
 }

@@ -134,11 +134,7 @@ getMSigGeneSetDb <- function(collection = NULL,
   gdb <- GeneSetDb(ret)
 
   for (col in unique(geneSets(gdb)$collection)) {
-    # geneSetCollectionURLfunction(gdb, col) <- url.fn
-    geneSetCollectionURLfunction(gdb, col) <- function(collection, name, ...) {
-      url <- "http://www.broadinstitute.org/gsea/msigdb/cards/%s.html"
-      sprintf(url, name)
-    }
+    geneSetCollectionURLfunction(gdb, col) <- ".geneSetURL.msigdb"
     featureIdType(gdb, col) <- idtype
     gdb <- addCollectionMetadata(
       gdb, col, 'source', as.character(packageVersion("msigdbr")))
@@ -149,3 +145,8 @@ getMSigGeneSetDb <- function(collection = NULL,
   gdb
 }
 
+#' @noRd
+.geneSetURL.msigdb <- function(collection, name, ...) {
+  url <- "http://www.broadinstitute.org/gsea/msigdb/cards/%s.html"
+  sprintf(url, name)
+}

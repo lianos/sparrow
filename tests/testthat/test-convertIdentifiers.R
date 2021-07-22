@@ -1,7 +1,5 @@
-context("remap_identifiers")
-
 test_that("entrez id's remapped to ensemble", {
-  expect_error(remap_identifiers(), "babelgene")
+  expect_error(convertIdentifiers(), "babelgene")
   # xref <- load_id_xref("human")
   # gdb.entrez <- exampleGeneSetDb()
   # gdb.ens <- remap_identifiers(gdb.entrez, xref,
