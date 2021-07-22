@@ -208,8 +208,7 @@ GeneSetDb.data.frame <- function(x, featureIdMap = NULL, collectionName = NULL,
   tbl <- init.gsd.table.from.db(db)
 
   meta <- tbl[, {
-    list(name = c("url_function"),
-         value = list(function(x, y, ...) NA_character_))
+    list(name = c("url_function"), value = ".geneSetURL.NA")
   }, by = 'collection']
   setkeyv(meta, key(proto@collectionMetadata))
 

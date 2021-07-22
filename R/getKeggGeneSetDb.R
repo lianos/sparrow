@@ -52,15 +52,7 @@ getKeggGeneSetDb <- function(species = "human",
   df.[["collection"]] <- "KEGG"
   out <- GeneSetDb(df.)
 
-  fn <- function(collection, name, gdb, ...) {
-    if (missing(gdb) || !is(gdb, "GeneSetDb")) {
-      return("https://www.kegg.jp/kegg/pathway.html")
-    }
-    gs <- geneSets(gdb)
-    pathway_id <- gs[gs[["name"]] == name,][["pathway_id"]]
-    sprintf("https://www.genome.jp/dbget-bin/www_bget?%s", pathway_id)
-  }
-  geneSetCollectionURLfunction(out, "KEGG") <- fn
+  geneSetCollectionURLfunction(out, "KEGG") <- ".geneSetURL.KEGG"
 
   if (id.type == "ensembl") {
     # I am doing the args -> do.call mojo so that we can use the original_id
@@ -81,4 +73,14 @@ getKeggGeneSetDb <- function(species = "human",
   }
 
   out
+}
+
+#' @noRd
+.geneSetURL.KEGG <- function(collection, name, gdb, ...) {
+  if (missing(gdb) || !is(gdb, "GeneSetDb")) {
+    return("https://www.kegg.jp/kegg/pathway.html")
+  }
+  gs <- geneSets(gdb)
+  pathway_id <- gs[gs[["name"]] == name,][["pathway_id"]]
+  sprintf("https://www.genome.jp/dbget-bin/www_bget?%s", pathway_id)
 }
