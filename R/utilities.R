@@ -24,6 +24,33 @@
   x
 }
 
+#' Retrieves a function by its name, parses out namespace::function format
+#'
+#' `methods::getFunction` requires you to explicitly put the package namespace
+#' in the `where` parameter if you want to fish a function specifically out of
+#' another package. This function parses out a `"package::function"` to put
+#' the package environment in the right place.
+#'
+#' @noRd
+#' @param name the name of the function, with an optional `"package::"` prefix
+#' @return a function if found, otherwise NULL
+get_function <- function(name, ...) {
+  if (is.function(name)) return(name)
+  assert_string(name)
+  if (grepl(":::", name)) {
+    stop("Can't fish out function that is not exported")
+  }
+  if (grepl("::", name)) {
+    pkg.name <- sub("::.*", "", name)
+    fn.name <- sub(".*::", "", name)
+    pkg <- getNamespace(pkg.name)
+    out <- getFunction(fn.name, where = pkg)
+  } else {
+    out <- getFunction(name)
+  }
+  out
+}
+
 #' Utility function to ensure order of genesets in cached list used in do.*
 #' methods matches the active genesets extracted from the GeneSetDb used to run
 #' seas()

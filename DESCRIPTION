@@ -1,7 +1,7 @@
 Package: sparrow
 Type: Package
 Title: Take command of set enrichment analyses through a unified interface.
-Version: 0.98.6
+Version: 0.98.7
 Authors@R: c(
     person("Steve", "Lianoglou", , "slianoglou@gmail.com", c("aut", "cre")),
     person("Denali Therapeutics", role = c("fnd"), comment = "2018+"),
@@ -83,7 +83,6 @@ Collate:
     'do.romer.R'
     'do.svdGeneSetTest.R'
     'geneSetSummaryByGenes.R'
-    'get-housekeeping.R'
     'get-msigdb.R'
     'get-panther.R'
     'get-reactome.R'

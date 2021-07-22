@@ -95,11 +95,8 @@ exampleGeneSets <- function(x, unlist=!missing(x)) {
 exampleGeneSetDb <- function() {
   out <- GeneSetDb(exampleGeneSets())
   colls <- unique(collectionMetadata(out, as.dt = TRUE)$collection)
-  fn <- function(x, y, ...) {
-    paste0('http://www.broadinstitute.org/gsea/msigdb/cards/', y, '.html')
-  }
   for (col in colls) {
-    geneSetCollectionURLfunction(out, col) <- fn
+    geneSetCollectionURLfunction(out, col) <- ".geneSetURL.msigdb"
   }
   out
 }
@@ -115,7 +112,7 @@ exampleGeneSetDb <- function() {
 exampleGeneSetDF <- function() {
   gs.df <- system.file('extdata', 'testdata', 'custom-sigs.csv',
                        package='sparrow')
-  read.csv(gs.df, stringsAsFactors=FALSE, colClasses='character')
+  read.csv(gs.df, stringsAsFactors = FALSE, colClasses = 'character')
 }
 
 

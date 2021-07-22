@@ -62,31 +62,40 @@ getReactomeGeneSetDb <- function(species = 'human',
     info[, PATHNAME := sub(org.prefix, '', PATHNAME)]
   }
 
-  ## Somehow only one of the 'name's of the reactome genesets is encoded in
-  ## UTF-8:
-  ##   Loss of proteins required for interphase microtubule organization
-  ##   from the centrosome
-  ## All of the rest are "unknown". This causes annoying warnings when
-  ## data.table tries to join on collection,name -- so I'm just nuking the
-  ## encoding here.
+  # Somehow only one of the 'name's of the reactome genesets is encoded in
+  # UTF-8:
+  #   Loss of proteins required for interphase microtubule organization
+  #   from the centrosome
+  # All of the rest are "unknown". This causes annoying warnings when
+  # data.table tries to join on collection,name -- so I'm just nuking the
+  # encoding here.
   info <- info[, list(collection = "Reactome", name = PATHNAME,
-                      feature_id = ENTREZID, pathId = PATHID)]
+                      feature_id = ENTREZID, gs_id = PATHID)]
   Encoding(info$name) <- "unknown"
-  gdb <- GeneSetDb(info)
 
-  fn <- function(collection, name, gdb, ...) {
-    if (missing(gdb) || !is(gdb, "GeneSetDb")) {
-      return("https://reactome.org/")
-    }
-    gs <- geneSets(gdb)
-    gset <- gs[gs[["collection"]] == "Reactome" & gs[["name"]] == name,]
-    pathway_id <- gset[["pathId"]]
-    sprintf("https://reactome.org/content/detail/%s", pathway_id)
+  # there is some duplication in the genesets, which we identify by the
+  # pathway id (gs_id). let's identify them and remove the duplicate one
+  u <- unique(as.data.table(info), by = c("name", "gs_id"))
+  duped <- duplicated(u$name)
+  if (any(duped)) {
+    axid <- u$gs_id[duped]
+    info <- info[!gs_id %in% axid]
   }
-  geneSetCollectionURLfunction(gdb, "Reactome") <- fn
 
+  gdb <- GeneSetDb(info)
+  geneSetCollectionURLfunction(gdb, "Reactome") <- ".geneSetURL.REACTOME"
   featureIdType(gdb, "Reactome") <- EntrezIdentifier()
-
   org(gdb, "Reactome") <- species
   gdb
+}
+
+.geneSetURL.REACTOME <- function(coll, gsname, gdb = NULL, ...) {
+  if (!is(gdb, "GeneSetDb")) {
+    return("https://reactome.org/")
+  }
+  gs <- geneSets(gdb)
+  gset <- gs[gs[["collection"]] == "Reactome" & gs[["name"]] == gsname,]
+  pathway_id <- gset[["gs_id"]]
+  sprintf("https://reactome.org/content/detail/%s", pathway_id)
+
 }

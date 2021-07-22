@@ -33,12 +33,12 @@
 #'   first multimapper.
 #' @examples
 #' eset <- exampleExpressionSet(do.voom = FALSE)
-#' ess <- rename_rows(eset, "symbol")
+#' ess <- renameRows(eset, "symbol")
 #'
 #' vm <- exampleExpressionSet(do.voom = TRUE)
-#' vms <- rename_rows(vm, "symbol")
-rename_rows <- function(x, xref, ...) {
-  UseMethod("rename_rows", x)
+#' vms <- renameRows(vm, "symbol")
+renameRows <- function(x, xref, ...) {
+  UseMethod("renameRows", x)
 }
 
 #' Returns a two-column data.frame with rownames. The rownames are entriex from
@@ -46,7 +46,7 @@ rename_rows <- function(x, xref, ...) {
 #' should be renamed to.
 #'
 #' @noRd
-.rename_rows.df <- function(x, xref = NULL, rowmeta.df = NULL,
+.renameRows.df <- function(x, xref = NULL, rowmeta.df = NULL,
                             rename.duplicates = c("original", "make.unique"),
                             ...) {
   stopifnot(is.character(x))
@@ -96,7 +96,7 @@ rename_rows <- function(x, xref, ...) {
 }
 
 #' @export
-rename_rows.default <- function(x, xref = NULL, ...) {
+renameRows.default <- function(x, xref = NULL, ...) {
   if (is.null(xref)) {
     warning("No `xref` provided, returning object unchanged", immediate. = TRUE)
     return(x)
@@ -109,7 +109,7 @@ rename_rows.default <- function(x, xref = NULL, ...) {
   if (length(dim(x)) != 2L) {
     stop("The input object isn't 2d-subsetable")
   }
-  xref <- .rename_rows.df(rownames(x), xref, ...)
+  xref <- .renameRows.df(rownames(x), xref, ...)
   nomatch <- setdiff(rn, xref[[1L]])
   if (length(nomatch)) {
     stop(length(nomatch), " rownames do not have a lookup to use in renaming")
@@ -120,14 +120,14 @@ rename_rows.default <- function(x, xref = NULL, ...) {
 }
 
 #' @noRd
-.rename_rows.bioc <- function(x, xref = NULL, ...) {
+.renameRows.bioc <- function(x, xref = NULL, ...) {
   if (is.null(xref)) return(x)
   if (is.character(xref) && length(xref) == 1L) {
     xref <- data.frame(from = rownames(x),
                        to = fdata(x)[[xref]],
                        stringsAsFactors = FALSE)
   }
-  out <- rename_rows.default(x, xref = xref, ...)
+  out <- renameRows.default(x, xref = xref, ...)
   rownames(fdata(out)) <- rownames(out)
   out
 }
@@ -135,24 +135,24 @@ rename_rows.default <- function(x, xref = NULL, ...) {
 
 #' @export
 #' @noRd
-rename_rows.EList <- function(x, xref = NULL, ...) {
-  .rename_rows.bioc(x, xref, ...)
+renameRows.EList <- function(x, xref = NULL, ...) {
+  .renameRows.bioc(x, xref, ...)
 }
 
 #' @export
 #' @noRd
-rename_rows.DGEList <- function(x, xref = NULL, ...) {
-  .rename_rows.bioc(x, xref, ...)
+renameRows.DGEList <- function(x, xref = NULL, ...) {
+  .renameRows.bioc(x, xref, ...)
 }
 
 #' @export
 #' @noRd
-rename_rows.SummarizedExperiment <- function(x, xref, ...) {
-  .rename_rows.bioc(x, xref, ...)
+renameRows.SummarizedExperiment <- function(x, xref, ...) {
+  .renameRows.bioc(x, xref, ...)
 }
 
 #' @export
 #' @noRd
-rename_rows.eSet <- function(x, xref, ...) {
-  .rename_rows.bioc(x, xref, ...)
+renameRows.eSet <- function(x, xref, ...) {
+  .renameRows.bioc(x, xref, ...)
 }
