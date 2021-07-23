@@ -85,7 +85,7 @@ then this call simply delegates to the internal GeneSetDb." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sparrow</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.98.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.98.7</span>
       </span>
     </div>
 
@@ -210,7 +210,7 @@ geneset. <code>NA</code> is returned if the geneset is not "active" (ie. listed 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>gdb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='exampleExpressionSet.html'>exampleGeneSetDb</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='va'>fids.gs</span> <span class='op'>&lt;-</span> <span class='fu'>featureIds</span><span class='op'>(</span><span class='va'>gdb</span>, <span class='st'>'c2'</span>, <span class='st'>'BIOCARTA_AGPCR_PATHWAY'</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Coercing 'list' RHS to 'character' to match the type of the target column (column 3 named 'value').</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Coercing 'list' RHS to 'character' to match the type of the target column (column 3 named 'value').</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Coercing 'list' RHS to 'character' to match the type of the target column (column 3 named 'value').</span></div><div class='input'><span class='va'>fids.gs</span> <span class='op'>&lt;-</span> <span class='fu'>featureIds</span><span class='op'>(</span><span class='va'>gdb</span>, <span class='st'>'c2'</span>, <span class='st'>'BIOCARTA_AGPCR_PATHWAY'</span><span class='op'>)</span>
 <span class='va'>fids.c2</span> <span class='op'>&lt;-</span> <span class='fu'>featureIds</span><span class='op'>(</span><span class='va'>gdb</span>, <span class='st'>'c2'</span><span class='op'>)</span>
 <span class='va'>fids.all</span> <span class='op'>&lt;-</span> <span class='fu'>featureIds</span><span class='op'>(</span><span class='va'>gdb</span><span class='op'>)</span>
 

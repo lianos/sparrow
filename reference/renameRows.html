@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Summarizes different results into tabular form — summarized • sparrow</title>
+<title>Smartly/easily rename the rows of an object. — renameRows • sparrow</title>
 
 
 <!-- jquery -->
@@ -41,8 +41,12 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Summarizes different results into tabular form — summarized" />
-<meta property="og:description" content="Summarizes different results into tabular form" />
+<meta property="og:title" content="Smartly/easily rename the rows of an object. — renameRows" />
+<meta property="og:description" content="The most common usecase for this is when you have a SummarizedExperiment,
+DGEList, matrix, etc. that is &quot;rownamed&quot; by some gene idnetifiers (ensembl,
+entrez, etc) that you want to &quot;easily&quot; convert to be rownamed by symbols.
+And perhaps the most common use-case for this, again, would be able to
+easily change rownames of a heatmap to symbols." />
 
 
 
@@ -111,19 +115,68 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Summarizes different results into tabular form</h1>
+    <h1>Smartly/easily rename the rows of an object.</h1>
     
-    <div class="hidden name"><code>summarized.Rd</code></div>
+    <div class="hidden name"><code>renameRows.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Summarizes different results into tabular form</p>
+    <p>The most common usecase for this is when you have a SummarizedExperiment,
+DGEList, matrix, etc. that is "rownamed" by some gene idnetifiers (ensembl,
+entrez, etc) that you want to "easily" convert to be rownamed by symbols.
+And perhaps the most common use-case for this, again, would be able to
+easily change rownames of a heatmap to symbols.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>summarized</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>renameRows</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>xref</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>an object to whose rows need renaming</p></td>
+    </tr>
+    <tr>
+      <th>xref</th>
+      <td><p>an object to help with the renaming.</p><ul>
+<li><p>A character vector where length(xref) == nrow(x). Every row in
+x should correspond to the renamed value in the same position in
+xref</p></li>
+<li><p>If x is a DGEList, SummarizedExperiment, etc. this can be a string.
+In this case, the string must name a column in the data container's
+fData-like data.frame. The values in that column will be the new
+candidate rownames for the object.</p></li>
+<li><p>A two column data.frame. The first column has entries in rownames(x),
+and the second column is the value to rename it to.</p></li>
+</ul></td>
+    </tr>
+    <tr>
+      <th>rename.duplicates</th>
+      <td><p>The policy used to deal with duplicates in the
+renamed values. If Multiple elements in the source can be renamed to
+the same elements in the target (think of microarray probes to gene
+symbols), what to do? By deafult (<code>"original"</code>), one of the original
+elements will be renamed to the new name, and the rest will keep their
+original (unique) names. When set to <code>"make.unique"</code>, the new name
+will be kept, but <code>*.1</code>, <code>*.2</code>, etc. will be appended to all but the
+first multimapper.</p></td>
+    </tr>
+    </table>
 
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
+    <p>The rownames that can't successfully remapped will keep their old names.
+This function should also guarantee that the rows of the incoming matrix
+are the same as the outgoing one.</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='va'>eset</span> <span class='op'>&lt;-</span> <span class='fu'><a href='exampleExpressionSet.html'>exampleExpressionSet</a></span><span class='op'>(</span>do.voom <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+<span class='va'>ess</span> <span class='op'>&lt;-</span> <span class='fu'>renameRows</span><span class='op'>(</span><span class='va'>eset</span>, <span class='st'>"symbol"</span><span class='op'>)</span>
+
+<span class='va'>vm</span> <span class='op'>&lt;-</span> <span class='fu'><a href='exampleExpressionSet.html'>exampleExpressionSet</a></span><span class='op'>(</span>do.voom <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='va'>vms</span> <span class='op'>&lt;-</span> <span class='fu'>renameRows</span><span class='op'>(</span><span class='va'>vm</span>, <span class='st'>"symbol"</span><span class='op'>)</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
