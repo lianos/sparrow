@@ -267,7 +267,7 @@ mark the top and bottom of the color scale range you want to use.</p></td>
 
     
 
-<p>This function leverages <code>rename_rows()</code> so that you can better customize the
+<p>This function leverages <code><a href='renameRows.html'>renameRows()</a></code> so that you can better customize the
 output of your heatmaps by tweaking its rownames.</p>
 <p>If you are plotting a <strong>gene-level</strong> heatmap (ie. <code>aggregate.by == "none"``) and the </code>rownames()<code>are gene identifiers, but you want the rownames of the heatmap to be gene symbols. You can perform this renaming using the</code>rename.rows` parameter.</p><ul>
 <li><p>If <code>rename.rows</code> is <code>NULL</code>, then nothing is done.</p></li>
@@ -327,7 +327,7 @@ the "Examples" section here.</p>
                  top_annotation <span class='op'>=</span> <span class='va'>col.anno</span>, show_column_names <span class='op'>=</span> <span class='cn'>FALSE</span>,
                  column_title <span class='op'>=</span> <span class='st'>"Gene Set Activity in BRCA subset"</span>,
                  rename.rows <span class='op'>=</span> <span class='va'>rr</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in rename_rows(X, rename.rows, ...): could not find function "rename_rows"</span></div></pre>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
