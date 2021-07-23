@@ -94,7 +94,7 @@ Collate:
     'plots-mgheatmap.R'
     'plots-mgheatmap2.R'
     'renameCollections.R'
-    'rename_rows.R'
+    'renameRows.R'
     'scale_rows.R'
     'scoreSingleSamples.R'
     'seas.R'

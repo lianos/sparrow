@@ -102,7 +102,7 @@ More info here.
 }
 \section{Renaming Heatmap Rows}{
 
-This function leverages \code{\link[=rename_rows]{rename_rows()}} so that you can better customize the
+This function leverages \code{\link[=renameRows]{renameRows()}} so that you can better customize the
 output of your heatmaps by tweaking its rownames.
 
 If you are plotting a \strong{gene-level} heatmap (ie. \verb{aggregate.by == "none"``) and the }rownames()\verb{are gene identifiers, but you want the rownames of the heatmap to be gene symbols. You can perform this renaming using the}rename.rows` parameter.
