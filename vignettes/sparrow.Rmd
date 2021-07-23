@@ -467,7 +467,7 @@ scores <- scoreSingleSamples(gdb.sub, vm.bh,
 We can see how the scores from different methods compare to each other with
 using a little `reshape2` mojo and the `sparrow::corplot` function.
 
-```{r sss-pairs}
+```{r sss-pairs, warning=FALSE}
 sm <- acast(scores, name + sample_id ~ method, value.var="score")
 corplot(sm, cluster=TRUE)
 ```
@@ -475,7 +475,7 @@ corplot(sm, cluster=TRUE)
 It is, perhaps, interesting to compare how the `ewm` method scores change when
 we choose not to "uncenter" and "unscale" them:
 
-```{r}
+```{r, warning=FALSE}
 ewmu <- scoreSingleSamples(gdb.sub, vm.bh,
                            methods=c('ewm'),
                            unscale=TRUE, uncenter=TRUE) %>%
@@ -799,19 +799,19 @@ the user aware of some future development of the package. For the
 time being, the user is required to manually map the feautreIds in their
 expression matrix to be concordant with the ones found in the `GeneSetDb`.
 
-**In the meantime**, a `rename_rows` convenience function is provided here
+**In the meantime**, a `renameRows` convenience function is provided here
 to easily rename the rows of our expression container to different values.
 For instance, to rename this is how you might rename the rows of your assay
 container to use symbols:
 
 ```{r}
 vm <- exampleExpressionSet()
-vms <- rename_rows(vm, "symbol")
+vms <- renameRows(vm, "symbol")
 head(cbind(rownames(vm), rownames(vms)))
 ```
 
 We grabbed the `symbol` column from `vm$genes` and "smartly" renamed the rows
-of `vm` with the values there. Refer to the `?rename_rows` man page for more
+of `vm` with the values there. Refer to the `?renameRows` man page for more
 details. This, of course, still requires you to manually fetch and map
 identifiers, but still ...
 

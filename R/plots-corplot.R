@@ -29,9 +29,9 @@ col.pairs <- circlize::colorRamp2(c(-1, 0, 1), c('blue', 'white', 'red'), 0.5)
 #' @examples
 #' x <- matrix(rnorm(1000), ncol=5)
 #' corplot(x)
-corplot <- function(E, title, cluster=FALSE, col.point='#00000066',
-                    diag.distro=TRUE, smooth.scatter=nrow(E) > 400, ...) {
-  E <- as_matrix(E)
+corplot <- function(E, title, cluster = FALSE, col.point = '#00000066',
+                    diag.distro = TRUE, smooth.scatter = nrow(E) > 400, ...) {
+  E <- as_matrix(E, ...)
   if (missing(title)) {
     title <- 'Pairs Plot'
   }
@@ -46,12 +46,12 @@ corplot <- function(E, title, cluster=FALSE, col.point='#00000066',
   }
 
   suppressWarnings({
-    pairs(E, col.point=col.point,
+    pairs(E, ..., col.point=col.point,
           lower.panel=panel.cor,
           upper.panel=panel.spoints,
           diag.panel=if (diag.distro) panel.hist else NULL,
           gap=0.2, pch=16,
-          main=title, smooth.scatter=smooth.scatter, ...)
+          main=title, smooth.scatter = smooth.scatter)
   })
 
   invisible(NULL)
