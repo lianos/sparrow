@@ -127,7 +127,7 @@ iplot.gsea.plot <- function(lfc, geneset, rank_by, title, gseaParam = 1,
   statsAdj <- sign(statsAdj) * (abs(statsAdj) ^ gseaParam)
   statsAdj <- statsAdj / max(abs(statsAdj))
 
-  pathway <- unname(as.vector(na.omit(match(pathway, names(statsAdj)))))
+  pathway <- unname(as.vector(stats::na.omit(match(pathway, names(statsAdj)))))
   pathway <- sort(pathway)
 
   gseaRes <- fgsea::calcGseaStat(statsAdj, selectedStats = pathway,

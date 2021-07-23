@@ -15,7 +15,7 @@
 #' More info here.
 #'
 #' @section Renaming Heatmap Rows:
-#' This function leverages [rename_rows()] so that you can better customize the
+#' This function leverages [renameRows()] so that you can better customize the
 #' output of your heatmaps by tweaking its rownames.
 #'
 #' If you are plotting a **gene-level** heatmap (ie. `aggregate.by == "none"``)
@@ -301,12 +301,12 @@ mgheatmap2 <- function(x, gdb = NULL, col = NULL,
         metadf <- data.frame(rn = rownames(x), to = metadf[[rename.rows]],
                              stringsAsFactors = FALSE)
         if (!is.null(metadf$to)) {
-          row.labels <- rownames(rename_rows(X, xref = metadf, ...))
+          row.labels <- rownames(renameRows(X, xref = metadf, ...))
         } else {
           warning("rename.rows column not found in metadata for x")
         }
       } else {
-        row.labels <- rownames(rename_rows(X, rename.rows, ...))
+        row.labels <- rownames(renameRows(X, rename.rows, ...))
       }
     } else {
       if (!(is.data.frame(rename.rows) && ncol(rename.rows) == 2)) {
@@ -318,7 +318,7 @@ mgheatmap2 <- function(x, gdb = NULL, col = NULL,
           rr[[1L]] <- sub("^.*;;?", "", rename.rows[[1L]])
           rename.rows <- rbind(rename.rows, rr)
         }
-        row.labels <- rownames(rename_rows(X, rename.rows, ...))
+        row.labels <- rownames(renameRows(X, rename.rows, ...))
       }
     }
   }
