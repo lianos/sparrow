@@ -1,0 +1,5 @@
+options(
+  repos = c(CRAN = "https://cran.rstudio.com/"),
+  download.file.method = "libcurl",
+  # defaultPackages = c(getOption("defaultPackages"), "sparrow.shiny"),
+  shiny.port = 3838, shiny.host = "0.0.0.0")
