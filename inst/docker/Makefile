@@ -11,6 +11,19 @@ release-build:
 	--no-cache \
 	-t lianos/sparrow:release release
 
+release-run:
+	docker run --rm -it -d --name sparrow-release \
+	-v /Users/lianoglou/workspace/Rpkgs/sparrow:/home/rstudio/sparrow \
+	-v /Users/lianoglou/workspace/Rpkgs/sparrow.shiny:/home/rstudio/sparrow.shiny \
+	-v /Users/lianoglou/.config/rstudio:/home/rstudio/.config/rstudio \
+	-p 8787:8787 \
+	-p 8080:3838 \
+	--entrypoint /init \
+	--env SHINYPROXY_USERNAME=$(USER) \
+	-e DISABLE_AUTH=true \
+	lianos/sparrow:release && \
+	sleep 5 && open http://localhost:8787
+
 devel-build:
 	docker build \
 	--no-cache \

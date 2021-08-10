@@ -8,6 +8,8 @@ Authors@R: c(
     person("Genentech", role = c("fnd"), comment = "2014 - 2017"))
 Description: Provides a unified interface to orchestrate a plethora of GSEA
     methods and quickly interrogate their results.
+Depends:
+    R (>= 4.0)
 Imports:
     babelgene (>= 21.4),
     BiocGenerics,

@@ -42,3 +42,8 @@ statmod
 stringr
 testthat
 webshot
+shinyWidgets
+shinyjs
+shinydashboard
+miniUI
+

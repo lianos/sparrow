@@ -7,8 +7,8 @@ on:
     # https://crontab.guru/ to debug cron syntax
     # run every Monday and Thursday at 1:00 AM Pacific (8 AM UTC)
     # (takes about an hour)
-    # - cron: '0 8 * * 1,4'
-    - cron: '0 8 * * *'
+    - cron: '0 8 * * 1,4'
+    # - cron: '0 8 * * *'
 name: build-devel-image
 jobs:
   build-devel-image:
