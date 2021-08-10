@@ -9,6 +9,11 @@ on:
     # (takes about an hour)
     - cron: '0 8 * * 1,4'
     # - cron: '0 8 * * *'
+  workflow_dispatch:
+    inputs:
+      description: 'A dummy variable'
+      required: false
+      default: 'gitty up'
 name: build-release-image
 jobs:
   build-release-image:
