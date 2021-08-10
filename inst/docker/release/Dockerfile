@@ -44,10 +44,16 @@ RUN R -f /tmp/install.R
 # every now and again without reinstalling all of them again, so we can
 # do that here. Run a no-op command to flip this on/of/rerun
 # RUN pwd
-RUN Rscript -e "options(repos = 'https://cran.rstudio.com/'); BiocManager::install(update = TRUE, ask = FALSE)" \
-   && rm -rf /tmp/downloaded_packages/ /tmp/*.rds
+RUN Rscript -e "\
+  options(repos = 'https://cran.rstudio.com/'); \
+  BiocManager::install(update = TRUE, ask = FALSE)" \
+  && rm -rf /tmp/downloaded_packages/ /tmp/*.rds
 
-RUN Rscript -e "BiocManager::install('lianos/sparrow', 'lianos/sparrow.shiny')"
+RUN Rscript -e "\
+  BiocManager::install(c(\
+    'lianos/sparrow', \
+    'lianos/sparrow.shiny'))" \
+  && rm -rf /tmp/downloaded_packages/ /tmp/*.rds
 
 # Init command for s6-overlay
 CMD ["/init"]

@@ -9,8 +9,9 @@ on:
     # (takes about an hour)
     # - cron: '0 8 * * 1,4'
     - cron: '0 8 * * *'
+name: build-devel-image
 jobs:
-  build-base:
+  build-devel-image:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
