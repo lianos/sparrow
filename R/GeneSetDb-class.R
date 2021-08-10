@@ -260,7 +260,9 @@ GeneSetDb.data.frame <- function(x, featureIdMap = NULL, collectionName = NULL,
       db <- merge(gdb@db, ganno, by=req.cols, all.x=TRUE)
       db0 <- setkeyv(copy(gdb@db), req.cols)
       setkeyv(db, req.cols)
-      if (!all.equal(db0, db[, req.cols, with=FALSE])) {
+      gn.kosher <- all.equal(db0, db[, req.cols, with = FALSE],
+                             check.attributes = FALSE)
+      if (!gn.kosher) {
         warning("Something unexpected happened merging more feature metadata",
                 immediate.=TRUE)
       }

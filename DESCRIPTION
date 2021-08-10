@@ -1,7 +1,7 @@
 Package: sparrow
 Type: Package
 Title: Take command of set enrichment analyses through a unified interface.
-Version: 0.98.7
+Version: 0.98.9
 Authors@R: c(
     person("Steve", "Lianoglou", , "slianoglou@gmail.com", c("aut", "cre")),
     person("Denali Therapeutics", role = c("fnd"), comment = "2018+"),
@@ -56,6 +56,7 @@ Suggests:
     testthat,
     webshot
 biocViews: GeneSetEnrichment, Pathways
+BiocType: Software
 VignetteBuilder: knitr
 License: MIT + file LICENSE
 Encoding: UTF-8

@@ -124,7 +124,8 @@ mgheatmap2 <- function(x, gdb = NULL, col = NULL,
                        split = TRUE, scores = NULL, gs.order = NULL,
                        name = NULL, rm.collection.prefix = TRUE,
                        rm.dups = FALSE, recenter = FALSE, rescale = FALSE,
-                       center = FALSE, scale = FALSE, rename.rows = NULL,
+                       center = FALSE, scale = FALSE,
+                       uncenter = FALSE, unscale = FALSE, rename.rows = NULL,
                        zlim = NULL, transpose = FALSE, ...) {
   X <- as_matrix(x, ...)
   stopifnot(
@@ -152,8 +153,8 @@ mgheatmap2 <- function(x, gdb = NULL, col = NULL,
   }
 
   X <- scale_rows(X, center = center, scale = scale)
-  center. <- attr(X, "scaled:center")
-  scale. <- attr(X, "scaled:scale")
+  center. <- if (missing(uncenter)) attr(X, "scaled:center") else uncenter
+  scale. <- if (missing(unscale)) attr(X, "scaled:scale") else unscale
 
   if (!is.null(gdb)) {
     gdbc <- suppressWarnings(conform(gdb, X, ...))
@@ -287,6 +288,9 @@ mgheatmap2 <- function(x, gdb = NULL, col = NULL,
   hm.args[['col']] <- col
   hm.args[['row_split']] <- split
   hm.args[['name']] <- name
+  if (is.null(hm.args[["cluster_row_slices"]]) && !is.null(gs.order)) {
+    hm.args[["cluster_row_slices"]] <- FALSE
+  }
 
   row.labels <- rownames(X)
   if (!is.null(rename.rows)) {

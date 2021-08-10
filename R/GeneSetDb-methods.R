@@ -1113,7 +1113,7 @@ as.data.frame.GeneSetDb <- function(x, row.names=NULL, optional=FALSE,
 
   setkeyv(out, key(x@db))
   trimmed <- out[gs[, list(collection, name)]]
-  setDF(trimmed)
+  (setDF(trimmed))
 }
 
 #' Split and conserve ordering

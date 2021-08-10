@@ -19,6 +19,8 @@ mgheatmap2(
   rescale = FALSE,
   center = FALSE,
   scale = FALSE,
+  uncenter = FALSE,
+  unscale = FALSE,
   rename.rows = NULL,
   zlim = NULL,
   transpose = FALSE,
