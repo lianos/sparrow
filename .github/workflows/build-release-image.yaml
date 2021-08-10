@@ -11,7 +11,7 @@ on:
     # - cron: '0 8 * * *'
   workflow_dispatch:
     inputs:
-      description: 'A dummy variable'
+      description: 'A dummy variable to enable manual workflow execution'
       required: false
       default: 'gitty up'
 name: build-release-image
@@ -28,4 +28,3 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
           workdir: inst/docker/release
           tags: release
-
