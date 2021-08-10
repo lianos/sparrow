@@ -1,4 +1,5 @@
 babelgene
+BiocCheck
 BiocGenerics
 BiocParallel
 checkmate
