@@ -24,7 +24,10 @@ name: R-CMD-check
 jobs:
   R-CMD-check:
     runs-on: ubuntu-latest
-    container: facilebio/facilebio_base_extra
+    strategy:
+      matrix:
+        image: ['lianos/sparrow:release', 'lianos/sparrow:devel']
+    container: ${{ matrix.image }}
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
 
