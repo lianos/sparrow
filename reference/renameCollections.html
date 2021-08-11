@@ -75,7 +75,7 @@ names to ones specified by the user." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sparrow</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.98.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.98.10</span>
       </span>
     </div>
 
@@ -145,7 +145,7 @@ the collection you want to rename, and their values are the new names.</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>gdb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='exampleExpressionSet.html'>exampleGeneSetDb</a></span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: Coercing 'list' RHS to 'character' to match the type of the target column (column 3 named 'value').</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Coercing 'list' RHS to 'character' to match the type of the target column (column 3 named 'value').</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Coercing 'list' RHS to 'character' to match the type of the target column (column 3 named 'value').</span></div><div class='input'><span class='va'>ngdb</span> <span class='op'>&lt;-</span> <span class='fu'>renameCollections</span><span class='op'>(</span><span class='va'>gdb</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"c2"</span> <span class='op'>=</span> <span class='st'>"MSigDB C2"</span>, <span class='st'>"c7"</span> <span class='op'>=</span> <span class='st'>"ImmuneSigDb"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>ngdb</span> <span class='op'>&lt;-</span> <span class='fu'>renameCollections</span><span class='op'>(</span><span class='va'>gdb</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"c2"</span> <span class='op'>=</span> <span class='st'>"MSigDB C2"</span>, <span class='st'>"c7"</span> <span class='op'>=</span> <span class='st'>"ImmuneSigDb"</span><span class='op'>)</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/all.equal.html'>all.equal</a></span><span class='op'>(</span>
   <span class='fu'><a href='https://rdrr.io/r/base/unname.html'>unname</a></span><span class='op'>(</span><span class='fu'><a href='collectionMetadata.html'>geneSetURL</a></span><span class='op'>(</span><span class='va'>gdb</span>, <span class='st'>"c7"</span>, <span class='st'>"GSE3982_BCELL_VS_TH2_DN"</span><span class='op'>)</span><span class='op'>)</span>,
   <span class='fu'><a href='https://rdrr.io/r/base/unname.html'>unname</a></span><span class='op'>(</span><span class='fu'><a href='collectionMetadata.html'>geneSetURL</a></span><span class='op'>(</span><span class='va'>ngdb</span>, <span class='st'>"ImmuneSigDb"</span>, <span class='st'>"GSE3982_BCELL_VS_TH2_DN"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>

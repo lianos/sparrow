@@ -81,7 +81,7 @@ ranno.df &amp;lt;- ranno.df[rownames(out@matrix),]" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sparrow</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.98.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.98.10</span>
       </span>
     </div>
 
@@ -149,6 +149,8 @@ you must reorder the rows of the annotation data.frame, ie.
   rescale <span class='op'>=</span> <span class='cn'>FALSE</span>,
   center <span class='op'>=</span> <span class='cn'>FALSE</span>,
   scale <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  uncenter <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  unscale <span class='op'>=</span> <span class='cn'>FALSE</span>,
   rename.rows <span class='op'>=</span> <span class='cn'>NULL</span>,
   zlim <span class='op'>=</span> <span class='cn'>NULL</span>,
   transpose <span class='op'>=</span> <span class='cn'>FALSE</span>,
@@ -286,7 +288,7 @@ the "Examples" section here.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>vm</span> <span class='op'>&lt;-</span> <span class='fu'><a href='exampleExpressionSet.html'>exampleExpressionSet</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='va'>gdb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='exampleExpressionSet.html'>exampleGeneSetDb</a></span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: Coercing 'list' RHS to 'character' to match the type of the target column (column 3 named 'value').</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Coercing 'list' RHS to 'character' to match the type of the target column (column 3 named 'value').</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Coercing 'list' RHS to 'character' to match the type of the target column (column 3 named 'value').</span></div><div class='input'><span class='va'>col.anno</span> <span class='op'>&lt;-</span> <span class='fu'>ComplexHeatmap</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/ComplexHeatmap/man/HeatmapAnnotation.html'>HeatmapAnnotation</a></span><span class='op'>(</span>
+<span class='va'>col.anno</span> <span class='op'>&lt;-</span> <span class='fu'>ComplexHeatmap</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/ComplexHeatmap/man/HeatmapAnnotation.html'>HeatmapAnnotation</a></span><span class='op'>(</span>
   df <span class='op'>=</span> <span class='va'>vm</span><span class='op'>$</span><span class='va'>targets</span><span class='op'>[</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Cancer_Status"</span>, <span class='st'>"PAM50subtype"</span><span class='op'>)</span><span class='op'>]</span>,
   col <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
     Cancer_Status <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>normal <span class='op'>=</span> <span class='st'>"grey"</span>, tumor <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span>,
