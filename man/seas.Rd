@@ -2,7 +2,7 @@
 % Please edit documentation in R/seas.R
 \name{seas}
 \alias{seas}
-\title{Performs a plethora of GSEA analyses over a contrast of interest.}
+\title{Performs a plethora of set enrichment analyses over varied inputs.}
 \usage{
 seas(
   x,
@@ -116,6 +116,11 @@ The particular analyses that are performed are specified by the
 arguments down through the \code{...} of this wrapper function.
 }
 \details{
+Set enrichment analyses can either be performed over an expression object,
+which requires the specification of the experiment design and contrast of
+interest, or over a set of features to rank (stored as a data.frame or
+vector).
+
 Note that we are currently in the middle of a refactor to accept and fully
 take advantage of \code{data.frame} as inputs for \code{x}, which will be used for
 preranked type of GSEA methods. See the following issue for more details:

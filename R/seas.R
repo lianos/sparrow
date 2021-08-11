@@ -1,10 +1,15 @@
-#' Performs a plethora of GSEA analyses over a contrast of interest.
+#' Performs a plethora of set enrichment analyses over varied inputs.
 #'
 #' This is a wrapper function that delegates GSEA analyses to different
 #' "workers", each of which implements the flavor of GSEA of your choosing.
 #' The particular analyses that are performed are specified by the
 #' `methods` argument, and these methods are fine tuned by passing their
 #' arguments down through the `...` of this wrapper function.
+#'
+#' Set enrichment analyses can either be performed over an expression object,
+#' which requires the specification of the experiment design and contrast of
+#' interest, or over a set of features to rank (stored as a data.frame or
+#' vector).
 #'
 #' Note that we are currently in the middle of a refactor to accept and fully
 #' take advantage of `data.frame` as inputs for `x`, which will be used for
