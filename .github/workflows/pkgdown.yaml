@@ -9,6 +9,12 @@ on:
     # Rerun pkgdown after the (expected) time the facilebio_base container is
     # rebuilt
     - cron: '0 11 * * *'
+  workflow_dispatch:
+    inputs:
+      dummy:
+        description: 'A dummy variable to enable manual workflow execution'
+        required: false
+        default: 'gitty up'
 
 name: pkgdown
 
@@ -25,6 +31,7 @@ jobs:
       GIT_AUTHOR_EMAIL: slianoglou@gmail.com
       GIT_COMMITTER_NAME: Steve Lianoglou
       GIT_COMMITTER_EMAIL: slianoglou@gmail.com
+      GITHUB_PAT: "${{secrets.GH_PAT}}"
 
     steps:
       - name: Checkout Repository
