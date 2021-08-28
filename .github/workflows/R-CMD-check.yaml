@@ -36,7 +36,8 @@ jobs:
     container: ${{ matrix.image }}
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
-      GITHUB_PAT: "${{secrets.GH_PAT}}"
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - name: Checkout Repository

@@ -31,7 +31,8 @@ jobs:
       GIT_AUTHOR_EMAIL: slianoglou@gmail.com
       GIT_COMMITTER_NAME: Steve Lianoglou
       GIT_COMMITTER_EMAIL: slianoglou@gmail.com
-      GITHUB_PAT: "${{secrets.GH_PAT}}"
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - name: Checkout Repository
