@@ -26,5 +26,5 @@ jobs:
           name: lianos/sparrow
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          workdir: inst/docker/devel
+          workdir: docker/devel
           tags: devel
