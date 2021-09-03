@@ -1,4 +1,4 @@
-FROM bioconductor/bioconductor_docker:RELEASE_3_13
+FROM bioconductor/bioconductor_docker:devel
 LABEL maintainer="Steve Lianoglou (slianoglou@gmail.com)"
 
 # Newer versions of bioconductor_docker image sets options::repos to a
