@@ -3,7 +3,10 @@ Type: Package
 Title: Take command of set enrichment analyses through a unified interface.
 Version: 0.98.10
 Authors@R: c(
-    person("Steve", "Lianoglou", , "slianoglou@gmail.com", c("aut", "cre")),
+    person(
+        "Steve", "Lianoglou", role = c("aut", "cre"),
+        email = "slianoglou@gmail.com",
+        comment = c(ORCID = "0000-0002-0924-1754")),
     person("Denali Therapeutics", role = c("fnd"), comment = "2018+"),
     person("Genentech", role = c("fnd"), comment = "2014 - 2017"))
 Description: Provides a unified interface to orchestrate a plethora of GSEA
