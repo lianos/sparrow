@@ -12,6 +12,8 @@ release-run:
 	-v /Users/lianoglou/workspace/Rpkgs/sparrow:/home/rstudio/sparrow \
 	-v /Users/lianoglou/workspace/Rpkgs/sparrow.shiny:/home/rstudio/sparrow.shiny \
 	-v /Users/lianoglou/.config/rstudio:/home/rstudio/.config/rstudio \
+	-v /Users/lianoglou/.gitconfig:/home/rstudio/.gitconfig \
+	-v /Users/lianoglou/.gitignore_global:/Users/lianoglou/.gitignore_global \
 	-p 8787:8787 \
 	-p 8080:3838 \
 	--entrypoint /init \
@@ -32,6 +34,8 @@ devel-run:
 	-v /Users/lianoglou/workspace/Rpkgs/sparrow:/home/rstudio/sparrow \
 	-v /Users/lianoglou/workspace/Rpkgs/sparrow.shiny:/home/rstudio/sparrow.shiny \
 	-v /Users/lianoglou/.config/rstudio:/home/rstudio/.config/rstudio \
+	-v /Users/lianoglou/.gitconfig:/home/rstudio/.gitconfig \
+	-v /Users/lianoglou/.gitignore_global:/Users/lianoglou/.gitignore_global \
 	-p 8787:8787 \
 	-p 8080:3838 \
 	--entrypoint /init \
