@@ -1,15 +1,11 @@
 # Inspired from https://github.com/fbreitwieser/pavian
 
-#release-build:
-#	docker build -f release/Dockerfile \
-#	--no-cache \
-#	--build-arg GITHUB_PAT=$(GITHUB_PAT) \
-#	-t lianos/sparrow:release .
-
+# Working with "release" codebase ----------------------------------------------
 release-build:
 	docker build \
 	--no-cache \
-	-t lianos/sparrow:release release
+	-f docker/release/Dockerfile \
+	-t lianos/sparrow:release docker/release
 
 release-run:
 	docker run --rm -it -d --name sparrow-release \
@@ -24,10 +20,12 @@ release-run:
 	lianos/sparrow:release && \
 	sleep 5 && open http://localhost:8787
 
+# Working with "devel" codebase ------------------------------------------------
 devel-build:
 	docker build \
 	--no-cache \
-	-t lianos/sparrow:devel devel
+	-f docker/devel/Dockerfile \
+	-t lianos/sparrow:devel docker/devel
 
 devel-run:
 	docker run --rm -it -d --name sparrow-devel \
