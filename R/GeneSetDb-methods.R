@@ -844,19 +844,6 @@ addCollectionMetadata <- function(x, xcoll, xname, value,
 #' @param ... not used yet
 #' @return the updated `GeneSetDb` object `x`.
 addGeneSetMetadata <- function(x, meta, ...) {
-  if (FALSE) {
-    x <- exampleGeneSetDb()
-    x@table[, something := rnorm(.N)]
-    idx <- sample(nrow(x@table), 5)
-    meta <- data.table(collection = x@table$collection[idx],
-                       name = x@table$name[idx],
-                       something = 1:5, var2 = letters[1:5])
-    mb <- rbind(
-      meta,
-      data.table(collection = "c10", name = "wut", something = 10, var2 = "z"))
-    meta <- mb
-  }
-
   stopifnot(is(x, "GeneSetDb"))
   k <- key(x@table)
   stopifnot(is(meta, "data.frame"))
@@ -890,8 +877,8 @@ addGeneSetMetadata <- function(x, meta, ...) {
 
   mcols <- setdiff(colnames(meta), c(k, special))
   if (length(mcols)) {
+    idxs <- xref[[".idx."]]
     for (mc in mcols) {
-      idxs <- xref[[".idx."]]
       vals <- meta[[mc]]
       xtable[idxs, (mc) := vals]
     }
@@ -900,8 +887,8 @@ addGeneSetMetadata <- function(x, meta, ...) {
   stopifnot(
     all.equal(xtable[, list(collection, name)], x@table[, list(collection, name)]),
     all.equal(xtable$N, x@table$N))
-
-  x@table <- transform(xtable, .idx. = NULL)
+  xtable[[".xidx."]] <- NULL
+  x@table <- xtable
   x
 }
 

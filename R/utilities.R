@@ -1,4 +1,19 @@
-#' Helper utitlity to rename specified names of a vector
+#' Convenience wrapper to require specified packages
+#'
+#' @noRd
+#' @param pkg A character vector of packages to require
+#' @param quietly defaults to true
+#' @param ... passed into [requireNamespace()]
+reqpkg <- function(pkg, quietly = TRUE, ...) {
+  assert_character(pkg)
+  for (p in pkg) {
+    if (!requireNamespace(p, ..., quietly = quietly)) {
+      stop("'", p, "' package required, please install it.", call. = FALSE)
+    }
+  }
+}
+
+#' Helper utility to rename specified names of a vector
 #'
 #' Looks for values in `x` that are specified in `names(rename)`, and changes
 #' the names in `x` with the ones specified in the values of `rename`.

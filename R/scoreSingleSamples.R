@@ -167,6 +167,8 @@ melt.gs.scores <- function(gdb, scores) {
   out <- data.table::melt.data.table(out, c("collection", "name", "n"),
                                      variable.name = "sample_id",
                                      value.name='score')
+  # handle non std eval NOTE in R CMD check when using `:=` data.table mojo
+  sample_id <- NULL
   out[, sample_id := as.character(sample_id)]
 }
 

@@ -83,7 +83,7 @@ getPantherPathways <- function(p.db, org.db) {
   m <- m[!is.na(m[['ENTREZID']]),,drop=FALSE]
   names(m) <- c("uniprot_id", "pathway_id", "name", "feature_id")
 
-  gdb <- GeneSetDb(m, collection = cname)
+  gdb <- GeneSetDb(m, collectionName = cname)
   geneSetCollectionURLfunction(gdb, cname) <- ".geneSetURL.PANTHERpathway"
   featureIdType(gdb, cname) <- EntrezIdentifier()
   gdb

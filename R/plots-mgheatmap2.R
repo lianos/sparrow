@@ -190,10 +190,12 @@ mgheatmap2 <- function(x, gdb = NULL, col = NULL,
                               center = FALSE, scale = FALSE,
                               uncenter = center., unscale = scale., ...)
     } else {
-      xs <- scores[scores[['method']] == aggregate.by,,drop=FALSE]
-      xs$key <- encode_gskey(xs)
-      X <- acast(xs, key ~ sample_id, value.var = "score")
-      X <- X[unique(gdbc.df$key),]
+      xs <- setDT(scores[scores[['method']] == aggregate.by,,drop=FALSE])
+      xs[, key:= encode_gskey(xs)]
+      xw <- dcast(xs, key ~ sample_id, value.var = "score")
+      xw <- unique(xw, by = "key")
+      X <- as.matrix(xw[, -1, with = FALSE])
+      rownames(X) <- xw[[1]]
     }
     # If we want to split, it (only?) makes sense to split by collection
     split <- if (split) split_gskey(rownames(X))$collection else NULL

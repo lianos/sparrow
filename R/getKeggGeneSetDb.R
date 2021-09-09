@@ -28,6 +28,11 @@ getKeggGeneSetDb <- function(species = "human",
   sinfo <- species_info(species)
   database <- match.arg(database)
   id.type <- match.arg(id.type)
+  if (id.type == "ensembl") {
+    stop("sparrow::remapIdentifiers not implemented yet, if you want KEGG ",
+         "pathways with ensembl id's from this package, use the pathways ",
+         "from the C2 MSigDb collection instead via `getMSigGeneSetDb`")
+  }
   fn <- getFunction(sprintf(".get_kegg_%s_db", database))
   gdb <- .get_kegg_pathway_db(sinfo, id.type, idxref)
   gdb
@@ -67,7 +72,7 @@ getKeggGeneSetDb <- function(species = "human",
       args[["xref"]] <- idxref
     }
     args[["x"]] <- out
-    out <- do.call(remap_identifiers, args)
+    out <- do.call(convertIdentifiers, args)
   } else {
     featureIdType(out, "KEGG") <- GSEABase::EntrezIdentifier()
   }

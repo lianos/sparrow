@@ -69,6 +69,10 @@ getMSigGeneSetDb <- function(collection = NULL,
     collection <- assert_subset(toupper(collection), valid.cols)
   }
 
+  # handle non std eval NOTE in R CMD check when using `:=` mojo
+  # each of these variables are referenced in some data.table NSE mojo below
+  gs_cat <- gs_subcat <- gs_name <- symbol <- ensembl_id <- gs_id <- NULL
+
   sigs.all <- copy(.pkgcache[["msigdb"]][[species.info$species]])
   if (is.null(sigs.all)) {
     sigs.all <- as.data.table(msigdbr::msigdbr(species.info$species))

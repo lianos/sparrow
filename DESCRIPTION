@@ -1,7 +1,7 @@
 Package: sparrow
 Type: Package
 Title: Take command of set enrichment analyses through a unified interface.
-Version: 0.98.10
+Version: 0.99.00
 Authors@R: c(
     person(
         "Steve", "Lianoglou", role = c("aut", "cre"),
@@ -26,17 +26,14 @@ Imports:
     ggplot2 (>= 2.2.0),
     GSEABase,
     GSVA,
-    hexbin,
     irlba,
     limma,
     Matrix,
-    matrixStats (>= 0.58.0),
     methods,
     plotly (>= 4.9.0),
     viridis
 Suggests:
     AnnotationDbi,
-    babelgene (>= 21.4),
     BiasedUrn,
     Biobase (>= 2.24.0),
     BiocStyle,
@@ -46,7 +43,9 @@ Suggests:
     fgsea,
     GO.db,
     goseq,
+    hexbin,
     magrittr,
+    matrixStats,
     msigdbr (>= 7.4.1),
     KernSmooth,
     knitr,

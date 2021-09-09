@@ -79,6 +79,8 @@ getReactomeGeneSetDb <- function(species = 'human',
   duped <- duplicated(u$name)
   if (any(duped)) {
     axid <- u$gs_id[duped]
+    # handle non std eval NOTE in R CMD check and data.table
+    gs_id <- NULL
     info <- info[!gs_id %in% axid]
   }
 
