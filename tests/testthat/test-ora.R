@@ -1,6 +1,15 @@
 context("overrepresentation analysis ('ora')")
 
-gdb. <- getMSigGeneSetDb("h", "human", "ensembl")
+# Manually slimming down the GeneSetDb to only include features in the
+# 1000 gene data.frame input test data
+gdb. <- local({
+  gdb.orig <- getMSigGeneSetDb("h", "human", "ensembl")
+  dge.res <- exampleDgeResult("human", "ensembl")
+  db <- as.data.table(gdb.orig)[feature_id %in% dge.res$feature_id]
+  nstats <- db[, list(n = .N), by = c("collection", "name")][n > 5]
+  out <- db[name %in% nstats$name]
+  GeneSetDb(out)
+})
 
 test_that("induced length associattion to significance is accounted for", {
   biased <- exampleDgeResult("human", "ensembl",
@@ -25,14 +34,14 @@ test_that("induced length associattion to significance is accounted for", {
   # majority of pvalues when corrected for effective_length should be penalized,
   # which is to say: higher.
   frac.less <- mean(lbias$P.all > nbias$P.all)
-  expect_true(frac.less > 0.70)
+  expect_true(frac.less > 0.5)
 
-  # ranomizing length should negate penalty
+  # randomizing length should negate penalty on positive dge on longer genes
   set.seed(0xBEEF)
-  rando <- mutate(biased, effective_length = sample(effective_length))
+  rando <- transform(biased, effective_length = sample(effective_length))
   rbias <- ora(gdb., rando, selected = "selected",
                feature.bias = "effective_length")
-  expect_equal(rbias$P.all, nbias$P.all, tolerance = 0.005)
+  expect_equal(rbias$P.all, nbias$P.all, tolerance = 0.009)
 
   if (FALSE) {
     plot_ora_bias(rando, "selected", "effective_length")

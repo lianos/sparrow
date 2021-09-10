@@ -2,26 +2,18 @@
 % Please edit documentation in R/GeneSetDb-methods.R
 \name{conversion}
 \alias{conversion}
-\alias{as.data.frame.GeneSetDb}
+\alias{as.data.table.GeneSetDb}
 \alias{as.data.frame}
 \alias{as.list}
-\alias{as.list.GeneSetDb}
+\alias{as.data.table}
 \title{Convert a GeneSetDb to other formats.}
 \usage{
-\method{as.data.frame}{GeneSetDb}(
+\method{as.data.table}{GeneSetDb}(
   x,
   row.names = NULL,
   optional = FALSE,
   value = c("feature_id", "x.id", "x.idx"),
   active.only = is.conformed(x),
-  ...
-)
-
-\method{as.list}{GeneSetDb}(
-  x,
-  value = c("feature_id", "x.id", "x.idx"),
-  active.only = is.conformed(x),
-  nested = FALSE,
   ...
 )
 }
@@ -43,7 +35,7 @@ As awesome as a GeneSetDb is, you might find a time when you'll need your
 gene set information in an other format. To do that, we provide the
 following functions:
 \itemize{
-\item \code{as.data.frame(gdb)}: Perhaps the most natural format to convert to in
+\item \code{as.data.(table|frame)(gdb)}: Perhaps the most natural format to convert to in
 order to save locally and examine outside of Bioconductor's GSEA universe,
 but not many other tools accept gene set definitions in this format.
 \item \code{as.list(gdb)}: A named list of feature identifiers. This is the format

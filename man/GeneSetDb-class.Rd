@@ -30,6 +30,10 @@ vector of same length with the names. In all cases, if a collection name
 can't be defined from this, then collections will be named anonymously.
 If a value is passed here, it will overide any names stored in the list of
 \code{x}.}
+
+\item{...}{these aren't used for anything in particular, but are here to
+catch extra arguments that may get passed down if this function is part
+of some call chain.}
 }
 \description{
 Please refer to the sparrow vignette (\code{vignette("sparrow")}),

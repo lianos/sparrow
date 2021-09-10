@@ -1025,7 +1025,7 @@ all.equal.GeneSetDb <- function(target, current, features.only = TRUE, ...) {
 #' gene set information in an other format. To do that, we provide the
 #' following functions:
 #'
-#' * `as.data.frame(gdb)`: Perhaps the most natural format to convert to in
+#' * `as.data.(table|frame)(gdb)`: Perhaps the most natural format to convert to in
 #'   order to save locally and examine outside of Bioconductor's GSEA universe,
 #'   but not many other tools accept gene set definitions in this format.
 #' * `as.list(gdb)`: A named list of feature identifiers. This is the format
@@ -1051,8 +1051,8 @@ all.equal.GeneSetDb <- function(target, current, features.only = TRUE, ...) {
 #' @export
 #' @rdname conversion
 #' @name conversion
-#' @aliases as.data.frame as.list
-#' @method as.data.frame GeneSetDb
+#' @aliases as.data.frame as.list as.data.table
+#' @method as.data.table GeneSetDb
 #'
 #' @param x A `GeneSetDb` object
 #' @param value The value type to export for the feature ids
@@ -1068,7 +1068,7 @@ all.equal.GeneSetDb <- function(target, current, features.only = TRUE, ...) {
 #' gdb <- conform(gdb, es)
 #' gdfi <- as.data.frame(gdb, value = 'x.idx')
 #' gdl <- as.list(gdb)
-as.data.frame.GeneSetDb <- function(x, row.names=NULL, optional=FALSE,
+as.data.table.GeneSetDb <- function(x, row.names=NULL, optional=FALSE,
                                     value=c('feature_id', 'x.id', 'x.idx'),
                                     active.only=is.conformed(x), ...) {
   stopifnot(is(x, 'GeneSetDb'))
@@ -1101,8 +1101,17 @@ as.data.frame.GeneSetDb <- function(x, row.names=NULL, optional=FALSE,
   }
 
   setkeyv(out, key(x@db))
-  trimmed <- out[gs[, list(collection, name)]]
-  (setDF(trimmed))
+  out[gs[, list(collection, name)]]
+}
+
+#' @noRd
+#' @export
+#' @method as.data.frame GeneSetDb
+as.data.frame.GeneSetDb <- function(x, row.names=NULL, optional=FALSE,
+                                    value=c('feature_id', 'x.id', 'x.idx'),
+                                    active.only=is.conformed(x), ...) {
+  value <- match.arg(value)
+  setDF(as.data.table(x, row.names, optional, value, active.only, ...))
 }
 
 #' Split and conserve ordering
@@ -1117,7 +1126,7 @@ csplit <- function(x, f) {
   split(x, ff)
 }
 
-#' @rdname conversion
+#' @noRd
 #' @method as.list GeneSetDb
 #' @export
 as.list.GeneSetDb <- function(x, value=c('feature_id', 'x.id', 'x.idx'),
