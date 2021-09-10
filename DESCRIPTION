@@ -1,6 +1,6 @@
 Package: sparrow
 Type: Package
-Title: Take command of set enrichment analyses through a unified interface.
+Title: Take command of set enrichment analyses through a unified interface
 Version: 0.99.00
 Authors@R: c(
     person(

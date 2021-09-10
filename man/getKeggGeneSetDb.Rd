@@ -19,7 +19,7 @@ abbreviations.}
 \item{id.type}{Gene identifiers are returned by the REST service as
 entrez identifiers. Set this to \code{"ensembl"} to translate them internally
 using \code{\link[=remap_identifiers]{remap_identifiers()}}. If \code{species}is not \code{"human"} or \code{"mouse"},
-you need to provide an idxref table that works with \code{\link[=remap_identifiers]{remap_identifiers()}}.}
+you need to provide an idxref table that works with \code{\link[=convertIdentifiers]{convertIdentifiers()}}.}
 }
 \value{
 A GeneSetDb of the kegg stuffs

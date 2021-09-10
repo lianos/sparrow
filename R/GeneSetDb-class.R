@@ -104,7 +104,9 @@
 #'   can't be defined from this, then collections will be named anonymously.
 #'   If a value is passed here, it will overide any names stored in the list of
 #'   `x`.
-#'
+#' @param ... these aren't used for anything in particular, but are here to
+#'   catch extra arguments that may get passed down if this function is part
+#'   of some call chain.
 #' @examples
 #' ## exampleGeneSetDF provides gene set definitions in "long form". We show
 #' ## how this can easily turned into a GeneSetDb from this form, or convert

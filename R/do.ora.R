@@ -69,6 +69,9 @@ do.ora <- function(gsd, x, design, contrast = ncol(design),
   # 3. if there are no degenes, do not run anything and set outgoing results
   #    with pvals hammered to 1.
 
+  # handle non std eval NOTE in R CMD check when using `:=` mojo
+  Pathway <- n.drawn <- pval <- significant <- NULL
+
   stopifnot(is.conformed(gsd, x))
   # stop("testing graceful method failure in seas call")
   if (is.null(logFC)) {

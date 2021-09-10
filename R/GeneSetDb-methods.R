@@ -864,6 +864,8 @@ addGeneSetMetadata <- function(x, meta, ...) {
          "data.frame. This is currently not allowed.")
   }
 
+  # handle non std eval NOTE in R CMD check when using `:=` mojo
+  .idx. <- NULL
   xtable <- copy(x@table)[, .idx. := 1:.N]
   xref <- xtable[mdt]
 

@@ -43,7 +43,8 @@ do.roast <- function(gsd, x, design, contrast=ncol(design),
 mgres.roast <- function(res, gsd, ...) {
   if (!isTRUE(attr(res, 'rawresult'))) return(res)
   out <- cbind(geneSets(gsd, as.dt=TRUE)[, list(collection, name)], setDT(res))
-  NGenes <- NULL # silence R CMD check NOTEs
+  # silence R CMD check NOTEs
+  NGenes <- FDR <- FDR.Mixed <- PValue.Mixed <- PValue <- NULL
   out[, NGenes := NULL]
 
   # result may not have an FDR column if we only tested on geneset

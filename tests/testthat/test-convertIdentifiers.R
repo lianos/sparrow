@@ -116,7 +116,8 @@ test_that("1:0 convertIdentifiers drops features as expected", {
 # geneSet(gdb2, name = "BIOCARTA_AGPCR_PATHWAY")
 
 test_that("entrez id's remapped to ensemble", {
-  expect_error(convertIdentifiers(), "babelgene")
+  gdb <- exampleGeneSetDb() # this has no symbols in it
+  expect_error(convertIdentifiers(gdb, "human", id.type = "ensembl"))
   # xref <- load_id_xref("human")
   # gdb.entrez <- exampleGeneSetDb()
   # gdb.ens <- remap_identifiers(gdb.entrez, xref,
