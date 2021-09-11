@@ -146,34 +146,34 @@ convertIdentifiers <- function(x, from = NULL, to = NULL,
 #' @noRd
 .prep_babelgene_table <- function(ids, species, id.type, is.human,
                                   min_support, top) {
-  if (FALSE) {
-    x <- exampleGeneSetDb()
-    ids <- featureIds(x)
-    species <- "rat"
-    id.type <- "ensembl"
-    is.human <- TRUE
-    min_support <- 3
-    top <- TRUE
-
-    ids <- c("P2ry12", "Trem2")
-    is.human <- FALSE
-
-    ids <- c("ENSMUSG00000036353", "ENSMUSG00000023992")
-    species <- "rat"
-    is.human <- FALSE
-  }
-  # orthologs will always return a data.frame with the first 3 columns
-  # being human info: human_symbol, human_entrez, human_ensembl
-  if (!is.human && species != "human") {
-    # If you're query isn't from or to human, you have to stick human in the
-    # middle
-    # 1. map query id's to human
-    human <- babelgene::orthologs(ids, species, human = FALSE)
-    # 2. map human ids to target
-    #
-    xmap <- babelgene::orthologs(xxx, species, human = FALSE)
-  }
-
-  xmap <- babelgene::orthologs(ids, species, human = is.human,
-                               min_support = min_support, top = top)
+  # if (FALSE) {
+  #   x <- exampleGeneSetDb()
+  #   ids <- featureIds(x)
+  #   species <- "rat"
+  #   id.type <- "ensembl"
+  #   is.human <- TRUE
+  #   min_support <- 3
+  #   top <- TRUE
+  #
+  #   ids <- c("P2ry12", "Trem2")
+  #   is.human <- FALSE
+  #
+  #   ids <- c("ENSMUSG00000036353", "ENSMUSG00000023992")
+  #   species <- "rat"
+  #   is.human <- FALSE
+  # }
+  # # orthologs will always return a data.frame with the first 3 columns
+  # # being human info: human_symbol, human_entrez, human_ensembl
+  # if (!is.human && species != "human") {
+  #   # If you're query isn't from or to human, you have to stick human in the
+  #   # middle
+  #   # 1. map query id's to human
+  #   human <- babelgene::orthologs(ids, species, human = FALSE)
+  #   # 2. map human ids to target
+  #   #
+  #   xmap <- babelgene::orthologs(xxx, species, human = FALSE)
+  # }
+  #
+  # xmap <- babelgene::orthologs(ids, species, human = is.human,
+  #                              min_support = min_support, top = top)
 }

@@ -13,7 +13,7 @@
 #'   abbreviations.
 #' @param id.type Gene identifiers are returned by the REST service as
 #'   entrez identifiers. Set this to `"ensembl"` to translate them internally
-#'   using [remap_identifiers()]. If `species`is not `"human"` or `"mouse"`,
+#'   using [convertIdentifiers()]. If `species`is not `"human"` or `"mouse"`,
 #'   you need to provide an idxref table that works with [convertIdentifiers()].
 #' @return A GeneSetDb of the kegg stuffs
 #' @examples

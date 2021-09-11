@@ -135,6 +135,8 @@ do.ora <- function(gsd, x, design, contrast = ncol(design),
 }
 
 mgres.ora <- function(res, gsd, ...) {
+  # silence R CMD check NOTEs
+  Pathway <- padj <- idx <- NULL
   if (!isTRUE(attr(res, "rawresult"))) return(res)
   stopifnot(is.data.frame(res), is(gsd, "GeneSetDb"))
   res <- copy(res)[, n := NULL]
