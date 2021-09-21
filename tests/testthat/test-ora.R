@@ -3,12 +3,8 @@ context("overrepresentation analysis ('ora')")
 # Manually slimming down the GeneSetDb to only include features in the
 # 1000 gene data.frame input test data
 gdb. <- local({
-  gdb.orig <- getMSigGeneSetDb("h", "human", "ensembl")
   dge.res <- exampleDgeResult("human", "ensembl")
-  db <- as.data.table(gdb.orig)[feature_id %in% dge.res$feature_id]
-  nstats <- db[, list(n = .N), by = c("collection", "name")][n > 5]
-  out <- db[name %in% nstats$name]
-  GeneSetDb(out)
+  randomGeneSetDb(dge.res)
 })
 
 test_that("induced length associattion to significance is accounted for", {

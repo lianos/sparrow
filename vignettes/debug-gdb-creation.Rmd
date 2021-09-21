@@ -1,0 +1,55 @@
+---
+title: "What is happening with MSigDB GeneSetDb Creation"
+author: "Steve Lianoglou"
+date: "`r BiocStyle::doc_date()`"
+package: "`r BiocStyle::pkg_ver('sparrow')`"
+abstract: >
+  Trying to debug execution in vignette building. I think this also hosed
+  our unit testing.
+output:
+  BiocStyle::html_document:
+    self_contained: yes
+    highlight: pygments
+    toc: true
+    fig_width: 5
+    css: mystyles.css
+    df_print: paged
+vignette: >
+  %\VignetteIndexEntry{What is happening with MSigDB GeneSetDb Creation}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding[utf8]{inputenc}
+---
+
+```{r init, include=FALSE, echo=FALSE, message=FALSE, warning=FALSE}
+knitr::opts_chunk$set(
+  echo=TRUE, warning=FALSE, message=FALSE, error=FALSE) #, dpi=150)
+```
+
+## What is Happening
+
+Is it an msigdbr thing or GeneSetDb thing?
+
+Let's load msigdbr and grab a data.frame
+
+```{r load-sparrow}
+library(sparrow)
+```
+
+We have loaded the sparrow.
+
+```{r msigdbr}
+library(msigdbr)
+mdf <- msigdbr("Homo sapiens")
+head(mdf)
+```
+
+```{r example-gdb}
+gdb <- exampleGeneSetDb()
+gdb
+```
+
+```{r}
+gdb.m <- getMSigGeneSetDb(species = "human")
+```
+
+

@@ -160,3 +160,33 @@ exampleDgeResult <- function(species = "human", id.type = "ensembl",
   out$significant <- out$selected
   out
 }
+
+#' Generates a fake GeneSetDb by sampling from features in a seas input.
+#'
+#' I wrote this because initial fetching from msigdbr can be slow, and also
+#' having some weird crashes in the unit tests of bioc3.14-devel.
+#'
+#' This is a helper function for development, and shouldn't be used by normal
+#' users of this package
+#'
+#' @export
+#' @param x an input container to [seas()]
+#' @param n number of genesets
+#' @param bias column in `x` to bias the geneset creation by
+#' @export
+#' @examples
+#' gdb.rando <- randomGeneSetDb(exampleDgeResult(), 10, bias = "t")
+randomGeneSetDb <- function(x, n = 10, bias = NULL, seed = 10, ...) {
+  assert_class(x, "data.frame") # only data.frames for now
+  assert_number(n, lower = 2, upper = 100)
+  set.seed(seed)
+  gsets <- lapply(1:n, function(i) {
+    idx <- sample(nrow(x), 10, prob = abs(x$t))
+    wtf <- data.frame(
+      collection = rep("random", 10),
+      name = rep(paste0("geneset", i), 10),
+      feature_id = x$feature_id[idx],
+      symbol = x$symbol[idx])
+  })
+  GeneSetDb(do.call(rbind, gsets))
+}

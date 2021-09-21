@@ -3,17 +3,8 @@ context("data.frame ranks/DGE input to seas")
 xdf <- exampleDgeResult()
 scores <- setNames(xdf$logFC, xdf$feature_id)
 
-# Manually slimming down the GeneSetDb to only include features in the
-# 1000 gene data.frame input test data
-gdb <- local({
-  gdb.orig <- getMSigGeneSetDb("h", "human", "ensembl")
-  db <- as.data.table(gdb.orig)[feature_id %in% xdf$feature_id]
-  nstats <- db[, list(n = .N), by = c("collection", "name")][n > 5]
-  out <- db[name %in% nstats$name]
-  GeneSetDb(out)
-})
-
-gdb <- suppressWarnings(conform(gdb, xdf$feature_id))
+gdb <- randomGeneSetDb(xdf)
+gdb <- conform(gdb, xdf$feature_id)
 gs.idx <- as.list(gdb, active.only = TRUE, value = "x.idx")
 
 test_that("ranks-based gsea works", {
