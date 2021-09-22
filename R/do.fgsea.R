@@ -32,7 +32,6 @@ do.fgsea <- function(gsd, x, design, contrast = ncol(design),
                      nproc = 0, gseaParam = 1, nPermSimple = 1000,
                      absEps = NULL, use.fgsea.simple = FALSE,
                      score.by = c('t', 'logFC', 'pval'), logFC = NULL,
-                     gs.idxs = as.list(gsd, active.only=TRUE, value='x.idx'),
                      .random.seed = NULL, ...) {
 
   scoreType <- match.arg(scoreType)
@@ -50,10 +49,10 @@ do.fgsea <- function(gsd, x, design, contrast = ncol(design),
   ## in the internally called conform(gsd, x, min.gs.size, max.gs.size) call
   gs.size <- range(subset(geneSets(gsd), active)$n)
 
-  ## fgsea function wans a list of gene identifiers for pathway definition
-  pathways <- lapply(gs.idxs, function(idxs) names(stats)[idxs])
+  ## fgsea function wants a list of gene identifiers for pathway definition
+  pathways <- as.list(gsd, active.only = TRUE, value = "x.id")
 
-  if (is.numeric(random.seed)) set.seed(random.seed[1])
+  if (is.numeric(.random.seed)) set.seed(.random.seed[1])
 
   if (isTRUE(use.fgsea.simple)) {
     res <- fgsea::fgseaSimple(

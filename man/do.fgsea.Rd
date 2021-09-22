@@ -10,7 +10,7 @@ do.fgsea(
   design,
   contrast = ncol(design),
   sampleSize = 101,
-  eps = 1e-10,
+  eps = 1e-50,
   scoreType = c("std", "pos", "neg"),
   nproc = 0,
   gseaParam = 1,
@@ -20,6 +20,7 @@ do.fgsea(
   score.by = c("t", "logFC", "pval"),
   logFC = NULL,
   gs.idxs = as.list(gsd, active.only = TRUE, value = "x.idx"),
+  .random.seed = NULL,
   ...
 )
 }

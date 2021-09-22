@@ -1,16 +1,16 @@
 context("fgsea")
 
 test_that("seas calculate t and preranked t match fgsea results", {
-  gseaParam <- 1
-  nperm <- 1000
   vm <- exampleExpressionSet()
   gdb <- exampleGeneSetDb()
+
+  gseaParam <- 1
+  nperm <- 1000
 
   # Since Bioc 3.5, running fgsea warns about ties in preranked stats
   expect_warning({
     mgt <- seas(vm, gdb, 'fgsea', design = vm$design, contrast = 'tumor',
-                score.by = 't',
-                nPermSimple = nperm, gseaParam = gseaParam,
+                score.by = 't', nPermSimple = nperm, gseaParam = gseaParam,
                 .random.seed = 123)
   }, "ties")
   mgres <- mgt %>%
@@ -26,12 +26,11 @@ test_that("seas calculate t and preranked t match fgsea results", {
 
   expect_warning({
     set.seed(123)
-    rest <- fgsea::fgseaMultilevel(gs.idxs, ranks.t, sampleSize = 101,
-                         minSize = min.max[1], maxSize = min.max[2],
-                         eps = 1e-50, scoreType = "std", nproc = 0,
-                         nPermSimple = nperm,
-                         gseaParam = gseaParam,
-                         absEps = NULL)
+    rest <- fgsea::fgsea(
+      gs.idxs, ranks.t,
+      minSize = min.max[1], maxSize = min.max[2],
+      nPermSimple = nperm,
+      gseaParam = gseaParam)
   }, "ties")
 
   # these are exactly the same
@@ -40,13 +39,8 @@ test_that("seas calculate t and preranked t match fgsea results", {
   expect_equal(rest$size, mgres$n)
   expect_equal(mgres$ES, rest$ES)
   expect_equal(mgres$leadingEdge, rest$leadingEdge)
-
-  # something is off with the pval, and therefore log2err and NES, and I just
-  # can't figure it out
-  # expect_equal(mgres$log2err, rest$log2err)
-  # expect_equal(mgres$NES, rest$NES)
-  # expect_equal(mgres$pval, rest$pval)
-  expect_equal(cor(mgres$pval, rest$pval), 1, tolerance = 0.01)
+  expect_equal(mgres$NES, rest$NES)
+  expect_equal(mgres$pval, rest$pval)
 
   # passing in a preranked vector gives same results ---------------------------
   expect_warning({

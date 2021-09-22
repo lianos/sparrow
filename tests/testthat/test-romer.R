@@ -40,7 +40,7 @@ test_that('romer runs equivalently from do.romer vs direct call', {
 
   expect_equal(res$key, rownames(my))
   expect_equal(res$n, my[, 'NGenes'], check.attributes = FALSE)
-  # expect_equal(res$pval.up, my[, 'Up'], check.attributes = FALSE)
-  # expect_equal(res$pval.down, my[, 'Down'], check.attributes = FALSE)
-  # expect_equal(res$pval, my[, 'Mixed'], check.attributes = FALSE)
+  expect_equal(res$pval.up, my[, 'Up'], check.attributes = FALSE)
+  expect_equal(res$pval.down, my[, 'Down'], check.attributes = FALSE)
+  expect_equal(res$pval, my[, 'Mixed'], check.attributes = FALSE)
 })

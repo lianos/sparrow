@@ -35,7 +35,7 @@ validate.x.romer <- function(x, xmeta. = NULL, ...) {
 #' @importFrom limma romer
 #' @importFrom edgeR romer.DGEList
 do.romer <- function(gsd, x, design, contrast=ncol(design),
-                     gs.idxs=as.list(gsd, active.only=TRUE, value='x.idx'),
+                     gs.idxs = as.list(gsd, active.only=TRUE, value='x.idx'),
                      .random.seed = NULL, ...) {
   stopifnot(is.conformed(gsd, x))
   args <- list(...)
@@ -45,9 +45,7 @@ do.romer <- function(gsd, x, design, contrast=ncol(design),
   }
 
   call.args[['y']] <- x
-  # call.args[['index']] <- gs.idxs
-  browser()
-  call.args[['index']] <- as.list(gsd, value='x.idx')
+  call.args[['index']] <- gs.idxs
   call.args[['design']] <- design
   call.args[['contrast']] <- contrast
   call.args[['...']] <- NULL
