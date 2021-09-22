@@ -73,7 +73,7 @@ getMSigGeneSetDb <- function(collection = NULL,
   # each of these variables are referenced in some data.table NSE mojo below
   gs_cat <- gs_subcat <- gs_name <- symbol <- ensembl_id <- gs_id <- NULL
 
-  # sigs.all <- data.table::copy(.pkgcache[["msigdb"]][[species.info$species]])
+  sigs.all <- data.table::copy(.pkgcache[["msigdb"]][[species.info$species]])
   if (is.null(sigs.all)) {
     sigs.all <- msigdbr::msigdbr(species.info$species)
     sigs.all <- as.data.table(sigs.all)
@@ -83,7 +83,7 @@ getMSigGeneSetDb <- function(collection = NULL,
     axe.cols <- intersect(axe.cols, colnames(sigs.all))
     for (axe in axe.cols) sigs.all[, (axe) := NULL]
     setkeyv(sigs.all, c("gs_cat", "gs_name"))
-    .pkgcache[["msigdb"]][[species.info$species]] <- copy(sigs.all)
+    .pkgcache[["msigdb"]][[species.info$species]] <- data.table::copy(sigs.all)
   }
 
   if (!is.null(collection)) {
