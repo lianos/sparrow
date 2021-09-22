@@ -39,7 +39,7 @@ We have loaded the sparrow.
 
 ```{r msigdbr}
 library(msigdbr)
-mdf <- msigdbr("Homo sapiens")
+system.time(mdf <- msigdbr("Homo sapiens"))
 head(mdf)
 ```
 

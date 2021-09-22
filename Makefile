@@ -31,12 +31,12 @@ devel-build:
 
 devel-run:
 	docker run --rm -it -d --name sparrow-devel \
-	-v /Users/lianoglou/workspace/Rpkgs/sparrow:/home/rstudio/sparrow \
-	-v /Users/lianoglou/workspace/Rpkgs/sparrow.shiny:/home/rstudio/sparrow.shiny \
-	-v /Users/lianoglou/.config/rstudio:/home/rstudio/.config/rstudio \
-	-v /Users/lianoglou/.gitconfig:/home/rstudio/.gitconfig \
-	-v /Users/lianoglou/.gitignore_global:/Users/lianoglou/.gitignore_global \
-	-p 8787:8787 \
+	-v ${HOME}/workspace/Rpkgs/sparrow:/home/rstudio/sparrow \
+	-v ${HOME}/workspace/Rpkgs/sparrow.shiny:/home/rstudio/sparrow.shiny \
+	-v ${HOME}/.config/rstudio:/home/rstudio/.config/rstudio \
+	-v ${HOME}/.gitconfig:/home/rstudio/.gitconfig \
+	-v ${HOME}/.gitignore_global:/Users/lianoglou/.gitignore_global \
+	-p 8888:8787 \
 	-p 8080:3838 \
 	--entrypoint /init \
 	--env SHINYPROXY_USERNAME=$(USER) \
@@ -44,11 +44,13 @@ devel-run:
 	lianos/sparrow:devel && \
 	sleep 5 && open http://localhost:8787
 
-# devel-inspect:
-#   docker run --rm \
-# 	-v /Users/lianoglou/workspace/data/eyriedata:/datasets \
-# 	-v /Users/lianoglou/workspace/facilebio/public/packages/FacileAnalysis:/home/rstudio/FacileAnalysis \
-# 	-v /Users/lianoglou/workspace/facilebio/internal/DenaliEyrie:/home/rstudio/DenaliEyrie
-# 	-i -t --entrypoint /bin/bash \
-# 	-p 80:3838 $(TAG):$(VERSION)
+devel-inspect:
+	docker run --rm \
+	-v ${HOME}/workspace/Rpkgs/sparrow:/home/rstudio/sparrow \
+	-v ${HOME}/workspace/Rpkgs/sparrow.shiny:/home/rstudio/sparrow.shiny \
+	-v ${HOME}/.config/rstudio:/home/rstudio/.config/rstudio \
+	-v ${HOME}/.gitconfig:/home/rstudio/.gitconfig \
+	-v ${HOME}/.gitignore_global:/Users/lianoglou/.gitignore_global \
+	-i -t --entrypoint /bin/bash \
+	lianos/sparrow:devel
 
