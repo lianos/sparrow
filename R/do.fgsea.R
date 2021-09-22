@@ -27,13 +27,13 @@ validate.x.fgsea <- validate.X
 #' @param ... arguments to pass down into [calculateIndividualLogFC()]
 #' @return A data.table of fgsea results.
 do.fgsea <- function(gsd, x, design, contrast = ncol(design),
-                     sampleSize = 101, eps = 1e-10,
+                     sampleSize = 101, eps = 1e-50,
                      scoreType = c("std", "pos", "neg"),
                      nproc = 0, gseaParam = 1, nPermSimple = 1000,
                      absEps = NULL, use.fgsea.simple = FALSE,
                      score.by = c('t', 'logFC', 'pval'), logFC = NULL,
                      gs.idxs = as.list(gsd, active.only=TRUE, value='x.idx'),
-                     ...) {
+                     .random.seed = NULL, ...) {
 
   scoreType <- match.arg(scoreType)
   score.by <- match.arg(score.by)
@@ -53,6 +53,8 @@ do.fgsea <- function(gsd, x, design, contrast = ncol(design),
   ## fgsea function wans a list of gene identifiers for pathway definition
   pathways <- lapply(gs.idxs, function(idxs) names(stats)[idxs])
 
+  if (is.numeric(random.seed)) set.seed(random.seed[1])
+
   if (isTRUE(use.fgsea.simple)) {
     res <- fgsea::fgseaSimple(
       pathways, stats, nperm = nPermSimple,
@@ -60,12 +62,17 @@ do.fgsea <- function(gsd, x, design, contrast = ncol(design),
       scoreType = scoreType, nproc = nproc,
       gseaParam = gseaParam)
   } else {
+    # I've checked the equivalence of the values here with those in
+    # test-fgsea.R#38 or so, and can't figure out why our pvals and NES are off.
+    #
+    # Rerunning fgsea() with the same random.seed creates the same results
+    # Rerunning seas(..., methods = "fgsea", .random.seed = xx) also same
     res <- fgsea::fgseaMultilevel(
       pathways, stats, sampleSize = sampleSize,
       minSize = gs.size[1L], maxSize = gs.size[2L],
       eps = eps, scoreType = scoreType, nproc = nproc,
       gseaParam = gseaParam,
-      # nPermSimple = nPermSimple, # TODO: uncomment for next version of bioc
+      nPermSimple = nPermSimple,
       absEps = absEps)
   }
   setattr(res, 'rawresult', TRUE)

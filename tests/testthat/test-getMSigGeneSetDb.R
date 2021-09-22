@@ -1,3 +1,5 @@
+context("getMSigGeneSetDb")
+
 test_that("MSigDB retrieval respects collection subsets", {
   gdb.all <- getMSigGeneSetDb()
   expect_setequal(geneSets(gdb.all)$collection, c("H", paste0("C", 1:8)))
@@ -37,10 +39,10 @@ test_that("url function stored correctly", {
     expected.url <- sprintf(base.url, goname)
     pro.url <- geneSetURL(gdb.pro, sprintf("C5_GO:%s", gocat), goname)
     expect_equal(unname(pro.url), expected.url,
-                 info = paste("promoted", gocat, goname, sep = ":"))
-    npro.url <- geneSetURL(gdb.pro, sprintf("C5", gocat), goname)
+                 info = paste("promoted subcat url", gocat, goname, sep = ":"))
+    npro.url <- geneSetURL(gdb.npro, "C5", goname)
     expect_equal(unname(pro.url), expected.url,
-                 info = paste("nopromo", gocat, goname, sep = ":"))
+                 info = paste("no promo subcat url", gocat, goname, sep = ":"))
   }
 })
 

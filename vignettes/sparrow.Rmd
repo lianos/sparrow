@@ -216,7 +216,7 @@ We'll use the `getMSigGeneSetDb` convenience function provided by the
 *sparrow* package to load the [hallmark][hallmark] (`"h"`) and
 [c2 (curated)][c2] (`"c2"`) gene set collections from [MSigDB][msigdb].
 
-```{r build-gdb, eval=!exists('gdb')}
+```{r build-gdb}
 gdb <- getMSigGeneSetDb(c("h", "c2"), "human", id.type = "entrez")
 ```
 
