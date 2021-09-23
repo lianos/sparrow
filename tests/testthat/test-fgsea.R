@@ -3,11 +3,15 @@ context("fgsea")
 test_that("seas calculate t and preranked t match fgsea results", {
   vm <- exampleExpressionSet()
   gdb <- exampleGeneSetDb()
+  gdb <- conform(gdb, vm)
 
   gseaParam <- 1
   nperm <- 1000
 
+
   # Since Bioc 3.5, running fgsea warns about ties in preranked stats
+
+  # Run fgsea through seas -----------------------------------------------------
   expect_warning({
     mgt <- seas(vm, gdb, 'fgsea', design = vm$design, contrast = 'tumor',
                 score.by = 't', nPermSimple = nperm, gseaParam = gseaParam,
@@ -17,7 +21,22 @@ test_that("seas calculate t and preranked t match fgsea results", {
     result("fgsea") %>%
     transform(pathway = encode_gskey(collection, name))
 
-  gs.idxs <- as.list(geneSetDb(mgt), active.only=TRUE, value='x.id')
+  # Run fgsea through do.fgsea -------------------------------------------------
+  expect_warning({
+    res.do <- do.fgsea(gdb, vm, vm$design, "tumor",
+                       score.by = "t", nPermSimple = nperm,
+                       gseaParam = gseaParam,
+                       logFC = logFC(mgt, as.dt = TRUE), .random.seed = 123)
+  }, "ties")
+
+  expect_equal(mgres$pathway, res.do$pathway)
+  expect_equal(mgres$n, res.do$size)
+  expect_equal(mgres$ES, res.do$ES)
+  expect_equal(mgres$NES, res.do$NES)
+  expect_equal(mgres$pval, res.do$pval)
+
+  # Run fgsea directly ---------------------------------------------------------
+  gs.idxs <- as.list(gdb, active.only=TRUE, value='x.id')
   min.max <- range(sapply(gs.idxs, length))
 
   lfc <- logFC(mgt)
@@ -33,14 +52,17 @@ test_that("seas calculate t and preranked t match fgsea results", {
       gseaParam = gseaParam)
   }, "ties")
 
-  # these are exactly the same
-  expect_equal(nrow(mgres), nrow(rest))
+  # compare do.fgsea with fgsea
+  expect_equal(res.do, rest, check.attributes = FALSE)
+
+  # compares seas(...) with direct call
   expect_equal(mgres$pathway, rest$pathway)
-  expect_equal(rest$size, mgres$n)
+  expect_equal(mgres$n, rest$size)
   expect_equal(mgres$ES, rest$ES)
   expect_equal(mgres$leadingEdge, rest$leadingEdge)
   expect_equal(mgres$NES, rest$NES)
   expect_equal(mgres$pval, rest$pval)
+
 
   # passing in a preranked vector gives same results ---------------------------
   expect_warning({
