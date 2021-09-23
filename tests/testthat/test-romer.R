@@ -7,20 +7,15 @@ test_that('romer runs equivalently from do.romer vs direct call', {
   y <- edgeR::estimateDisp(y, y$design)
 
   gdb <- GeneSetDb(exampleGeneSets())
-  gdb <- gdb[c(TRUE, rep(FALSE, nrow(gdb) - 1))]
   gdb <- conform(gdb, y)
 
-  # We have to ensure that the genesets are tested in the same order as they
-  # are tested from the GeneSetDb for the pvalues to be equivalent given
-  # the same random seed.
-  global.idxs <- as.list(gdb, value='x.idx')
-
-  nrot <- 250
   seed <- 123
+  nrot <- 250
 
-  # run romer directly ---------------------------------------------------------
+  # run limma::romer -----------------------------------------------------------
   set.seed(seed)
-  expected <- limma::romer(y, global.idxs, y$design, ncol(y$design), nrot = nrot)
+  expected <- limma::romer(y, as.list(gdb, value = "x.idx"),
+                           y$design, ncol(y$design), nrot = nrot)
 
   # run do.romer ---------------------------------------------------------------
   do <- sparrow:::do.romer(gdb, y, y$design, ncol(y$design), nrot = nrot,

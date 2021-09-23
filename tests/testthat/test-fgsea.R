@@ -29,12 +29,6 @@ test_that("seas calculate t and preranked t match fgsea results", {
                        logFC = logFC(mgt, as.dt = TRUE), .random.seed = 123)
   }, "ties")
 
-  expect_equal(mgres$pathway, res.do$pathway)
-  expect_equal(mgres$n, res.do$size)
-  expect_equal(mgres$ES, res.do$ES)
-  expect_equal(mgres$NES, res.do$NES)
-  expect_equal(mgres$pval, res.do$pval)
-
   # Run fgsea directly ---------------------------------------------------------
   gs.idxs <- as.list(gdb, active.only=TRUE, value='x.id')
   min.max <- range(sapply(gs.idxs, length))
@@ -52,17 +46,21 @@ test_that("seas calculate t and preranked t match fgsea results", {
       gseaParam = gseaParam)
   }, "ties")
 
+  # compare results ------------------------------------------------------------
   # compare do.fgsea with fgsea
-  expect_equal(res.do, rest, check.attributes = FALSE)
+  expect_equal(res.do$pathway, rest$pathway)
+  expect_equal(res.do$size, rest$size)
+  expect_equal(res.do$ES, rest$ES)
+  expect_equal(res.do$pval, rest$pval)
+  expect_equal(res.do$NES, rest$NES)
 
-  # compares seas(...) with direct call
+  # compares seas(...) with fgsea
   expect_equal(mgres$pathway, rest$pathway)
   expect_equal(mgres$n, rest$size)
   expect_equal(mgres$ES, rest$ES)
   expect_equal(mgres$leadingEdge, rest$leadingEdge)
   expect_equal(mgres$NES, rest$NES)
   expect_equal(mgres$pval, rest$pval)
-
 
   # passing in a preranked vector gives same results ---------------------------
   expect_warning({
