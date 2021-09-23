@@ -1,28 +1,33 @@
 # Inspired from https://github.com/fbreitwieser/pavian
 
-# Working with "release" codebase ----------------------------------------------
-release-build:
+# Working with additional variables:
+# https://stackoverflow.com/a/2826178/83761
+version?=devel# `devel` or `release`
+rport?=8888# rstudio port
+sport?=8080# shiny port
+
+build:
 	docker build \
 	--no-cache \
-	-f docker/release/Dockerfile \
-	-t lianos/sparrow:release docker/release
+	-f docker/${version}/Dockerfile \
+	-t lianos/sparrow:${version} docker/${version}
 
-release-run:
-	docker run --rm -it -d --name sparrow-release \
+run:
+	docker run --rm -it -d --name sparrow-${version} \
 	-v ${HOME}/workspace/Rpkgs/sparrow:/home/rstudio/sparrow \
 	-v ${HOME}/workspace/Rpkgs/sparrow.shiny:/home/rstudio/sparrow.shiny \
 	-v ${HOME}/.config/rstudio:/home/rstudio/.config/rstudio \
 	-v ${HOME}/.gitconfig:/home/rstudio/.gitconfig \
 	-v ${HOME}/.gitignore_global:/Users/lianoglou/.gitignore_global \
-	-p 8787:8787 \
-	-p 8080:3838 \
+	-p ${rport}:8787 \
+	-p ${sport}:3838 \
 	--entrypoint /init \
 	--env SHINYPROXY_USERNAME=$(USER) \
 	-e DISABLE_AUTH=true \
-	lianos/sparrow:release && \
-	sleep 5 && open http://localhost:8787
+	lianos/sparrow:${version} && \
+	sleep 5 && open http://localhost:${rport}
 
-release-inspect:
+inspect:
 	docker run --rm \
 	-v ${HOME}/workspace/Rpkgs/sparrow:/home/rstudio/sparrow \
 	-v ${HOME}/workspace/Rpkgs/sparrow.shiny:/home/rstudio/sparrow.shiny \
@@ -30,37 +35,6 @@ release-inspect:
 	-v ${HOME}/.gitconfig:/home/rstudio/.gitconfig \
 	-v ${HOME}/.gitignore_global:/Users/lianoglou/.gitignore_global \
 	-i -t --entrypoint /bin/bash \
-	lianos/sparrow:release
+	lianos/sparrow:${version}
 
-# Working with "devel" codebase ------------------------------------------------
-devel-build:
-	docker build \
-	--no-cache \
-	-f docker/devel/Dockerfile \
-	-t lianos/sparrow:devel docker/devel
-
-devel-run:
-	docker run --rm -it -d --name sparrow-devel \
-	-v ${HOME}/workspace/Rpkgs/sparrow:/home/rstudio/sparrow \
-	-v ${HOME}/workspace/Rpkgs/sparrow.shiny:/home/rstudio/sparrow.shiny \
-	-v ${HOME}/.config/rstudio:/home/rstudio/.config/rstudio \
-	-v ${HOME}/.gitconfig:/home/rstudio/.gitconfig \
-	-v ${HOME}/.gitignore_global:/Users/lianoglou/.gitignore_global \
-	-p 8888:8787 \
-	-p 8080:3838 \
-	--entrypoint /init \
-	--env SHINYPROXY_USERNAME=$(USER) \
-	-e DISABLE_AUTH=true \
-	lianos/sparrow:devel && \
-	sleep 5 && open http://localhost:8787
-
-devel-inspect:
-	docker run --rm \
-	-v ${HOME}/workspace/Rpkgs/sparrow:/home/rstudio/sparrow \
-	-v ${HOME}/workspace/Rpkgs/sparrow.shiny:/home/rstudio/sparrow.shiny \
-	-v ${HOME}/.config/rstudio:/home/rstudio/.config/rstudio \
-	-v ${HOME}/.gitconfig:/home/rstudio/.gitconfig \
-	-v ${HOME}/.gitignore_global:/Users/lianoglou/.gitignore_global \
-	-i -t --entrypoint /bin/bash \
-	lianos/sparrow:devel
 
