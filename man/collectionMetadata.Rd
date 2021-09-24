@@ -9,6 +9,11 @@
 \alias{featureIdType<-}
 \alias{org}
 \alias{org<-}
+\alias{collectionMetadata,GeneSetDb,missing,missing-method}
+\alias{collectionMetadata,GeneSetDb,character,missing-method}
+\alias{collectionMetadata,GeneSetDb,character,character-method}
+\alias{geneSetURL,GeneSetDb-method}
+\alias{geneSetCollectionURLfunction,GeneSetDb-method}
 \alias{addCollectionMetadata}
 \title{Gene Set Collection Metadata}
 \usage{
@@ -27,6 +32,16 @@ featureIdType(x, i) <- value
 org(x, i, ...)
 
 org(x, i) <- value
+
+\S4method{collectionMetadata}{GeneSetDb,missing,missing}(x, collection, name, as.dt = FALSE)
+
+\S4method{collectionMetadata}{GeneSetDb,character,missing}(x, collection, name, as.dt = FALSE)
+
+\S4method{collectionMetadata}{GeneSetDb,character,character}(x, collection, name, as.dt = FALSE)
+
+\S4method{geneSetURL}{GeneSetDb}(x, i, j, ...)
+
+\S4method{geneSetCollectionURLfunction}{GeneSetDb}(x, i, ...)
 
 addCollectionMetadata(
   x,
@@ -70,6 +85,9 @@ A character vector of URLs for each of the genesets identified by
 The updated \code{GeneSetDb}.
 }
 \description{
+Associates key:value metadata to a gene set collection of a \code{\link[=GeneSetDb]{GeneSetDb()}}.
+}
+\details{
 The design of the GeneSetDb is such that we assume that groups of gene sets
 are usually defined together and will therefore share similar metadata.
 These groups of gene sets will fall into the same "collection", and,
@@ -88,6 +106,22 @@ metadata, namely \code{\link[=org]{org()}}, \code{\link[=featureIdType]{featureI
 metadata can be stored at the collection level using the
 \code{\link[=addCollectionMetadata]{addCollectionMetadata()}} function. More details are provided below.
 }
+\section{Methods (by class)}{
+\itemize{
+\item \code{x = GeneSetDb,collection = missing,name = missing}: Returns metadata for all collections
+
+\item \code{x = GeneSetDb,collection = character,name = missing}: Returns all metadata for a specific collection
+
+\item \code{x = GeneSetDb,collection = character,name = character}: Returns the \code{name} metadata for a given
+collection.
+
+\item \code{GeneSetDb}: returns the URL for a geneset in from a
+GeneSetDb
+
+\item \code{GeneSetDb}: returns the function that generates a
+geneset url for a given collection.
+}}
+
 \section{Gene Set URLs}{
 
 

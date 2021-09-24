@@ -19,7 +19,6 @@ do.fgsea(
   use.fgsea.simple = FALSE,
   score.by = c("t", "logFC", "pval"),
   logFC = NULL,
-  gs.idxs = as.list(gsd, active.only = TRUE, value = "x.idx"),
   .random.seed = NULL,
   ...
 )

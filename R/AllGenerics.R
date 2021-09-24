@@ -66,7 +66,8 @@ setGeneric("featureIdMap<-", function(x, value)
 
 #' Gene Set Collection Metadata
 #'
-#' @description
+#' Associates key:value metadata to a gene set collection of a [GeneSetDb()].
+#'
 #' The design of the GeneSetDb is such that we assume that groups of gene sets
 #' are usually defined together and will therefore share similar metadata.
 #' These groups of gene sets will fall into the same "collection", and,

@@ -69,6 +69,10 @@ etc.
 \strong{Please refer to the "GeneSetDb" section of the vignette} for more
 details regarding the construction and querying of a \code{GeneSetDb} object.
 }
+\details{
+The functionality in the class is useful for the functionality in this
+package, but for your own personal usage, you probably want a \code{{BiocSet}}.
+}
 \section{Slots}{
 
 \describe{

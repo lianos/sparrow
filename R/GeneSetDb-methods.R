@@ -589,6 +589,7 @@ hasGeneSet <- function(x, collection, name, as.error=FALSE) {
   gs.exists
 }
 
+#' @describeIn collectionMetadata Returns metadata for all collections
 setMethod("collectionMetadata",
   c(x="GeneSetDb", collection="missing", name="missing"),
   function(x, collection, name, as.dt=FALSE) {
@@ -603,6 +604,7 @@ setMethod("collectionMetadata",
     out
   })
 
+#' @describeIn collectionMetadata Returns all metadata for a specific collection
 setMethod("collectionMetadata",
   c(x="GeneSetDb", collection="character", name="missing"),
   function(x, collection, name, as.dt=FALSE) {
@@ -619,6 +621,8 @@ setMethod("collectionMetadata",
     out
   })
 
+#' @describeIn collectionMetadata Returns the `name` metadata for a given
+#'   collection.
 setMethod("collectionMetadata",
   c(x="GeneSetDb", collection="character", name="character"),
   function(x, collection, name, as.dt=FALSE) {
@@ -637,8 +641,8 @@ setMethod("collectionMetadata",
     cmd$value[[idx]]
   })
 
-#' TODO: This should accept a data.frame of collect,name combos
-#' @noRd
+#' @describeIn collectionMetadata returns the URL for a geneset in from a
+#'   GeneSetDb
 setMethod("geneSetURL", c(x = "GeneSetDb"), function(x, i, j, ...) {
   stopifnot(is.character(i), is.character(j), length(i) == length(j))
   collections <- unique(i)
@@ -655,6 +659,8 @@ setMethod("geneSetURL", c(x = "GeneSetDb"), function(x, i, j, ...) {
   })
 })
 
+#' @describeIn collectionMetadata returns the function that generates a
+#'   geneset url for a given collection.
 setMethod("geneSetCollectionURLfunction", "GeneSetDb", function(x, i, ...) {
   stopifnot(isSingleCharacter(i))
   fn.dt <- x@collectionMetadata[list(i, 'url_function'), nomatch = 0]

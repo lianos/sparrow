@@ -4,6 +4,11 @@
 #' (and the "The GeneSetDb Class" section, in particular) for a more deatiled
 #' description of the sematnics of this central data object.
 #'
+#' The functionality in the class is useful for the functionality in this
+#' package, but for your own personal usage, you probably want a `{BiocSet}`.
+#'
+#' @name GeneSetDb-class
+#' @docType class
 #' @exportClass GeneSetDb
 #'
 #' @slot table The "gene set table": a data.table with geneset information,
@@ -91,13 +96,6 @@
   prototype=prototype(
     gsd=new("GeneSetDb"),
     results=list(),
-    # logFC=data.table(
-    #   feature_id=character(),
-    #   logFC=numeric(),
-    #   t=numeric(),
-    #   pval=numeric(),
-    #   padj=numeric(),
-    #   key='feature_id')))
     logFC=data.table(
       feature_id=character(),
       logFC=numeric(),
