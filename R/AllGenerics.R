@@ -51,18 +51,17 @@
 #' ## returned as row indices into vm
 #' fids.idxs <- featureIds(gdb, 'c2', value='x.idx')
 setGeneric("featureIds", signature="x",
-function(x, i, j, value=c('feature_id', 'x.id', 'x.idx'),
-         active.only=is.conformed(x), ...) {
-  standardGeneric("featureIds")
-})
+           function(x, i, j, value=c('feature_id', 'x.id', 'x.idx'),
+                    active.only=is.conformed(x), ...)
+             standardGeneric("featureIds"))
 
 #' Fetch the featureIdMap for a `GeneSetDb`
 #' @exportMethod featureIdMap
 setGeneric("featureIdMap", function(x, ...) standardGeneric("featureIdMap"))
 
-setGeneric("featureIdMap<-", function(x, value) {
+setGeneric("featureIdMap<-", function(x, value)
   standardGeneric("featureIdMap<-")
-})
+)
 
 
 #' Gene Set Collection Metadata
@@ -112,16 +111,7 @@ setGeneric("featureIdMap<-", function(x, value) {
 #' gdb <- addCollectionMetadata(gdb, 'H', 'foo', 'bar')
 #' cmh <- collectionMetadata(gdb, 'H') ## print this to see
 setGeneric("collectionMetadata", signature=c("x", "collection", "name"),
-function(x, collection, name, ...) {
-  standardGeneric("collectionMetadata")
-})
-
-# ##' @export
-# ##' @rdname collectionMetadata
-# setGeneric("collectionMetadata<-", signature=c("x", "collection", "name"),
-# function(x, collection, name, value) {
-#   standardGeneric("collectionMetadata<-")
-# })
+function(x, collection, name, ...) standardGeneric("collectionMetadata"))
 
 #' @section Gene Set URLs:
 #'
@@ -152,21 +142,20 @@ function(x, collection, name, ...) {
 #'
 #' @return A character vector of URLs for each of the genesets identified by
 #'   `i, j`. `NA` is returned for genesets `i,j` that are not found in `x`.
-setGeneric("geneSetURL", signature="x", function(x, i, j, ...) {
-  standardGeneric("geneSetURL")
-})
+setGeneric("geneSetURL", signature="x", function(x, i, j, ...)
+  standardGeneric("geneSetURL"))
 
 #' @exportMethod geneSetCollectionURLfunction
 #' @rdname collectionMetadata
-setGeneric("geneSetCollectionURLfunction", signature="x", function(x, i, ...) {
-  standardGeneric("geneSetCollectionURLfunction")
-})
+setGeneric("geneSetCollectionURLfunction", signature="x", function(x, i, ...)
+  standardGeneric("geneSetCollectionURLfunction"))
 
 #' @export
 #' @rdname collectionMetadata
-setGeneric("geneSetCollectionURLfunction<-", signature="x", function(x, i, value) {
-  standardGeneric("geneSetCollectionURLfunction<-")
-})
+setGeneric("geneSetCollectionURLfunction<-",
+           signature="x",
+           function(x, i, value)
+             standardGeneric("geneSetCollectionURLfunction<-"))
 
 #' @section Feature ID Types:
 #'
@@ -187,15 +176,13 @@ setGeneric("geneSetCollectionURLfunction<-", signature="x", function(x, i, value
 #' @exportMethod featureIdType
 #' @rdname collectionMetadata
 #' @inheritParams featureIds
-setGeneric("featureIdType", signature="x", function(x, i, ...) {
-  standardGeneric("featureIdType")
-})
+setGeneric("featureIdType", signature="x", function(x, i, ...)
+  standardGeneric("featureIdType"))
 
 #' @export
 #' @rdname collectionMetadata
-setGeneric("featureIdType<-", signature="x", function(x, i, value) {
-  standardGeneric("featureIdType<-")
-})
+setGeneric("featureIdType<-", signature="x", function(x, i, value)
+  standardGeneric("featureIdType<-"))
 
 #' @section Organism:
 #'
@@ -210,16 +197,12 @@ setGeneric("featureIdType<-", signature="x", function(x, i, value) {
 #' @exportMethod org
 #' @rdname collectionMetadata
 #' @inheritParams featureIds
-setGeneric("org", signature="x", function(x, i, ...) {
-  standardGeneric("org")
-})
+setGeneric("org", signature="x", function(x, i, ...) standardGeneric("org"))
 
 #' @export
 #' @rdname collectionMetadata
-setGeneric("org<-", signature="x", function(x, i, value) {
-  standardGeneric("org<-")
-})
-
+setGeneric("org<-", signature="x", function(x, i, value)
+  standardGeneric("org<-"))
 
 #' Fetches information for a gene set
 #'
@@ -242,12 +225,11 @@ setGeneric("org<-", signature="x", function(x, i, value) {
 #'   (default: `FALSE`).
 #' @param ... passed down to inner functinos
 #' @template asdt-param
-#' @return a `data.(frame|table)` of gene set information. If \code{x} is a
+#' @return a `data.(frame|table)` of gene set information. If `x` is a
 #'   `SparrowResult` object, then differential expression statistics
 #'   are added as columns to this result.
-setGeneric("geneSet", signature="x", function(x, i, j, ...) {
-  standardGeneric("geneSet")
-})
+setGeneric("geneSet", signature="x", function(x, i, j, ...)
+  standardGeneric("geneSet"))
 
 #' Fetch the active (or all) gene sets from a GeneSetDb or SparrowResult
 #'
@@ -319,9 +301,8 @@ setGeneric("conform", function(x, ...) standardGeneric("conform"))
 #' features <- c("55839", "8522", "29087")
 #' (gdb.sub <- subsetByFeatures(gdb, features))
 setGeneric("subsetByFeatures", signature="x",
-function(x, features, value=c('feature_id', 'x.id', 'x.idx'), ...) {
-  standardGeneric("subsetByFeatures")
-})
+function(x, features, value=c('feature_id', 'x.id', 'x.idx'), ...)
+  standardGeneric("subsetByFeatures"))
 
 #' @exportMethod unconform
 #' @rdname conform
