@@ -378,26 +378,38 @@ The logFC (or t-statistics) of the genes in the gene set are plotted as points,
 which allow you to hover to identify the identity of the genes that land in
 the regions of the distributions you care about.
 
+<div class="note">
+Including interactive plots increases the size of the vignette's by *a lot* and
+will be rejected by the bioconductor build servers, so all plots included in
+this vignette are static snapshots of the javascript enabled plots you would
+normally get from `iplot()`.
+</div>
+
 **Boxplot**
 
-```{r iplot-tnfa-box, fig.asp=1}
+```{r iplot-wnt-beta, fig.asp=1, eval=FALSE}
 iplot(mg, 'H', 'HALLMARK_WNT_BETA_CATENIN_SIGNALING',
       type='boxplot', value='logFC')
 ```
 
+![boxplot of geneset log2FC's](images/static-iplot-wnt-beta-box.png)
+
 **Density**
 
-```{r iplot-tnfa-density, fig.asp=1}
+```{r iplot-wnt-beta-density, fig.asp=1, eval=FALSE}
 iplot(mg, 'H', 'HALLMARK_WNT_BETA_CATENIN_SIGNALING',
       type='density', value='logFC')
 ```
+![density plot of geneset log2FC's](images/static-iplot-wnt-beta-density.png)
 
 **GSEA plot**
 
-```{r iplot-tnfa-gsea, fig.asp=1}
+```{r iplot-wnt-beta-gsea, fig.asp=1, message=FALSE, warning=FALSE}
 iplot(mg, 'H', 'HALLMARK_WNT_BETA_CATENIN_SIGNALING',
       type='gsea', value='logFC')
 ```
+
+![gsea plot of geneset log2FC's](images/static-iplot-wnt-beta-gsea.png)
 
 #### Interactive Exploration
 
@@ -835,51 +847,6 @@ mgx <- seas(vm, gdb, c('camera', 'roast'),
             design = vm$design, contrast = cm[, 'BvH'],
             inter.gene.cor = 0.04, nrot = 500)
 ```
-
-## Developing sparrow
-
-### Adding new GSEA methods
-
-<div class="note">
-This section needs more explanation
-</div>
-
-Suppose we wanted to add a new GSEA method named `superGSEA` to the methods that
-the `seas()` function can delegate to via its `methods` argument, we need to add
-the following internal sparrow methods.
-
-* `validate.inputs.superGSEA`: Choose either `.validate.inputs.full.design` or
-  `.validate.inputs.preranked` depending on whether or not the method needs:
-    * a full expression,design,contrast tripple like roast, romer, or camera,
-      use `.validate.inputs.full.design`;
-    * or a preranked set of stats vector like cameraPR or fgsea, use
-      `.validate.inputs.preranked`
-* `validate.x.superGSEA`: this is redundant, just put `validate.X`. This will
-  be fixed in a future release
-* `do.superGSEA`: this method should take the parameters listed below, and
-  return the result of the `superGSEA` call **unmodified** from its original
-  form that the `superGSEA` method that is being wrapped returns it. The
-  parameters of the `do.superGSEA` function are:
-    * `gsd`: the pre-conformed `GeneSetDb`
-    * `x`: the expression matrix or pre-ranked stats vector
-    * `design`: the design matrix. If the method uses a pre-ranked stats vector
-      just ignore this argument in the `do.superGSEA` function body.
-    * `contrast`: the contrast to test. If the method uses a pre-ranked stats
-      vector just ignore this argument in the `do.superGSEA` function body.
-    * `gsd.idxs`: this will be a list of gene sets. The names are the
-      `collection;;name` tuples pasted together, and the values are integers
-      indices into the rows of `x` for each gene in the gene set. Genes in
-      the gene set that are not in `x` have already been removed.
-    * any custom parameters you want to set the defaults for in `superGSEA`
-      when the default values are not what you want.
-    * `...`: any other formal arguments defined in `superGSEA` will be passed
-      into here, and it will be your responsibility to extract them and pass
-      them down into the `superGSEA` call.
-* `mgres.superGSEA`: The function takes the output from `do.superGSEA` and
-  turns it into a `data.table` that minimally has `collection`, `name`,
-  `pval`, and `padj` columns.
-
-Look to the implementation in the `do.camera.R` file for a reference.
 
 [BiocSet]: http://bioconductor.org/packages/release/bioc/html/BiocSet.html
 [msigdb]: http://software.broadinstitute.org/gsea/msigdb/
