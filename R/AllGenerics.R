@@ -105,9 +105,6 @@ setGeneric("featureIdMap<-", function(x, value)
 #' ## feature_id TYpe
 #' featureIdType(gdb, 'H')
 #'
-#' ## Organism
-#' org(gdb, 'H')
-#'
 #' ## Arbitrary metadata
 #' gdb <- addCollectionMetadata(gdb, 'H', 'foo', 'bar')
 #' cmh <- collectionMetadata(gdb, 'H') ## print this to see
@@ -147,12 +144,14 @@ setGeneric("geneSetURL", signature="x", function(x, i, j, ...)
   standardGeneric("geneSetURL"))
 
 #' @exportMethod geneSetCollectionURLfunction
-#' @rdname collectionMetadata
+# ' @describeIn collectionMetadata A function that generates the information URL
+# '   for a geneset from a given collection.
 setGeneric("geneSetCollectionURLfunction", signature="x", function(x, i, ...)
   standardGeneric("geneSetCollectionURLfunction"))
 
 #' @export
-#' @rdname collectionMetadata
+# ' @describeIn collectionMetadata assigns a geneSetCollectionURLfunction to a
+# '   collection.
 setGeneric("geneSetCollectionURLfunction<-",
            signature="x",
            function(x, i, value)
@@ -184,26 +183,6 @@ setGeneric("featureIdType", signature="x", function(x, i, ...)
 #' @rdname collectionMetadata
 setGeneric("featureIdType<-", signature="x", function(x, i, value)
   standardGeneric("featureIdType<-"))
-
-#' @section Organism:
-#'
-#' You're going to want to keep track of the organism the experiments were run
-#' in that were used to define this collection of gene sets.
-#'
-#' ```
-#' gdb <- getMSigGeneSetDb('H')
-#' org(gdb, 'H') <- 'Homo_sapiens'
-#' ```
-#'
-#' @exportMethod org
-#' @rdname collectionMetadata
-#' @inheritParams featureIds
-setGeneric("org", signature="x", function(x, i, ...) standardGeneric("org"))
-
-#' @export
-#' @rdname collectionMetadata
-setGeneric("org<-", signature="x", function(x, i, value)
-  standardGeneric("org<-"))
 
 #' Fetches information for a gene set
 #'

@@ -621,8 +621,8 @@ setMethod("collectionMetadata",
     out
   })
 
-#' @describeIn collectionMetadata Returns the `name` metadata for a given
-#'   collection.
+#' @describeIn collectionMetadata Returns the `name` metadata value for a given
+#'   `collection`.
 setMethod("collectionMetadata",
   c(x="GeneSetDb", collection="character", name="character"),
   function(x, collection, name, as.dt=FALSE) {
@@ -641,8 +641,7 @@ setMethod("collectionMetadata",
     cmd$value[[idx]]
   })
 
-#' @describeIn collectionMetadata returns the URL for a geneset in from a
-#'   GeneSetDb
+#' @describeIn collectionMetadata returns the URL for a geneset
 setMethod("geneSetURL", c(x = "GeneSetDb"), function(x, i, j, ...) {
   stopifnot(is.character(i), is.character(j), length(i) == length(j))
   collections <- unique(i)
@@ -723,47 +722,15 @@ function(x, i, value) {
   added
 })
 
+#' @describeIn collectionMetadata sets the feature id type for a collection
 setReplaceMethod("featureIdType", "GeneSetDb", function(x, i, value) {
   valid <- function(v) is(v, 'GeneIdentifierType')
   addCollectionMetadata(x, i, 'id_type', value, valid)
 })
 
+#' @describeIn collectionMetadata retrieves the feature id type for a collection
 setMethod("featureIdType", "GeneSetDb", function(x, i, ...) {
   x@collectionMetadata[list(i, 'id_type')]$value[[1L]]
-})
-
-setReplaceMethod("org", "GeneSetDb", function(x, i, value) {
-  valid <- function(v) {
-    if (!is.character(v) && length(v) == 1L) {
-      return(FALSE)
-    }
-    info <- strsplit(v, '_')[[1L]]
-    if (length(info) != 2L) {
-      return(FALSE)
-    }
-    known <- c('Mus_musculus', 'Homo_sapiens')
-    if (!v %in% known) {
-      warning("Value '",v,"' for organism is unrecognized (but will be used).",
-              v, immediate.=TRUE)
-    }
-    TRUE
-  }
-  if (missing(i)) {
-    colls <- unique(x@collectionMetadata$collection)
-    for (coll in colls) {
-      org(x, coll) <- value
-    }
-    return(x)
-  }
-  addCollectionMetadata(x, i, 'organism', value, valid)
-})
-
-setMethod("org", "GeneSetDb", function(x, i, ...) {
-  if (missing(i)) {
-    x@collectionMetadata[name == 'organism']
-  } else {
-    x@collectionMetadata[list(i, 'organism')]$value[[1L]]
-  }
 })
 
 #' @section Adding arbitrary collectionMetadata:
@@ -774,7 +741,7 @@ setMethod("org", "GeneSetDb", function(x, i, ...) {
 #' object to keep the one with the updated `collectionMetadata`. Although this
 #' function is exported, I imagine this being used mostly through predefined
 #' replace methods that use this as a utility function, such as the replacement
-#' methods for [org()], and [featureIdType()].
+#' methods `featureIdType<-`, `geneSetURLfunction<-`, etc.
 #'
 #' ```
 #' gdb <- getMSigGeneSetDb('H')
@@ -839,7 +806,7 @@ addCollectionMetadata <- function(x, xcoll, xname, value,
 #' If there already are defined meta values for the columns of `meta` in `x`,
 #' these will be updated with the values in `meta`.
 #'
-#' TODO: this should be a setReplaceMethod, Issue #13
+#' TODO: should this be a setReplaceMethod, Issue #13 (?)
 #' https://github.com/lianos/multiGSEA/issues/13
 #'
 #' @export
@@ -849,6 +816,12 @@ addCollectionMetadata <- function(x, xcoll, xname, value,
 #'   an arbitrary amount of columns to add as metadata for the genesets.
 #' @param ... not used yet
 #' @return the updated `GeneSetDb` object `x`.
+#' @examples
+#' gdb <- exampleGeneSetDb()
+#' meta.info <- transform(
+#'   geneSets(gdb)[, c("collection", "name")],
+#'   someinfo = sample(c("one", "two"), nrow(gdb), replace = TRUE))
+#' gdb <- addGeneSetMetadata(gdb, meta.info)
 addGeneSetMetadata <- function(x, meta, ...) {
   stopifnot(is(x, "GeneSetDb"))
   k <- key(x@table)
@@ -895,30 +868,10 @@ addGeneSetMetadata <- function(x, meta, ...) {
   stopifnot(
     all.equal(xtable[, list(collection, name)], x@table[, list(collection, name)]),
     all.equal(xtable$N, x@table$N))
-  xtable[[".xidx."]] <- NULL
+  xtable[[".idx."]] <- NULL
   x@table <- xtable
   x
 }
-
-
-#' Appends two GeneSetDb objects togethter.
-#'
-#' @param x A [GeneSetDb()] object
-#' @param values A [GeneSetDb()] object
-#' @param after not used
-#' @importMethodsFrom BiocGenerics append
-#' @exportMethod append
-#' @examples
-#' gdb1 <- exampleGeneSetDb()
-#' gdb2 <- GeneSetDb(exampleGeneSetDF())
-#' gdb <- combine(gdb1, gdb2)
-setMethod("append", c(x = "GeneSetDb"), function(x, values, after = NA) {
-  .Deprecated("combine")
-  if (!missing(after)) {
-    warning("`after` argument is ignored in append,GeneSetDb")
-  }
-  combine(x, values)
-})
 
 #' Combines two GeneSetDb objects together
 #'

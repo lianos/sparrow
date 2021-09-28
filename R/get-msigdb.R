@@ -145,7 +145,7 @@ getMSigGeneSetDb <- function(collection = NULL,
       gdb, col, 'source', as.character(packageVersion("msigdbr")))
   }
 
-  org(gdb) <- gsub(" ", "_", species.info[["species"]])
+  # org(gdb) <- gsub(" ", "_", species.info[["species"]])
   gdb@collectionMetadata <- gdb@collectionMetadata[name != "count"]
   gdb
 }

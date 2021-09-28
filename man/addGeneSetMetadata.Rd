@@ -23,6 +23,13 @@ If there already are defined meta values for the columns of \code{meta} in \code
 these will be updated with the values in \code{meta}.
 }
 \details{
-TODO: this should be a setReplaceMethod, Issue #13
+TODO: should this be a setReplaceMethod, Issue #13 (?)
 https://github.com/lianos/multiGSEA/issues/13
+}
+\examples{
+gdb <- exampleGeneSetDb()
+meta.info <- transform(
+  geneSets(gdb)[, c("collection", "name")],
+  someinfo = sample(c("one", "two"), nrow(gdb), replace = TRUE))
+gdb <- addGeneSetMetadata(gdb, meta.info)
 }

@@ -60,7 +60,6 @@ getPantherGeneSetDb <- function(type=c('pathway', 'goslim'),
                 goslim=getPantherGOSLIM(p.db, org.db))
   mapIds <- getFromNamespace('mapIds', 'AnnotationDbi')
   out@db$symbol <- mapIds(org.db, out@db$feature_id, 'SYMBOL', 'ENTREZID')
-  org(out) <- xorg
   out
 }
 

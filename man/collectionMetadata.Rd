@@ -3,17 +3,15 @@
 \name{collectionMetadata}
 \alias{collectionMetadata}
 \alias{geneSetURL}
-\alias{geneSetCollectionURLfunction}
-\alias{geneSetCollectionURLfunction<-}
 \alias{featureIdType}
 \alias{featureIdType<-}
-\alias{org}
-\alias{org<-}
 \alias{collectionMetadata,GeneSetDb,missing,missing-method}
 \alias{collectionMetadata,GeneSetDb,character,missing-method}
 \alias{collectionMetadata,GeneSetDb,character,character-method}
 \alias{geneSetURL,GeneSetDb-method}
 \alias{geneSetCollectionURLfunction,GeneSetDb-method}
+\alias{featureIdType<-,GeneSetDb-method}
+\alias{featureIdType,GeneSetDb-method}
 \alias{addCollectionMetadata}
 \title{Gene Set Collection Metadata}
 \usage{
@@ -21,17 +19,9 @@ collectionMetadata(x, collection, name, ...)
 
 geneSetURL(x, i, j, ...)
 
-geneSetCollectionURLfunction(x, i, ...)
-
-geneSetCollectionURLfunction(x, i) <- value
-
 featureIdType(x, i, ...)
 
 featureIdType(x, i) <- value
-
-org(x, i, ...)
-
-org(x, i) <- value
 
 \S4method{collectionMetadata}{GeneSetDb,missing,missing}(x, collection, name, as.dt = FALSE)
 
@@ -42,6 +32,10 @@ org(x, i) <- value
 \S4method{geneSetURL}{GeneSetDb}(x, i, j, ...)
 
 \S4method{geneSetCollectionURLfunction}{GeneSetDb}(x, i, ...)
+
+\S4method{featureIdType}{GeneSetDb}(x, i) <- value
+
+\S4method{featureIdType}{GeneSetDb}(x, i, ...)
 
 addCollectionMetadata(
   x,
@@ -112,14 +106,17 @@ metadata can be stored at the collection level using the
 
 \item \code{x = GeneSetDb,collection = character,name = missing}: Returns all metadata for a specific collection
 
-\item \code{x = GeneSetDb,collection = character,name = character}: Returns the \code{name} metadata for a given
-collection.
+\item \code{x = GeneSetDb,collection = character,name = character}: Returns the \code{name} metadata value for a given
+\code{collection}.
 
-\item \code{GeneSetDb}: returns the URL for a geneset in from a
-GeneSetDb
+\item \code{GeneSetDb}: returns the URL for a geneset
 
 \item \code{GeneSetDb}: returns the function that generates a
 geneset url for a given collection.
+
+\item \code{GeneSetDb}: sets the feature id type for a collection
+
+\item \code{GeneSetDb}: retrieves the feature id type for a collection
 }}
 
 \section{Gene Set URLs}{
@@ -159,15 +156,6 @@ gdb <- addCollectionMetadata(gdb, 'H', 'id_type', GSEABase::ENSEMBLIdentifier())
 }
 }
 
-\section{Organism}{
-
-
-You're going to want to keep track of the organism the experiments were run
-in that were used to define this collection of gene sets.\preformatted{gdb <- getMSigGeneSetDb('H')
-org(gdb, 'H') <- 'Homo_sapiens'
-}
-}
-
 \section{Adding arbitrary collectionMetadata}{
 
 
@@ -177,7 +165,7 @@ Note that this is not a replacement method! You must catch the returned
 object to keep the one with the updated \code{collectionMetadata}. Although this
 function is exported, I imagine this being used mostly through predefined
 replace methods that use this as a utility function, such as the replacement
-methods for \code{\link[=org]{org()}}, and \code{\link[=featureIdType]{featureIdType()}}.\preformatted{gdb <- getMSigGeneSetDb('H')
+methods \verb{featureIdType<-}, \verb{geneSetURLfunction<-}, etc.\preformatted{gdb <- getMSigGeneSetDb('H')
 gdb <- addCollectionMetadata(gdb, 'H', 'foo', 'bar')
 }
 }
@@ -192,9 +180,6 @@ geneSetURL(gdb, c('H', 'H'),
 
 ## feature_id TYpe
 featureIdType(gdb, 'H')
-
-## Organism
-org(gdb, 'H')
 
 ## Arbitrary metadata
 gdb <- addCollectionMetadata(gdb, 'H', 'foo', 'bar')
