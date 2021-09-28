@@ -9,7 +9,6 @@
 \alias{collectionMetadata,GeneSetDb,character,missing-method}
 \alias{collectionMetadata,GeneSetDb,character,character-method}
 \alias{geneSetURL,GeneSetDb-method}
-\alias{geneSetCollectionURLfunction,GeneSetDb-method}
 \alias{featureIdType<-,GeneSetDb-method}
 \alias{featureIdType,GeneSetDb-method}
 \alias{addCollectionMetadata}
@@ -30,8 +29,6 @@ featureIdType(x, i) <- value
 \S4method{collectionMetadata}{GeneSetDb,character,character}(x, collection, name, as.dt = FALSE)
 
 \S4method{geneSetURL}{GeneSetDb}(x, i, j, ...)
-
-\S4method{geneSetCollectionURLfunction}{GeneSetDb}(x, i, ...)
 
 \S4method{featureIdType}{GeneSetDb}(x, i) <- value
 
@@ -95,10 +92,10 @@ or a URL pattern that combines the collection,name compound key that one
 can browse to in order to find out more information about the gene set.
 
 There are explicit helper functions that set and get these aforementioned
-metadata, namely \code{\link[=org]{org()}}, \code{\link[=featureIdType]{featureIdType()}},
-\code{\link[=geneSetCollectionURLfunction]{geneSetCollectionURLfunction()}}, and \code{\link[=geneSetURL]{geneSetURL()}}. Aribtrary
-metadata can be stored at the collection level using the
-\code{\link[=addCollectionMetadata]{addCollectionMetadata()}} function. More details are provided below.
+metadata, namely \code{featureIdType()}, \code{geneSetCollectionURLfunction()}, and
+\code{geneSetURL()}. Aribtrary metadata can be stored at the collection level
+using the \code{\link[=addCollectionMetadata]{addCollectionMetadata()}} function. More details are provided
+below.
 }
 \section{Methods (by class)}{
 \itemize{
@@ -111,9 +108,6 @@ metadata can be stored at the collection level using the
 
 \item \code{GeneSetDb}: returns the URL for a geneset
 
-\item \code{GeneSetDb}: returns the function that generates a
-geneset url for a given collection.
-
 \item \code{GeneSetDb}: sets the feature id type for a collection
 
 \item \code{GeneSetDb}: retrieves the feature id type for a collection
@@ -125,7 +119,7 @@ geneset url for a given collection.
 A URL function can be defined per collection that takes the collection,name
 compound key and generates a URL for the gene set that the user can browse
 to for futher information. For instance, the
-\code{\link[=geneSetCollectionURLfunction]{geneSetCollectionURLfunction()}} for the MSigDB collections are defined
+\code{geneSetCollectionURLfunction()} for the MSigDB collections are defined
 like so:\preformatted{url.fn <- function(collection, name) \{
   url <- 'http://www.broadinstitute.org/gsea/msigdb/cards/\%s.html'
   sprintf(url, name)

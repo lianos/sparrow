@@ -52,6 +52,7 @@ annotateGeneSetMembership <- function(x, gdb, x.ids=NULL, ...) {
   cbind(x, t(im))
 }
 
+#' @describeIn geneSets Returns the number of genesets in a GeneSetDb
 setMethod("length", "GeneSetDb", function(x) nrow(geneSets(x)))
 
 #' (Re)-map geneset IDs to the rows in an expression object.
@@ -284,6 +285,7 @@ is.active <- function(x, i, j) {
   res
 }
 
+#' @describeIn subsetByFeatures subset GeneSetDb by feature id's
 setMethod("subsetByFeatures", c(x="GeneSetDb"),
 function(x, features, value=c('feature_id', 'x.id', 'x.idx'), ...) {
   value <- match.arg(value)
@@ -400,7 +402,7 @@ setReplaceMethod('featureIdMap', 'GeneSetDb', function(x, value) {
   unconform(x)
 })
 
-#' @rdname geneSets
+#' @describeIn geneSets return all genesets from a GeneSetDb
 setMethod("geneSets", c(x="GeneSetDb"),
 function(x, active.only=is.conformed(x), ... , as.dt=FALSE) {
   out <- if (active.only[1L]) x@table[active == TRUE] else x@table
@@ -658,8 +660,8 @@ setMethod("geneSetURL", c(x = "GeneSetDb"), function(x, i, j, ...) {
   })
 })
 
-#' @describeIn collectionMetadata returns the function that generates a
-#'   geneset url for a given collection.
+#' @describeIn geneSetCollectionURLfunction returns the gene set collection
+#'   url function from a GeneSetDb
 setMethod("geneSetCollectionURLfunction", "GeneSetDb", function(x, i, ...) {
   stopifnot(isSingleCharacter(i))
   fn.dt <- x@collectionMetadata[list(i, 'url_function'), nomatch = 0]
@@ -684,6 +686,8 @@ setMethod("geneSetCollectionURLfunction", "GeneSetDb", function(x, i, ...) {
   fn
 })
 
+#' @describeIn geneSetCollectionURLfunction sets the gene set collection url
+#'   function for a `GeneSetDb : Collection` combination.
 setReplaceMethod("geneSetCollectionURLfunction", "GeneSetDb",
 function(x, i, value) {
   valid <- function(v) {
@@ -928,6 +932,7 @@ setMethod("combine", c(x = "GeneSetDb", y = "GeneSetDb"), function(x, y, ...) {
 
 #' @importMethodsFrom BiocGenerics nrow
 #' @exportMethod nrow
+#' @describeIn geneSets return number of genesets in GeneSetDb
 setMethod("nrow", "GeneSetDb", function(x) nrow(geneSets(x, as.dt=TRUE)))
 
 #' Checks equality (feature parity) between GeneSetDb objects

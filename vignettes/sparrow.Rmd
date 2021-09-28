@@ -13,12 +13,10 @@ abstract: >
   sparrow package version: `r packageVersion("sparrow")`
 output:
   BiocStyle::html_document:
-    self_contained: yes
     highlight: pygments
     toc: true
     fig_width: 5
     css: mystyles.css
-    df_print: paged
 vignette: >
   %\VignetteIndexEntry{Performing gene set enrichment analyses with sparrow}
   %\VignetteEngine{knitr::rmarkdown}

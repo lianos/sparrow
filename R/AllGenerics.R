@@ -81,10 +81,10 @@ setGeneric("featureIdMap<-", function(x, value)
 #' can browse to in order to find out more information about the gene set.
 #'
 #' There are explicit helper functions that set and get these aforementioned
-#' metadata, namely [org()], [featureIdType()],
-#' [geneSetCollectionURLfunction()], and [geneSetURL()]. Aribtrary
-#' metadata can be stored at the collection level using the
-#' [addCollectionMetadata()] function. More details are provided below.
+#' metadata, namely `featureIdType()`, `geneSetCollectionURLfunction()`, and
+#' `geneSetURL()`. Aribtrary metadata can be stored at the collection level
+#' using the [addCollectionMetadata()] function. More details are provided
+#' below.
 #'
 #' @exportMethod collectionMetadata
 #' @rdname collectionMetadata
@@ -116,7 +116,7 @@ function(x, collection, name, ...) standardGeneric("collectionMetadata"))
 #' A URL function can be defined per collection that takes the collection,name
 #' compound key and generates a URL for the gene set that the user can browse
 #' to for futher information. For instance, the
-#' [geneSetCollectionURLfunction()] for the MSigDB collections are defined
+#' `geneSetCollectionURLfunction()` for the MSigDB collections are defined
 #' like so:
 #'
 #' ```
@@ -143,15 +143,20 @@ function(x, collection, name, ...) standardGeneric("collectionMetadata"))
 setGeneric("geneSetURL", signature="x", function(x, i, j, ...)
   standardGeneric("geneSetURL"))
 
+
+# For some reason @describeIn doesn't work with the
+# `geneSetCollectionURLfunction` roxygen docs
+
+#' Get/set the gene set collection url function for a geneset collection
+#'
+#' Reference [collectionMetadata()] for more info.
+#' @rdname geneSetCollectionURLfunction
 #' @exportMethod geneSetCollectionURLfunction
-# ' @describeIn collectionMetadata A function that generates the information URL
-# '   for a geneset from a given collection.
 setGeneric("geneSetCollectionURLfunction", signature="x", function(x, i, ...)
   standardGeneric("geneSetCollectionURLfunction"))
 
 #' @export
-# ' @describeIn collectionMetadata assigns a geneSetCollectionURLfunction to a
-# '   collection.
+#' @rdname geneSetCollectionURLfunction
 setGeneric("geneSetCollectionURLfunction<-",
            signature="x",
            function(x, i, value)
@@ -273,6 +278,11 @@ setGeneric("conform", function(x, ...) standardGeneric("conform"))
 #'
 #' @param x `GeneSetDb`
 #' @param featureIds Character vector of featureIds
+#' @param value are you feature id's entered as themselves (`feature_id`), which
+#'   is the default, or are you querying by their index into a target expression
+#'   object? This is only relevant if you are working with a `conform`-ed
+#'   GeneSetDb, and further you as a user won't likely invoke this argument,
+#'   but is used internally.
 #' @return A subset of `x` which contains only the geneSets that contain
 #'   features found in `featureIds`
 #'

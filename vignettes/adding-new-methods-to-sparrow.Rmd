@@ -8,12 +8,10 @@ abstract: >
   we describe how to do that here.
 output:
   BiocStyle::html_document:
-    self_contained: yes
     highlight: pygments
     toc: true
     fig_width: 5
     css: mystyles.css
-    df_print: paged
 vignette: >
   %\VignetteIndexEntry{Adding new methods to sparrow}
   %\VignetteEngine{knitr::rmarkdown}

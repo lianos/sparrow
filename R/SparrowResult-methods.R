@@ -101,6 +101,7 @@ function(x, i, j, active.only=TRUE, with.feature.map=FALSE, ...,
   out
 })
 
+#' @describeIn geneSets return the active genesets from a SparrowResult
 setMethod("geneSets", c(x="SparrowResult"),
 function(x, ..., as.dt=FALSE) {
   geneSets(geneSetDb(x), active.only=TRUE, as.dt=as.dt)
@@ -112,6 +113,8 @@ setMethod("geneSetURL", c(x="SparrowResult"), function(x, i, j, ...) {
   geneSetURL(geneSetDb(x), i, j, ...)
 })
 
+#' @describeIn geneSetCollectionURLfunction return the url function from a
+#'   `SparrowResult` object.
 setMethod("geneSetCollectionURLfunction", "SparrowResult",
 function(x, i, ...) {
   geneSetCollectionURLfunction(geneSetDb(x), i, ...)
