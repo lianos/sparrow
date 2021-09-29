@@ -274,6 +274,15 @@ incidenceMatrix <- function(x, y, ...) {
 #' @param j name of geneset(s) (must be same length as `i`.
 #' @return logical indicating if geneset is active. throws an error if
 #'   any requested geneset does not exist in `x`.
+#' @examples
+#' dge.stats <- exampleDgeResult()
+#' y <- exampleExpressionSet(do.voom = FALSE)
+#' gdb <- conform(exampleGeneSetDb(), y, min.gs.size = 10)
+#' # size 9 geneset:
+#' geneSet(gdb, "c2", "BYSTRYKH_HEMATOPOIESIS_STEM_CELL_IL3RA")
+#' is.active(gdb, "c2", "BYSTRYKH_HEMATOPOIESIS_STEM_CELL_IL3RA")
+#' # geneset with >100 genes
+#' is.active(gdb, "c7", "GSE3982_MAC_VS_NEUTROPHIL_LPS_STIM_DN")
 is.active <- function(x, i, j) {
   stopifnot(is(x, 'GeneSetDb'))
   stopifnot(is.character(i), is.character(j), length(i) == length(j))
@@ -419,6 +428,11 @@ function(x, active.only=is.conformed(x), ... , as.dt=FALSE) {
 #'   so if speficially set this paramter, it will replace the value for `i`.
 #' @param name the same for the `collection`:`i` parameter relationship, but for
 #'   `j`:`name`.
+#' @examples
+#' gdb <- exampleGeneSetDb()
+#' geneSet(gdb, "c2", "KOMMAGANI_TP63_GAMMA_TARGETS")
+#' geneSet(gdb, collection = "c2", name = "KOMMAGANI_TP63_GAMMA_TARGETS")
+#' geneSet(gdb, name = "KOMMAGANI_TP63_GAMMA_TARGETS")
 setMethod("geneSet", c(x="GeneSetDb"),
 function(x, i, j, active.only=is.conformed(x), with.feature.map=FALSE, ...,
          collection = NULL, name = NULL, as.dt = FALSE) {
@@ -561,6 +575,10 @@ setMethod("[", "GeneSetDb", function(x, i, j, ..., drop=FALSE) {
 #' @param collection character vector of name(s) of the collections to query
 #' @param as.error logical if TRUE, this will error instead of returning FALSE
 #' @return logical indicating if this collection exists
+#' @examples
+#' gdb <- exampleGeneSetDb()
+#' hasGeneSetCollection(gdb, "c2")
+#' hasGeneSetCollection(gdb, "unknown collection")
 hasGeneSetCollection <- function(x, collection, as.error=FALSE) {
   stopifnot(is(x, 'GeneSetDb'))
   stopifnot(is.character(collection))

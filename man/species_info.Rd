@@ -7,8 +7,13 @@
 species_info(query = NULL, ...)
 }
 \arguments{
-\item{query}{the species name to lookup}
+\item{query}{the species name to lookup, if \code{NULL} (default), returns the
+internal species info table}
 }
 \description{
 Match a species query to the regularized species info.
+}
+\examples{
+species_info()
+species_info("human")
 }

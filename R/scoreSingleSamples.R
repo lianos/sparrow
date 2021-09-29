@@ -267,7 +267,8 @@ do.scoreSingleSamples.gsva <- function(gdb, y, method, as.matrix=FALSE,
 #' genesets. It does NOTE normalize the scores within each geneset
 #' independantly of the others.
 #'
-#' @export
+#' This method is an internal utilit function and not exported on purpose
+#'
 #' @param x a `numeric` vector of ssGSEA scores for a single signature
 #' @param bounds the maximum and minimum scores obvserved used to normalize
 #'   against.

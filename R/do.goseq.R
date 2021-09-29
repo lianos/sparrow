@@ -174,10 +174,10 @@ do.goseq <- function(gsd, x, design, contrast=ncol(design),
 #'   to \code{FALSE}, but this parameter is here so that when this function
 #'   is called from the [seas()] codepath, we do not have to
 #'   reconform the \code{GeneSetDb} object, because it has already been done.
-#' @param .pipelined If this is being external to a seas pipeline, then
-#'   some additional cleanup of columns name output will be done. Otherwise
-#'   the column renaming and post processing is left to the do.goseq caller
-#'   (Default: \code{FALSE}).
+#' @param .pipelined If this is being called external to a seas pipeline, then
+#'   some additional cleanup of columns name output will be done when
+#'   `FALSE` (default). Otherwise the column renaming and post processing is
+#'   left to the do.goseq caller.
 #' @template asdt-param
 #' @return A \code{data.table} of results, similar to goseq output. The output
 #'   from \code{\link[goseq]{nullp}} is added to the outgoing data.table as
@@ -186,6 +186,24 @@ do.goseq <- function(gsd, x, design, contrast=ncol(design),
 #' Young, M. D., Wakefield, M. J., Smyth, G. K., Oshlack, A. (2010).
 #' Gene ontology analysis for RNA-seq: accounting for selection bias.
 #' *Genome Biology* 11, R14. http://genomebiology.com/2010/11/2/R14
+#' @examples
+#' vm <- exampleExpressionSet()
+#' gdb <- conform(exampleGeneSetDb(), vm)
+#'
+#' # Identify DGE genes
+#' mg <- seas(vm, gdb, design = vm$design)
+#' lfc <- logFC(mg)
+#'
+#' # wire up params
+#' selected <- subset(lfc, significant)$feature_id
+#' universe <- rownames(vm)
+#' mylens <- setNames(vm$genes$size, rownames(vm))
+#' degenes <- setNames(integer(length(universe)), universe)
+#' degenes[selected] <- 1L
+#'
+#' gostats <- sparrow::goseq(
+#'   gdb, selected, universe, mylens,
+#'   method = "Wallenius", use_genes_without_cat = TRUE)
 goseq <- function(gsd, selected, universe, feature.bias,
                   method=c("Wallenius", "Sampling", "Hypergeometric"),
                   repcnt=2000, use_genes_without_cat=TRUE,

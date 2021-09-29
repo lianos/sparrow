@@ -14,6 +14,8 @@
 #'   package it is found in.
 #' @return a character vector of GSEA names, or a list of metadata for each
 #'   method.
+#' @examples
+#' sparrow_methods()
 sparrow_methods <- function() {
   methods <- list(
     camera = list(package = "edgeR", type = "required"),

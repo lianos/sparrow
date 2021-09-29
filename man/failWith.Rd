@@ -34,7 +34,6 @@ the result of \code{expr} if successful, otherwise \code{default} value.
 Inspired from one of Hadley's functions (in plyr or something?)
 }
 \examples{
-\dontrun{
-failWith(NULL, stop("no error, just NULL"))
-}
+# look, this doesn't throw an error, it just returns NULL
+x <- failWith(NULL, stop("no error, just NULL"), silent = TRUE)
 }

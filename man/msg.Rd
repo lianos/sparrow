@@ -17,3 +17,6 @@ Nothing, dumps text to \code{file}
 \description{
 Utility function to cat a message to stderr (by default)
 }
+\examples{
+msg("this is a message", "to stderr")
+}

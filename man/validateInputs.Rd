@@ -48,3 +48,11 @@ call, and not the original values for these objects themselves
 I know that the validation/checking logic is a bit painful (and repetitive)
 here. I will (perhaps) clean that up some day.
 }
+\examples{
+dge.stats <- exampleDgeResult()
+ranks <- setNames(dge.stats$t, dge.stats$feature_id)
+gdb <- exampleGeneSetDb()
+ok <- validateInputs(ranks, gdb, methods = c("cameraPR", "fgsea"))
+# need full expressionset & design for romer
+null <- failWith(NULL, validateInputs(ranks, gdb, methods = "romer"))
+}

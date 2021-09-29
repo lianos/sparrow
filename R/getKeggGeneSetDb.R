@@ -19,6 +19,7 @@
 #' @return A GeneSetDb of the kegg stuffs
 #' @examples
 #' \dontrun{
+#' # connects to the internet and takes a while
 #' mouse.entrez <- getKeggGeneSetDb("mouse", id.type = "entrez")
 #' mouse.ens <- getKeggGeneSetDb("mouse", id.type = "ensembl")
 #' human.enrez <- getKeggGeneSetDb("human", id.type = "entrez")

@@ -3,8 +3,7 @@
 #' These values are useful for heatmap plotting.
 #' TODO: Implement ztransformPvalues
 #'
-#' @export
-#'
+#' @noRd
 #' @param x `numeric` vector of pvalues
 #' @param logFC `numeric` vector as long as `x` that indicates the
 #'   sign of the shift. This does not have to be the actual logFC of the
@@ -17,7 +16,7 @@ ztransformPvalues <- function(x, logFC,
   stopifnot(is.numeric(x) && all(x <= 1 & x >= 0))
   stopifnot(is.numeric(logFC))
   logFC <- sign(logFC)
-
+  stop("ztransformPvalues not yet implemented, will export when done")
   ## shoot gsea pvalues through qnorm to get effect size, ie.
   ##
   ##   if logFC is positive: z = qnorm(1-(p/2))

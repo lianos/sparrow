@@ -31,3 +31,9 @@ expression object that is used to run GSEA methods against.
 \item \code{GeneSetDb}: extract featureIdMap from a GeneSetDb
 }}
 
+\examples{
+gdb <- exampleGeneSetDb()
+vm <- exampleExpressionSet()
+gdb <- conform(gdb, vm)
+fmap <- featureIdMap(gdb)
+}

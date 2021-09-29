@@ -103,3 +103,7 @@ analysis pipelines (for use in methods like "fgsea", "cameraPR", etc.), and
 a logFC-like data.frame is constructed with these statistics in the
 \code{logFC} and \code{t} columns.
 }
+\examples{
+vm <- exampleExpressionSet(do.voom = TRUE)
+lfc <- calculateIndividualLogFC(vm, vm$design, "tumor")
+}

@@ -1,7 +1,11 @@
 #' Match a species query to the regularized species info.
 #'
 #' @export
-#' @param query the species name to lookup
+#' @param query the species name to lookup, if `NULL` (default), returns the
+#'   internal species info table
+#' @examples
+#' species_info()
+#' species_info("human")
 species_info <- function(query = NULL, ...) {
   info <- read.csv(
     stringsAsFactors = FALSE,

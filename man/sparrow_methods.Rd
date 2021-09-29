@@ -18,3 +18,6 @@ method.
 \description{
 Lists the supported GSEA methods by sparrow
 }
+\examples{
+sparrow_methods()
+}

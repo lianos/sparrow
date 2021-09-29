@@ -58,10 +58,10 @@ reconform the \code{GeneSetDb} object, because it has already been done.}
 this funciton returns will be set to a data.frame. Set this to \code{TRUE}
 to keep this object as a \code{data.table}}
 
-\item{.pipelined}{If this is being external to a seas pipeline, then
-some additional cleanup of columns name output will be done. Otherwise
-the column renaming and post processing is left to the do.goseq caller
-(Default: \code{FALSE}).}
+\item{.pipelined}{If this is being called external to a seas pipeline, then
+some additional cleanup of columns name output will be done when
+\code{FALSE} (default). Otherwise the column renaming and post processing is
+left to the do.goseq caller.}
 }
 \value{
 A \code{data.table} of results, similar to goseq output. The output
@@ -75,6 +75,25 @@ import functions from the goseq package without it having to load its
 dependencies, which take a long time -- and I don't want loading sparrow
 to take a long time. So, the goseq package has moved to Suggests and then
 is loaded within this function when necessary.
+}
+\examples{
+vm <- exampleExpressionSet()
+gdb <- conform(exampleGeneSetDb(), vm)
+
+# Identify DGE genes
+mg <- seas(vm, gdb, design = vm$design)
+lfc <- logFC(mg)
+
+# wire up params
+selected <- subset(lfc, significant)$feature_id
+universe <- rownames(vm)
+mylens <- setNames(vm$genes$size, rownames(vm))
+degenes <- setNames(integer(length(universe)), universe)
+degenes[selected] <- 1L
+
+gostats <- sparrow::goseq(
+  gdb, selected, universe, mylens,
+  method = "Wallenius", use_genes_without_cat = TRUE)
 }
 \references{
 Young, M. D., Wakefield, M. J., Smyth, G. K., Oshlack, A. (2010).

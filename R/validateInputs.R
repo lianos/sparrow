@@ -26,6 +26,13 @@
 #' @param ... other variables that called methods can check if they want
 #' @return A list with "normalized" versions of `$x`, `$design`, and `$contrast`
 #'   for downstream use.
+#' @examples
+#' dge.stats <- exampleDgeResult()
+#' ranks <- setNames(dge.stats$t, dge.stats$feature_id)
+#' gdb <- exampleGeneSetDb()
+#' ok <- validateInputs(ranks, gdb, methods = c("cameraPR", "fgsea"))
+#' # need full expressionset & design for romer
+#' null <- failWith(NULL, validateInputs(ranks, gdb, methods = "romer"))
 validateInputs <- function(x, design=NULL, contrast=NULL, methods=NULL,
                            xmeta. = NULL, require.x.rownames=TRUE, ...) {
   if (is.character(methods)) {

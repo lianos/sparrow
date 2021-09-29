@@ -349,6 +349,8 @@ check.dt <- function(x, ref) {
 #' @param ... pieces of the message
 #' @param file where to send the message. Defaults to \code{stderr()}
 #' @return Nothing, dumps text to `file`
+#' @examples
+#' msg("this is a message", "to stderr")
 msg <- function(..., file=stderr()) {
   cat(paste(rep('-', 80), collapse=''), '\n', file=file)
   cat(..., '\n', file=file)
@@ -370,9 +372,8 @@ msg <- function(..., file=stderr()) {
 #' @param file where msg sends the message
 #' @return the result of `expr` if successful, otherwise `default` value.
 #' @examples
-#' \dontrun{
-#' failWith(NULL, stop("no error, just NULL"))
-#' }
+#' # look, this doesn't throw an error, it just returns NULL
+#' x <- failWith(NULL, stop("no error, just NULL"), silent = TRUE)
 failWith <- function(default=NULL, expr, frame=parent.frame(),
                      message=geterrmessage(), silent=FALSE, file=stderr()) {
   tryCatch(eval(expr, frame), error=function(e) {

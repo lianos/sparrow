@@ -342,16 +342,13 @@ ora <- function(gsd, dat, selected = "significant",
   kres
 }
 
-#' Plots bias of coviarate to DE / selected status
-#'
-#' The meat and potatoes of this function's code was extracted from
-#' limma::kegga, originally written by Gordon Smyth and Yifang Hu.
-#'
 #' @export
 #' @importFrom stats approx
 #' @importFrom limma barcodeplot
+#' @describeIn ora plots the bias of coviarate to DE / selected status. Code
+#'   taken from [limma::kegga()]
 plot_ora_bias <- function(x, selected, feature.bias,
-                                 title = "DE status vs bias", ...) {
+                          title = "DE status vs bias", ...) {
   assert_multi_class(x, c("data.frame", "tibble"))
   if (test_string(selected)) {
     selected <- x[[selected]]

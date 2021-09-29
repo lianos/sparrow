@@ -88,11 +88,13 @@ test_that("multiple 'melted' scores are returned in a long data.frame", {
 
 test_that("ssGSEA.normalize returns same normalization as GSVA", {
   scores <- expect_warning({
+    set.seed(123)
     scoreSingleSamples(gdb, vm$E, methods='ssgsea', parallel.sz=1,
                        verbose=FALSE)
   }, "GSVA")
-  my.norm <- ssGSEA.normalize(scores$score)
+  my.norm <- sparrow:::ssGSEA.normalize(scores$score)
   ssgsea.norm <- expect_warning({
+    set.seed(123)
     scoreSingleSamples(gdb, vm$E, methods='ssgsea', parallel.sz=1,
                        ssgsea.norm=TRUE)
   }, "GSVA")

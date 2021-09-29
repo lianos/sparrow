@@ -311,7 +311,10 @@ invalidMethods <- function(x, names, as.error=FALSE) {
 #' @rdname results
 #'
 #' @examples
-#' ## Refer to the examples in ?seas
+#' res <- exampleSparrowResult()
+#' resultNames(res)
+#' head(result(res, "camera"))
+#' head(results(res))
 resultNames <- function(x) {
   stopifnot(is(x, 'SparrowResult'))
   names(x@results)

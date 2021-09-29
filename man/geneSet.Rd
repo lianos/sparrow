@@ -76,3 +76,9 @@ When \code{x} is a \code{\link[=SparrowResult]{SparrowResult()}}, this function 
 the differential expression statistics for the individual features generated
 across the contrast that defined \code{x}.
 }
+\examples{
+gdb <- exampleGeneSetDb()
+geneSet(gdb, "c2", "KOMMAGANI_TP63_GAMMA_TARGETS")
+geneSet(gdb, collection = "c2", name = "KOMMAGANI_TP63_GAMMA_TARGETS")
+geneSet(gdb, name = "KOMMAGANI_TP63_GAMMA_TARGETS")
+}

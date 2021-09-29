@@ -2,6 +2,7 @@
 % Please edit documentation in R/do.ora.R
 \name{ora}
 \alias{ora}
+\alias{plot_ora_bias}
 \title{Performs an overrepresentation analysis, (optinally) accounting for bias.}
 \usage{
 ora(
@@ -17,6 +18,8 @@ ora(
   as.dt = FALSE,
   .pipelined = FALSE
 )
+
+plot_ora_bias(x, selected, feature.bias, title = "DE status vs bias", ...)
 }
 \arguments{
 \item{gsd}{The GeneSetDb}
@@ -75,6 +78,12 @@ The meat and potatoes of this function's code was extracted from
 Note that the BiasedUrn CRAN package needs to be installed to support biased
 enrichment testing
 }
+\section{Functions}{
+\itemize{
+\item \code{plot_ora_bias}: plots the bias of coviarate to DE / selected status. Code
+taken from \code{\link[limma:goana]{limma::kegga()}}
+}}
+
 \examples{
 dgestats <- exampleDgeResult("human", "ensembl")
 gdb <- getMSigGeneSetDb("h", "human", "ensembl")

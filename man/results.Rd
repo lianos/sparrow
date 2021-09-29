@@ -101,5 +101,8 @@ tallies the number of significant genesets per collection, per method at
 the specified FDR thresholds.
 }
 \examples{
-## Refer to the examples in ?seas
+res <- exampleSparrowResult()
+resultNames(res)
+head(result(res, "camera"))
+head(results(res))
 }
