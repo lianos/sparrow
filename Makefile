@@ -1,7 +1,8 @@
 # Inspired from https://github.com/fbreitwieser/pavian
 
-# Working with additional variables:
-# https://stackoverflow.com/a/2826178/83761
+# Working with additional variables: https://stackoverflow.com/a/2826178/83761
+# We can launch the release version of the images like so:
+# $ make run version=release
 version?=devel# `devel` or `release`
 rport?=8888# rstudio port
 sport?=8080# shiny port
@@ -13,7 +14,7 @@ build:
 	-t lianos/sparrow:${version} docker/${version}
 
 run:
-	docker run --rm -it -d --name sparrow-${version} \
+	docker run --rm -it -d --name sparrow-${version}-run \
 	-v ${HOME}/workspace/Rpkgs/sparrow:/home/rstudio/sparrow \
 	-v ${HOME}/workspace/Rpkgs/sparrow.shiny:/home/rstudio/sparrow.shiny \
 	-v ${HOME}/.config/rstudio:/home/rstudio/.config/rstudio \
@@ -28,7 +29,7 @@ run:
 	sleep 5 && open http://localhost:${rport}
 
 inspect:
-	docker run --rm \
+	docker run --rm --name sparrow-${version}-inspect \
 	-v ${HOME}/workspace/Rpkgs/sparrow:/home/rstudio/sparrow \
 	-v ${HOME}/workspace/Rpkgs/sparrow.shiny:/home/rstudio/sparrow.shiny \
 	-v ${HOME}/.config/rstudio:/home/rstudio/.config/rstudio \
