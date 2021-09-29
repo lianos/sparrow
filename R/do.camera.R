@@ -25,7 +25,7 @@ validate.x.camera <- validate.X
 #' @importFrom edgeR camera.DGEList
 do.camera <- function(gsd, x, design, contrast=ncol(design),
                       gs.idxs=as.list(gsd, active.only=TRUE, value='x.idx'),
-                      .random.seed = NULL, ...) {
+                      ...) {
   stopifnot(is.conformed(gsd, x))
 
   args <- list(...)
@@ -48,8 +48,6 @@ do.camera <- function(gsd, x, design, contrast=ncol(design),
   call.args[['contrast']] <- contrast
   call.args[['sort']] <- FALSE
   call.args[['...']] <- NULL
-
-  if (is.numeric(.random.seed)) set.seed(.random.seed[1L])
 
   res <- do.call(camera, call.args)
   setattr(res, 'rawresult', TRUE)

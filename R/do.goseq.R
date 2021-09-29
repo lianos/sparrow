@@ -89,10 +89,7 @@ do.goseq <- function(gsd, x, design, contrast=ncol(design),
                      direction=c('over', 'under'),
                      plot.fit=FALSE, use.treat=FALSE,
                      feature.min.logFC=if (use.treat) log2(1.25) else 1,
-                     feature.max.padj=0.10, logFC=NULL,
-                     .random.seed = NULL, ...) {
-  # .Deprecated("seas(..., methods = 'enrich')")
-
+                     feature.max.padj=0.10, logFC=NULL, ...) {
   stopifnot(is.conformed(gsd, x))
   direction <- match.arg(direction)
   # stop("testing graceful method failure in seas call")
@@ -119,8 +116,6 @@ do.goseq <- function(gsd, x, design, contrast=ncol(design),
       logFC[["direction"]] <- ifelse(logFC[["logFC"]] > 0, "up", "down")
     }
   }
-
-  if (is.numeric(.random.seed)) set.seed(.random.seed[1L])
 
   out <- sapply(do, function(dge.dir) {
     drawn <- switch(

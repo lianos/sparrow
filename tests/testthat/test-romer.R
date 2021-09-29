@@ -18,12 +18,13 @@ test_that('romer runs equivalently from do.romer vs direct call', {
                            y$design, ncol(y$design), nrot = nrot)
 
   # run do.romer ---------------------------------------------------------------
-  do <- sparrow:::do.romer(gdb, y, y$design, ncol(y$design), nrot = nrot,
-                           .random.seed = seed)
+  set.seed(seed)
+  do <- sparrow:::do.romer(gdb, y, y$design, ncol(y$design), nrot = nrot)
 
   # run romer through seas() ---------------------------------------------------
+  set.seed(seed)
   mg <- seas(y, gdb, "romer", design = y$design, contrast = ncol(y$design),
-             nrot = nrot, .random.seed = seed)
+             nrot = nrot)
   res <- result(mg, "romer")
   res$key <- encode_gskey(res)
 

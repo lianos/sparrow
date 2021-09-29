@@ -14,7 +14,7 @@ validate.x.roast <- validate.X
 #' @importFrom edgeR mroast.DGEList
 do.roast <- function(gsd, x, design, contrast=ncol(design),
                      gs.idxs=as.list(gsd, active.only=TRUE, value='x.idx'),
-                     .random.seed = NULL, ...) {
+                     ...) {
   stopifnot(is.conformed(gsd, x))
   args <- list(...)
   call.args <- as.list(formals(limma::mroast.default))
@@ -36,7 +36,6 @@ do.roast <- function(gsd, x, design, contrast=ncol(design),
     call.args[['var.prior']] <- NULL
     call.args[['df.prior']] <- NULL
   }
-  if (is.numeric(.random.seed)) set.seed(.random.seed[1L])
   res <- do.call(mroast, call.args)
   setattr(res, 'rawresult', TRUE)
 }

@@ -28,8 +28,7 @@ do.fgsea <- function(gsd, x, design, contrast = ncol(design),
                      scoreType = c("std", "pos", "neg"),
                      nproc = 0, gseaParam = 1, nPermSimple = 1000,
                      absEps = NULL, use.fgsea.simple = FALSE,
-                     score.by = c('t', 'logFC', 'pval'), logFC = NULL,
-                     .random.seed = NULL, ...) {
+                     score.by = c('t', 'logFC', 'pval'), logFC = NULL, ...) {
 
   scoreType <- match.arg(scoreType)
   score.by <- match.arg(score.by)
@@ -48,8 +47,6 @@ do.fgsea <- function(gsd, x, design, contrast = ncol(design),
 
   ## fgsea function wants a list of gene identifiers for pathway definition
   pathways <- as.list(gsd, active.only = TRUE, value = "x.id")
-
-  if (is.numeric(.random.seed)) set.seed(.random.seed[1L])
 
   if (isTRUE(use.fgsea.simple)) {
     res <- fgsea::fgseaSimple(

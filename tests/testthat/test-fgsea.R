@@ -12,10 +12,10 @@ test_that("seas calculate t and preranked t match fgsea results", {
   # Since Bioc 3.5, running fgsea warns about ties in preranked stats
 
   # Run fgsea through seas -----------------------------------------------------
+  set.seed(123)
   expect_warning({
     mgt <- seas(vm, gdb, 'fgsea', design = vm$design, contrast = 'tumor',
-                score.by = 't', nPermSimple = nperm, gseaParam = gseaParam,
-                .random.seed = 123)
+                score.by = 't', nPermSimple = nperm, gseaParam = gseaParam)
   }, "ties")
   mgres <- mgt %>%
     result("fgsea") %>%
@@ -23,10 +23,11 @@ test_that("seas calculate t and preranked t match fgsea results", {
 
   # Run fgsea through do.fgsea -------------------------------------------------
   expect_warning({
+    set.seed(123)
     res.do <- do.fgsea(gdb, vm, vm$design, "tumor",
                        score.by = "t", nPermSimple = nperm,
                        gseaParam = gseaParam,
-                       logFC = logFC(mgt, as.dt = TRUE), .random.seed = 123)
+                       logFC = logFC(mgt, as.dt = TRUE))
   }, "ties")
 
   # Run fgsea directly ---------------------------------------------------------
@@ -64,9 +65,9 @@ test_that("seas calculate t and preranked t match fgsea results", {
 
   # passing in a preranked vector gives same results ---------------------------
   expect_warning({
+    set.seed(123)
     mgpre <- seas(ranks.t, gdb, "fgsea", nperm = nperm,
-                  gseaParam = gseaParam, score.by = "t",
-                  .random.seed = 123)
+                  gseaParam = gseaParam, score.by = "t")
   }, "ties")
 
   rpre <- result(mgpre, 'fgsea')
@@ -75,9 +76,10 @@ test_that("seas calculate t and preranked t match fgsea results", {
 
   # Passing in data.frame works, too -------------------------------------------
   expect_warning({
+    set.seed(123)
     mgdf <- seas(lfc, gdb, "fgsea", nperm = nperm,
                  rank_by = "t", rank_order = "descending",
-                 gseaParam = gseaParam, .random.seed = 123)
+                 gseaParam = gseaParam)
   }, "ties")
   res.df <- result(mgdf)
   expect_equal(res.df[, comp.cols], mgres[, comp.cols])

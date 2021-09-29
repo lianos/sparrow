@@ -36,7 +36,7 @@ validate.x.romer <- function(x, xmeta. = NULL, ...) {
 #' @importFrom edgeR romer.DGEList
 do.romer <- function(gsd, x, design, contrast=ncol(design),
                      gs.idxs = as.list(gsd, active.only = TRUE, value = "x.idx"),
-                     .random.seed = NULL, ...) {
+                     ...) {
   stopifnot(is.conformed(gsd, x))
   args <- list(...)
   call.args <- as.list(formals(limma::romer.default))
@@ -50,7 +50,6 @@ do.romer <- function(gsd, x, design, contrast=ncol(design),
   call.args[['contrast']] <- contrast
   call.args[["..."]] <- NULL
 
-  if (is.numeric(.random.seed)) set.seed(.random.seed[1L])
   res <- do.call(romer, call.args)
   ## returns a matrix(!) with the following columns
   ## "NGenes", "Up" (pvalue), "Down" (pvalue), "Mixed" (pvalue)

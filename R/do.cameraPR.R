@@ -6,7 +6,7 @@ validate.x.cameraPR <- validate.X
 do.cameraPR <- function(gsd, x, design, contrast=ncol(design),
                         score.by=c('t', 'logFC', 'pval'), logFC=NULL,
                         gs.idxs=as.list(gsd, active.only=TRUE, value='x.idx'),
-                        .random.seed = NULL, ...) {
+                        ...) {
   score.by <- match.arg(score.by)
   stopifnot(is.conformed(gsd, x))
 
@@ -23,7 +23,6 @@ do.cameraPR <- function(gsd, x, design, contrast=ncol(design),
   call.args[['sort']] <- FALSE
   call.args[['...']] <- NULL
 
-  if (is.numeric(.random.seed)) set.seed(.random.seed[1L])
   res <- do.call(limma::cameraPR.default, call.args)
   setattr(res, 'rawresult', TRUE)
 }
