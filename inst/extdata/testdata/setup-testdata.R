@@ -1,5 +1,13 @@
 set.seed(123)
 
+# The example DGEList included in this package was created from a serialized
+# TCGA dataset that is not readily available, but all the subsequent data
+# objects were created from there with this script.
+#
+# In the future, the internal dataset will be removed and we can rely on
+# some of the experimental data package available through ExperimentHub or
+# as a bioconductor package itself.
+
 ## -----------------------------------------------------------------------------
 ## Setup the dataset for testing
 per.group <- 5
