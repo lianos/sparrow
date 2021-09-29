@@ -40,7 +40,7 @@ in the [package’s
 vignette](https://lianos.github.io/sparrow/articles/sparrow.html),
 however a brief description is outlined below.
 
-# Usage
+## Usage
 
 A subset of the RNA-seq data tumor/normal samples in the BRCA indication
 from the TCGA are provided in this package. We will use that data to
@@ -96,15 +96,27 @@ differential expression statistics.
 For an immersive, interactive way to explore the GSEA results, use the
 `sparrow.shiny::explore(mg)` method!
 
-# Installation
+## Installation
 
-The sparrow suite of packages will soon be submitted to bioconductor and
-installable via the recommended `BiocManager::install()` mechanism. In
-the meantime, you can install the
-[sparrow.shiny](https://github.com/lianos/sparrow.shiny) package from
-github.
+This is the development version of the R/bioconductor package
+`{sparrow}`. It may contain unstable or untested new features. If you
+are looking for the release version of this package please go to its
+official Bioconductor landing page and follow the instructions there to
+install it.
+
+You can install this development version using the `{BiocManager}` CRAN
+package:
 
 ``` r
-# install.packages("BiocManager")
-BiocManager::install("lianos/sparrow.shiny")
+BiocManager::install("sparrow", version = "devel")
 ```
+
+Alternatively, you can install it from GitHub using the `{remotes}`
+package.
+
+``` r
+remotes::install_github("lianos/sparrow")
+```
+
+To install the shiny bits for this package, you can install the
+`{sparrow.shiny}` in a similar way as described above.
