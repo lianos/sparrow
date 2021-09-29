@@ -1,9 +1,11 @@
 #' Creates a "geneset smart" ComplexHeatmap::Heatmap
 #'
 #' @description
-#' Encapsulates many common "moves" you'll make when trying to make a heatmap,
-#' especially if you are trying to show geneset activity across a panel of
-#' samples. Note that you should prefer using [mgheatmap2()].
+#' Before we get started, note that you probably want to use [mgheatmap2()].
+#'
+#' This function encapsulates many common "moves" you'll make when trying to
+#' make a heatmap, especially if you are trying to show geneset activity across
+#' a panel of samples.
 #'
 #' **NOTE**: this function will **almost certainly** reorder the rows of the
 #' input matrix. If you are concatentating Heatmap objects together horizontally
@@ -140,7 +142,6 @@ mgheatmap <- function(x, gdb = NULL, col = NULL,
                       rename.rows = NULL,
                       zero_center_colramp = NULL, zlim = NULL,
                       transpose = FALSE, ...) {
-  .Deprecated("mgheatmap2", package = "sparrow")
   X <- as_matrix(x, ...)
   if (is.null(scores)) {
     aggregate.by <- match.arg(aggregate.by)

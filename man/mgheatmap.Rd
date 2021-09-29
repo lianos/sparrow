@@ -105,9 +105,11 @@ mark the top and bottom of the color scale range you want to use.}
 A \code{Heatmap} object.
 }
 \description{
-Encapsulates many common "moves" you'll make when trying to make a heatmap,
-especially if you are trying to show geneset activity across a panel of
-samples. Note that you should prefer using \code{\link[=mgheatmap2]{mgheatmap2()}}.
+Before we get started, note that you probably want to use \code{\link[=mgheatmap2]{mgheatmap2()}}.
+
+This function encapsulates many common "moves" you'll make when trying to
+make a heatmap, especially if you are trying to show geneset activity across
+a panel of samples.
 
 \strong{NOTE}: this function will \strong{almost certainly} reorder the rows of the
 input matrix. If you are concatentating Heatmap objects together horizontally

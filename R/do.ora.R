@@ -349,8 +349,7 @@ ora <- function(x, gsd, selected = "significant",
 #' @importFrom limma barcodeplot
 #' @describeIn ora plots the bias of coviarate to DE / selected status. Code
 #'   taken from [limma::kegga()]
-plot_ora_bias <- function(x, selected, feature.bias,
-                          title = "DE status vs bias", ...) {
+plot_ora_bias <- function(x, selected, feature.bias, ...) {
   assert_multi_class(x, c("data.frame", "tibble"))
   if (test_string(selected)) {
     selected <- x[[selected]]
@@ -368,5 +367,4 @@ plot_ora_bias <- function(x, selected, feature.bias,
                      index = selected,
                      worm = TRUE, span.worm = span,
                      main = "DE status vs covariate (manual)")
-
 }

@@ -110,21 +110,24 @@ setGeneric("featureIdMap<-", function(x, value)
 #' @param ... not used yet
 #'
 #' @examples
-#' gdb <- getMSigGeneSetDb('H')
+#' gdb <- exampleGeneSetDb()
 #'
-#' ## Gene Set URLs
-#' geneSetURL(gdb, 'H', 'HALLMARK_ADIPOGENESIS')
-#' geneSetURL(gdb, c('H', 'H'),
-#'            c('HALLMARK_ADIPOGENESIS', 'HALLMARK_ANGIOGENESIS'))
+#' # Gene Set URLs
+#' geneSetURL(gdb, 'c2', 'BIOCARTA_AGPCR_PATHWAY')
+#' geneSetURL(gdb, c('c2', 'c7'),
+#'            c('BIOCARTA_AGPCR_PATHWAY', 'GSE14308_TH2_VS_TH1_UP'))
 #'
-#' ## feature_id TYpe
-#' featureIdType(gdb, 'H')
+#' # feature id types
+#' featureIdType(gdb, "c2") <- GSEABase::EntrezIdentifier()
+#' featureIdType(gdb, "c2")
 #'
 #' ## Arbitrary metadata
-#' gdb <- addCollectionMetadata(gdb, 'H', 'foo', 'bar')
-#' cmh <- collectionMetadata(gdb, 'H') ## print this to see
-setGeneric("collectionMetadata", signature=c("x", "collection", "name"),
-function(x, collection, name, ...) standardGeneric("collectionMetadata"))
+#' gdb <- addCollectionMetadata(gdb, 'c2', 'foo', 'bar')
+#' cmh <- collectionMetadata(gdb, 'c2', as.dt = TRUE) ## print this to see
+setGeneric(
+  "collectionMetadata",
+  signature=c("x", "collection", "name"),
+  function(x, collection, name, ...) standardGeneric("collectionMetadata"))
 
 #' @section Gene Set URLs:
 #'

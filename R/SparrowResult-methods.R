@@ -342,6 +342,7 @@ result <- function(x, ...) {
 #'   columns of the `method`-specific statistics returned, ie. the
 #'   `pval` column from the `"camera"` result will be turned to
 #'   `pval.camera`.
+#' @param ... pass through arguments
 #' @template asdt-param
 #' @return a data.table with the results from the requested method.
 result.SparrowResult <- function(x, name = NULL, stats.only=FALSE,

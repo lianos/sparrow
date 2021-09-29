@@ -548,7 +548,13 @@ subset.GeneSetDb <- function(x, keep) {
 
 #' Subset whole genesets from a GeneSetDb
 #' @exportMethod [
-setMethod("[", "GeneSetDb", function(x, i, j, ..., drop=FALSE) {
+#' @param x GeneSetDb
+#' @param i a logical vector as long as `nrow(geneSets(x))` indicating which
+#'   geneSets to keep
+#' @param j ignored
+#' @param ... pass through arguments
+#' @param drop ignored
+setMethod("[", "GeneSetDb", function(x, i, j, ..., drop = FALSE) {
   if (length(list(...)) > 0) {
     stop("parameters in '...' not supported")
   }
@@ -1059,6 +1065,8 @@ all.equal.GeneSetDb <- function(target, current, features.only = TRUE, ...) {
 #' @method as.data.table GeneSetDb
 #'
 #' @param x A `GeneSetDb` object
+#' @param keep.rownames included here just for consistency with
+#'   `data.table::as.data.table`, but it is not used
 #' @param value The value type to export for the feature ids, defaults to
 #'   `"feature_id"`.
 #' @param active.only If the `GeneSetDb` is conformed, do you want to only
@@ -1073,7 +1081,8 @@ all.equal.GeneSetDb <- function(target, current, features.only = TRUE, ...) {
 #' gdb <- conform(gdb, es)
 #' gdfi <- as.data.frame(gdb, value = 'x.idx')
 #' gdl <- as.list(gdb)
-as.data.table.GeneSetDb <- function(x, value = c('feature_id', 'x.id', 'x.idx'),
+as.data.table.GeneSetDb <- function(x, keep.rownames = FALSE,
+                                    value = c('feature_id', 'x.id', 'x.idx'),
                                     active.only = is.conformed(x), ...) {
   stopifnot(is(x, 'GeneSetDb'))
   value <- match.arg(value)
@@ -1111,7 +1120,10 @@ as.data.table.GeneSetDb <- function(x, value = c('feature_id', 'x.id', 'x.idx'),
 #' @describeIn conversion convert a GeneSetDb to data.frame
 #' @export
 #' @method as.data.frame GeneSetDb
-as.data.frame.GeneSetDb <- function(x, value = c('feature_id', 'x.id', 'x.idx'),
+#' @param row.names,optional included here for consistency with `as.data.frame`
+#'   generic function definition, but these are not used.
+as.data.frame.GeneSetDb <- function(x, row.names = NULL, optional = NULL,
+                                    value = c('feature_id', 'x.id', 'x.idx'),
                                     active.only = is.conformed(x), ...) {
   value <- match.arg(value)
   setDF(as.data.table(x, value = value, active.only = active.only, ...))

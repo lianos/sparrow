@@ -11,6 +11,7 @@
 \usage{
 \method{as.data.table}{GeneSetDb}(
   x,
+  keep.rownames = FALSE,
   value = c("feature_id", "x.id", "x.idx"),
   active.only = is.conformed(x),
   ...
@@ -18,6 +19,8 @@
 
 \method{as.data.frame}{GeneSetDb}(
   x,
+  row.names = NULL,
+  optional = NULL,
   value = c("feature_id", "x.id", "x.idx"),
   active.only = is.conformed(x),
   ...
@@ -26,6 +29,9 @@
 \arguments{
 \item{x}{A \code{GeneSetDb} object}
 
+\item{keep.rownames}{included here just for consistency with
+\code{data.table::as.data.table}, but it is not used}
+
 \item{value}{The value type to export for the feature ids, defaults to
 \code{"feature_id"}.}
 
@@ -33,6 +39,9 @@
 return the features and genests that match target and are "active"?}
 
 \item{...}{pass through arguments (not used)}
+
+\item{row.names, optional}{included here for consistency with \code{as.data.frame}
+generic function definition, but these are not used.}
 }
 \value{
 a converted \code{GeneSetDb}

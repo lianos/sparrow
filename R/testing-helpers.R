@@ -190,6 +190,7 @@ exampleDgeResult <- function(species = "human", id.type = "ensembl",
 #' @param x an input container to [seas()]
 #' @param n number of genesets
 #' @param bias column in `x` to bias the geneset creation by
+#' @param ... pass through args
 #' @export
 #' @examples
 #' gdb.rando <- randomGeneSetDb(exampleDgeResult(), 10, bias = "t")

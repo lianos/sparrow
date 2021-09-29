@@ -12,6 +12,8 @@ randomGeneSetDb(x, n = 10, bias = NULL, ...)
 \item{n}{number of genesets}
 
 \item{bias}{column in \code{x} to bias the geneset creation by}
+
+\item{...}{pass through args}
 }
 \description{
 I wrote this because initial fetching from msigdbr can be slow, and also

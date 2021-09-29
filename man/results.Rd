@@ -42,6 +42,8 @@ tabulateResults(
 \arguments{
 \item{x}{A \code{\link[=SparrowResult]{SparrowResult()}} object.}
 
+\item{...}{pass through arguments}
+
 \item{name}{the names of the results desired}
 
 \item{stats.only}{logical, set to \code{FALSE} if you want to return all

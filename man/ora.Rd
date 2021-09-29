@@ -18,7 +18,7 @@ ora(
   as.dt = FALSE
 )
 
-plot_ora_bias(x, selected, feature.bias, title = "DE status vs bias", ...)
+plot_ora_bias(x, selected, feature.bias, ...)
 }
 \arguments{
 \item{x}{A data.frame with feature-level statistics. Minimally, this should
