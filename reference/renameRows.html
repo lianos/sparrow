@@ -78,7 +78,7 @@ easily change rownames of a heatmap to symbols." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sparrow</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.98.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.00</span>
       </span>
     </div>
 
@@ -96,8 +96,17 @@ easily change rownames of a heatmap to symbols." />
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="../news/index.html">Changelog</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/adding-new-methods-to-sparrow.html">Adding new methods to sparrow</a>
+    </li>
+  </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -128,7 +137,7 @@ And perhaps the most common use-case for this, again, would be able to
 easily change rownames of a heatmap to symbols.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>renameRows</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>xref</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>renameRows</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>xref</span>, duplicate.policy <span class='op'>=</span> <span class='st'>"original"</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -152,7 +161,7 @@ and the second column is the value to rename it to.</p></li>
 </ul></td>
     </tr>
     <tr>
-      <th>rename.duplicates</th>
+      <th>duplicate.policy</th>
       <td><p>The policy used to deal with duplicates in the
 renamed values. If Multiple elements in the source can be renamed to
 the same elements in the target (think of microarray probes to gene
@@ -162,8 +171,15 @@ original (unique) names. When set to <code>"make.unique"</code>, the new name
 will be kept, but <code>*.1</code>, <code>*.2</code>, etc. will be appended to all but the
 first multimapper.</p></td>
     </tr>
+    <tr>
+      <th>...</th>
+      <td><p>pass through variable down to default method</p></td>
+    </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>An updated version of <code>x</code> with freshly minted rownames.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The rownames that can't successfully remapped will keep their old names.

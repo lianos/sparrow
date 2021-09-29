@@ -42,9 +42,10 @@
   
 
 <meta property="og:title" content="Creates a "geneset smart" ComplexHeatmap::Heatmap — mgheatmap" />
-<meta property="og:description" content="Encapsulates many common &quot;moves&quot; you'll make when trying to make a heatmap,
-especially if you are trying to show geneset activity across a panel of
-samples.
+<meta property="og:description" content="Before we get started, note that you probably want to use mgheatmap2().
+This function encapsulates many common &quot;moves&quot; you'll make when trying to
+make a heatmap, especially if you are trying to show geneset activity across
+a panel of samples.
 NOTE: this function will almost certainly reorder the rows of the
 input matrix. If you are concatentating Heatmap objects together horizontally
 (ie. you if you want to use a rowAnnotation along side the returned heatmap),
@@ -81,7 +82,7 @@ ranno.df &amp;lt;- ranno.df[rownames(out@matrix),]" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sparrow</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.98.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.00</span>
       </span>
     </div>
 
@@ -99,8 +100,17 @@ ranno.df &amp;lt;- ranno.df[rownames(out@matrix),]" />
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="../news/index.html">Changelog</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/adding-new-methods-to-sparrow.html">Adding new methods to sparrow</a>
+    </li>
+  </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -124,9 +134,10 @@ ranno.df &amp;lt;- ranno.df[rownames(out@matrix),]" />
     </div>
 
     <div class="ref-description">
-    <p>Encapsulates many common "moves" you'll make when trying to make a heatmap,
-especially if you are trying to show geneset activity across a panel of
-samples.</p>
+    <p>Before we get started, note that you probably want to use <code><a href='mgheatmap2.html'>mgheatmap2()</a></code>.</p>
+<p>This function encapsulates many common "moves" you'll make when trying to
+make a heatmap, especially if you are trying to show geneset activity across
+a panel of samples.</p>
 <p><strong>NOTE</strong>: this function will <strong>almost certainly</strong> reorder the rows of the
 input matrix. If you are concatentating Heatmap objects together horizontally
 (ie. you if you want to use a rowAnnotation along side the returned heatmap),
@@ -206,6 +217,15 @@ v2 (maybe earlier versions), this doesn't really work when
 <code>cluster_rows = TRUE</code>.</p></td>
     </tr>
     <tr>
+      <th>name</th>
+      <td><p>passed down to <code><a href='https://rdrr.io/pkg/ComplexHeatmap/man/Heatmap.html'>ComplexHeatmap::Heatmap()</a></code></p></td>
+    </tr>
+    <tr>
+      <th>rm.collection.prefix</th>
+      <td><p>When <code>TRUE</code> (default), removes the collection
+name from the genesets annotated on the heatmap.</p></td>
+    </tr>
+    <tr>
       <th>rm.dups</th>
       <td><p>if <code>aggregate.by == 'none'</code>, do we remove genes that
 appear in more than one geneset? Defaults to <code>FALSE</code></p></td>
@@ -220,6 +240,11 @@ prior to calling <code><a href='https://rdrr.io/pkg/ComplexHeatmap/man/Heatmap.h
       <td><p>do you want to standardize the row variance to one on the
 values of the heatmap matrix prior to calling
 <code><a href='https://rdrr.io/pkg/ComplexHeatmap/man/Heatmap.html'>ComplexHeatmap::Heatmap()</a></code>?</p></td>
+    </tr>
+    <tr>
+      <th>center, scale</th>
+      <td><p>boolean parameters passed down into the the single
+sample gene set scoring methods defined by <code>aggregate.by</code></p></td>
     </tr>
     <tr>
       <th>rename.rows</th>
@@ -252,8 +277,8 @@ mark the top and bottom of the color scale range you want to use.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>parameters to send down to <code><a href='scoreSingleSamples.html'>scoreSingleSamples()</a></code> or
-<code><a href='https://rdrr.io/pkg/ComplexHeatmap/man/Heatmap.html'>ComplexHeatmap::Heatmap()</a></code>.</p></td>
+      <td><p>parameters to send down to <code><a href='scoreSingleSamples.html'>scoreSingleSamples()</a></code>,
+<code><a href='https://rdrr.io/pkg/ComplexHeatmap/man/Heatmap.html'>ComplexHeatmap::Heatmap()</a></code>, <code><a href='renameRows.html'>renameRows()</a></code> internal <code>as_matrix()</code>.</p></td>
     </tr>
     </table>
 
@@ -294,6 +319,9 @@ you don't want the rownames of the heatmap to be <code>collection;;name</code> (
 <code>data.frame</code>, where the first column is <code>collection;name</code> and the second
 is the name you want to rename that to. There is an example of this in
 the "Examples" section here.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='mgheatmap2.html'>mgheatmap2()</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/jokergoo/ComplexHeatmap'>ComplexHeatmap</a></span><span class='op'>)</span>

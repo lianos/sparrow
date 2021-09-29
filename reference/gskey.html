@@ -43,7 +43,8 @@
 
 <meta property="og:title" content="Converts collection,name combination to key for geneset — encode_gskey" />
 <meta property="og:description" content="The &quot;key&quot; form often comes out as rownames to matrices and such, or
-particularly for sending genesets down into wrapped methods, like do.camera." />
+particularly for sending genesets down into wrapped methods, like do.camera.
+splt_gskey is the inverse function of encode_gskey()" />
 
 
 
@@ -75,7 +76,7 @@ particularly for sending genesets down into wrapped methods, like do.camera." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sparrow</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.98.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.00</span>
       </span>
     </div>
 
@@ -93,8 +94,17 @@ particularly for sending genesets down into wrapped methods, like do.camera." />
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="../news/index.html">Changelog</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/adding-new-methods-to-sparrow.html">Adding new methods to sparrow</a>
+    </li>
+  </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -120,12 +130,30 @@ particularly for sending genesets down into wrapped methods, like do.camera." />
     <div class="ref-description">
     <p>The "key" form often comes out as rownames to matrices and such, or
 particularly for sending genesets down into wrapped methods, like do.camera.</p>
+<p><code>splt_gskey</code> is the inverse function of <code>encode_gskey()</code></p>
     </div>
 
     <pre class="usage"><span class='fu'>encode_gskey</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span>, sep <span class='op'>=</span> <span class='st'>";;"</span><span class='op'>)</span>
 
 <span class='fu'>split_gskey</span><span class='op'>(</span><span class='va'>x</span>, sep <span class='op'>=</span> <span class='st'>";;"</span><span class='op'>)</span></pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>a character vector of encoded geneset keys from <code>encode_gskey()</code></p></td>
+    </tr>
+    <tr>
+      <th>y</th>
+      <td><p>if <code>x</code> is a data.frame: nothing, otherwise a character vector
+of geneset names</p></td>
+    </tr>
+    <tr>
+      <th>sep</th>
+      <td><p>the separator used in the encoding of geneset names</p></td>
+    </tr>
+    </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 

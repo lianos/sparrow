@@ -78,7 +78,7 @@ arguments down through the ... of this wrapper function." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sparrow</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.98.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.00</span>
       </span>
     </div>
 
@@ -96,8 +96,17 @@ arguments down through the ... of this wrapper function." />
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="../news/index.html">Changelog</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/adding-new-methods-to-sparrow.html">Adding new methods to sparrow</a>
+    </li>
+  </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -242,10 +251,21 @@ expressed genes would have <code>TRUE</code> values). Only used when <code>x</co
 data.frame-like input.</p></td>
     </tr>
     <tr>
+      <th>group_by</th>
+      <td><p>A name of character vector in <code>x</code> which is used to split up
+features into groups for testing batches. Only used when <code>x</code> is a
+data.frame-like input for methods like <code><a href='ora.html'>ora()</a></code>.</p></td>
+    </tr>
+    <tr>
       <th>bias_by</th>
       <td><p>The name of a numeric colum in <code>x</code> that can be used in <code><a href='ora.html'>ora()</a></code>
 to adjust for bias in enrichment tests (like gene legnth, average
 expression, etc.). Only used when <code>x</code> is a data.frame-like input.</p></td>
+    </tr>
+    <tr>
+      <th>xmeta.</th>
+      <td><p>A hack to support data.frame inputs for <code>x</code>. End users should
+not use this.</p></td>
     </tr>
     <tr>
       <th>.parallel</th>

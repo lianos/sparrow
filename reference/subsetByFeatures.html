@@ -74,7 +74,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sparrow</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.98.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.00</span>
       </span>
     </div>
 
@@ -92,8 +92,17 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="../news/index.html">Changelog</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/adding-new-methods-to-sparrow.html">Adding new methods to sparrow</a>
+    </li>
+  </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -120,7 +129,10 @@
     <p>Subset a GeneSetDb to only include geneSets with specified features.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>subsetByFeatures</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>features</span>, value <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"feature_id"</span>, <span class='st'>"x.id"</span>, <span class='st'>"x.idx"</span><span class='op'>)</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>subsetByFeatures</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>features</span>, value <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"feature_id"</span>, <span class='st'>"x.id"</span>, <span class='st'>"x.idx"</span><span class='op'>)</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='co'># S4 method for GeneSetDb</span>
+<span class='fu'>subsetByFeatures</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>features</span>, value <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"feature_id"</span>, <span class='st'>"x.id"</span>, <span class='st'>"x.idx"</span><span class='op'>)</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -130,8 +142,20 @@
       <td><p><code>GeneSetDb</code></p></td>
     </tr>
     <tr>
-      <th>featureIds</th>
+      <th>features</th>
       <td><p>Character vector of featureIds</p></td>
+    </tr>
+    <tr>
+      <th>value</th>
+      <td><p>are you feature id's entered as themselves (<code>feature_id</code>), which
+is the default, or are you querying by their index into a target expression
+object? This is only relevant if you are working with a <code>conform</code>-ed
+GeneSetDb, and further you as a user won't likely invoke this argument,
+but is used internally.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>pass through arguments</p></td>
     </tr>
     </table>
 
@@ -139,6 +163,12 @@
 
     <p>A subset of <code>x</code> which contains only the geneSets that contain
 features found in <code>featureIds</code></p>
+    <h2 class="hasAnchor" id="methods-by-class-"><a class="anchor" href="#methods-by-class-"></a>Methods (by class)</h2>
+
+    
+<ul>
+<li><p><code>GeneSetDb</code>: subset GeneSetDb by feature id's</p></li>
+</ul>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>gdb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='exampleExpressionSet.html'>exampleGeneSetDb</a></span><span class='op'>(</span><span class='op'>)</span>

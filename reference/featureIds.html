@@ -85,7 +85,7 @@ then this call simply delegates to the internal GeneSetDb." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sparrow</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.98.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.00</span>
       </span>
     </div>
 
@@ -103,8 +103,17 @@ then this call simply delegates to the internal GeneSetDb." />
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="../news/index.html">Changelog</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/adding-new-methods-to-sparrow.html">Adding new methods to sparrow</a>
+    </li>
+  </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -198,6 +207,10 @@ object.</p></li>
       <td><p>only look for gene sets that are "active"? Defaults to
 <code>TRUE</code> if <code>x</code> is conformed to a target expression object, else <code>FALSE</code>.
 <code><a href='conform.html'>conform()</a></code> for further details.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>pass through arguments</p></td>
     </tr>
     </table>
 

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Converts the feature identifiers in a GeneSetDb to a set of new ones. — convertIdentifiers • sparrow</title>
+<title>Converts internal feature identifiers in a GeneSetDb to a set of new ones. — convertIdentifiers • sparrow</title>
 
 
 <!-- jquery -->
@@ -41,10 +41,10 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Converts the feature identifiers in a GeneSetDb to a set of new ones. — convertIdentifiers" />
-<meta property="og:description" content="The various GeneSetDb data providers limit the identifier types that they
-provide. Use this function to map the given identifiers to whichever type
-you like." />
+<meta property="og:title" content="Converts internal feature identifiers in a GeneSetDb to a set of new ones. — convertIdentifiers" />
+<meta property="og:description" content="The various GeneSetDb data providers (MSigDb, KEGG, etc). limit the
+identifier types that they return. Use this function to map the given
+identifiers to whichever type you like." />
 
 
 
@@ -76,7 +76,7 @@ you like." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sparrow</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.98.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.00</span>
       </span>
     </div>
 
@@ -94,8 +94,17 @@ you like." />
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="../news/index.html">Changelog</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/adding-new-methods-to-sparrow.html">Adding new methods to sparrow</a>
+    </li>
+  </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -113,22 +122,26 @@ you like." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Converts the feature identifiers in a GeneSetDb to a set of new ones.</h1>
+    <h1>Converts internal feature identifiers in a GeneSetDb to a set of new ones.</h1>
     
     <div class="hidden name"><code>convertIdentifiers.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>The various GeneSetDb data providers limit the identifier types that they
-provide. Use this function to map the given identifiers to whichever type
-you like.</p>
+    <p>The various GeneSetDb data providers (MSigDb, KEGG, etc). limit the
+identifier types that they return. Use this function to map the given
+identifiers to whichever type you like.</p>
     </div>
 
     <pre class="usage"><span class='fu'>convertIdentifiers</span><span class='op'>(</span>
   <span class='va'>x</span>,
-  <span class='va'>xref</span>,
-  original_id <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>xref</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1L</span><span class='op'>]</span>,
-  target_id <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>xref</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>2L</span><span class='op'>]</span>,
+  from <span class='op'>=</span> <span class='cn'>NULL</span>,
+  to <span class='op'>=</span> <span class='cn'>NULL</span>,
+  id.type <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"ensembl"</span>, <span class='st'>"entrez"</span>, <span class='st'>"symbol"</span><span class='op'>)</span>,
+  xref <span class='op'>=</span> <span class='cn'>NULL</span>,
+  extra.cols <span class='op'>=</span> <span class='cn'>NULL</span>,
+  min_support <span class='op'>=</span> <span class='fl'>3</span>,
+  top <span class='op'>=</span> <span class='cn'>TRUE</span>,
   <span class='va'>...</span>
 <span class='op'>)</span></pre>
 
@@ -140,36 +153,112 @@ you like.</p>
       <td><p>The GeneSetDb with identifiers to convert</p></td>
     </tr>
     <tr>
+      <th>from, to</th>
+      <td><p>If you are doing identifier and/orspecies conversion using
+babelgene, <code>to</code> is the species you want to convert to, and <code>from</code> is the
+species of <code>x</code>. If you are only doing id type conversion within the same
+species, specify the current species in <code>from</code>.
+If you are providing a data.frame map of identifiers in <code>xref</code>, <code>to</code> is
+the name of the column that holds the new identifiers, and <code>from</code> is the
+name of the column that holds the current identifiers.</p></td>
+    </tr>
+    <tr>
+      <th>id.type</th>
+      <td><p>If you are using babelgene conversion, this specifies the
+type of identifier you want to convert to. It can be any of <code>"ensembl"</code>,
+<code>"entrez"</code>, or <code>"symbol"</code>.</p></td>
+    </tr>
+    <tr>
       <th>xref</th>
-      <td><p>If a species (<code>"mouse"</code> or <code>"human"</code>) we will load the internal
-ensembl &lt;-&gt; entrez data.frame, or you can provide your own.</p></td>
+      <td><p>a data.frame used to map current identifiers to target ones.</p></td>
+    </tr>
+    <tr>
+      <th>extra.cols</th>
+      <td><p>a character vector of columns from <code>to</code> to add to the
+features of the new GeneSetDb. If you want to keep the original identifiers
+of the remapped features, include <code>"original_id"</code> as one of the values
+here.</p></td>
+    </tr>
+    <tr>
+      <th>min_support, top</th>
+      <td><p>Parameters used in the internal call to
+<code><a href='https://igordot.github.io/babelgene/reference/orthologs.html'>babelgene::orthologs()</a></code></p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>pass through args (not used)</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a remapped GeneSetDb object</p>
+    <p>A new GeneSetDb object with converted identifiers. We try to retain
+any metadata in the original object, but no guarantees are given. If
+<code>id_type</code> was stored previously in the collectionMetadata, that will be
+dropped.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>You need to provide a data.frame that has a column for the current
-identifiers and another column for the target identifiers.</p>
-<p>If you don't provide a data.frame we can use to translate identifiers,
-we'll use hte babelgene package.</p>
+    <p>For best results, provide your own identifier mapping reference, but we
+provide a convenience wrapper around the <code><a href='https://igordot.github.io/babelgene/reference/orthologs.html'>babelgene::orthologs()</a></code> function to
+change between identifier types and species.</p>
 <p>When there are multiple target id's for the source id, they will all be
-returned. When there is no target id for the source id, the soure feature
+returned. When there is no target id for the source id, the soucre feature
 will be axed.</p>
-<p>By default, the first column of the <code>xref</code> data.frame is assumed to be
-the source identifiers, and the second is the target_id you want to remap
-the identifiers to.</p>
+    <h2 class="hasAnchor" id="custom-mapping"><a class="anchor" href="#custom-mapping"></a>Custom Mapping</h2>
+
+    
+
+<p>You need to provide a data.frame via the <code>xref</code> paramater that has a column
+for the current identifiers and another column for the target identifiers.
+The columns are specified by the <code>from</code> and <code>to</code> paramters, respectively.</p>
+    <h2 class="hasAnchor" id="convenience-identifier-and-species-mapping"><a class="anchor" href="#convenience-identifier-and-species-mapping"></a>Convenience identifier and species mapping</h2>
+
+    
+
+<p>If you don't provide a data.frame, you can provide a species name. We will
+rely on the babelgene package for the conversion, so you will have to
+provide a species name that it recognizes.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='co'># This function needs to be reimplemented using the {babelgene} package,</span>
-<span class='co'># and these examples are left for posterity to remind us of what once was.</span>
-<span class='va'>gdb.entrez</span> <span class='op'>&lt;-</span> <span class='fu'><a href='exampleExpressionSet.html'>exampleGeneSetDb</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='va'>gdb.ens</span> <span class='op'>&lt;-</span> <span class='fu'>convertIdentifiers</span><span class='op'>(</span><span class='va'>gdb.entrez</span>, <span class='st'>"human"</span>,
-                             original_id <span class='op'>=</span> <span class='st'>"entrezgene_id"</span>,
-                             target_id <span class='op'>=</span> <span class='st'>"ensembl_gene_id"</span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='co'># You can convert the identifiers within a GeneSetDb to some other type</span>
+<span class='co'># by providing a "translation" table. Check out the unit tests for more</span>
+<span class='co'># examples.</span>
+<span class='va'>gdb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='exampleExpressionSet.html'>exampleGeneSetDb</a></span><span class='op'>(</span><span class='op'>)</span> <span class='co'># this has no symbols in it</span>
+
+<span class='co'># Define a silly conversion table.</span>
+<span class='va'>xref</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>
+  current_id <span class='op'>=</span> <span class='fu'><a href='featureIds.html'>featureIds</a></span><span class='op'>(</span><span class='va'>gdb</span><span class='op'>)</span>,
+  new_id <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='fu'><a href='featureIds.html'>featureIds</a></span><span class='op'>(</span><span class='va'>gdb</span><span class='op'>)</span>, <span class='st'>"_symbol"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>gdb2</span> <span class='op'>&lt;-</span> <span class='fu'>convertIdentifiers</span><span class='op'>(</span><span class='va'>gdb</span>, from <span class='op'>=</span> <span class='st'>"current_id"</span>, to <span class='op'>=</span> <span class='st'>"new_id"</span>,
+                           xref <span class='op'>=</span> <span class='va'>xref</span>, extra.cols <span class='op'>=</span> <span class='st'>"original_id"</span><span class='op'>)</span>
+<span class='fu'><a href='geneSet.html'>geneSet</a></span><span class='op'>(</span><span class='va'>gdb2</span>, name <span class='op'>=</span> <span class='st'>"BIOCARTA_AGPCR_PATHWAY"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;    collection                   name active  N  n  feature_id original_id
+#&gt; 1          c2 BIOCARTA_AGPCR_PATHWAY  FALSE 13 NA 2778_symbol        2778
+#&gt; 2          c2 BIOCARTA_AGPCR_PATHWAY  FALSE 13 NA 2782_symbol        2782
+#&gt; 3          c2 BIOCARTA_AGPCR_PATHWAY  FALSE 13 NA 2792_symbol        2792
+#&gt; 4          c2 BIOCARTA_AGPCR_PATHWAY  FALSE 13 NA 2868_symbol        2868
+#&gt; 5          c2 BIOCARTA_AGPCR_PATHWAY  FALSE 13 NA  408_symbol         408
+#&gt; 6          c2 BIOCARTA_AGPCR_PATHWAY  FALSE 13 NA 5567_symbol        5567
+#&gt; 7          c2 BIOCARTA_AGPCR_PATHWAY  FALSE 13 NA 5568_symbol        5568
+#&gt; 8          c2 BIOCARTA_AGPCR_PATHWAY  FALSE 13 NA 5573_symbol        5573
+#&gt; 9          c2 BIOCARTA_AGPCR_PATHWAY  FALSE 13 NA 5575_symbol        5575
+#&gt; 10         c2 BIOCARTA_AGPCR_PATHWAY  FALSE 13 NA 5576_symbol        5576
+#&gt; 11         c2 BIOCARTA_AGPCR_PATHWAY  FALSE 13 NA 5577_symbol        5577
+#&gt; 12         c2 BIOCARTA_AGPCR_PATHWAY  FALSE 13 NA 5578_symbol        5578
+#&gt; 13         c2 BIOCARTA_AGPCR_PATHWAY  FALSE 13 NA 5579_symbol        5579</div><div class='input'>
+<span class='co'># Convert entrez to ensembl id's using babelgene</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='co'># The conversion functionality via babelgene isn't yet implemented, but</span>
+<span class='co'># will look like this.</span>
+
+<span class='co'># 1. convert the human entrez identifiers to ensembl</span>
+<span class='va'>gdb.ens</span> <span class='op'>&lt;-</span> <span class='fu'>convertIdentifiers</span><span class='op'>(</span><span class='va'>gdb</span>, <span class='st'>"human"</span>, id.type <span class='op'>=</span> <span class='st'>"ensembl"</span><span class='op'>)</span>
+
+<span class='co'># 2. convert the human entrez to mouse entrez</span>
+<span class='va'>gdb.entm</span> <span class='op'>&lt;-</span> <span class='fu'>convertIdentifiers</span><span class='op'>(</span><span class='va'>gdb</span>, <span class='st'>"human"</span>, <span class='st'>"mouse"</span>, id.type <span class='op'>=</span> <span class='st'>"entrez"</span><span class='op'>)</span>
+
+<span class='co'># 3. convert the human entrez to mouse ensembl</span>
+<span class='va'>gdb.ensm</span> <span class='op'>&lt;-</span> <span class='fu'>convertIdentifiers</span><span class='op'>(</span><span class='va'>gdb</span>, <span class='st'>"human"</span>, <span class='st'>"mouse"</span>, id.type <span class='op'>=</span> <span class='st'>"ensembl"</span><span class='op'>)</span>
 <span class='op'>}</span>
 </div></pre>
   </div>

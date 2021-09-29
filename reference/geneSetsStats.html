@@ -78,7 +78,7 @@ of the analysis." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sparrow</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.98.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.00</span>
       </span>
     </div>
 
@@ -96,8 +96,17 @@ of the analysis." />
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="../news/index.html">Changelog</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/adding-new-methods-to-sparrow.html">Adding new methods to sparrow</a>
+    </li>
+  </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -160,6 +169,17 @@ expressed.</p></td>
       <th>trim</th>
       <td><p>The amount to trim when calculated trimmed <code>t</code> and
 <code>logFC</code> statistics for each geneset.</p></td>
+    </tr>
+    <tr>
+      <th>reannotate.significance</th>
+      <td><p>this is internally by the package, and should
+left as <code>FALSE</code> when used by the user.</p></td>
+    </tr>
+    <tr>
+      <th>as.dt</th>
+      <td><p>If <code>FALSE</code> (default), the data.frame like thing that
+this funciton returns will be set to a data.frame. Set this to <code>TRUE</code>
+to keep this object as a <code>data.table</code></p></td>
     </tr>
     </table>
 

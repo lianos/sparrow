@@ -79,7 +79,7 @@ is loaded within this function when necessary." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sparrow</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.98.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.00</span>
       </span>
     </div>
 
@@ -97,8 +97,17 @@ is loaded within this function when necessary." />
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="../news/index.html">Changelog</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/adding-new-methods-to-sparrow.html">Adding new methods to sparrow</a>
+    </li>
+  </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -189,6 +198,10 @@ this option is set to TRUE, then these genes will count towards the total
 number of genes outside the category being tested.</p></td>
     </tr>
     <tr>
+      <th>plot.fit</th>
+      <td><p>parameter to pass to <code><a href='https://rdrr.io/pkg/goseq/man/nullp.html'>goseq::nullp()</a></code>.</p></td>
+    </tr>
+    <tr>
       <th>do.conform</th>
       <td><p>By default <code>TRUE</code>: does some gymnastics to conform
 the <code>gsd</code> to the <code>universe</code> vector. This should neber be set
@@ -197,19 +210,17 @@ is called from the <code><a href='seas.html'>seas()</a></code> codepath, we do n
 reconform the <code>GeneSetDb</code> object, because it has already been done.</p></td>
     </tr>
     <tr>
+      <th>as.dt</th>
+      <td><p>If <code>FALSE</code> (default), the data.frame like thing that
+this funciton returns will be set to a data.frame. Set this to <code>TRUE</code>
+to keep this object as a <code>data.table</code></p></td>
+    </tr>
+    <tr>
       <th>.pipelined</th>
-      <td><p>If this is being external to a seas pipeline, then
-some additional cleanup of columns name output will be done. Otherwise
-the column renaming and post processing is left to the do.goseq caller
-(Default: <code>FALSE</code>).</p></td>
-    </tr>
-    <tr>
-      <th>active.only</th>
-      <td><p>If <code>TRUE</code>, only "active" genesets are used</p></td>
-    </tr>
-    <tr>
-      <th>value</th>
-      <td><p>The feature_id types to extract from <code>gsd</code></p></td>
+      <td><p>If this is being called external to a seas pipeline, then
+some additional cleanup of columns name output will be done when
+<code>FALSE</code> (default). Otherwise the column renaming and post processing is
+left to the do.goseq caller.</p></td>
     </tr>
     </table>
 
@@ -224,6 +235,25 @@ an attribue named <code>"pwf"</code>.</p>
 Gene ontology analysis for RNA-seq: accounting for selection bias.
 <em>Genome Biology</em> 11, R14. http://genomebiology.com/2010/11/2/R14</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='va'>vm</span> <span class='op'>&lt;-</span> <span class='fu'><a href='exampleExpressionSet.html'>exampleExpressionSet</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>gdb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='conform.html'>conform</a></span><span class='op'>(</span><span class='fu'><a href='exampleExpressionSet.html'>exampleGeneSetDb</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='va'>vm</span><span class='op'>)</span>
+
+<span class='co'># Identify DGE genes</span>
+<span class='va'>mg</span> <span class='op'>&lt;-</span> <span class='fu'><a href='seas.html'>seas</a></span><span class='op'>(</span><span class='va'>vm</span>, <span class='va'>gdb</span>, design <span class='op'>=</span> <span class='va'>vm</span><span class='op'>$</span><span class='va'>design</span><span class='op'>)</span>
+<span class='va'>lfc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='logFC.html'>logFC</a></span><span class='op'>(</span><span class='va'>mg</span><span class='op'>)</span>
+
+<span class='co'># wire up params</span>
+<span class='va'>selected</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/subset.html'>subset</a></span><span class='op'>(</span><span class='va'>lfc</span>, <span class='va'>significant</span><span class='op'>)</span><span class='op'>$</span><span class='va'>feature_id</span>
+<span class='va'>universe</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>vm</span><span class='op'>)</span>
+<span class='va'>mylens</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/setNames.html'>setNames</a></span><span class='op'>(</span><span class='va'>vm</span><span class='op'>$</span><span class='va'>genes</span><span class='op'>$</span><span class='va'>size</span>, <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>vm</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>degenes</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/setNames.html'>setNames</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/integer.html'>integer</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>universe</span><span class='op'>)</span><span class='op'>)</span>, <span class='va'>universe</span><span class='op'>)</span>
+<span class='va'>degenes</span><span class='op'>[</span><span class='va'>selected</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fl'>1L</span>
+
+<span class='va'>gostats</span> <span class='op'>&lt;-</span> <span class='fu'>sparrow</span><span class='fu'>::</span><span class='fu'>goseq</span><span class='op'>(</span>
+  <span class='va'>gdb</span>, <span class='va'>selected</span>, <span class='va'>universe</span>, <span class='va'>mylens</span>,
+  method <span class='op'>=</span> <span class='st'>"Wallenius"</span>, use_genes_without_cat <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='warning'>Warning: initial point very close to some inequality constraints</span></div><div class='output co'>#&gt; <span class='message'>Using manually entered categories.</span></div><div class='output co'>#&gt; <span class='message'>Calculating the p-values...</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Articles • sparrow</title>
+<title>Generates a fake GeneSetDb by sampling from features in a seas input. — randomGeneSetDb • sparrow</title>
 
 
 <!-- jquery -->
@@ -41,7 +41,9 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Articles" />
+<meta property="og:title" content="Generates a fake GeneSetDb by sampling from features in a seas input. — randomGeneSetDb" />
+<meta property="og:description" content="I wrote this because initial fetching from msigdbr can be slow, and also
+having some weird crashes in the unit tests of bioc3.14-devel." />
 
 
 
@@ -60,7 +62,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-article-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -119,20 +121,55 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Articles</h1>
+    <h1>Generates a fake GeneSetDb by sampling from features in a seas input.</h1>
+    
+    <div class="hidden name"><code>randomGeneSetDb.Rd</code></div>
     </div>
 
-    <div class="section ">
-      <h3>All vignettes</h3>
-      <p class="section-desc"></p>
-
-      <dl>
-        <dt><a href="adding-new-methods-to-sparrow.html">Adding new methods to sparrow</a></dt>
-        <dd></dt>
-        <dt><a href="sparrow.html">Performing gene set enrichment analyses with sparrow</a></dt>
-        <dd></dt>
-      </dl>
+    <div class="ref-description">
+    <p>I wrote this because initial fetching from msigdbr can be slow, and also
+having some weird crashes in the unit tests of bioc3.14-devel.</p>
     </div>
+
+    <pre class="usage"><span class='fu'>randomGeneSetDb</span><span class='op'>(</span><span class='va'>x</span>, n <span class='op'>=</span> <span class='fl'>10</span>, bias <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>an input container to <code><a href='seas.html'>seas()</a></code></p></td>
+    </tr>
+    <tr>
+      <th>n</th>
+      <td><p>number of genesets</p></td>
+    </tr>
+    <tr>
+      <th>bias</th>
+      <td><p>column in <code>x</code> to bias the geneset creation by</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>pass through args</p></td>
+    </tr>
+    </table>
+
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A randomly generated GeneSetDb you can use against <code>x</code> for testing.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>This is a helper function for development, and shouldn't be used by normal
+users of this package.</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='va'>gdb.rando</span> <span class='op'>&lt;-</span> <span class='fu'>randomGeneSetDb</span><span class='op'>(</span><span class='fu'><a href='exampleExpressionSet.html'>exampleDgeResult</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='fl'>10</span>, bias <span class='op'>=</span> <span class='st'>"t"</span><span class='op'>)</span>
+</div></pre>
+  </div>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 

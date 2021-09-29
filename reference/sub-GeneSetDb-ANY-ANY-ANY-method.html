@@ -74,7 +74,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sparrow</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.98.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.00</span>
       </span>
     </div>
 
@@ -92,8 +92,17 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="../news/index.html">Changelog</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/adding-new-methods-to-sparrow.html">Adding new methods to sparrow</a>
+    </li>
+  </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -123,7 +132,35 @@
     <pre class="usage"># S4 method for GeneSetDb,ANY,ANY,ANY
 [(x, i, j, ..., drop = FALSE)</pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>GeneSetDb</p></td>
+    </tr>
+    <tr>
+      <th>i</th>
+      <td><p>a logical vector as long as <code><a href='https://rdrr.io/r/base/nrow.html'>nrow(geneSets(x))</a></code> indicating which
+geneSets to keep</p></td>
+    </tr>
+    <tr>
+      <th>j</th>
+      <td><p>ignored</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>pass through arguments</p></td>
+    </tr>
+    <tr>
+      <th>drop</th>
+      <td><p>ignored</p></td>
+    </tr>
+    </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>GeneSetDb <code>x</code> with a subset of the genesets it came in with.k</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -42,9 +42,8 @@
   
 
 <meta property="og:title" content="Create an interactive volcano plot — volcanoPlot" />
-<meta property="og:description" content="Convenience function to create volcano plots from differents types of
-objects we generate in this package. This is mostly used by the
-sparrow.shiny package." />
+<meta property="og:description" content="Convenience function to create volcano plots from results generated within
+this package. This is mostly used by {sparrow.shiny}." />
 
 
 
@@ -76,7 +75,7 @@ sparrow.shiny package." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sparrow</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.98.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.00</span>
       </span>
     </div>
 
@@ -94,8 +93,17 @@ sparrow.shiny package." />
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="../news/index.html">Changelog</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/adding-new-methods-to-sparrow.html">Adding new methods to sparrow</a>
+    </li>
+  </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -119,9 +127,8 @@ sparrow.shiny package." />
     </div>
 
     <div class="ref-description">
-    <p>Convenience function to create volcano plots from differents types of
-objects we generate in this package. This is mostly used by the
-<em>sparrow.shiny</em> package.</p>
+    <p>Convenience function to create volcano plots from results generated within
+this package. This is mostly used by <code>{sparrow.shiny}</code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>volcanoPlot</span><span class='op'>(</span>
@@ -135,7 +142,7 @@ objects we generate in this package. This is mostly used by the
   xlab <span class='op'>=</span> <span class='va'>xaxis</span>,
   ylab <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sprintf.html'>sprintf</a></span><span class='op'>(</span><span class='st'>"-log10(%s)"</span>, <span class='va'>yaxis</span><span class='op'>)</span>,
   highlight <span class='op'>=</span> <span class='cn'>NULL</span>,
-  horiz_lines <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>padj <span class='op'>=</span> <span class='fl'>0.1</span><span class='op'>)</span>,
+  horiz_line <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>padj <span class='op'>=</span> <span class='fl'>0.1</span><span class='op'>)</span>,
   xhex <span class='op'>=</span> <span class='cn'>NULL</span>,
   yhex <span class='op'>=</span> <span class='cn'>NULL</span>,
   width <span class='op'>=</span> <span class='cn'>NULL</span>,
@@ -149,9 +156,59 @@ objects we generate in this package. This is mostly used by the
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
+      <th>x</th>
+      <td><p>A <code>SparrowResult</code> object, or a <code>data.frame</code></p></td>
+    </tr>
+    <tr>
+      <th>stats</th>
+      <td><p>One of <code>"dge"</code> or <code><a href='resultNames.html'>resultNames(x)</a></code></p></td>
+    </tr>
+    <tr>
+      <th>xaxis</th>
+      <td><p>the column of the the provided (or extracted)
+<code>data.frame</code> to use for the xaxis and yaxis of the volcano</p></td>
+    </tr>
+    <tr>
+      <th>yaxis</th>
+      <td><p>the column of the the provided (or extracted)
+<code>data.frame</code> to use for the xaxis and yaxis of the volcano</p></td>
+    </tr>
+    <tr>
+      <th>idx</th>
+      <td><p>The column of the <code>data.frame</code> to use as the identifier
+for the element in the row. You probably don't want to mess with this</p></td>
+    </tr>
+    <tr>
+      <th>xtfrm</th>
+      <td><p>A function that transforms the <code>xaxis</code> column to an
+appropriate scale for the x-axis. This is the <code>identity</code> function
+by default, because most often the logFC is plotted as is.</p></td>
+    </tr>
+    <tr>
+      <th>ytfrm</th>
+      <td><p>A function that transforms the <code>yaxis</code> column to an
+appropriate scale for the y-axis. This is the <code>-log10(yval)</code> function
+by default, because this is how we most often plot the y-axis.</p></td>
+    </tr>
+    <tr>
+      <th>xlab, ylab</th>
+      <td><p>x and y axis labels</p></td>
+    </tr>
+    <tr>
       <th>highlight</th>
       <td><p>A vector of featureIds to highlight, or a GeneSetDb
 that we can extract the featureIds from for this purpose.</p></td>
+    </tr>
+    <tr>
+      <th>horiz_line</th>
+      <td><p>A (optionally named) number vecor (length 1) that indicates
+where a line should be drawn across the volcano plot. This is usually done
+to signify statistical significance. When the number is "named", this
+indicates that you want to find an approximation of the values plotted
+on y based on some transformation of the values that is the named column
+of x (like "padj"). The default value <code><a href='https://rdrr.io/r/base/c.html'>c(padj = 0.10)</a></code> indicates you
+want to draw a line at approximately where the adjust pvalue of 0.10 is
+on the y-axis, which is the <em>nominal</em> pvalues.</p></td>
     </tr>
     <tr>
       <th>xhex</th>
@@ -163,8 +220,33 @@ as a threshold such that values less than this will be hexbinned.</p></td>
       <td><p>the <code>.yvt</code> value threshold. Vaues less than this will
 be hexbinned.</p></td>
     </tr>
+    <tr>
+      <th>width</th>
+      <td><p>the width and height of the output plotly plot</p></td>
+    </tr>
+    <tr>
+      <th>height</th>
+      <td><p>the width and height of the output plotly plot</p></td>
+    </tr>
+    <tr>
+      <th>shiny_source</th>
+      <td><p>the name of this element that is used in shiny callbacks.
+Defaults to <code>"mggenes"</code>.</p></td>
+    </tr>
+    <tr>
+      <th>ggtheme</th>
+      <td><p>a ggplot theme, like the thing returned from
+<code><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>ggplot2::theme_bw()</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>pass through arguments (not used)</p></td>
+    </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>a ploty plot object</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>mg</span> <span class='op'>&lt;-</span> <span class='fu'><a href='exampleExpressionSet.html'>exampleSparrowResult</a></span><span class='op'>(</span><span class='op'>)</span>

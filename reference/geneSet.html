@@ -80,7 +80,7 @@ across the contrast that defined x." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sparrow</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.98.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.00</span>
       </span>
     </div>
 
@@ -98,8 +98,17 @@ across the contrast that defined x." />
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="../news/index.html">Changelog</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/adding-new-methods-to-sparrow.html">Adding new methods to sparrow</a>
+    </li>
+  </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -193,6 +202,16 @@ from the original feature_id space to the target feature space are included
 (default: <code>FALSE</code>).</p></td>
     </tr>
     <tr>
+      <th>collection</th>
+      <td><p>using <code>i</code> as the parameter for "collection" isn't intuitive
+so if speficially set this paramter, it will replace the value for <code>i</code>.</p></td>
+    </tr>
+    <tr>
+      <th>name</th>
+      <td><p>the same for the <code>collection</code>:<code>i</code> parameter relationship, but for
+<code>j</code>:<code>name</code>.</p></td>
+    </tr>
+    <tr>
       <th>as.dt</th>
       <td><p>If <code>FALSE</code> (default), the data.frame like thing that
 this funciton returns will be set to a data.frame. Set this to <code>TRUE</code>
@@ -206,6 +225,39 @@ to keep this object as a <code>data.table</code></p></td>
 <code>SparrowResult</code> object, then differential expression statistics
 are added as columns to this result.</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='va'>gdb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='exampleExpressionSet.html'>exampleGeneSetDb</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='fu'>geneSet</span><span class='op'>(</span><span class='va'>gdb</span>, <span class='st'>"c2"</span>, <span class='st'>"KOMMAGANI_TP63_GAMMA_TARGETS"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;   collection                         name active N  n feature_id
+#&gt; 1         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       1026
+#&gt; 2         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA      10971
+#&gt; 3         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       3486
+#&gt; 4         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       3714
+#&gt; 5         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       4193
+#&gt; 6         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       4854
+#&gt; 7         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       6604
+#&gt; 8         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       7421
+#&gt; 9         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       9540</div><div class='input'><span class='fu'>geneSet</span><span class='op'>(</span><span class='va'>gdb</span>, collection <span class='op'>=</span> <span class='st'>"c2"</span>, name <span class='op'>=</span> <span class='st'>"KOMMAGANI_TP63_GAMMA_TARGETS"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;   collection                         name active N  n feature_id
+#&gt; 1         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       1026
+#&gt; 2         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA      10971
+#&gt; 3         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       3486
+#&gt; 4         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       3714
+#&gt; 5         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       4193
+#&gt; 6         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       4854
+#&gt; 7         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       6604
+#&gt; 8         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       7421
+#&gt; 9         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       9540</div><div class='input'><span class='fu'>geneSet</span><span class='op'>(</span><span class='va'>gdb</span>, name <span class='op'>=</span> <span class='st'>"KOMMAGANI_TP63_GAMMA_TARGETS"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;   collection                         name active N  n feature_id
+#&gt; 1         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       1026
+#&gt; 2         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA      10971
+#&gt; 3         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       3486
+#&gt; 4         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       3714
+#&gt; 5         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       4193
+#&gt; 6         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       4854
+#&gt; 7         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       6604
+#&gt; 8         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       7421
+#&gt; 9         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       9540</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

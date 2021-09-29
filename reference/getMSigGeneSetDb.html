@@ -76,7 +76,7 @@ be retrieved by their collection name, ie c(&quot;H&quot;, &quot;C2&quot;, &quot
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sparrow</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.98.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.00</span>
       </span>
     </div>
 
@@ -94,8 +94,17 @@ be retrieved by their collection name, ie c(&quot;H&quot;, &quot;C2&quot;, &quot
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="../news/index.html">Changelog</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/adding-new-methods-to-sparrow.html">Adding new methods to sparrow</a>
+    </li>
+  </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -131,7 +140,6 @@ be retrieved by their collection name, ie <code><a href='https://rdrr.io/r/base/
   with.kegg <span class='op'>=</span> <span class='cn'>FALSE</span>,
   promote_subcategory_to_collection <span class='op'>=</span> <span class='cn'>FALSE</span>,
   prefix_collection <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  version <span class='op'>=</span> <span class='cn'>NULL</span>,
   <span class='va'>...</span>
 <span class='op'>)</span></pre>
 
@@ -148,7 +156,14 @@ Details section for more information.</p></td>
     </tr>
     <tr>
       <th>species</th>
-      <td><p>human or mouse?</p></td>
+      <td><p><code>"human"</code> or <code>"mouse"</code>? Really, this is anything available
+in the <code>alias</code> column of the <code>sparrow:::species_info()</code> table (except
+cyno).</p></td>
+    </tr>
+    <tr>
+      <th>id.type</th>
+      <td><p>do you want the feature id's used in the gene sets to be
+<code>"ensembl"</code> (default), <code>"entrez"</code>, or <code>"symbol"</code>.</p></td>
     </tr>
     <tr>
       <th>with.kegg</th>
@@ -159,14 +174,35 @@ GeneSetDb. To include the KEGG gene sets when asking for the c2
 collection, set this flag to <code>TRUE</code>.</p></td>
     </tr>
     <tr>
-      <th>version</th>
-      <td><p>the version of the MSigDB database to use.</p></td>
+      <th>promote_subcategory_to_collection</th>
+      <td><p>there are different sources of
+genesets for a number of the collections in MSigDB. These are included
+in the <code>gs_subcat</code> column of <code><a href='geneSets.html'>geneSets(this)</a></code>. When this is set to <code>TRUE</code>,
+the collection column for the genesets is appended with the subcatory.
+So, instead of having a massive <code>"C2"</code> collection, you'll have bunch of
+collections like <code>"C2_CGP"</code>, <code>"C2_CP:BIOCARTA"</code>, etc.</p></td>
+    </tr>
+    <tr>
+      <th>prefix_collection</th>
+      <td><p>When <code>TRUE</code> (default: <code>FALSE</code>), the <code>"C1"</code>, <code>"C2"</code>,
+etc. is prefixed with <code>"MSigDB_*"</code></p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>pass through parameters</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>a <code>GeneSetDb</code> object</p>
+    <h2 class="hasAnchor" id="species-and-identifier-types"><a class="anchor" href="#species-and-identifier-types"></a>Species and Identifier types</h2>
+
+    
+
+<p>This function utilizes the functionality from the <code>{msigdbr}</code> and
+<code>{babelgene}</code> packages to retrieve gene set definitions from a variety of
+organisms and identifier types.</p>
     <h2 class="hasAnchor" id="kegg-gene-sets"><a class="anchor" href="#kegg-gene-sets"></a>KEGG Gene Sets</h2>
 
     
@@ -176,17 +212,6 @@ returned from this function unless they are explicitly asked for. You can
 ask for them through this function by either (i) querying for the <code>"c2"</code>
 collection while setting <code>with.kegg = TRUE</code>; or (ii) explicitly calling with
 <code>collection = "kegg"</code>.</p>
-    <h2 class="hasAnchor" id="msigdb-versions"><a class="anchor" href="#msigdb-versions"></a>MSigDB Versions</h2>
-
-    
-
-<p>We recently switched to using the msigdbr package as the source of truth for
-these, so v7 is the earliest version of the MSigDB collections we make
-available. Version 6 are available in the following (deprecated) packages:</p><ul>
-<li><p>https://github.com/lianos/GeneSetDb.MSigDB.Mmusculus.v61</p></li>
-<li><p>https://github.com/lianos/GeneSetDb.MSigDB.Hsapiens.v61</p></li>
-</ul>
-
     <h2 class="hasAnchor" id="citing-the-molecular-signatures-database"><a class="anchor" href="#citing-the-molecular-signatures-database"></a>Citing the Molecular Signatures Database</h2>
 
     
@@ -201,12 +226,14 @@ or more of the following as appropriate:</p><ul>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
+  <span class='co'># these take a while to load initially, so put them in dontrun blocks.</span>
+  <span class='co'># you should run these interactively to understand what they return</span>
   <span class='va'>gdb</span> <span class='op'>&lt;-</span> <span class='fu'>getMSigGeneSetDb</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"h"</span>, <span class='st'>"reactome"</span><span class='op'>)</span>, <span class='st'>"human"</span>, <span class='st'>"entrez"</span><span class='op'>)</span>
-  <span class='va'>gdb.h.entrez</span> <span class='op'>&lt;-</span> <span class='fu'>getMSigGeneSetDb</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"h"</span>, <span class='st'>"c2"</span><span class='op'>)</span>, <span class='st'>"human"</span>, <span class='st'>"entrez"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='error'>Error in getMSigGeneSetDb(c("h", "reactome"), "human", "entrez"): Assertion on 'toupper(collection)' failed: Must be a subset of {'H','C1','C2','C3','C4','C5','C6','C7','C8'}, but is {'H','REACTOME'}.</span></div><div class='input'>  <span class='va'>gdb.h.entrez</span> <span class='op'>&lt;-</span> <span class='fu'>getMSigGeneSetDb</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"h"</span>, <span class='st'>"c2"</span><span class='op'>)</span>, <span class='st'>"human"</span>, <span class='st'>"entrez"</span><span class='op'>)</span>
   <span class='va'>gdb.h.ens</span> <span class='op'>&lt;-</span> <span class='fu'>getMSigGeneSetDb</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"h"</span>, <span class='st'>"c2"</span><span class='op'>)</span>, <span class='st'>"human"</span>, <span class='st'>"ensembl"</span><span class='op'>)</span>
   <span class='va'>gdb.m.entrez</span> <span class='op'>&lt;-</span> <span class='fu'>getMSigGeneSetDb</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"h"</span>, <span class='st'>"c2"</span><span class='op'>)</span>, <span class='st'>"mouse"</span>, <span class='st'>"entrez"</span><span class='op'>)</span>
-<span class='op'>}</span>
+<span class='co'># }</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

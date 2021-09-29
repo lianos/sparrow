@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Performs an overrepresentation analysis, (optinally) accounting for bias. — ora • sparrow</title>
+<title>Performs an overrepresentation analysis, (optionally) accounting for bias. — ora • sparrow</title>
 
 
 <!-- jquery -->
@@ -41,7 +41,7 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Performs an overrepresentation analysis, (optinally) accounting for bias. — ora" />
+<meta property="og:title" content="Performs an overrepresentation analysis, (optionally) accounting for bias. — ora" />
 <meta property="og:description" content="This function wraps limma::kegga() to perform biased overrepresntation
 analysis over gene set collection stored in a GeneSetDb (gsd) object. Its
 easiest to use this function when the biases and selection criteria are
@@ -77,7 +77,7 @@ stored as columns of the input data.frame dat." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sparrow</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.98.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.00</span>
       </span>
     </div>
 
@@ -95,8 +95,17 @@ stored as columns of the input data.frame dat." />
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="../news/index.html">Changelog</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/adding-new-methods-to-sparrow.html">Adding new methods to sparrow</a>
+    </li>
+  </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -114,7 +123,7 @@ stored as columns of the input data.frame dat." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Performs an overrepresentation analysis, (optinally) accounting for bias.</h1>
+    <h1>Performs an overrepresentation analysis, (optionally) accounting for bias.</h1>
     
     <div class="hidden name"><code>ora.Rd</code></div>
     </div>
@@ -127,8 +136,8 @@ stored as columns of the input data.frame <code>dat</code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>ora</span><span class='op'>(</span>
+  <span class='va'>x</span>,
   <span class='va'>gsd</span>,
-  <span class='va'>dat</span>,
   selected <span class='op'>=</span> <span class='st'>"significant"</span>,
   groups <span class='op'>=</span> <span class='cn'>NULL</span>,
   feature.bias <span class='op'>=</span> <span class='cn'>NULL</span>,
@@ -136,21 +145,22 @@ stored as columns of the input data.frame <code>dat</code>.</p>
   restrict.universe <span class='op'>=</span> <span class='cn'>FALSE</span>,
   plot.bias <span class='op'>=</span> <span class='cn'>FALSE</span>,
   <span class='va'>...</span>,
-  as.dt <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  .pipelined <span class='op'>=</span> <span class='cn'>FALSE</span>
-<span class='op'>)</span></pre>
+  as.dt <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span>
+
+<span class='fu'>plot_ora_bias</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>selected</span>, <span class='va'>feature.bias</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>gsd</th>
-      <td><p>The GeneSetDb</p></td>
-    </tr>
-    <tr>
-      <th>dat</th>
+      <th>x</th>
       <td><p>A data.frame with feature-level statistics. Minimally, this should
 have a <code>"feature_id"</code> (character) column, but read on ...</p></td>
+    </tr>
+    <tr>
+      <th>gsd</th>
+      <td><p>The GeneSetDb</p></td>
     </tr>
     <tr>
       <th>selected</th>
@@ -186,9 +196,19 @@ CRAN package is required when this is not NULL.</p></td>
     <tr>
       <th>plot.bias</th>
       <td><p>See <code>plot</code> parameter in <code><a href='https://rdrr.io/pkg/limma/man/goana.html'>limma::kegga()</a></code>. You can generate
-this plot without running <code>ora</code> using the <code><a href='plot_ora_bias.html'>plot_ora_bias()</a></code>,
+this plot without running <code>ora</code> using the <code>plot_ora_bias()</code>,
 like so:
-<code><a href='plot_ora_bias.html'>plot_ora_bias(dat, selected = selected, groups = groups, feature.bias = feature.bias)</a></code></p></td>
+<code>plot_ora_bias(dat, selected = selected, groups = groups, feature.bias = feature.bias)</code></p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>parameters passed to <code><a href='conform.html'>conform()</a></code></p></td>
+    </tr>
+    <tr>
+      <th>as.dt</th>
+      <td><p>If <code>FALSE</code> (default), the data.frame like thing that
+this funciton returns will be set to a data.frame. Set this to <code>TRUE</code>
+to keep this object as a <code>data.table</code></p></td>
     </tr>
     </table>
 
@@ -209,6 +229,13 @@ https://support.bioconductor.org/p/65789/#65914</p>
 <code><a href='https://rdrr.io/pkg/limma/man/goana.html'>limma::kegga()</a></code>, written by Gordon Smyth and Yifang Hu.</p>
 <p>Note that the BiasedUrn CRAN package needs to be installed to support biased
 enrichment testing</p>
+    <h2 class="hasAnchor" id="functions"><a class="anchor" href="#functions"></a>Functions</h2>
+
+    
+<ul>
+<li><p><code>plot_ora_bias</code>: plots the bias of coviarate to DE / selected status. Code
+taken from <code><a href='https://rdrr.io/pkg/limma/man/goana.html'>limma::kegga()</a></code></p></li>
+</ul>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Young, M. D., Wakefield, M. J., Smyth, G. K., Oshlack, A. (2010).
@@ -220,24 +247,24 @@ Gene ontology analysis for RNA-seq: accounting for selection bias.
 <span class='va'>gdb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='getMSigGeneSetDb.html'>getMSigGeneSetDb</a></span><span class='op'>(</span><span class='st'>"h"</span>, <span class='st'>"human"</span>, <span class='st'>"ensembl"</span><span class='op'>)</span>
 
 <span class='co'># Run enrichmnent without accounting for any bias</span>
-<span class='va'>nobias</span> <span class='op'>&lt;-</span> <span class='fu'>ora</span><span class='op'>(</span><span class='va'>gdb</span>, <span class='va'>dgestats</span>, selected <span class='op'>=</span> <span class='st'>"selected"</span>, groups <span class='op'>=</span> <span class='st'>"direction"</span>,
+<span class='va'>nobias</span> <span class='op'>&lt;-</span> <span class='fu'>ora</span><span class='op'>(</span><span class='va'>dgestats</span>, <span class='va'>gdb</span>, selected <span class='op'>=</span> <span class='st'>"selected"</span>, groups <span class='op'>=</span> <span class='st'>"direction"</span>,
               feature.bias <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
-
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Fraction of gene set IDs that match rownames in the expression object are low: 3.64% </span></div><div class='output co'>#&gt; <span class='warning'>Warning: Deactivating 6 gene sets because conformation of GeneSetDb to the target creates gene sets smaller than 2 or greater than Inf</span></div><div class='input'>
 <span class='co'># Run enrichment and account for gene length</span>
-<span class='va'>lbias</span> <span class='op'>&lt;-</span> <span class='fu'>ora</span><span class='op'>(</span><span class='va'>gdb</span>, <span class='va'>dgestats</span>, selected <span class='op'>=</span> <span class='st'>"selected"</span>,
+<span class='va'>lbias</span> <span class='op'>&lt;-</span> <span class='fu'>ora</span><span class='op'>(</span><span class='va'>dgestats</span>, <span class='va'>gdb</span>, selected <span class='op'>=</span> <span class='st'>"selected"</span>,
              feature.bias <span class='op'>=</span> <span class='st'>"effective_length"</span><span class='op'>)</span>
-
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Fraction of gene set IDs that match rownames in the expression object are low: 3.64% </span></div><div class='output co'>#&gt; <span class='warning'>Warning: Deactivating 6 gene sets because conformation of GeneSetDb to the target creates gene sets smaller than 2 or greater than Inf</span></div><div class='input'>
 <span class='co'># plot length bias with DGE status</span>
-<span class='fu'><a href='plot_ora_bias.html'>plot_ora_bias</a></span><span class='op'>(</span><span class='va'>dgestats</span>, <span class='st'>"selected"</span>, <span class='st'>"effective_length"</span><span class='op'>)</span>
+<span class='fu'>plot_ora_bias</span><span class='op'>(</span><span class='va'>dgestats</span>, <span class='st'>"selected"</span>, <span class='st'>"effective_length"</span><span class='op'>)</span>
 </div><div class='img'><img src='ora-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># induce length bias and see what is the what ...............................</span>
 <span class='va'>biased</span> <span class='op'>&lt;-</span> <span class='va'>dgestats</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/order.html'>order</a></span><span class='op'>(</span><span class='va'>dgestats</span><span class='op'>$</span><span class='va'>pval</span><span class='op'>)</span>,<span class='op'>]</span>
 <span class='va'>biased</span><span class='op'>$</span><span class='va'>effective_length</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sort.html'>sort</a></span><span class='op'>(</span><span class='va'>biased</span><span class='op'>$</span><span class='va'>effective_length</span>, decreasing <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-<span class='fu'><a href='plot_ora_bias.html'>plot_ora_bias</a></span><span class='op'>(</span><span class='va'>biased</span>, <span class='st'>"selected"</span>, <span class='st'>"effective_length"</span><span class='op'>)</span>
-</div><div class='img'><img src='ora-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='va'>etest</span> <span class='op'>&lt;-</span> <span class='fu'>ora</span><span class='op'>(</span><span class='va'>gdb</span>, <span class='va'>biased</span>, selected <span class='op'>=</span> <span class='st'>"selected"</span>,
+<span class='fu'>plot_ora_bias</span><span class='op'>(</span><span class='va'>biased</span>, <span class='st'>"selected"</span>, <span class='st'>"effective_length"</span><span class='op'>)</span>
+</div><div class='img'><img src='ora-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='va'>etest</span> <span class='op'>&lt;-</span> <span class='fu'>ora</span><span class='op'>(</span><span class='va'>biased</span>, <span class='va'>gdb</span>, selected <span class='op'>=</span> <span class='st'>"selected"</span>,
              groups <span class='op'>=</span> <span class='st'>"direction"</span>,
              feature.bias <span class='op'>=</span> <span class='st'>"effective_length"</span><span class='op'>)</span>
-</div></pre>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Fraction of gene set IDs that match rownames in the expression object are low: 3.64% </span></div><div class='output co'>#&gt; <span class='warning'>Warning: Deactivating 6 gene sets because conformation of GeneSetDb to the target creates gene sets smaller than 2 or greater than Inf</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
