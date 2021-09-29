@@ -65,6 +65,7 @@ setGeneric("featureIds", signature="x",
 #' @exportMethod featureIdMap
 #' @param x the object to retrieve the featureIdMap from
 #' @param ... pass through arguments
+#' @return a data.frame of input feature_id's to conformed id's/rows/etc
 setGeneric("featureIdMap", function(x, ...) standardGeneric("featureIdMap"))
 
 setGeneric("featureIdMap<-", function(x, value)

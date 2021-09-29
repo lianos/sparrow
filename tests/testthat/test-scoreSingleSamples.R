@@ -37,7 +37,7 @@ test_that('do.scoreSingleSamples.gsva is equivalent to GSVA::gsva', {
   avg.diffs <- sapply(1:ncol(gsva.mg), function(i) {
     mean(abs(gsva.mg[, i] - gsva.ex[,i]))
   })
-  cors <- sapply(1:ncol(gsva.mg), function(i) {
+  cors <- sapply(seq_len(ncol(gsva.mg)), function(i) {
     round(cor(gsva.mg[, i], gsva.ex[,i], method = "spearman"), 2)
   })
   expect_true(all(cors >= 0.97))
@@ -50,7 +50,7 @@ test_that('do.scoreSingleSamples.gsva is equivalent to GSVA::gsva', {
   }, "GSVA")
 
   # expect_equal(plage.mg, plage.ex,info='GSVA,gsva')
-  cors <- sapply(1:ncol(gsva.mg), function(i) {
+  cors <- sapply(seq_len(ncol(gsva.mg)), function(i) {
     round(cor(gsva.mg[, i], gsva.ex[,i], method = "spearman"), 2)
   })
   expect_true(all(cors >= 0.97))
@@ -68,7 +68,7 @@ test_that('do.scoreSingleSamples.gsva is equivalent to GSVA::gsva', {
   }, "GSVA")
   # expect_equal(gsvar.mg, gsvar.ex, info='GSVA,gsva RNAseq',
   #              tolerance = sqrt(.Machine$double.eps))
-  cors <- sapply(1:ncol(gsvar.mg), function(i) {
+  cors <- sapply(seq_len(ncol(gsvar.mg)), function(i) {
     round(cor(gsvar.mg[, i], gsvar.ex[,i], method = "spearman"), 2)
   })
   expect_true(all(cors >= 0.97))

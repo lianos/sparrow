@@ -275,7 +275,7 @@ volcanoStatsTable <- function(x, stats='dge', xaxis='logFC', yaxis='pval',
   if (!'feature_id' %in% names(x)) {
     ids <- rownames(x)
     if (is.null(ids)) {
-      ids <- as.character(1:nrow(x))
+      ids <- as.character(seq_len(nrow(x)))
     }
     x[['feature_id']] <- ids
   }

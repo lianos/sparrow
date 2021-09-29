@@ -32,6 +32,10 @@ name of the function to pull out of "the ether"
 (\code{"pkgname::functionname"} can work, too). The latter is preferred as
 it results in smaller serialized GeneSetDb objects.}
 }
+\value{
+the function that maps collection,name combinations to an
+informational URL.
+}
 \description{
 Reference \code{\link[=collectionMetadata]{collectionMetadata()}} for more info.
 }
@@ -47,3 +51,7 @@ function for a \code{GeneSetDb : Collection} combination.
 \code{SparrowResult} object.
 }}
 
+\examples{
+gdb <- exampleGeneSetDb()
+geneSetCollectionURLfunction(gdb, "c2", "BIOCARTA_AGPCR_PATHWAY")
+}

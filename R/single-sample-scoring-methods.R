@@ -123,16 +123,6 @@ eigenWeightedMean <- function(x, eigengene=1L, center=TRUE, scale=TRUE,
   res
 }
 
-#' Just like eigenWeightedMean but direct from PCA (no gsdscore)
-#'
-#' @export
-pcWeightedMean <- function(x, eigengene=1L, center=TRUE, scale=TRUE,
-                           uncenter=center, unscale=scale, retx=FALSE,
-                           weights=NULL, normalize = FALSE, all.x = NULL,
-                           ..., .drop.sd = 1e-4) {
-  stop("TODO: implement pcWeightedMean")
-}
-
 #' Calculate single sample geneset score by average z-score method
 #'
 #' @export
@@ -354,7 +344,11 @@ gsdScore <- function(x, eigengene = 1L, center = TRUE, scale = TRUE,
   ctrb <- sweep(axproj, 2, colSums(axproj), '/')
   colnames(ctrb) <- paste0('PC', seq(ncol(ctrb)))
 
-  rn <- if (!is.null(rownames(ctrb))) rownames(ctrb) else paste0('r', 1:nrow(ctrb))
+  rn <- if (!is.null(rownames(ctrb))) {
+    rownames(ctrb)
+  } else {
+    paste0('r', seq_len(nrow(ctrb)))
+  }
   ctrb <- cbind(
     data.frame(feature_id=rn, stringsAsFactors=FALSE),
     as.data.frame(ctrb))

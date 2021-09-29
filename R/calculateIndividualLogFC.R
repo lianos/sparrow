@@ -187,7 +187,7 @@ calculateIndividualLogFC <- function(x, design, contrast = ncol(design),
     out <- tt
   }
 
-  out[, x.idx := 1:nrow(x)]
+  out[, x.idx := seq_len(nrow(x))]
   if ('ID' %in% names(out)) {
     out[, ID := NULL]
   }

@@ -348,6 +348,7 @@ check.dt <- function(x, ref) {
 #' @export
 #' @param ... pieces of the message
 #' @param file where to send the message. Defaults to \code{stderr()}
+#' @return Nothing, dumps text to `file`
 msg <- function(..., file=stderr()) {
   cat(paste(rep('-', 80), collapse=''), '\n', file=file)
   cat(..., '\n', file=file)

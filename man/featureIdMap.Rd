@@ -18,6 +18,9 @@ featureIdMap(x, ...)
 this funciton returns will be set to a data.frame. Set this to \code{TRUE}
 to keep this object as a \code{data.table}}
 }
+\value{
+a data.frame of input feature_id's to conformed id's/rows/etc
+}
 \description{
 The GeneSetDb has an internal data structure that is used to cross reference
 the feature_id's used in the database construction to the features in the

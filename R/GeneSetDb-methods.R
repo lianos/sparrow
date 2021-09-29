@@ -252,7 +252,7 @@ incidenceMatrix <- function(x, y, ...) {
   dimnames <- list(encode_gskey(gs), ynames)
   out <- matrix(0L, nrow(gs), ncol, dimnames=dimnames)
 
-  for (i in 1:nrow(gs)) {
+  for (i in seq_len(nrow(gs))) {
     fids <- featureIds(x, gs$collection[i], gs$name[i], value=val)
     out[i, fids] <- 1L
   }
@@ -673,6 +673,11 @@ setMethod("geneSetURL", c(x = "GeneSetDb"), function(x, i, j, ...) {
 #' @param x The GeneSetDb
 #' @param i The collection to get the url function from
 #' @param ... pass through arguments (not used)
+#' @return the function that maps collection,name combinations to an
+#'   informational URL.
+#' @examples
+#' gdb <- exampleGeneSetDb()
+#' geneSetCollectionURLfunction(gdb, "c2", "BIOCARTA_AGPCR_PATHWAY")
 setMethod("geneSetCollectionURLfunction", "GeneSetDb", function(x, i, ...) {
   stopifnot(isSingleCharacter(i))
   fn.dt <- x@collectionMetadata[list(i, 'url_function'), nomatch = 0]
@@ -900,6 +905,7 @@ addGeneSetMetadata <- function(x, meta, ...) {
 #' @param x a GeneSetDb object
 #' @param y a GeneSetDb object
 #' @param ... more things
+#' @return a new GeneSetDb that contains all genesets from `x` and `y`
 #' @examples
 #' gdb1 <- exampleGeneSetDb()
 #' gdb2 <- GeneSetDb(exampleGeneSetDF())
@@ -1143,7 +1149,7 @@ setAs("GeneSetDb", "GeneSetCollection", function(from) {
   setkeyv(id.type, 'collection')
   setkeyv(org, 'collection')
 
-  gsl <- lapply(1:nrow(gs), function(i) {
+  gsl <- lapply(seq_len(nrow(gs)), function(i) {
     name <- gs$name[i]
     coll <- gs$collection[i]
     idt <- id.type[coll]$value[[1]]

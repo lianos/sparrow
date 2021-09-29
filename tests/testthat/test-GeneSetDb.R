@@ -222,7 +222,7 @@ test_that("conform,GeneSetDb follows row permutation in expression object", {
   gt <- geneSets(gsd.es)
   gt.sub <- geneSets(gsd.sub)
 
-  for (i in 1:nrow(gt)) {
+  for (i in seq_len(nrow(gt))) {
     grp <- gt$collection[i]
     xid <- gt$name[i]
     n <- gt$n[i]
@@ -385,7 +385,7 @@ test_that("conformed & unconformed GeneSetDb,incidenceMatrix is kosher", {
   im <- incidenceMatrix(gsd)
   imc <- incidenceMatrix(gsdc)
   gs.tuple <- split_gskey(rownames(im))
-  for (i in 1:nrow(im)) {
+  for (i in seq_len(nrow(im))) {
     col <- gs.tuple$collection[i]
     name <- gs.tuple$name[i]
     fidx <- im[i,] == 1

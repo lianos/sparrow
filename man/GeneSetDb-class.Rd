@@ -35,6 +35,9 @@ If a value is passed here, it will overide any names stored in the list of
 catch extra arguments that may get passed down if this function is part
 of some call chain.}
 }
+\value{
+A GeneSetDb object
+}
 \description{
 Please refer to the sparrow vignette (\code{vignette("sparrow")}),
 (and the "The GeneSetDb Class" section, in particular) for a more deatiled

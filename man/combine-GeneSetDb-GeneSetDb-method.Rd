@@ -13,6 +13,9 @@
 
 \item{...}{more things}
 }
+\value{
+a new GeneSetDb that contains all genesets from \code{x} and \code{y}
+}
 \description{
 Combines two GeneSetDb objects together
 }

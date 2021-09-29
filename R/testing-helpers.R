@@ -197,7 +197,7 @@ randomGeneSetDb <- function(x, n = 10, bias = NULL, seed = 10, ...) {
   assert_class(x, "data.frame") # only data.frames for now
   assert_number(n, lower = 2, upper = 100)
   set.seed(seed)
-  gsets <- lapply(1:n, function(i) {
+  gsets <- lapply(seq_len(n), function(i) {
     idx <- sample(nrow(x), 10, prob = abs(x$t))
     wtf <- data.frame(
       collection = rep("random", 10),

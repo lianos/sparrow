@@ -33,7 +33,7 @@ getKeggGeneSetDb <- function(species = "human",
          "pathways with ensembl id's from this package, use the pathways ",
          "from the C2 MSigDb collection instead via `getMSigGeneSetDb`")
   }
-  gdb <- .get_kegg_pathway_db(sinfo, id.type, idxref)
+  gdb <- .get_kegg_pathway_db(sinfo, id.type, ...)
 
   if (id.type == "entrez") {
     featureIdType(gdb, "KEGG") <- GSEABase::EntrezIdentifier()

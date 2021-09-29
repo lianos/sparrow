@@ -195,7 +195,7 @@ do.scoreSingleSamples.zscore <- function(gdb, y, zsummary=c('mean', 'sqrt'),
   if (is.null(gs.idxs)) gs.idxs <- as.list(gdb, active.only=TRUE, value='x.idx')
   if (do.scale) y <- t(scale(t(y)))
 
-  scores <- sapply(1:ncol(y), function(y.col) {
+  scores <- sapply(seq_len(ncol(y)), function(y.col) {
     col.vals <- y[, y.col]
     sapply(seq(gs.idxs), function(gs.idx) {
       vidx <- gs.idxs[[gs.idx]]

@@ -146,7 +146,7 @@ mgres.ora <- function(res, gsd, ...) {
   gs <- gs[, list(collection, name, N, n, idx = seq_along(name))]
   gs[, Pathway := encode_gskey(gs)]
   out <- merge(gs, res, by = "Pathway")
-  stopifnot(isTRUE(all.equal(out$idx, 1:nrow(out))))
+  stopifnot(isTRUE(all.equal(out$idx, seq_len(nrow(out)))))
   out[, Pathway := NULL][, idx := NULL]
   out[, padj := p.adjust(pval, 'BH')]
 }

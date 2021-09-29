@@ -188,7 +188,7 @@ iplot.gsea.plot <- function(lfc, geneset, rank_by, title, gseaParam = 1,
     }
   }
 
-  features[["label"]] <- sapply(1:nrow(features), function(i) {       # :custom
+  features[["label"]] <- sapply(seq_len(nrow(features)), function(i) {# :custom
     f <- features[i, add.labels]                                      # :custom
     paste(names(f), ":", unname(f[1,]), collapse = "<br>")            # :custom
   })

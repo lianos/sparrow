@@ -107,6 +107,7 @@
 #' @param ... these aren't used for anything in particular, but are here to
 #'   catch extra arguments that may get passed down if this function is part
 #'   of some call chain.
+#' @return A GeneSetDb object
 #' @examples
 #' ## exampleGeneSetDF provides gene set definitions in "long form". We show
 #' ## how this can easily turned into a GeneSetDb from this form, or convert
@@ -364,7 +365,7 @@ GeneSetDb.GeneSetCollection <- function(x, featureIdMap = NULL,
     stop("Invalid value for `collectionName`")
   }
 
-  lol <- lapply(1:length(x), function(i) {
+  lol <- lapply(seq_len(length(x)), function(i) {
     gsc.name <- collectionName[i]
     gsc <- x[[i]]
     id.list <- lapply(gsc, geneIds)
