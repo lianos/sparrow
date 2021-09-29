@@ -41,6 +41,7 @@
 #'   here.
 #' @param min_support,top Parameters used in the internal call to
 #'   [babelgene::orthologs()]
+#' @param ... pass through args (not used)
 #' @return A new GeneSetDb object with converted identifiers. We try to retain
 #'   any metadata in the original object, but no guarantees are given. If
 #'   `id_type` was stored previously in the collectionMetadata, that will be

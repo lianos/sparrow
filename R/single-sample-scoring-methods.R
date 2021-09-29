@@ -218,6 +218,8 @@ zScore <- function(x, summary = c('mean', 'sqrt'), trim = 0, ...) {
 #'   \code{TRUE}, will return a \code{ret$pca$x} matrix that has the rotated
 #'   variables.
 #' @param ... these aren't used in here
+#' @param .use_irlba when `TRUE`, used [irlba::svdr()] instead of [base::svd()].
+#'   Default: `FALSE`.
 #' @param .drop.sd When zero-sd (non varying) features are scaled, their values
 #'   are `NaN`. When the Features with rowSds < this threshold (default 1e-4) are
 #'   identified, and their scaled values are set to 0.
@@ -363,6 +365,5 @@ gsdScore <- function(x, eigengene = 1L, center = TRUE, scale = TRUE,
               percentVar=pca.d^2 / sum(pca.d^2))
   class(pca) <- 'prcomp'
 
-  list(score=score, egene=egene,
-       svd=s, pca=pca, factor.contrib=ctrb)
+  list(score = score, egene = egene, svd = s, pca = pca, factor.contrib = ctrb)
 }

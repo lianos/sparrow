@@ -22,6 +22,8 @@
 #'   just the tumor samples from the same annotated with subtype.
 #' @param do.voom If TRUE, a voomed EList is returned, otherwise an
 #'   ExpressionSet of counts.
+#' @examples
+#' vm <- exampleExpressionSet()
 exampleExpressionSet <- function(dataset=c('tumor-vs-normal', 'tumor-subtype'),
                                  do.voom=TRUE) {
   dataset <- match.arg(dataset)
@@ -63,10 +65,15 @@ exampleExpressionSet <- function(dataset=c('tumor-vs-normal', 'tumor-subtype'),
 #' @param x If provided, an expression/matrix object so that the genesets are
 #'   returned as (integer) index vectors into the rows of x whose rownames
 #'   match the ids in the geneset.
-#' @return A list of lists of entrezIDs when \code{as == 'lol'}, or
-#'   a list of integers into the rows of \code{exampleExpressionSet}
-#'   for the genes in the given geneset.
-exampleGeneSets <- function(x, unlist=!missing(x)) {
+#' @param unlist return the genesets as nested list of lists (default: `TRUE`).
+#'   The top level lists corresponds to the collection, and the lists within
+#'   each are the inidividual gene sets. If `FALSE`, a single list of genesets
+#'   is returned.
+#' @return A list of lists of entrezIDs when `as == 'lol'`, or
+#'   a list of integers into the rows of `x`.
+#' @examples
+#' head(exampleGeneSets())
+exampleGeneSets <- function(x, unlist = !missing(x)) {
   gsl.fn <- system.file('extdata', 'testdata',
                         'genesets-sparrow-list-of-lists.rds',
                         package='sparrow')
@@ -119,7 +126,11 @@ exampleGeneSetDF <- function() {
 #' @export
 #' @rdname examples
 #' @aliases exampleGeneSetDF
-exampleSparrowResult <- function(cached=TRUE) {
+#' @param cached If `TRUE` (default), returns a pre-saved SparrowResult object.
+#'   Otherwise calculates a fresh one using the `methods` provided
+#' @param methods the methods to use to create a new SparrowResult for.
+exampleSparrowResult <- function(cached = TRUE,
+                                 methods = c("cameraPR", "fry")) {
   if (cached) {
     fn <- system.file('extdata', 'testdata', 'test-SparrowResult.rds',
                       package='sparrow')
@@ -127,7 +138,7 @@ exampleSparrowResult <- function(cached=TRUE) {
   } else {
     vm <- exampleExpressionSet()
     gdb <- exampleGeneSetDb()
-    out <- seas(vm, gdb, c('camera', 'fry'),
+    out <- seas(vm, gdb, methods = methods,
                 design = vm$design, contrast = "tumor")
   }
   out
@@ -141,6 +152,12 @@ exampleSparrowResult <- function(cached=TRUE) {
 #' [ora()] and [goseq()].
 #'
 #' @export
+#' @param species the species to return the example result from (right now,
+#'   only "human")
+#' @param id.type the type of identifiers to use (right now, only "ensembl")
+#' @param induce.bias We can simulate a bias on the pvalue by the gene's
+#'   `"effective_length"` or `"AveExpr"`. These are columns that are included
+#'   in the output. If `NULL`, no bias is introduced into the result.
 #' @rdname examples
 exampleDgeResult <- function(species = "human", id.type = "ensembl",
                              induce.bias = NULL) {

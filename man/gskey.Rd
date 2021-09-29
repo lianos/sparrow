@@ -9,6 +9,14 @@ encode_gskey(x, y, sep = ";;")
 
 split_gskey(x, sep = ";;")
 }
+\arguments{
+\item{x}{a character vector of encoded geneset keys from \code{\link[=encode_gskey]{encode_gskey()}}}
+
+\item{y}{if \code{x} is a data.frame: nothing, otherwise a character vector
+of geneset names}
+
+\item{sep}{the separator used in the encoding of geneset names}
+}
 \value{
 a character vector
 
@@ -17,6 +25,8 @@ a data.frame with (collection,name) columns
 \description{
 The "key" form often comes out as rownames to matrices and such, or
 particularly for sending genesets down into wrapped methods, like do.camera.
+
+This is the inverse function of \code{\link[=encode_gsey]{encode_gsey()}}.
 }
 \examples{
 gdf <- exampleGeneSetDF()

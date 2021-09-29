@@ -2,10 +2,11 @@
 #'
 #' @export
 #' @param query the species name to lookup
-species_info <- function(query, ...) {
+species_info <- function(query = NULL, ...) {
   info <- read.csv(
     stringsAsFactors = FALSE,
     system.file("extdata", "species-info.csv", package = "sparrow"))
+  if (is.null(query)) return(info)
   query <- assert_string(query)
   query <- gsub(" +", "_", tolower(query))
   idx <- NA

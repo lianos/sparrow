@@ -40,6 +40,8 @@ here.}
 
 \item{min_support, top}{Parameters used in the internal call to
 \code{\link[babelgene:orthologs]{babelgene::orthologs()}}}
+
+\item{...}{pass through args (not used)}
 }
 \value{
 A new GeneSetDb object with converted identifiers. We try to retain

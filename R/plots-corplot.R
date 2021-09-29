@@ -24,6 +24,8 @@ col.pairs <- circlize::colorRamp2(c(-1, 0, 1), c('blue', 'white', 'red'), 0.5)
 #'   around into some clustering.
 #' @param col.point the color of the points in the scatterplots
 #' @param diag.distro show the distribution of values on the diagnols?
+#' @param smooth.scater boolean to indicate wether to use a normal scatter, or
+#'   a [graphics::smoothScatter()]. Defaults to `TRUE` if `nrow(E) > 400`
 #' @return nothing, just creates the plot
 #'
 #' @examples

@@ -182,7 +182,9 @@ setMethod("unconform", "GeneSetDb", function(x, ...) {
 })
 
 #' @export
-#' @rdname conform
+#' @describeIn conform Checks to see if GeneSetDb `x` is conformed to a target
+#'   object `to`
+#' @param to the object to test conformation to
 is.conformed <- function(x, to) {
   if (!is(x, 'GeneSetDb')) {
     stop("Only works on the GeneSetDb")
@@ -369,7 +371,9 @@ function(x, i, j, value=c('feature_id', 'x.id', 'x.idx'),
   fid.map[[value]]
 })
 
-setMethod("featureIdMap", c(x="GeneSetDb"), function(x, as.dt=FALSE) {
+#' @describeIn featureIdMap extract featureIdMap from a GeneSetDb
+#' @template asdt-param
+setMethod("featureIdMap", c(x="GeneSetDb"), function(x, as.dt = FALSE) {
   out <- x@featureIdMap
   if (!as.dt) out <- setDF(copy(out))
   out
@@ -411,6 +415,10 @@ function(x, active.only=is.conformed(x), ... , as.dt=FALSE) {
 })
 
 #' @rdname geneSet
+#' @param collection using `i` as the parameter for "collection" isn't intuitive
+#'   so if speficially set this paramter, it will replace the value for `i`.
+#' @param name the same for the `collection`:`i` parameter relationship, but for
+#'   `j`:`name`.
 setMethod("geneSet", c(x="GeneSetDb"),
 function(x, i, j, active.only=is.conformed(x), with.feature.map=FALSE, ...,
          collection = NULL, name = NULL, as.dt = FALSE) {
@@ -662,6 +670,9 @@ setMethod("geneSetURL", c(x = "GeneSetDb"), function(x, i, j, ...) {
 
 #' @describeIn geneSetCollectionURLfunction returns the gene set collection
 #'   url function from a GeneSetDb
+#' @param x The GeneSetDb
+#' @param i The collection to get the url function from
+#' @param ... pass through arguments (not used)
 setMethod("geneSetCollectionURLfunction", "GeneSetDb", function(x, i, ...) {
   stopifnot(isSingleCharacter(i))
   fn.dt <- x@collectionMetadata[list(i, 'url_function'), nomatch = 0]
@@ -688,6 +699,11 @@ setMethod("geneSetCollectionURLfunction", "GeneSetDb", function(x, i, ...) {
 
 #' @describeIn geneSetCollectionURLfunction sets the gene set collection url
 #'   function for a `GeneSetDb : Collection` combination.
+#' @param value the function to set as the geneset url function for the given
+#'   collection `i`. This can be an actual function object, or the (string)
+#'   name of the function to pull out of "the ether"
+#'   (`"pkgname::functionname"` can work, too). The latter is preferred as
+#'   it results in smaller serialized GeneSetDb objects.
 setReplaceMethod("geneSetCollectionURLfunction", "GeneSetDb",
 function(x, i, value) {
   valid <- function(v) {
@@ -1019,10 +1035,11 @@ all.equal.GeneSetDb <- function(target, current, features.only = TRUE, ...) {
 #' @method as.data.table GeneSetDb
 #'
 #' @param x A `GeneSetDb` object
-#' @param value The value type to export for the feature ids
+#' @param value The value type to export for the feature ids, defaults to
+#'   `"feature_id"`.
 #' @param active.only If the `GeneSetDb` is conformed, do you want to only
 #'   return the features and genests that match target and are "active"?
-#' @param ... nothing
+#' @param ... pass through arguments (not used)
 #' @return a converted `GeneSetDb`
 #'
 #' @examples
@@ -1032,9 +1049,8 @@ all.equal.GeneSetDb <- function(target, current, features.only = TRUE, ...) {
 #' gdb <- conform(gdb, es)
 #' gdfi <- as.data.frame(gdb, value = 'x.idx')
 #' gdl <- as.list(gdb)
-as.data.table.GeneSetDb <- function(x, row.names=NULL, optional=FALSE,
-                                    value=c('feature_id', 'x.id', 'x.idx'),
-                                    active.only=is.conformed(x), ...) {
+as.data.table.GeneSetDb <- function(x, value = c('feature_id', 'x.id', 'x.idx'),
+                                    active.only = is.conformed(x), ...) {
   stopifnot(is(x, 'GeneSetDb'))
   value <- match.arg(value)
   if (!is.conformed(x) && value %in% c('x.id', 'x.idx')) {
@@ -1068,11 +1084,10 @@ as.data.table.GeneSetDb <- function(x, row.names=NULL, optional=FALSE,
   out[gs[, list(collection, name)]]
 }
 
-#' @noRd
+#' @describeIn conversion convert a GeneSetDb to data.frame
 #' @export
 #' @method as.data.frame GeneSetDb
-as.data.frame.GeneSetDb <- function(x, row.names=NULL, optional=FALSE,
-                                    value=c('feature_id', 'x.id', 'x.idx'),
+as.data.frame.GeneSetDb <- function(x, value=c('feature_id', 'x.id', 'x.idx'),
                                     active.only=is.conformed(x), ...) {
   value <- match.arg(value)
   setDF(as.data.table(x, row.names, optional, value, active.only, ...))

@@ -42,38 +42,42 @@ validate.inputs.goseq <- function(x, design, contrast, feature.bias,
 #' so that this information is kicked back to the calling `seas()` function
 #' and included in downstream reporting.
 #'
+#' Also note: we tend to prefer using the [ora()] function as opposed to this.
+#'
 #' **This function is not meant to be called directly.** It should only be
 #' called internally within [seas()].
 #'
-#' @param gsd The \code{\link{GeneSetDb}} for analysis
+#' @noRd
+#'
+#' @param gsd The [GeneSetDb()] for analysis
 #' @param x The expression object
 #' @param design Experimental design
 #' @param contrast The contrast to test
-#' @param feature.bias a named vector as long as \code{nrow(x)} that has the
+#' @param feature.bias a named vector as long as `nrow(x)` that has the
 #'   "bias" information for the features/genes tested (ie. vector of gene
-#'   lengths). \code{names(feature.bias)} should equal \code{rownames(x)}.
+#'   lengths). `names(feature.bias)` should equal `rownames(x)`.
 #'   The caller MUST provide this. The goseq package provides a
-#'   \code{\link[goseq]{getlength}} function which facilitates getting default
+#'   [goseq::getlength()] function which facilitates getting default
 #'   values for these if you do not have the correct values used in your
 #'   analysis. If there is no way for you to get this information, then use
 #'   ora with no `feature.bias` vector.
 #' @param method The method to use to calculate the unbiased category
 #'   enrichment scores
 #' @param repcnt Number of random samples to be calculated when random sampling
-#'   is used. Ignored unless \code{method="Sampling"}.
+#'   is used. Ignored unless `method="Sampling"`.
 #' @param use_genes_without_cat A boolean to indicate whether genes without a
 #'   categorie should still be used. For example, a large number of gene may
 #'   have no GO term annotated. If this option is set to FALSE, those genes
 #'   will be ignored in the calculation of p-values (default behaviour). If
 #'   this option is set to TRUE, then these genes will count towards the total
 #'   number of genes outside the category being tested.
-#' @param direction Same as direction in \code{GOstats}
+#' @param direction Same as direction in `GOstats`
 #' @param plot.fit To plot (or not) the bias in selected genes vs.
-#'   \code{feature.bias}.
-#' @param logFC The logFC data.table from \code{calculateIndividualLogFC}
-#' @param ... arguments to pass down into \code{calculateIndividualLogFC}
+#'   `feature.bias`.
+#' @param logFC The logFC data.table from `calculateIndividualLogFC`
+#' @param ... arguments to pass down into `calculateIndividualLogFC`
 #' @return A data.table of goseq results. The "pval" column here refers to
-#'   pval.over, for simplicity in other places. If \code{split.updown=TRUE},
+#'   pval.over, for simplicity in other places. If `split.updown=TRUE`,
 #'   a list of data.table's are returned named 'goseq', 'goseq.up', and
 #'   'goseq.down' which are the results of running goseq three independent
 #'   times.
@@ -85,7 +89,8 @@ do.goseq <- function(gsd, x, design, contrast=ncol(design),
                      direction=c('over', 'under'),
                      plot.fit=FALSE, use.treat=FALSE,
                      feature.min.logFC=if (use.treat) log2(1.25) else 1,
-                     feature.max.padj=0.10, logFC=NULL, ...) {
+                     feature.max.padj=0.10, logFC=NULL,
+                     .random.seed = NULL, ...) {
   # .Deprecated("seas(..., methods = 'enrich')")
 
   stopifnot(is.conformed(gsd, x))
@@ -114,6 +119,8 @@ do.goseq <- function(gsd, x, design, contrast=ncol(design),
       logFC[["direction"]] <- ifelse(logFC[["logFC"]] > 0, "up", "down")
     }
   }
+
+  if (is.numeric(.random.seed)) set.seed(.random.seed[1L])
 
   out <- sapply(do, function(dge.dir) {
     drawn <- switch(
@@ -166,17 +173,17 @@ do.goseq <- function(gsd, x, design, contrast=ncol(design),
 #'   will be ignored in the calculation of p-values (default behaviour). If
 #'   this option is set to TRUE, then these genes will count towards the total
 #'   number of genes outside the category being tested.
+#' @param plot.fit parameter to pass to `goseq::nullp()`.
 #' @param do.conform By default \code{TRUE}: does some gymnastics to conform
 #'   the \code{gsd} to the \code{universe} vector. This should neber be set
 #'   to \code{FALSE}, but this parameter is here so that when this function
 #'   is called from the [seas()] codepath, we do not have to
 #'   reconform the \code{GeneSetDb} object, because it has already been done.
-#' @param active.only If `TRUE`, only "active" genesets are used
-#' @param value The feature_id types to extract from \code{gsd}
 #' @param .pipelined If this is being external to a seas pipeline, then
 #'   some additional cleanup of columns name output will be done. Otherwise
 #'   the column renaming and post processing is left to the do.goseq caller
 #'   (Default: \code{FALSE}).
+#' @template asdt-param
 #' @return A \code{data.table} of results, similar to goseq output. The output
 #'   from \code{\link[goseq]{nullp}} is added to the outgoing data.table as
 #'   an attribue named \code{"pwf"}.

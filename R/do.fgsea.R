@@ -22,10 +22,7 @@ validate.x.fgsea <- validate.X
 #' **This function is not meant to be called directly.** It should only be
 #' called internally within [seas()].
 #'
-#' @param gsd The [GeneSetDb()] for analysis
-#' @inheritParams calculateIndividualLogFC
-#' @param ... arguments to pass down into [calculateIndividualLogFC()]
-#' @return A data.table of fgsea results.
+#' @noRd
 do.fgsea <- function(gsd, x, design, contrast = ncol(design),
                      sampleSize = 101, eps = 1e-50,
                      scoreType = c("std", "pos", "neg"),
@@ -52,7 +49,7 @@ do.fgsea <- function(gsd, x, design, contrast = ncol(design),
   ## fgsea function wants a list of gene identifiers for pathway definition
   pathways <- as.list(gsd, active.only = TRUE, value = "x.id")
 
-  if (is.numeric(.random.seed)) set.seed(.random.seed[1])
+  if (is.numeric(.random.seed)) set.seed(.random.seed[1L])
 
   if (isTRUE(use.fgsea.simple)) {
     res <- fgsea::fgseaSimple(

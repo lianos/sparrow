@@ -22,8 +22,8 @@ validate.x.romer <- function(x, xmeta. = NULL, ...) {
   return(TRUE)
 }
 
-##' Worker function to run romer from within a sparrow::seas pipeline
-##'
+#' Worker function to run romer from within a sparrow::seas pipeline
+#'
 #' Note that romer works on a DGEList or a "normal" EList, ie. it has not
 #' been updated to work with an \code{EList} with a \code{$weights} matrix,
 #' and therefore doesn't work with a voom'd dataset.
@@ -50,7 +50,7 @@ do.romer <- function(gsd, x, design, contrast=ncol(design),
   call.args[['contrast']] <- contrast
   call.args[["..."]] <- NULL
 
-  if (is.numeric(.random.seed)) set.seed(.random.seed)
+  if (is.numeric(.random.seed)) set.seed(.random.seed[1L])
   res <- do.call(romer, call.args)
   ## returns a matrix(!) with the following columns
   ## "NGenes", "Up" (pvalue), "Down" (pvalue), "Mixed" (pvalue)

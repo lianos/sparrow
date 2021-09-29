@@ -6,12 +6,18 @@
 \alias{as.data.frame}
 \alias{as.list}
 \alias{as.data.table}
+\alias{as.data.frame.GeneSetDb}
 \title{Convert a GeneSetDb to other formats.}
 \usage{
 \method{as.data.table}{GeneSetDb}(
   x,
-  row.names = NULL,
-  optional = FALSE,
+  value = c("feature_id", "x.id", "x.idx"),
+  active.only = is.conformed(x),
+  ...
+)
+
+\method{as.data.frame}{GeneSetDb}(
+  x,
   value = c("feature_id", "x.id", "x.idx"),
   active.only = is.conformed(x),
   ...
@@ -20,12 +26,13 @@
 \arguments{
 \item{x}{A \code{GeneSetDb} object}
 
-\item{value}{The value type to export for the feature ids}
+\item{value}{The value type to export for the feature ids, defaults to
+\code{"feature_id"}.}
 
 \item{active.only}{If the \code{GeneSetDb} is conformed, do you want to only
 return the features and genests that match target and are "active"?}
 
-\item{...}{nothing}
+\item{...}{pass through arguments (not used)}
 }
 \value{
 a converted \code{GeneSetDb}
@@ -60,6 +67,11 @@ into a different target space (entrez to ensembl, for instance). Using
 this option, the features will be provided in the target space.
 }
 }
+\section{Functions}{
+\itemize{
+\item \code{as.data.frame.GeneSetDb}: convert a GeneSetDb to data.frame
+}}
+
 \examples{
 es <- exampleExpressionSet()
 gdb <- conform(exampleGeneSetDb(), es)

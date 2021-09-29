@@ -33,6 +33,13 @@
 #'   "psig", and "sig". "notsig" implies that the FDR >= 10%, "psig" means that
 #'   FDR <= 10%, but the logFC is "unremarkable" (< 1), and "sig" means
 #'   that both the FDR <= 10% and the logFC >= 1
+#' @param shiny_source the name of this element that is used in shiny callbacks.
+#'   Defaults to `"mggenes"`.
+#' @param width,height the width and height of the output plotly plot
+#' @param ggtheme a ggplot theme, like the thing returned from
+#'   [ggplot2::theme_bw()].
+#' @param trim used to define the upper and lower quantiles to max out the
+#'   individual gene statistics in the selected geneset.
 #' @return the ploty plot ojbect
 #' @examples
 #' mgr <- exampleSparrowResult()

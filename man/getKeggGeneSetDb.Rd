@@ -4,13 +4,7 @@
 \alias{getKeggGeneSetDb}
 \title{Retrieves a GeneSetDb from KEGG's REST API}
 \usage{
-getKeggGeneSetDb(
-  species = "human",
-  id.type = c("ensembl", "entrez"),
-  database = "pathway",
-  idxref = NULL,
-  ...
-)
+getKeggGeneSetDb(species = "human", id.type = c("ensembl", "entrez"), ...)
 }
 \arguments{
 \item{species}{\code{"human"}, \code{"mouse"} or any of the bioconductor or kegg-style
@@ -20,6 +14,8 @@ abbreviations.}
 entrez identifiers. Set this to \code{"ensembl"} to translate them internally
 using \code{\link[=convertIdentifiers]{convertIdentifiers()}}. If \code{species}is not \code{"human"} or \code{"mouse"},
 you need to provide an idxref table that works with \code{\link[=convertIdentifiers]{convertIdentifiers()}}.}
+
+\item{...}{pass through arguments}
 }
 \value{
 A GeneSetDb of the kegg stuffs
@@ -36,7 +32,8 @@ database according to their licensing requirements.
 }
 \examples{
 \dontrun{
-mouse.entrez <- getKeggGeneSetDb("mouse")
+mouse.entrez <- getKeggGeneSetDb("mouse", id.type = "entrez")
 mouse.ens <- getKeggGeneSetDb("mouse", id.type = "ensembl")
+human.enrez <- getKeggGeneSetDb("human", id.type = "entrez")
 }
 }

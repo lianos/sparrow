@@ -26,6 +26,13 @@ expressed.}
 
 \item{trim}{The amount to trim when calculated trimmed \code{t} and
 \code{logFC} statistics for each geneset.}
+
+\item{reannotate.significance}{this is internally by the package, and should
+left as \code{FALSE} when used by the user.}
+
+\item{as.dt}{If \code{FALSE} (default), the data.frame like thing that
+this funciton returns will be set to a data.frame. Set this to \code{TRUE}
+to keep this object as a \code{data.table}}
 }
 \value{
 A data.table with statistics at the gene set level across the

@@ -59,7 +59,8 @@ do.ora <- function(gsd, x, design, contrast = ncol(design),
                    restrict.universe = FALSE, groups = "direction",
                    use.treat = FALSE,
                    feature.min.logFC = if (use.treat) log2(1.25) else 1,
-                   feature.max.padj = 0.10, logFC = NULL, ...) {
+                   feature.max.padj = 0.10, logFC = NULL,
+                   .random.seed = NULL, ...) {
   # 1. Specify up and down genes as a list of identifiers:
   #      list(Up = sigup, Down = sigdown)
   # 2a. Process feature.bias parameter so that it is a numeric bias vector
@@ -107,6 +108,7 @@ do.ora <- function(gsd, x, design, contrast = ncol(design),
     groups <- NULL
   }
 
+  if (is.numeric(.random.seed)) set.seed(.random.seed[1L])
   res <- ora(gsd, logFC, selected = "significant",
              groups = groups,
              feature.bias = feature.bias,

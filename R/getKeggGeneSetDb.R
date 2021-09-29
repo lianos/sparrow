@@ -15,31 +15,36 @@
 #'   entrez identifiers. Set this to `"ensembl"` to translate them internally
 #'   using [convertIdentifiers()]. If `species`is not `"human"` or `"mouse"`,
 #'   you need to provide an idxref table that works with [convertIdentifiers()].
+#' @param ... pass through arguments
 #' @return A GeneSetDb of the kegg stuffs
 #' @examples
 #' \dontrun{
-#' mouse.entrez <- getKeggGeneSetDb("mouse")
+#' mouse.entrez <- getKeggGeneSetDb("mouse", id.type = "entrez")
 #' mouse.ens <- getKeggGeneSetDb("mouse", id.type = "ensembl")
+#' human.enrez <- getKeggGeneSetDb("human", id.type = "entrez")
 #' }
 getKeggGeneSetDb <- function(species = "human",
                              id.type = c("ensembl", "entrez"),
-                             database = "pathway",
-                             idxref = NULL, ...) {
+                             ...) {
   sinfo <- species_info(species)
-  database <- match.arg(database)
   id.type <- match.arg(id.type)
   if (id.type == "ensembl") {
     stop("sparrow::remapIdentifiers not implemented yet, if you want KEGG ",
          "pathways with ensembl id's from this package, use the pathways ",
          "from the C2 MSigDb collection instead via `getMSigGeneSetDb`")
   }
-  fn <- getFunction(sprintf(".get_kegg_%s_db", database))
   gdb <- .get_kegg_pathway_db(sinfo, id.type, idxref)
+
+  if (id.type == "entrez") {
+    featureIdType(gdb, "KEGG") <- GSEABase::EntrezIdentifier()
+  } else {
+    gdb <- convertIdentifiers(gdb, from = species, id.type = "ensembl")
+    featureIdType(gdb, "KEGG") <- GSEABase::ENSEMBLIdentifier()
+  }
   gdb
 }
 
-.get_kegg_pathway_db <- function(sinfo, id.type = c("ensembl", "entrez"),
-                                 idxref = NULL, ...) {
+.get_kegg_pathway_db <- function(sinfo, id.type = c("ensembl", "entrez"), ...) {
   if (FALSE) {
     species.code <- "hsa" # human
     species.code <- "mmu" # mouse
@@ -58,25 +63,6 @@ getKeggGeneSetDb <- function(species = "human",
   out <- GeneSetDb(df.)
 
   geneSetCollectionURLfunction(out, "KEGG") <- ".geneSetURL.KEGG"
-
-  if (id.type == "ensembl") {
-    # I am doing the args -> do.call mojo so that we can use the original_id
-    # and target_id parameters if supplied by the user when they supply their
-    # own idxref table, otherwise we use the defaults
-    args <- list(...)
-    if (is.null(idxref)) {
-      args[["xref"]] <- sinfo[["alias"]]
-      args[["original_id"]] <- "entrezgene_id"
-      args[["target_id"]] <- "ensembl_gene_id"
-    } else {
-      args[["xref"]] <- idxref
-    }
-    args[["x"]] <- out
-    out <- do.call(convertIdentifiers, args)
-  } else {
-    featureIdType(out, "KEGG") <- GSEABase::EntrezIdentifier()
-  }
-
   out
 }
 

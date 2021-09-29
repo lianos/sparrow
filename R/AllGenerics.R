@@ -31,6 +31,7 @@
 #' @param active.only only look for gene sets that are "active"? Defaults to
 #'   `TRUE` if `x` is conformed to a target expression object, else `FALSE`.
 #'   [conform()] for further details.
+#' @param ... pass through arguments
 #' @return A vector of identifiers (or indexes into an expression object,
 #'   depending on the `value` argument) for the features in the specified
 #'   geneset. `NA` is returned if the geneset is not "active" (ie. listed in
@@ -56,7 +57,14 @@ setGeneric("featureIds", signature="x",
              standardGeneric("featureIds"))
 
 #' Fetch the featureIdMap for a `GeneSetDb`
+#'
+#' The GeneSetDb has an internal data structure that is used to cross reference
+#' the feature_id's used in the database construction to the features in the
+#' expression object that is used to run GSEA methods against.
+#'
 #' @exportMethod featureIdMap
+#' @param x the object to retrieve the featureIdMap from
+#' @param ... pass through arguments
 setGeneric("featureIdMap", function(x, ...) standardGeneric("featureIdMap"))
 
 setGeneric("featureIdMap<-", function(x, value)
@@ -92,6 +100,7 @@ setGeneric("featureIdMap<-", function(x, value)
 #' @param x Object to extract the collectionMetadata from
 #' @param collection The geneset collection to to query
 #' @param name The name of the metadata variable to get the value for
+#' @template asdt-param
 #' @param ... not used yet
 #'
 #' @examples
@@ -235,8 +244,8 @@ setGeneric("geneSets", function(x, ...) standardGeneric('geneSets'))
 #' Summarize geneset:feature relationships for specified set of features
 #'
 #' This function creates a geneset by feature table with geneset membership
-#' information for a specified feature set. Only the gene sets that have
-#' any of the `features` are included.
+#' information for the `features` specified by the user. Only the gene sets that
+#' have any of the `features` are included in the table returned.
 #'
 #' @rdname geneSetSummaryByGenes
 #' @exportMethod geneSetSummaryByGenes
@@ -253,6 +262,8 @@ setGeneric("geneSets", function(x, ...) standardGeneric('geneSets'))
 #'   `logFC(x)`, in which case the value for the feature from the given
 #'   column name would be used (setting this to `"symbol"`) would be a
 #'   common thing to do, for instance.
+#' @param ... pass through arguments
+#' @template asdt-param
 #' @return a data.frame of geneset <-> feature incidence/feature matrix.
 #'
 #' @examples
@@ -264,7 +275,8 @@ setGeneric("geneSets", function(x, ...) standardGeneric('geneSets'))
 #' gsm.fid <- geneSetSummaryByGenes(mg, features, feature.rename=NULL)
 #' gsm.sym <- geneSetSummaryByGenes(mg, features, feature.rename='symbol')
 setGeneric("geneSetSummaryByGenes", signature=c("x"),
-           function(x, features, with.features=TRUE, feature.rename=NULL, ...)
+           function(x, features, with.features = TRUE, feature.rename = NULL,
+                    ..., as.dt = FALSE)
              standardGeneric("geneSetSummaryByGenes"))
 
 #' @rdname conform

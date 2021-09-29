@@ -1,3 +1,6 @@
+# The functions here are meant to be internal utility functions to this package
+# and not for external/end-user use.
+
 #' Convenience wrapper to require specified packages
 #'
 #' @noRd
@@ -88,6 +91,7 @@ get_function <- function(name, ...) {
   isTRUE(name.match) && isTRUE(coll.match)
 }
 
+#' A utility function to extract preranked statistics from different inputs.
 #' @noRd
 extract_preranked_stats <- function(x, design, contrast, robust.fit=FALSE,
                                     robust.eBayes=FALSE, logFC=NULL,
@@ -131,6 +135,11 @@ extract_preranked_stats <- function(x, design, contrast, robust.fit=FALSE,
 #'
 #' @export
 #' @rdname gskey
+#' @param x a data.frame with collection,name columns OR a character vector
+#'   of collection names
+#' @param y if `x` is a data.frame: nothing, otherwise a character vector
+#'   of geneset names
+#' @param sep the string to use to concatenate collections and names
 #' @return a character vector
 #' @examples
 #' gdf <- exampleGeneSetDF()
@@ -152,8 +161,11 @@ encode_gskey <- function(x, y, sep=";;") {
 
 #' Splits collection,name combinations to collection,name data.frames
 #'
+#' This is the inverse function of [encode_gsey()].
 #' @export
 #' @rdname gskey
+#' @param x a character vector of encoded geneset keys from [encode_gskey()]
+#' @param sep the separator used in the encoding of geneset names
 #' @return a data.frame with (collection,name) columns
 split_gskey <- function(x, sep=";;") {
   stopifnot(all(grepl(sep, x)))

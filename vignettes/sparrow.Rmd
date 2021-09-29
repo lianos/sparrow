@@ -402,7 +402,7 @@ iplot(mg, 'H', 'HALLMARK_WNT_BETA_CATENIN_SIGNALING',
 
 **GSEA plot**
 
-```{r iplot-wnt-beta-gsea, fig.asp=1, message=FALSE, warning=FALSE}
+```{r iplot-wnt-beta-gsea, fig.asp=1, eval=FALSE, message=FALSE, warning=FALSE}
 iplot(mg, 'H', 'HALLMARK_WNT_BETA_CATENIN_SIGNALING',
       type='gsea', value='logFC')
 ```

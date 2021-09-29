@@ -48,6 +48,17 @@ three levels a point (gene level statistic) can be color as, "notsig",
 "psig", and "sig". "notsig" implies that the FDR >= 10\%, "psig" means that
 FDR <= 10\%, but the logFC is "unremarkable" (< 1), and "sig" means
 that both the FDR <= 10\% and the logFC >= 1}
+
+\item{shiny_source}{the name of this element that is used in shiny callbacks.
+Defaults to \code{"mggenes"}.}
+
+\item{width, height}{the width and height of the output plotly plot}
+
+\item{ggtheme}{a ggplot theme, like the thing returned from
+\code{\link[ggplot2:ggtheme]{ggplot2::theme_bw()}}.}
+
+\item{trim}{used to define the upper and lower quantiles to max out the
+individual gene statistics in the selected geneset.}
 }
 \value{
 the ploty plot ojbect

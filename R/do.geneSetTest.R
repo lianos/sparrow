@@ -13,7 +13,7 @@ validate.x.geneSetTest <- validate.X
 #' @importFrom limma geneSetTest
 do.geneSetTest <- function(gsd, x, design, contrast = ncol(design),
                            score.by = c("t", "logFC", "pval"), logFC = NULL,
-                           gs.idxs = NULL, ...) {
+                           gs.idxs = NULL, .random.seed = NULL, ...) {
   score.by <- match.arg(score.by)
   stopifnot(is.conformed(gsd, x))
   if (!missing(design) && missing(contrast)) {
@@ -34,6 +34,8 @@ do.geneSetTest <- function(gsd, x, design, contrast = ncol(design),
   if (is.null(gs.idxs)) {
     gs.idxs <- as.list(gsd, active.only = TRUE, value = "x.idx")
   }
+
+  if (is.numeric(.random.seed)) set.seed(.random.seed[1L])
 
   pvals <- sapply(gs.idxs, function(idx) {
     xargs <- call.args

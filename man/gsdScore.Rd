@@ -36,6 +36,9 @@ variables.}
 
 \item{...}{these aren't used in here}
 
+\item{.use_irlba}{when \code{TRUE}, used \code{\link[irlba:svdr]{irlba::svdr()}} instead of \code{\link[base:svd]{base::svd()}}.
+Default: \code{FALSE}.}
+
 \item{.drop.sd}{When zero-sd (non varying) features are scaled, their values
 are \code{NaN}. When the Features with rowSds < this threshold (default 1e-4) are
 identified, and their scaled values are set to 0.}

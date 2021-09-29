@@ -149,9 +149,11 @@ function(x, i, j, value=c('feature_id', 'x.id', 'x.idx'),
 #' @param feature.max.padj used with `feature.min.logFC` to identify
 #'   the individual features that are to be considered differentially
 #'   expressed.
+#' @param reannotate.significance this is internally by the package, and should
+#'   left as `FALSE` when used by the user.
 #' @param trim The amount to trim when calculated trimmed `t` and
 #'   `logFC` statistics for each geneset.
-#'
+#' @template asdt-param
 #' @return A data.table with statistics at the gene set level across the
 #'   prescribed contrast run on `x`. These statistics are independent
 #'   of any particular GSEA method, but rather summarize aggregate shifts

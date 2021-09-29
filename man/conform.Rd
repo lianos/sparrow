@@ -46,6 +46,8 @@ in the genesets, this is a means to pick the single row for that ID}
 \item{match.tolerance}{Numeric value between [0,1]. If the fraction of
 \code{feature_id}s used in \code{x} that match \code{rownames(y)} is below
 this number, a warning will be fired.}
+
+\item{to}{the object to test conformation to}
 }
 \value{
 A  \code{\link[=GeneSetDb]{GeneSetDb()}} that has been matched/conformed to an expression
@@ -67,6 +69,12 @@ genes per geneset required as specified by the \code{min.gs.size} and
 Only genesets that are marked with \code{active = TRUE} will be used in any
 downstream gene set operations.
 }
+\section{Functions}{
+\itemize{
+\item \code{is.conformed}: Checks to see if GeneSetDb \code{x} is conformed to a target
+object \code{to}
+}}
+
 \section{Related Functions}{
 
 \itemize{

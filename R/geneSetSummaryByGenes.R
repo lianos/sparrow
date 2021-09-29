@@ -8,7 +8,7 @@
 #' @rdname geneSetSummaryByGenes
 setMethod("geneSetSummaryByGenes", c(x="GeneSetDb"),
 function(x, features, with.features=TRUE, feature.rename=NULL, ...,
-         as.dt=FALSE) {
+         as.dt = FALSE) {
   stopifnot(is.character(features))
   unk.f <- setdiff(features, featureIds(x))
   if (length(unk.f)) {
@@ -62,7 +62,14 @@ function(x, features, with.features=TRUE, feature.rename=NULL, ...,
   out
 })
 
-#' @rdname geneSetSummaryByGenes
+#' @describeIn geneSetSummaryByGenes get geneset:feature incidence table from
+#'   a SparrowResult, optionally filtered by statistical significance from
+#'   a given gsea `method`
+#' @param method The GSEA method to pull statistics from
+#' @param max.p the maximum p-value from the analysis `method` to allow for the
+#'   geneSets included in the returned table
+#' @param p.col which p-value column to select from: `'padj'`,
+#'   `'padj.by.collection'`, or `'pval'`
 setMethod("geneSetSummaryByGenes", c(x="SparrowResult"),
 function(x, features, with.features=TRUE, feature.rename=NULL,
          method=NULL, max.p=0.3, p.col=c('padj', 'padj.by.collection', 'pval'),

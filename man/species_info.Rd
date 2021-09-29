@@ -4,7 +4,7 @@
 \alias{species_info}
 \title{Match a species query to the regularized species info.}
 \usage{
-species_info(query, ...)
+species_info(query = NULL, ...)
 }
 \arguments{
 \item{query}{the species name to lookup}

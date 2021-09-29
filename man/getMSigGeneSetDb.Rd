@@ -11,7 +11,6 @@ getMSigGeneSetDb(
   with.kegg = FALSE,
   promote_subcategory_to_collection = FALSE,
   prefix_collection = FALSE,
-  version = NULL,
   ...
 )
 }
@@ -22,7 +21,12 @@ Setting this to \code{NULL} loads all collections. Alternative you can also
 include named subsets of collections, like \code{"reactome"}. Refer to the
 Details section for more information.}
 
-\item{species}{human or mouse?}
+\item{species}{\code{"human"} or \code{"mouse"}? Really, this is anything available
+in the \code{alias} column of the \code{sparrow:::species_info()} table (except
+cyno).}
+
+\item{id.type}{do you want the feature id's used in the gene sets to be
+\code{"ensembl"} (default), \code{"entrez"}, or \code{"symbol"}.}
 
 \item{with.kegg}{The Broad distributes the latest versions of the KEGG
 genesets as part of the c2 collection. These genesets come with a
@@ -30,7 +34,17 @@ restricted license, so by default we do not return them as part of the
 GeneSetDb. To include the KEGG gene sets when asking for the c2
 collection, set this flag to \code{TRUE}.}
 
-\item{version}{the version of the MSigDB database to use.}
+\item{promote_subcategory_to_collection}{there are different sources of
+genesets for a number of the collections in MSigDB. These are included
+in the \code{gs_subcat} column of \code{geneSets(this)}. When this is set to \code{TRUE},
+the collection column for the genesets is appended with the subcatory.
+So, instead of having a massive \code{"C2"} collection, you'll have bunch of
+collections like \code{"C2_CGP"}, \code{"C2_CP:BIOCARTA"}, etc.}
+
+\item{prefix_collection}{When \code{TRUE} (default: \code{FALSE}), the \code{"C1"}, \code{"C2"},
+etc. is prefixed with \code{"MSigDB_*"}}
+
+\item{...}{pass through parameters}
 }
 \value{
 a \code{GeneSetDb} object
@@ -40,6 +54,13 @@ This provides versioned genesets from gene set collections defined in
 \href{http://software.broadinstitute.org/gsea/msigdb}{MSigDB}. Collections can
 be retrieved by their collection name, ie \code{c("H", "C2", "C7")}.
 }
+\section{Species and Identifier types}{
+
+This function utilizes the functionality from the \code{{msigdbr}} and
+\code{{babelgene}} packages to retrieve gene set definitions from a variety of
+organisms and identifier types.
+}
+
 \section{KEGG Gene Sets}{
 
 Due to the licensing restrictions over the KEGG collections, they are not
@@ -47,17 +68,6 @@ returned from this function unless they are explicitly asked for. You can
 ask for them through this function by either (i) querying for the \code{"c2"}
 collection while setting \code{with.kegg = TRUE}; or (ii) explicitly calling with
 \code{collection = "kegg"}.
-}
-
-\section{MSigDB Versions}{
-
-We recently switched to using the msigdbr package as the source of truth for
-these, so v7 is the earliest version of the MSigDB collections we make
-available. Version 6 are available in the following (deprecated) packages:
-\itemize{
-\item https://github.com/lianos/GeneSetDb.MSigDB.Mmusculus.v61
-\item https://github.com/lianos/GeneSetDb.MSigDB.Hsapiens.v61
-}
 }
 
 \section{Citing the Molecular Signatures Database}{
@@ -74,6 +84,8 @@ or more of the following as appropriate:
 
 \examples{
 \dontrun{
+  # these take a while to load initially, so put them in dontrun blocks.
+  # you should run these interactively to understand what they return
   gdb <- getMSigGeneSetDb(c("h", "reactome"), "human", "entrez")
   gdb.h.entrez <- getMSigGeneSetDb(c("h", "c2"), "human", "entrez")
   gdb.h.ens <- getMSigGeneSetDb(c("h", "c2"), "human", "ensembl")

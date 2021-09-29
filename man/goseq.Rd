@@ -46,20 +46,22 @@ will be ignored in the calculation of p-values (default behaviour). If
 this option is set to TRUE, then these genes will count towards the total
 number of genes outside the category being tested.}
 
+\item{plot.fit}{parameter to pass to \code{goseq::nullp()}.}
+
 \item{do.conform}{By default \code{TRUE}: does some gymnastics to conform
 the \code{gsd} to the \code{universe} vector. This should neber be set
 to \code{FALSE}, but this parameter is here so that when this function
 is called from the \code{\link[=seas]{seas()}} codepath, we do not have to
 reconform the \code{GeneSetDb} object, because it has already been done.}
 
+\item{as.dt}{If \code{FALSE} (default), the data.frame like thing that
+this funciton returns will be set to a data.frame. Set this to \code{TRUE}
+to keep this object as a \code{data.table}}
+
 \item{.pipelined}{If this is being external to a seas pipeline, then
 some additional cleanup of columns name output will be done. Otherwise
 the column renaming and post processing is left to the do.goseq caller
 (Default: \code{FALSE}).}
-
-\item{active.only}{If \code{TRUE}, only "active" genesets are used}
-
-\item{value}{The feature_id types to extract from \code{gsd}}
 }
 \value{
 A \code{data.table} of results, similar to goseq output. The output

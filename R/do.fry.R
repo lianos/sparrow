@@ -20,7 +20,8 @@ validate.x.fry <- function(x, xmeta., ...) {
 #' @importFrom limma fry
 #' @importFrom edgeR fry.DGEList
 do.fry <- function(gsd, x, design, contrast=ncol(design),
-                   gs.idxs=as.list(gsd, active.only=TRUE, value='x.idx'), ...) {
+                   gs.idxs=as.list(gsd, active.only=TRUE, value='x.idx'),
+                   .random.seed = NULL, ...) {
   ## This function was defined in limma v3.23.13 in April 2015
   ## ------------------------------------------------------------------------
   ## r102075 | smyth@wehi.edu.au | 2015-04-07 22:56:02 -0700 (Tue, 07 Apr 2015)
@@ -54,6 +55,7 @@ do.fry <- function(gsd, x, design, contrast=ncol(design),
     call.args[['standardize']] <- NULL
   }
 
+  if (is.numeric(.random.seed)) set.seed(.random.seed[1L])
   res <- do.call(limma::fry, call.args)
   if (add.dummy) res <- res[rownames(res) != dummy.gs,,drop = FALSE]
   setattr(res, 'rawresult', TRUE)

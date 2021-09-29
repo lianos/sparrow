@@ -19,6 +19,19 @@ geneSetCollectionURLfunction(x, i) <- value
 
 \S4method{geneSetCollectionURLfunction}{SparrowResult}(x, i, ...)
 }
+\arguments{
+\item{x}{The GeneSetDb}
+
+\item{i}{The collection to get the url function from}
+
+\item{...}{pass through arguments (not used)}
+
+\item{value}{the function to set as the geneset url function for the given
+collection \code{i}. This can be an actual function object, or the (string)
+name of the function to pull out of "the ether"
+(\code{"pkgname::functionname"} can work, too). The latter is preferred as
+it results in smaller serialized GeneSetDb objects.}
+}
 \description{
 Reference \code{\link[=collectionMetadata]{collectionMetadata()}} for more info.
 }

@@ -23,6 +23,8 @@ geneSets(x, ...)
 \item{x}{Object to retrieve the gene set from, either a \code{GeneSetDb} or a
 \code{SparrowResult}.}
 
+\item{...}{pass through arguments}
+
 \item{active.only}{only look for gene sets that are "active"? Defaults to
 \code{TRUE} if \code{x} is conformed to a target expression object, else \code{FALSE}.
 \code{\link[=conform]{conform()}} for further details.}
