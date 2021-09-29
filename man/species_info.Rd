@@ -4,11 +4,24 @@
 \alias{species_info}
 \title{Match a species query to the regularized species info.}
 \usage{
-species_info(query, ...)
+species_info(query = NULL, ...)
 }
 \arguments{
-\item{query}{the species name to lookup}
+\item{query}{the species name to lookup, if \code{NULL} (default), returns the
+internal species info table, otherwise the row of the table that matches
+\code{query}.}
+
+\item{...}{pass through}
+}
+\value{
+a data.frame of species-related information that is used to fetch
+appropriate annotation files and conversion functions between species
+for gene identifiers, and such.
 }
 \description{
 Match a species query to the regularized species info.
+}
+\examples{
+species_info()
+species_info("human")
 }

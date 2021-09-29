@@ -22,8 +22,8 @@ validate.x.romer <- function(x, xmeta. = NULL, ...) {
   return(TRUE)
 }
 
-##' Worker function to run romer from within a sparrow::seas pipeline
-##'
+#' Worker function to run romer from within a sparrow::seas pipeline
+#'
 #' Note that romer works on a DGEList or a "normal" EList, ie. it has not
 #' been updated to work with an \code{EList} with a \code{$weights} matrix,
 #' and therefore doesn't work with a voom'd dataset.
@@ -35,7 +35,7 @@ validate.x.romer <- function(x, xmeta. = NULL, ...) {
 #' @importFrom limma romer
 #' @importFrom edgeR romer.DGEList
 do.romer <- function(gsd, x, design, contrast=ncol(design),
-                     gs.idxs=as.list(gsd, active.only=TRUE, value='x.idx'),
+                     gs.idxs = as.list(gsd, active.only = TRUE, value = "x.idx"),
                      ...) {
   stopifnot(is.conformed(gsd, x))
   args <- list(...)
@@ -48,7 +48,7 @@ do.romer <- function(gsd, x, design, contrast=ncol(design),
   call.args[['index']] <- gs.idxs
   call.args[['design']] <- design
   call.args[['contrast']] <- contrast
-  call.args[['...']] <- NULL
+  call.args[["..."]] <- NULL
 
   res <- do.call(romer, call.args)
   ## returns a matrix(!) with the following columns

@@ -20,7 +20,7 @@ exampleGeneSetDb()
 
 exampleGeneSetDF()
 
-exampleSparrowResult(cached = TRUE)
+exampleSparrowResult(cached = TRUE, methods = c("cameraPR", "fry"))
 
 exampleDgeResult(species = "human", id.type = "ensembl", induce.bias = NULL)
 }
@@ -35,11 +35,29 @@ ExpressionSet of counts.}
 \item{x}{If provided, an expression/matrix object so that the genesets are
 returned as (integer) index vectors into the rows of x whose rownames
 match the ids in the geneset.}
+
+\item{unlist}{return the genesets as nested list of lists (default: \code{TRUE}).
+The top level lists corresponds to the collection, and the lists within
+each are the inidividual gene sets. If \code{FALSE}, a single list of genesets
+is returned.}
+
+\item{cached}{If \code{TRUE} (default), returns a pre-saved SparrowResult object.
+Otherwise calculates a fresh one using the \code{methods} provided}
+
+\item{methods}{the methods to use to create a new SparrowResult for.}
+
+\item{species}{the species to return the example result from (right now,
+only "human")}
+
+\item{id.type}{the type of identifiers to use (right now, only "ensembl")}
+
+\item{induce.bias}{We can simulate a bias on the pvalue by the gene's
+\code{"effective_length"} or \code{"AveExpr"}. These are columns that are included
+in the output. If \code{NULL}, no bias is introduced into the result.}
 }
 \value{
 A list of lists of entrezIDs when \code{as == 'lol'}, or
-a list of integers into the rows of \code{exampleExpressionSet}
-for the genes in the given geneset.
+a list of integers into the rows of \code{x}.
 }
 \description{
 We provide examplar expression data (counts or voomed) as well as exemplar
@@ -70,3 +88,7 @@ Returns a data.frame of gene set definitions. A data.frame of this form
 can be passed into the \code{GeneSetDb()} contructor.
 }
 
+\examples{
+vm <- exampleExpressionSet()
+head(exampleGeneSets())
+}

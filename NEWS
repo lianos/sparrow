@@ -1,0 +1,6 @@
+Changes in version 0.99.0 (2021-09-29)
+* Submission to Bioconductor
+* Breaking changes:
+  - First two parameters in ora() function have been swapped so that the
+    first parameter (`x`) is the object (data.frame) to run an over
+    representation analysis against, and the second parameter is the GeneSetDb.

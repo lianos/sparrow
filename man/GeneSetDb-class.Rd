@@ -30,6 +30,13 @@ vector of same length with the names. In all cases, if a collection name
 can't be defined from this, then collections will be named anonymously.
 If a value is passed here, it will overide any names stored in the list of
 \code{x}.}
+
+\item{...}{these aren't used for anything in particular, but are here to
+catch extra arguments that may get passed down if this function is part
+of some call chain.}
+}
+\value{
+A GeneSetDb object
 }
 \description{
 Please refer to the sparrow vignette (\code{vignette("sparrow")}),
@@ -64,6 +71,10 @@ etc.
 
 \strong{Please refer to the "GeneSetDb" section of the vignette} for more
 details regarding the construction and querying of a \code{GeneSetDb} object.
+}
+\details{
+The functionality in the class is useful for the functionality in this
+package, but for your own personal usage, you probably want a \code{{BiocSet}}.
 }
 \section{Slots}{
 
@@ -170,17 +181,9 @@ nkcells <- geneSet(gdb.df, 'cellularity', 'NK cells')
 fids <- featureIds(gdb.df)
 
 # GeneSetDb Manipulation ....................................................
-# Subset ImmuneSigDB down to only gene sets defined from mouse
-# NOTE: This doesn't work with updated MSigDB collections
-\dontrun{
-idb <- getMSigGeneSetDb('c7', 'mouse')
-igs <- geneSets(idb)
-table(igs$organism)
-## Homo sapiens Mus musculus
-##         1888         2984
-idb.mm <- idb[igs$organism == 'Mus musculus']
-length(idb.mm) ## 2984
-}
+# Subset down to only t cell related gene sets
+gdb.t <- gdb.df[grepl("T cell", geneSets(gdb.df)$name)]
+gdb.t
 }
 \seealso{
 \code{?conversion}

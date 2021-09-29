@@ -64,6 +64,9 @@
 #'   logFC statistics for the contrast under test. Otherwise, a list is
 #'   returned with `$result` containing the logFC statistics, and
 #'   `$fit` has the limma fit for the data/design/contrast under test.
+#' @examples
+#' vm <- exampleExpressionSet(do.voom = TRUE)
+#' lfc <- calculateIndividualLogFC(vm, vm$design, "tumor")
 calculateIndividualLogFC <- function(x, design, contrast = ncol(design),
                                      robust.fit = FALSE, robust.eBayes = FALSE,
                                      trend.eBayes = FALSE, treat.lfc = NULL,
@@ -187,7 +190,7 @@ calculateIndividualLogFC <- function(x, design, contrast = ncol(design),
     out <- tt
   }
 
-  out[, x.idx := 1:nrow(x)]
+  out[, x.idx := seq_len(nrow(x))]
   if ('ID' %in% names(out)) {
     out[, ID := NULL]
   }

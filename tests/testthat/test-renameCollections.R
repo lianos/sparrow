@@ -10,7 +10,7 @@ test_that("Renaming collections maintains dataset integreity", {
   gdb <- exampleGeneSetDb()
   ngdb <- renameCollections(gdb, rename)
 
-  for (i in 1:nrow(check)) {
+  for (i in seq_len(nrow(check))) {
     params <- check[i,]
     url.orig <- geneSetURL(gdb, params$old_collection, params$geneset)
     url.new <- geneSetURL(ngdb, params$new_collection, params$geneset)

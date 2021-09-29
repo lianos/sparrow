@@ -1,47 +1,71 @@
 context("fgsea")
 
 test_that("seas calculate t and preranked t match fgsea results", {
-  gseaParam <- 1
-
   vm <- exampleExpressionSet()
   gdb <- exampleGeneSetDb()
+  gdb <- conform(gdb, vm)
+
+  gseaParam <- 1
+  nperm <- 1000
+
 
   # Since Bioc 3.5, running fgsea warns about ties in preranked stats
+
+  # Run fgsea through seas -----------------------------------------------------
   set.seed(123)
   expect_warning({
     mgt <- seas(vm, gdb, 'fgsea', design = vm$design, contrast = 'tumor',
-                score.by = 't',
-                nPermSimple = nperm, gseaParam = gseaParam)
+                score.by = 't', nPermSimple = nperm, gseaParam = gseaParam)
   }, "ties")
   mgres <- mgt %>%
     result("fgsea") %>%
-    mutate(pathway = encode_gskey(collection, name))
+    transform(pathway = encode_gskey(collection, name))
 
+  # Run fgsea through do.fgsea -------------------------------------------------
+  expect_warning({
+    set.seed(123)
+    res.do <- do.fgsea(gdb, vm, vm$design, "tumor",
+                       score.by = "t", nPermSimple = nperm,
+                       gseaParam = gseaParam,
+                       logFC = logFC(mgt, as.dt = TRUE))
+  }, "ties")
 
-  gs.idxs <- as.list(geneSetDb(mgt), active.only=TRUE, value='x.id')
+  # Run fgsea directly ---------------------------------------------------------
+  gs.idxs <- as.list(gdb, active.only=TRUE, value='x.id')
   min.max <- range(sapply(gs.idxs, length))
 
   lfc <- logFC(mgt)
   ranks.lfc <- setNames(lfc[['logFC']], lfc[['feature_id']])
   ranks.t <- setNames(lfc[['t']], lfc[['feature_id']])
 
-  set.seed(123)
   expect_warning({
-    rest <- fgsea::fgsea(gs.idxs, ranks.t,
-                         minSize = min.max[1], maxSize = min.max[2],
-                         gseaParam = gseaParam)
+    set.seed(123)
+    rest <- fgsea::fgsea(
+      gs.idxs, ranks.t,
+      minSize = min.max[1], maxSize = min.max[2],
+      nPermSimple = nperm,
+      gseaParam = gseaParam)
   }, "ties")
 
-  expect_equal(nrow(mgres), nrow(rest))
+  # compare results ------------------------------------------------------------
+  # compare do.fgsea with fgsea
+  expect_equal(res.do$pathway, rest$pathway)
+  expect_equal(res.do$size, rest$size)
+  expect_equal(res.do$ES, rest$ES)
+  expect_equal(res.do$pval, rest$pval)
+  expect_equal(res.do$NES, rest$NES)
+
+  # compares seas(...) with fgsea
   expect_equal(mgres$pathway, rest$pathway)
-  expect_equal(rest$size, mgres$n)
+  expect_equal(mgres$n, rest$size)
+  expect_equal(mgres$ES, rest$ES)
+  expect_equal(mgres$leadingEdge, rest$leadingEdge)
+  expect_equal(mgres$NES, rest$NES)
   expect_equal(mgres$pval, rest$pval)
-  same.sign <- sign(mgres$ES) == sign(rest$ES)
-  expect_true(all(same.sign))
 
   # passing in a preranked vector gives same results ---------------------------
-  set.seed(123)
   expect_warning({
+    set.seed(123)
     mgpre <- seas(ranks.t, gdb, "fgsea", nperm = nperm,
                   gseaParam = gseaParam, score.by = "t")
   }, "ties")
@@ -51,8 +75,8 @@ test_that("seas calculate t and preranked t match fgsea results", {
   expect_equal(rpre[, comp.cols], mgres[, comp.cols])
 
   # Passing in data.frame works, too -------------------------------------------
-  set.seed(123)
   expect_warning({
+    set.seed(123)
     mgdf <- seas(lfc, gdb, "fgsea", nperm = nperm,
                  rank_by = "t", rank_order = "descending",
                  gseaParam = gseaParam)

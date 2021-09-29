@@ -87,9 +87,16 @@ be selected for enrichment (ie. statistically significant differntially
 expressed genes would have \code{TRUE} values). Only used when \code{x} is a
 data.frame-like input.}
 
+\item{group_by}{A name of character vector in \code{x} which is used to split up
+features into groups for testing batches. Only used when \code{x} is a
+data.frame-like input for methods like \code{\link[=ora]{ora()}}.}
+
 \item{bias_by}{The name of a numeric colum in \code{x} that can be used in \code{\link[=ora]{ora()}}
 to adjust for bias in enrichment tests (like gene legnth, average
 expression, etc.). Only used when \code{x} is a data.frame-like input.}
+
+\item{xmeta.}{A hack to support data.frame inputs for \code{x}. End users should
+not use this.}
 
 \item{.parallel}{by default, \code{.parallel=FALSE} runs each GSEA in a
 serial manner. If \code{.parallel=TRUE}, the GSEA execution loop is

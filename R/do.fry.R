@@ -64,7 +64,8 @@ mgres.fry <- function(res, gsd, ...) {
   out <- cbind(
     geneSets(gsd, as.dt=TRUE)[, list(collection, name)],
     as.data.table(res))
-  NGenes <- NULL # silence R CMD check NOTEs
+  # silence R CMD check NOTEs
+  NGenes <- FDR <- FDR.Mixed <- PValue.Mixed <- PValue <- NULL
   out[, NGenes := NULL]
 
   # result may not have an FDR column if we only tested on geneset

@@ -51,6 +51,12 @@ geneSet(x, i, j, ...)
 from the original feature_id space to the target feature space are included
 (default: \code{FALSE}).}
 
+\item{collection}{using \code{i} as the parameter for "collection" isn't intuitive
+so if speficially set this paramter, it will replace the value for \code{i}.}
+
+\item{name}{the same for the \code{collection}:\code{i} parameter relationship, but for
+\code{j}:\code{name}.}
+
 \item{as.dt}{If \code{FALSE} (default), the data.frame like thing that
 this funciton returns will be set to a data.frame. Set this to \code{TRUE}
 to keep this object as a \code{data.table}}
@@ -69,4 +75,10 @@ the features that belong to them.
 When \code{x} is a \code{\link[=SparrowResult]{SparrowResult()}}, this function will append
 the differential expression statistics for the individual features generated
 across the contrast that defined \code{x}.
+}
+\examples{
+gdb <- exampleGeneSetDb()
+geneSet(gdb, "c2", "KOMMAGANI_TP63_GAMMA_TARGETS")
+geneSet(gdb, collection = "c2", name = "KOMMAGANI_TP63_GAMMA_TARGETS")
+geneSet(gdb, name = "KOMMAGANI_TP63_GAMMA_TARGETS")
 }

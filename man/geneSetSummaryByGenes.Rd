@@ -11,7 +11,8 @@ geneSetSummaryByGenes(
   features,
   with.features = TRUE,
   feature.rename = NULL,
-  ...
+  ...,
+  as.dt = FALSE
 )
 
 \S4method{geneSetSummaryByGenes}{GeneSetDb}(
@@ -51,15 +52,36 @@ a \code{SparrowResult}, then this can be the column name found in
 \code{logFC(x)}, in which case the value for the feature from the given
 column name would be used (setting this to \code{"symbol"}) would be a
 common thing to do, for instance.}
+
+\item{...}{pass through arguments}
+
+\item{as.dt}{If \code{FALSE} (default), the data.frame like thing that
+this funciton returns will be set to a data.frame. Set this to \code{TRUE}
+to keep this object as a \code{data.table}}
+
+\item{method}{The GSEA method to pull statistics from}
+
+\item{max.p}{the maximum p-value from the analysis \code{method} to allow for the
+geneSets included in the returned table}
+
+\item{p.col}{which p-value column to select from: \code{'padj'},
+\code{'padj.by.collection'}, or \code{'pval'}}
 }
 \value{
 a data.frame of geneset <-> feature incidence/feature matrix.
 }
 \description{
 This function creates a geneset by feature table with geneset membership
-information for a specified feature set. Only the gene sets that have
-any of the \code{features} are included.
+information for the \code{features} specified by the user. Only the gene sets that
+have any of the \code{features} are included in the table returned.
 }
+\section{Methods (by class)}{
+\itemize{
+\item \code{SparrowResult}: get geneset:feature incidence table from
+a SparrowResult, optionally filtered by statistical significance from
+a given gsea \code{method}
+}}
+
 \examples{
 vm <- exampleExpressionSet(do.voom=TRUE)
 gdb <- conform(exampleGeneSetDb(), vm)

@@ -33,6 +33,15 @@
 #'   "psig", and "sig". "notsig" implies that the FDR >= 10%, "psig" means that
 #'   FDR <= 10%, but the logFC is "unremarkable" (< 1), and "sig" means
 #'   that both the FDR <= 10% and the logFC >= 1
+#' @param shiny_source the name of this element that is used in shiny callbacks.
+#'   Defaults to `"mggenes"`.
+#' @param width,height the width and height of the output plotly plot
+#' @param ggtheme a ggplot theme, like the thing returned from
+#'   [ggplot2::theme_bw()].
+#' @param trim used to define the upper and lower quantiles to max out the
+#'   individual gene statistics in the selected geneset.
+#' @param ... pass through parameters to internal boxplot/density/gsea
+#'   plotting functions
 #' @return the ploty plot ojbect
 #' @examples
 #' mgr <- exampleSparrowResult()
@@ -181,7 +190,7 @@ iplot.gsea.plot <- function(lfc, geneset, rank_by, title, gseaParam = 1,
     }
   }
 
-  features[["label"]] <- sapply(1:nrow(features), function(i) {       # :custom
+  features[["label"]] <- sapply(seq_len(nrow(features)), function(i) {# :custom
     f <- features[i, add.labels]                                      # :custom
     paste(names(f), ":", unname(f[1,]), collapse = "<br>")            # :custom
   })
@@ -192,6 +201,7 @@ iplot.gsea.plot <- function(lfc, geneset, rank_by, title, gseaParam = 1,
     xlabel <- sprintf("rank\n(by: %s)", names(rank_by))               # :custom
   }
 
+  xend <- yend <- NULL # Silence NSE note in R CMD check
   g <- ggplot2::ggplot(toPlot, ggplot2::aes(x=x, y=y)) +
     ggplot2::geom_point(color = "green", size = 0.1) +
     ggplot2::geom_hline(yintercept = max(tops), colour = "red",
@@ -199,7 +209,8 @@ iplot.gsea.plot <- function(lfc, geneset, rank_by, title, gseaParam = 1,
     ggplot2::geom_hline(yintercept = min(bottoms), colour = "red",
                         linetype = "dashed") +
     ggplot2::geom_hline(yintercept = 0, colour = "black") +
-    ggplot2::geom_line(color = "green") + theme_bw() +
+    ggplot2::geom_line(color = "green") +
+    theme_bw() +
     # ggplot2::geom_segment(
     #   data = data.frame(x = pathway, label = ),
     #   mapping = ggplot2::aes(x = x, y = -diff / 2, xend = x, yend = diff / 2),

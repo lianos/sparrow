@@ -5,20 +5,17 @@
 #' [MSigDB](http://software.broadinstitute.org/gsea/msigdb). Collections can
 #' be retrieved by their collection name, ie `c("H", "C2", "C7")`.
 #'
+#' @section Species and Identifier types:
+#' This function utilizes the functionality from the `{msigdbr}` and
+#' `{babelgene}` packages to retrieve gene set definitions from a variety of
+#' organisms and identifier types.
+#'
 #' @section KEGG Gene Sets:
 #' Due to the licensing restrictions over the KEGG collections, they are not
 #' returned from this function unless they are explicitly asked for. You can
 #' ask for them through this function by either (i) querying for the `"c2"`
 #' collection while setting `with.kegg = TRUE`; or (ii) explicitly calling with
 #' `collection = "kegg"`.
-
-#' @section MSigDB Versions:
-#' We recently switched to using the msigdbr package as the source of truth for
-#' these, so v7 is the earliest version of the MSigDB collections we make
-#' available. Version 6 are available in the following (deprecated) packages:
-#'
-#' * https://github.com/lianos/GeneSetDb.MSigDB.Mmusculus.v61
-#' * https://github.com/lianos/GeneSetDb.MSigDB.Hsapiens.v61
 #'
 #' @section Citing the Molecular Signatures Database:
 #' To cite your use of the Molecular Signatures Database (MSigDB), please
@@ -36,16 +33,30 @@
 #'   Setting this to `NULL` loads all collections. Alternative you can also
 #'   include named subsets of collections, like `"reactome"`. Refer to the
 #'   Details section for more information.
-#' @param species human or mouse?
+#' @param species `"human"` or `"mouse"`? Really, this is anything available
+#'   in the `alias` column of the `sparrow:::species_info()` table (except
+#'   cyno).
+#' @param id.type do you want the feature id's used in the gene sets to be
+#'   `"ensembl"` (default), `"entrez"`, or `"symbol"`.
 #' @param with.kegg The Broad distributes the latest versions of the KEGG
 #'   genesets as part of the c2 collection. These genesets come with a
 #'   restricted license, so by default we do not return them as part of the
 #'   GeneSetDb. To include the KEGG gene sets when asking for the c2
 #'   collection, set this flag to `TRUE`.
-#' @param version the version of the MSigDB database to use.
+#' @param promote_subcategory_to_collection there are different sources of
+#'   genesets for a number of the collections in MSigDB. These are included
+#'   in the `gs_subcat` column of `geneSets(this)`. When this is set to `TRUE`,
+#'   the collection column for the genesets is appended with the subcatory.
+#'   So, instead of having a massive `"C2"` collection, you'll have bunch of
+#'   collections like `"C2_CGP"`, `"C2_CP:BIOCARTA"`, etc.
+#' @param prefix_collection When `TRUE` (default: `FALSE`), the `"C1"`, `"C2"`,
+#'   etc. is prefixed with `"MSigDB_*"`
+#' @param ... pass through parameters
 #' @return a `GeneSetDb` object
 #' @examples
-#' \dontrun{
+#' \donttest{
+#'   # these take a while to load initially, so put them in dontrun blocks.
+#'   # you should run these interactively to understand what they return
 #'   gdb <- getMSigGeneSetDb(c("h", "reactome"), "human", "entrez")
 #'   gdb.h.entrez <- getMSigGeneSetDb(c("h", "c2"), "human", "entrez")
 #'   gdb.h.ens <- getMSigGeneSetDb(c("h", "c2"), "human", "ensembl")
@@ -56,8 +67,7 @@ getMSigGeneSetDb <- function(collection = NULL,
                              id.type = c("ensembl", "entrez", "symbol"),
                              with.kegg = FALSE,
                              promote_subcategory_to_collection = FALSE,
-                             prefix_collection = FALSE,
-                             version = NULL, ...) {
+                             prefix_collection = FALSE, ...) {
   if (!requireNamespace("msigdbr", quietly = TRUE)) {
     stop("The msigdbr package is required for this functionality")
   }
@@ -69,16 +79,21 @@ getMSigGeneSetDb <- function(collection = NULL,
     collection <- assert_subset(toupper(collection), valid.cols)
   }
 
-  sigs.all <- copy(.pkgcache[["msigdb"]][[species.info$species]])
+  # handle non std eval NOTE in R CMD check when using `:=` mojo
+  # each of these variables are referenced in some data.table NSE mojo below
+  gs_cat <- gs_subcat <- gs_name <- symbol <- ensembl_id <- gs_id <- NULL
+
+  sigs.all <- data.table::copy(.pkgcache[["msigdb"]][[species.info$species]])
   if (is.null(sigs.all)) {
-    sigs.all <- as.data.table(msigdbr::msigdbr(species.info$species))
+    sigs.all <- msigdbr::msigdbr(species.info$species)
+    sigs.all <- as.data.table(sigs.all)
     axe.cols <- c("gs_pmid", "gs_geoid", "gs_url",
                   "gs_description", "species_name", "species_common_name",
                   "ortholog_sources", "num_ortholog_sources")
     axe.cols <- intersect(axe.cols, colnames(sigs.all))
     for (axe in axe.cols) sigs.all[, (axe) := NULL]
     setkeyv(sigs.all, c("gs_cat", "gs_name"))
-    .pkgcache[["msigdb"]][[species.info$species]] <- copy(sigs.all)
+    .pkgcache[["msigdb"]][[species.info$species]] <- data.table::copy(sigs.all)
   }
 
   if (!is.null(collection)) {
@@ -140,7 +155,7 @@ getMSigGeneSetDb <- function(collection = NULL,
       gdb, col, 'source', as.character(packageVersion("msigdbr")))
   }
 
-  org(gdb) <- gsub(" ", "_", species.info[["species"]])
+  # org(gdb) <- gsub(" ", "_", species.info[["species"]])
   gdb@collectionMetadata <- gdb@collectionMetadata[name != "count"]
   gdb
 }

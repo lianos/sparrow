@@ -13,12 +13,10 @@ abstract: >
   sparrow package version: `r packageVersion("sparrow")`
 output:
   BiocStyle::html_document:
-    self_contained: yes
     highlight: pygments
     toc: true
     fig_width: 5
     css: mystyles.css
-    df_print: paged
 vignette: >
   %\VignetteIndexEntry{Performing gene set enrichment analyses with sparrow}
   %\VignetteEngine{knitr::rmarkdown}
@@ -37,7 +35,7 @@ knitr::opts_chunk$set(
 #    enrichtest/goseq PAC unit test.
 ```
 
-# Overview
+## Overview
 
 The `sparrow` package was built to facilitate the use of gene sets in the
 analysis of high throughput genomics data (primarily RNA-seq). It does so
@@ -109,7 +107,7 @@ function. In this vignette we will explore differential expression and gene
 set enrichment analysis by examining differences between basal and her2 PAM50
 subtypes.
 
-# Standard Workflow
+## Standard Workflow
 
 Let's begin by setting up our work environment for exploratory analysis using
 the sparrow package.
@@ -117,18 +115,17 @@ the sparrow package.
 ```{r init-env, warning=FALSE, message=FALSE}
 library(sparrow)
 library(magrittr)
-library(reshape2)
 library(dplyr)
 library(ggplot2)
 library(ComplexHeatmap)
 library(circlize)
 library(edgeR)
-
+library(data.table)
 theme_set(theme_bw())
 ```
 
 <div class="note">
-Internally, mulitGSEA leverages the
+Internally, sparrow leverages the
 [data.table](https://CRAN.R-project.org/package=data.table) package for fast
 indexing and manipulation over data.frames. All functions that return these
 objects back to the user have an `as.dt` argument, which is set to `FALSE` by
@@ -136,7 +133,7 @@ default. This means that unless the end user wants to work with `data.table`
 objects, they will always be returned a `data.frame`.
 </div>
 
-## Data Setup
+### Data Setup
 
 sparrow is most straightforward to use when our data objects and analysis are
 performed with either the edgeR or voom/limma pipelines and when we use
@@ -166,7 +163,7 @@ of scope for this vignette, but you can reference the
 for full details (among others).
 </div>
 
-## Data Analysis
+### Data Analysis
 
 We will identify the genes and genesets that are differentially expressed
 between the basal and her2 subtypes. The `vm` object has already been `voom`d
@@ -183,7 +180,7 @@ contrast:
 (cm <- makeContrasts(BvH=Basal - Her2, levels=vm$design))
 ```
 
-### Differential Gene Expression
+#### Differential Gene Expression
 
 In this section, we first show you the straightforward analysis you would do
 if you were only testing for differential gene expression.
@@ -197,7 +194,7 @@ fit <- lmFit(vm, vm$design) %>%
 tt <- topTable(fit, 'BvH', n=Inf, sort.by='none')
 ```
 
-### Gene Set Enrichment Analysis
+#### Gene Set Enrichment Analysis
 
 Given that we now have all of the pieces of data required for a differential
 expression analysis, performing GSEA is trivial using the `seas` wrapper
@@ -217,7 +214,7 @@ We'll use the `getMSigGeneSetDb` convenience function provided by the
 *sparrow* package to load the [hallmark][hallmark] (`"h"`) and
 [c2 (curated)][c2] (`"c2"`) gene set collections from [MSigDB][msigdb].
 
-```{r build-gdb, eval=!exists('gdb')}
+```{r build-gdb}
 gdb <- getMSigGeneSetDb(c("h", "c2"), "human", id.type = "entrez")
 ```
 
@@ -233,7 +230,7 @@ geneSets(gdb) %>%
 For more details on creating and manipulating `GeneSetDb` objects, please jump
 the to *[The GeneSetDb Class](#the-genesetdb-class)* section.
 
-#### Running sparrow
+### Running sparrow
 
 Performing multiple gene set enrichment analyses over your contrast of interest
 simply requires you to provide a `GeneSetDb` object along with your data and an
@@ -242,7 +239,7 @@ enumeration of the methods you want to use in your analysis.
 The call to `seas()` will perform these analyses and return a
 `SparrowResult` object which you can then use for downstream analysis.
 
-```{r run-multi-GSEA, eval=!exists('mg'), results='hide', warning=FALSE}
+```{r run-multi-GSEA, results='hide', warning=FALSE}
 mg <- seas(
   vm, gdb, c('camera', 'fry', 'ora'),
   design = vm$design, contrast = cm[, 'BvH'],
@@ -258,7 +255,7 @@ mg <- seas(
 
 We will unpack the details of the `seas()` call shortly ...
 
-#### Implicit Differential Expression
+### Implicit Differential Expression
 
 First, let's note that in addition to running a plethora of GSEA's over our data
 we've also run a standard differential expression analysis. If you've passed
@@ -288,7 +285,7 @@ comp <- tt %>%
 all.equal(comp$t.tt, comp$t.mg)
 ```
 
-The internally performed differential expression analysis within the `mulitGSEA`
+The internally performed differential expression analysis within the `seas()`
 call can be customized almost as extensively as an explicitly performed analysis
 that you would run using limma or edgeR by sending more parameters through
 `seas()`'s `...` argument.
@@ -299,7 +296,7 @@ section further in the vignette as well as the help available in
 `?calculateIndividualLogFC` (which is called inside the `seas()` function)
 for more information.
 
-#### Explicit GSEA
+### Explicit GSEA
 
 We also have the results of all the GSEA analyses that we specified to our
 `seas` call via the `methods` parameter.
@@ -335,7 +332,7 @@ and a third time for only the genes that go down.
 The individual gene set statistics generated by each method are available via
 the `result` function (or several can be returned with `results`):
 
-```{r goseq-res}
+```{r gsea-res}
 cam.res <- result(mg, 'camera')
 cam.go.res <- results(mg, c('camera', 'ora.up'))
 ```
@@ -344,7 +341,7 @@ You can identify genesets with the strongest enrichment by filtering and sorting
 against the appropriate columns. We can, for instance, identify which hallmark
 gene sets show the strongest enrichment as follows:
 
-```{r}
+```{r camera-summary}
 cam.res %>%
   filter(padj < 0.1, collection == 'H') %>%
   arrange(desc(mean.logFC)) %>%
@@ -357,8 +354,8 @@ expression statistics for the contrast under test using the `geneSet` function.
 
 ```{r geneset-result}
 geneSet(mg, 'H', 'HALLMARK_WNT_BETA_CATENIN_SIGNALING') %>%
-  select(symbol, entrez_id, logFC, pval, padj) %>%
-  head
+  select(symbol, entrez_id, logFC, pval, padj) %>% 
+  head()
 ```
 
 <div class="note">
@@ -367,7 +364,7 @@ independant of GSEA method. The statistics appended to the gene set members
 are simply the ones generated from a differential expression analysis.
 </div>
 
-#### Plotting
+### Plotting
 
 *sparrow* provides a number of interactive plotting facilities to explore the
 enrichment of a single geneset under the given contrast. In the boxplots and
@@ -379,35 +376,56 @@ The logFC (or t-statistics) of the genes in the gene set are plotted as points,
 which allow you to hover to identify the identity of the genes that land in
 the regions of the distributions you care about.
 
+<div class="note">
+Including interactive plots increases the size of the vignette's by *a lot* and
+will be rejected by the bioconductor build servers, so all plots included in
+this vignette are static snapshots of the javascript enabled plots you would
+normally get from `iplot()`.
+</div>
+
 **Boxplot**
 
-```{r iplot-tnfa-box, fig.asp=1}
+```{r iplot-wnt-beta, fig.asp=1, eval=FALSE}
 iplot(mg, 'H', 'HALLMARK_WNT_BETA_CATENIN_SIGNALING',
       type='boxplot', value='logFC')
 ```
 
+![boxplot of geneset log2FC's](images/static-iplot-wnt-beta-box.png)
+
 **Density**
 
-```{r iplot-tnfa-density, fig.asp=1}
+```{r iplot-wnt-beta-density, fig.asp=1, eval=FALSE}
 iplot(mg, 'H', 'HALLMARK_WNT_BETA_CATENIN_SIGNALING',
       type='density', value='logFC')
 ```
+![density plot of geneset log2FC's](images/static-iplot-wnt-beta-density.png)
+
+**GSEA plot**
+
+```{r iplot-wnt-beta-gsea, fig.asp=1, eval=FALSE, message=FALSE, warning=FALSE}
+iplot(mg, 'H', 'HALLMARK_WNT_BETA_CATENIN_SIGNALING',
+      type='gsea', value='logFC')
+```
+
+![gsea plot of geneset log2FC's](images/static-iplot-wnt-beta-gsea.png)
 
 #### Interactive Exploration
 
 A sister `sparrow.shiny` package is available that can be used to
-interactively explore `SparrowResult` objects. The application can be invoked
-as follows:
+interactively explore `SparrowResult` objects to help you try to make sense
+of the enrichment hits you get (or not!). The application can be invoked as
+follows:
 
 ```r
-library("sparrow.shiny")
-explore(mg)
+sparrow.shiny::explore(mg)
 ```
 
-Please refer to the `"sparrow-shiny"`" vignette in the `sparrow.shiny`
+![Screen shot of interactive sparrow exploration](images/sparrow-shiny.png)
+
+Please refer to the `"sparrow-shiny"` vignette in the `sparrow.shiny`
 package for documentation on the application's use.
 
-# Singe Sample Gene Set Scoring
+## Singe Sample Gene Set Scoring
 
 It can be both convenient and effective to transform a gene-by-sample expression
 matrix to a geneset-by-sample expression matrix. By doing so, so we can quickly
@@ -445,7 +463,7 @@ from those two groups.
 vm.bh <- vm[, vm$targets$PAM50subtype %in% c("Basal", "Her2")]
 ```
 
-## Generating Single Sample Gene Set Scores
+### Generating Single Sample Gene Set Scores
 
 Once we have a `GeneSetDb` object that contains all of the gene sets we wish
 to use to create single sample gene set scores, we can use the
@@ -459,41 +477,35 @@ column to extract all of the single sample scores for a given method.
 
 ```{r ssscore, warning=FALSE}
 scores <- scoreSingleSamples(gdb.sub, vm.bh,
-                             methods=c('ewm', 'ssgsea', 'zscore'),
-                             ssgsea.norm=TRUE,
-                             unscale=FALSE, uncenter=FALSE)
+                             methods = c('ewm', 'ssgsea', 'zscore'),
+                             ssgsea.norm = TRUE, unscale=FALSE, uncenter=FALSE,
+                             as.dt = TRUE)
 ```
 
-We can see how the scores from different methods compare to each other with
-using a little `reshape2` mojo and the `sparrow::corplot` function.
+We can see how the scores from different methods compare to each other:
 
 ```{r sss-pairs, warning=FALSE}
-sm <- acast(scores, name + sample_id ~ method, value.var="score")
-corplot(sm, cluster=TRUE)
+# We miss you, reshape2::acast
+sw <- dcast(scores, name + sample_id ~ method, value.var="score")
+corplot(sw[, -(1:2), with = FALSE], cluster=TRUE)
 ```
 
 It is, perhaps, interesting to compare how the `ewm` method scores change when
 we choose not to "uncenter" and "unscale" them:
 
 ```{r, warning=FALSE}
-ewmu <- scoreSingleSamples(gdb.sub, vm.bh,
-                           methods=c('ewm'),
-                           unscale=TRUE, uncenter=TRUE) %>%
-  mutate(method='ewm_unscale')
-scores.all <- bind_rows(scores, ewmu)
-sma <- acast(scores.all, name + sample_id ~ method, value.var="score")
-corplot(sma, cluster=TRUE)
+ewmu <- scoreSingleSamples(gdb.sub, vm.bh,methods = "ewm",
+                           unscale = TRUE, uncenter = TRUE, as.dt = TRUE)
+ewmu[, method := "ewm_unscale"]
+scores.all <- rbind(scores, ewmu)
+swa <- dcast(scores.all, name + sample_id ~ method, value.var="score")
+corplot(swa[, -(1:2), with = FALSE], cluster=TRUE)
 ```
 
 Further exposition on the "ewm" (eigenWeightedMean) scoring method can be
 found in the `?eigenWeightedMean` function.
 
-### Similarity of ewm:ssGSEA and ewz/zscore to gsva
-
-TODO: explore this more deeply, but the examples in ?scoreSingleSamples suggests
-that to be the case in that example.
-
-## Visualizing Single Sample Gene Set Scores
+### Visualizing Single Sample Gene Set Scores
 
 The "long" data.frame nature of the results produced by `scoreSingleSamples`
 makes it convenient to use with graphing libraries like ggplot2 so that we can
@@ -582,11 +594,14 @@ mgheatmap(vm.bh, gdb.sub,
           top_annotation=col.anno, zlim = c(-2.5, 2.5))
 ```
 
-# The GeneSetDb Class
+## The GeneSetDb Class
 
-The GeneSetDb class is a new container to store collections of genesets which
-provides different types of functionality than is found in
-`GSEABase::GeneSetCollection` objects.
+**NOTE:** The GeneSetDb class was initially developed to address some
+peculiarities of storing, querying, and manipulating gene sets using the
+old-school `GSEABase::GeneSetCollection` class. It is not meant to replace the
+more recently developd BiocSet class, and we plan to support and migrate to that
+gene set container in the future. This section provides a quick overview of
+some of the functionality of gene set container.
 
 We can, for instance, identify all 84 gene sets that have genes "10014" and
 "1454" (entrez ids) as members (HDAC5 and CSNK1E, respectively).
@@ -620,7 +635,7 @@ column stores gene identifiers. For the time being, it will be most natural
 for these IDs to simply be ensembl gene identifiers (or entrez ids) as many of
 the annotation databases use these identifiers, as well.
 
-## Building a GeneSetDb
+### Building a GeneSetDb
 
 The sparrow package provides convenience funcitons to fetch genesets from many
 sources and convert them into a GeneSetDb object. The two most useful sources
@@ -661,12 +676,12 @@ See the help and examples in `?GeneSetDb` for more information.
 For some reason the `PANTHER.db` package needs to be installed in a
 user-writable package location for this to work properly. If you see an error
 that speaks to using "rsqlite to write to a readonly database", you will have to
-install `PANTHER.db` in a user-writable directory using
-`BiocInstaller::biocLite("PANTHER.db")`
+re-install `PANTHER.db` in a user-writable directory using 
+`BiocManager::install("PANTHER.db")`
 
 </div>
 
-## Subsetting a GeneSetDb
+### Subsetting a GeneSetDb
 
 The subsetting functionality for a `GeneSetDb` isn't quite as fluent as I would
 like to be. Improvements will be provided in a future release.
@@ -693,41 +708,7 @@ We have also showed you above how to create a subsetted `GeneSetDb` by keeping
 only the gene sets that have certain features in them using the
 `subsetByFeatures` function.
 
-## Packaged MSigDb Gene Sets
-
-<!--
-Update MSigDb Section ==========================================================
--->
-
-TODO: This needs update to reflect our use of
-
-The sparrow package provides the `getMSigGeneSetDb` utility function to provide
-easy access to [the MSigDB gene set collection][msigdb] for users. The data for
-this function is stored in data package that need to be downloaded first before
-use. The `GeneSetDb.MSigDB.Hsapiens.v*`, and `GeneSetDb.MSigDB.Mmusculus.v*`
-packages provide these genesets for human and mouse (using entrez identifiers).
-The latest version of these packages (`v61`) provides version 6.1 of the MSigDB
-gene sets, which is the latest version as of this relase.
-
-The MSigDB `GeneSetDb` objects include an `organism` column in their
-`geneSets(gdb)` table. Note that this column indicates which organism that the
-geneset *was defined in*. The identifiers in the genesets provided in the
-`GeneSetDb` are all either "human" or "mouse" identifiers, depending on the
-value of the `species` argument in your `getMSigGeneSetDb` call. The example
-above shows how to subset the GeneSetDb based on the `organism` column so that
-the resulting GeneSetDb only has genesets defined in mouse. The user can
-also set the `species.specific` parameter to `TRUE` so that we only return
-gene sets defined in the organism ('human' or 'mouse') that the user is
-retrieving the genesets from. For instance, the call below only retrieves
-gene sets in the "c2" and "c5" collections that were only defined in mouse.
-
-```{r species-specific, eval=FALSE}
-# This no longer is included
-mgdb <- getMSigGeneSetDb(c('C2' 'C7'), species='mouse',
-                         species.specific=TRUE)
-```
-
-## Active vs Inactive Gene Sets
+### Active vs Inactive Gene Sets
 
 A `GeneSetDb` is used to hold "the universe" of genes that belong to different
 gene sets across different collections. Depending on the assay performed to
@@ -757,7 +738,7 @@ gene set was deactivated  because it only has five "conformed" genes, but the
 minimum geneset size we wanted to consider (`min.gs.size`) was set to ten in
 our call to `conform`.
 
-## Accessing members of a gene set
+### Accessing members of a gene set
 
 The `geneSet` and `featureIds` functions allow the user to identify the genes
 found in a gene set. Both of these functions take an `active.only` argument,
@@ -782,7 +763,7 @@ gdbc %>%
   subset(feature_id %in% missed)
 ```
 
-## Mapping of gene set featureIds to target expression containers
+### Mapping of gene set featureIds to target expression containers
 
 It may be that the IDs used in a gene set collection are different from the
 ones used as the rownames of your expression container. For instance, the IDs
@@ -815,13 +796,13 @@ of `vm` with the values there. Refer to the `?renameRows` man page for more
 details. This, of course, still requires you to manually fetch and map
 identifiers, but still ...
 
-# Customizing Analyses
+## Customizing Analyses
 
 The internal differential expression analysis as well the gene set enrichment
 analyses can be customized by passing parameters through the `...` in the
 `seas()` function.
 
-## Custom Differential Expression
+### Custom Differential Expression
 
 The internal differential expression pipeline, exported via the
 `calculateIndividualLogFC` function allows the end user to configure an
@@ -849,7 +830,7 @@ Using the internal `treat` functionality would really only affect enrichment
 tests that first threshold the genes in your experiment as "significant" or not,
 like `goseq` and not tests like `camera`.
 
-## Custom GSEA
+### Custom GSEA
 
 The GSEA methods that are wrapped by `seas()` all take the same parameters
 that are defined by their implementation. Simply pass these parameters down
@@ -865,50 +846,17 @@ mgx <- seas(vm, gdb, c('camera', 'roast'),
             inter.gene.cor = 0.04, nrot = 500)
 ```
 
-# Developing sparrow
+## Reproducibility
 
-## Adding new GSEA methods
+<details>
+<summary>Session Information</summary>
 
-<div class="note">
-This section needs more explanation
-</div>
+```{r session-info}
+sessionInfo()
+```
 
-Suppose we wanted to add a new GSEA method named `superGSEA` to the methods that
-the `seas()` function can delegate to via its `methods` argument, we need to add
-the following internal sparrow methods.
+</details>
 
-* `validate.inputs.superGSEA`: Choose either `.validate.inputs.full.design` or
-  `.validate.inputs.preranked` depending on whether or not the method needs:
-    * a full expression,design,contrast tripple like roast, romer, or camera,
-      use `.validate.inputs.full.design`;
-    * or a preranked set of stats vector like cameraPR or fgsea, use
-      `.validate.inputs.preranked`
-* `validate.x.superGSEA`: this is redundant, just put `validate.X`. This will
-  be fixed in a future release
-* `do.superGSEA`: this method should take the parameters listed below, and
-  return the result of the `superGSEA` call **unmodified** from its original
-  form that the `superGSEA` method that is being wrapped returns it. The
-  parameters of the `do.superGSEA` function are:
-    * `gsd`: the pre-conformed `GeneSetDb`
-    * `x`: the expression matrix or pre-ranked stats vector
-    * `design`: the design matrix. If the method uses a pre-ranked stats vector
-      just ignore this argument in the `do.superGSEA` function body.
-    * `contrast`: the contrast to test. If the method uses a pre-ranked stats
-      vector just ignore this argument in the `do.superGSEA` function body.
-    * `gsd.idxs`: this will be a list of gene sets. The names are the
-      `collection;;name` tuples pasted together, and the values are integers
-      indices into the rows of `x` for each gene in the gene set. Genes in
-      the gene set that are not in `x` have already been removed.
-    * any custom parameters you want to set the defaults for in `superGSEA`
-      when the default values are not what you want.
-    * `...`: any other formal arguments defined in `superGSEA` will be passed
-      into here, and it will be your responsibility to extract them and pass
-      them down into the `superGSEA` call.
-* `mgres.superGSEA`: The function takes the output from `do.superGSEA` and
-  turns it into a `data.table` that minimally has `collection`, `name`,
-  `pval`, and `padj` columns.
-
-Look to the implementation in the `do.camera.R` file for a reference.
 
 [BiocSet]: http://bioconductor.org/packages/release/bioc/html/BiocSet.html
 [msigdb]: http://software.broadinstitute.org/gsea/msigdb/

@@ -60,15 +60,25 @@ This can be a superset of the names found in \code{gdb}. As of ComplexHeatmap
 v2 (maybe earlier versions), this doesn't really work when
 \code{cluster_rows = TRUE}.}
 
+\item{name}{passed down to \code{\link[ComplexHeatmap:Heatmap]{ComplexHeatmap::Heatmap()}}}
+
+\item{rm.collection.prefix}{When \code{TRUE} (default), removes the collection
+name from the genesets annotated on the heatmap.}
+
 \item{rm.dups}{if \code{aggregate.by == 'none'}, do we remove genes that
 appear in more than one geneset? Defaults to \code{FALSE}}
 
 \item{recenter}{do you want to mean center the rows of the heatmap matrix
-prior to calling \code{\link[ComplexHeatmap:Heatmap]{ComplexHeatmap::Heatmap()}}?}
+prior to calling \code{\link[ComplexHeatmap:Heatmap]{ComplexHeatmap::Heatmap()}}? This is passed down to
+\code{\link[=scale_rows]{scale_rows()}}. Look there for more mojo.}
 
 \item{rescale}{do you want to standardize the row variance to one on the
 values of the heatmap matrix prior to calling
-\code{\link[ComplexHeatmap:Heatmap]{ComplexHeatmap::Heatmap()}}?}
+\code{\link[ComplexHeatmap:Heatmap]{ComplexHeatmap::Heatmap()}}? This is passed down to
+\code{\link[=scale_rows]{scale_rows()}}. Look there for more mojo.}
+
+\item{center, scale, uncenter, unscale}{boolean parameters passed down into the
+the single sample gene set scoring methods defined by \code{aggregate.by}}
 
 \item{rename.rows}{defaults to \code{NULL}, which induces no action. Specifying
 a paramter here assumes you want to rename the rows of the heatmap.
@@ -82,8 +92,8 @@ or bottom.}
 
 \item{transpose}{Flip display so that rows are columns. Default is \code{FALSE}.}
 
-\item{...}{parameters to send down to \code{\link[=scoreSingleSamples]{scoreSingleSamples()}} or
-\code{\link[ComplexHeatmap:Heatmap]{ComplexHeatmap::Heatmap()}}.}
+\item{...}{parameters to send down to \code{\link[=scoreSingleSamples]{scoreSingleSamples()}},
+\code{\link[ComplexHeatmap:Heatmap]{ComplexHeatmap::Heatmap()}}, \code{\link[=renameRows]{renameRows()}} internal \code{as_matrix()}.}
 }
 \value{
 A \code{Heatmap} object.
@@ -149,12 +159,16 @@ mgh <- mgheatmap2(vm, gdb, aggregate.by = "ewm", split = TRUE,
 ComplexHeatmap::draw(mgh)
 
 # Center to "normal" group
-
+mgc <- mgheatmap2(vm, gdb, aggregate.by = "ewm", split = TRUE,
+                  top_annotation = col.anno, show_column_names = FALSE,
+                  recenter = vm$targets$Cancer_Status == "normal",
+                  column_title = "Gene Set Activity in BRCA subset")
+ComplexHeatmap::draw(mgc)
 # Maybe you want the rownames of the matrix to use spaces instead of "_"
 rr <- geneSets(gdb)[, "name", drop = FALSE]
 rr$newname <- gsub("_", " ", rr$name)
-mg2 <- mgheatmap(vm, gdb, aggregate.by='ewm', split=TRUE,
-                 top_annotation = col.anno, show_column_names = FALSE,
-                 column_title = "Gene Set Activity in BRCA subset",
-                 rename.rows = rr)
+mg2 <- mgheatmap2(vm, gdb, aggregate.by='ewm', split=TRUE,
+                  top_annotation = col.anno, show_column_names = FALSE,
+                  column_title = "Gene Set Activity in BRCA subset",
+                  rename.rows = rr)
 }

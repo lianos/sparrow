@@ -23,3 +23,13 @@ their collection,name compound keys. This function is vectorized and
 supports query of multiple gene sets at a time. If a requested
 collection,name gene set doesn't exist, this throws an error.
 }
+\examples{
+dge.stats <- exampleDgeResult()
+y <- exampleExpressionSet(do.voom = FALSE)
+gdb <- conform(exampleGeneSetDb(), y, min.gs.size = 10)
+# size 9 geneset:
+geneSet(gdb, "c2", "BYSTRYKH_HEMATOPOIESIS_STEM_CELL_IL3RA")
+is.active(gdb, "c2", "BYSTRYKH_HEMATOPOIESIS_STEM_CELL_IL3RA")
+# geneset with >100 genes
+is.active(gdb, "c7", "GSE3982_MAC_VS_NEUTROPHIL_LPS_STIM_DN")
+}

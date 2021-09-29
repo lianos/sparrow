@@ -42,6 +42,8 @@ tabulateResults(
 \arguments{
 \item{x}{A \code{\link[=SparrowResult]{SparrowResult()}} object.}
 
+\item{...}{pass through arguments}
+
 \item{name}{the names of the results desired}
 
 \item{stats.only}{logical, set to \code{FALSE} if you want to return all
@@ -58,6 +60,10 @@ trimmed t-statistics of the these features (\code{"t"}).}
 columns of the \code{method}-specific statistics returned, ie. the
 \code{pval} column from the \code{"camera"} result will be turned to
 \code{pval.camera}.}
+
+\item{as.dt}{If \code{FALSE} (default), the data.frame like thing that
+this funciton returns will be set to a data.frame. Set this to \code{TRUE}
+to keep this object as a \code{data.table}}
 
 \item{names}{the names of the GSEA methods to be reported. By default,
 this function will display results for all methods.}
@@ -101,5 +107,8 @@ tallies the number of significant genesets per collection, per method at
 the specified FDR thresholds.
 }
 \examples{
-## Refer to the examples in ?seas
+res <- exampleSparrowResult()
+resultNames(res)
+head(result(res, "camera"))
+head(results(res))
 }

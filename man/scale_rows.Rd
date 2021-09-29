@@ -14,6 +14,8 @@ specifies what to center}
 
 \item{scale}{Either a logical, characeter, or numeric-like value that
 specifies what to scale}
+
+\item{...}{pass through arguments}
 }
 \value{
 a scaled version of \code{x}

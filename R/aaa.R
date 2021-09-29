@@ -9,11 +9,10 @@
 #' Lists the supported GSEA methods by sparrow
 #'
 #' @export
-#' @param names.only if `TRUE` (default), only returns the names of the methods,
-#'   otherwise also returns meta information about the methods, such as the
-#'   package it is found in.
 #' @return a character vector of GSEA names, or a list of metadata for each
 #'   method.
+#' @examples
+#' sparrow_methods()
 sparrow_methods <- function() {
   methods <- list(
     camera = list(package = "edgeR", type = "required"),

@@ -1,0 +1,92 @@
+---
+title: "Adding new methods to sparrow"
+author: "Steve Lianoglou"
+date: "`r BiocStyle::doc_date()`"
+package: "`r BiocStyle::pkg_ver('sparrow')`"
+abstract: >
+  There may be new gsea methods you would like to invoke through sparrow, and
+  we describe how to do that here.
+output:
+  BiocStyle::html_document:
+    fig_width: 5
+    css: mystyles.css
+vignette: >
+  %\VignetteIndexEntry{Adding new methods to sparrow}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding[utf8]{inputenc}
+---
+
+```{r init, include=FALSE, echo=FALSE, message=FALSE, warning=FALSE}
+knitr::opts_chunk$set(
+  echo=TRUE, warning=FALSE, message=FALSE, error=FALSE) #, dpi=150)
+```
+
+## Overview
+
+<div class="note">
+If you would like sparrow to support a new method, please file an issue on the
+[project's github issue tracker](https://github.com/lianos/sparrow/issues).
+
+This document is meant to be used as notes by the developer of sparrow, and not
+for use by casual useres.
+</div>
+
+Suppose we wanted to add a new GSEA method named `superGSEA` to the methods that
+the `seas()` function can delegate to via its `methods` argument, we need to add
+the following internal sparrow methods.
+
+* `validate.inputs.superGSEA`: Choose either `.validate.inputs.full.design` or
+  `.validate.inputs.preranked` depending on whether or not the method needs:
+    * a full expression,design,contrast tripple like roast, romer, or camera,
+      use `.validate.inputs.full.design`;
+    * or a preranked set of stats vector like cameraPR or fgsea, use
+      `.validate.inputs.preranked`
+* `validate.x.superGSEA`: this is redundant, just put `validate.X`. This will
+  be fixed in a future release
+* `do.superGSEA`: this method should take the parameters listed below, and
+  return the result of the `superGSEA` call **unmodified** from its original
+  form that the `superGSEA` method that is being wrapped returns it. The
+  parameters of the `do.superGSEA` function are:
+    * `gsd`: the pre-conformed `GeneSetDb`
+    * `x`: the expression matrix or pre-ranked stats vector
+    * `design`: the design matrix. If the method uses a pre-ranked stats vector
+      just ignore this argument in the `do.superGSEA` function body.
+    * `contrast`: the contrast to test. If the method uses a pre-ranked stats
+      vector just ignore this argument in the `do.superGSEA` function body.
+    * `gsd.idxs`: this will be a list of gene sets. The names are the
+      `collection;;name` tuples pasted together, and the values are integers
+      indices into the rows of `x` for each gene in the gene set. Genes in
+      the gene set that are not in `x` have already been removed.
+    * any custom parameters you want to set the defaults for in `superGSEA`
+      when the default values are not what you want.
+    * `...`: any other formal arguments defined in `superGSEA` will be passed
+      into here, and it will be your responsibility to extract them and pass
+      them down into the `superGSEA` call.
+* `mgres.superGSEA`: The function takes the output from `do.superGSEA` and
+  turns it into a `data.table` that minimally has `collection`, `name`,
+  `pval`, and `padj` columns.
+
+Look to the implementation in the `do.camera.R` file for a reference.
+
+## Reproducibility
+
+<details>
+<summary>Session Information</summary>
+
+```{r session-info}
+sessionInfo()
+```
+
+</details>
+
+[BiocSet]: http://bioconductor.org/packages/release/bioc/html/BiocSet.html
+[msigdb]: http://software.broadinstitute.org/gsea/msigdb/
+[msigdbr]: https://cran.r-project.org/package=msigdbr
+[msigdbpid]: https://www.gsea-msigdb.org/gsea/msigdb/genesets.jsp?collection=CP:PID
+[hallmark]: http://www.cell.com/cell-systems/abstract/S2405-4712(15)00218-5
+[isigdb]: http://www.cell.com/immunity/abstract/S1074-7613(15)00532-4
+[c2]: http://software.broadinstitute.org/gsea/msigdb/collections.jsp#C2
+[c5]: http://software.broadinstitute.org/gsea/msigdb/collections.jsp#C5
+[c7]: http://software.broadinstitute.org/gsea/msigdb/collections.jsp#C7
+[pantherdb]: http://pantherdb.org
+[pgoslim]: http://www.pantherdb.org/panther/ontologies.jsp

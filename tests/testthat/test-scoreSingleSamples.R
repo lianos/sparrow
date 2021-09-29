@@ -37,7 +37,7 @@ test_that('do.scoreSingleSamples.gsva is equivalent to GSVA::gsva', {
   avg.diffs <- sapply(1:ncol(gsva.mg), function(i) {
     mean(abs(gsva.mg[, i] - gsva.ex[,i]))
   })
-  cors <- sapply(1:ncol(gsva.mg), function(i) {
+  cors <- sapply(seq_len(ncol(gsva.mg)), function(i) {
     round(cor(gsva.mg[, i], gsva.ex[,i], method = "spearman"), 2)
   })
   expect_true(all(cors >= 0.97))
@@ -50,7 +50,7 @@ test_that('do.scoreSingleSamples.gsva is equivalent to GSVA::gsva', {
   }, "GSVA")
 
   # expect_equal(plage.mg, plage.ex,info='GSVA,gsva')
-  cors <- sapply(1:ncol(gsva.mg), function(i) {
+  cors <- sapply(seq_len(ncol(gsva.mg)), function(i) {
     round(cor(gsva.mg[, i], gsva.ex[,i], method = "spearman"), 2)
   })
   expect_true(all(cors >= 0.97))
@@ -68,7 +68,7 @@ test_that('do.scoreSingleSamples.gsva is equivalent to GSVA::gsva', {
   }, "GSVA")
   # expect_equal(gsvar.mg, gsvar.ex, info='GSVA,gsva RNAseq',
   #              tolerance = sqrt(.Machine$double.eps))
-  cors <- sapply(1:ncol(gsvar.mg), function(i) {
+  cors <- sapply(seq_len(ncol(gsvar.mg)), function(i) {
     round(cor(gsvar.mg[, i], gsvar.ex[,i], method = "spearman"), 2)
   })
   expect_true(all(cors >= 0.97))
@@ -88,11 +88,13 @@ test_that("multiple 'melted' scores are returned in a long data.frame", {
 
 test_that("ssGSEA.normalize returns same normalization as GSVA", {
   scores <- expect_warning({
+    set.seed(123)
     scoreSingleSamples(gdb, vm$E, methods='ssgsea', parallel.sz=1,
                        verbose=FALSE)
   }, "GSVA")
-  my.norm <- ssGSEA.normalize(scores$score)
+  my.norm <- sparrow:::ssGSEA.normalize(scores$score)
   ssgsea.norm <- expect_warning({
+    set.seed(123)
     scoreSingleSamples(gdb, vm$E, methods='ssgsea', parallel.sz=1,
                        ssgsea.norm=TRUE)
   }, "GSVA")

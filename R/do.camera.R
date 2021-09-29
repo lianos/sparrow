@@ -58,7 +58,7 @@ mgres.camera <- function(res, gsd, ...) {
   out <- cbind(
     geneSets(gsd, as.dt=TRUE)[, list(collection, name)],
     as.data.table(res))
-  NGenes <- NULL # silence R CMD check NOTEs
+  NGenes <- FDR <- PValue <- NULL # silence R CMD check NOTEs
   out[, NGenes := NULL]
 
   # camera result doesn't have an FDR column if we only tested on geneset

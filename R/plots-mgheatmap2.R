@@ -77,13 +77,20 @@
 #'   This can be a superset of the names found in `gdb`. As of ComplexHeatmap
 #'   v2 (maybe earlier versions), this doesn't really work when
 #'   `cluster_rows = TRUE`.
+#' @param name passed down to [ComplexHeatmap::Heatmap()]
+#' @param rm.collection.prefix When `TRUE` (default), removes the collection
+#'   name from the genesets annotated on the heatmap.
+#' @param center,scale,uncenter,unscale boolean parameters passed down into the
+#'   the single sample gene set scoring methods defined by `aggregate.by`
 #' @param rm.dups if `aggregate.by == 'none'`, do we remove genes that
 #'   appear in more than one geneset? Defaults to `FALSE`
 #' @param recenter do you want to mean center the rows of the heatmap matrix
-#'   prior to calling [ComplexHeatmap::Heatmap()]?
+#'   prior to calling [ComplexHeatmap::Heatmap()]? This is passed down to
+#'   [scale_rows()]. Look there for more mojo.
 #' @param rescale do you want to standardize the row variance to one on the
 #'   values of the heatmap matrix prior to calling
-#'   [ComplexHeatmap::Heatmap()]?
+#'   [ComplexHeatmap::Heatmap()]? This is passed down to
+#'   [scale_rows()]. Look there for more mojo.
 #' @param rename.rows defaults to `NULL`, which induces no action. Specifying
 #'   a paramter here assumes you want to rename the rows of the heatmap.
 #'   Please refer to the "Renaming Rows" section for details.
@@ -93,8 +100,8 @@
 #'   fenceposts. If not, then these define the quantiles to trim off the top
 #'   or bottom.
 #' @param transpose Flip display so that rows are columns. Default is `FALSE`.
-#' @param ... parameters to send down to [scoreSingleSamples()] or
-#'   [ComplexHeatmap::Heatmap()].
+#' @param ... parameters to send down to [scoreSingleSamples()],
+#'   [ComplexHeatmap::Heatmap()], [renameRows()] internal `as_matrix()`.
 #' @return A `Heatmap` object.
 #'
 #' @examples
@@ -111,14 +118,18 @@
 #' ComplexHeatmap::draw(mgh)
 #'
 #' # Center to "normal" group
-#'
+#' mgc <- mgheatmap2(vm, gdb, aggregate.by = "ewm", split = TRUE,
+#'                   top_annotation = col.anno, show_column_names = FALSE,
+#'                   recenter = vm$targets$Cancer_Status == "normal",
+#'                   column_title = "Gene Set Activity in BRCA subset")
+#' ComplexHeatmap::draw(mgc)
 #' # Maybe you want the rownames of the matrix to use spaces instead of "_"
 #' rr <- geneSets(gdb)[, "name", drop = FALSE]
 #' rr$newname <- gsub("_", " ", rr$name)
-#' mg2 <- mgheatmap(vm, gdb, aggregate.by='ewm', split=TRUE,
-#'                  top_annotation = col.anno, show_column_names = FALSE,
-#'                  column_title = "Gene Set Activity in BRCA subset",
-#'                  rename.rows = rr)
+#' mg2 <- mgheatmap2(vm, gdb, aggregate.by='ewm', split=TRUE,
+#'                   top_annotation = col.anno, show_column_names = FALSE,
+#'                   column_title = "Gene Set Activity in BRCA subset",
+#'                   rename.rows = rr)
 mgheatmap2 <- function(x, gdb = NULL, col = NULL,
                        aggregate.by = c("none", "ewm", "ewz", "zscore"),
                        split = TRUE, scores = NULL, gs.order = NULL,
@@ -190,10 +201,12 @@ mgheatmap2 <- function(x, gdb = NULL, col = NULL,
                               center = FALSE, scale = FALSE,
                               uncenter = center., unscale = scale., ...)
     } else {
-      xs <- scores[scores[['method']] == aggregate.by,,drop=FALSE]
-      xs$key <- encode_gskey(xs)
-      X <- acast(xs, key ~ sample_id, value.var = "score")
-      X <- X[unique(gdbc.df$key),]
+      xs <- setDT(scores[scores[['method']] == aggregate.by,,drop=FALSE])
+      xs[, key:= encode_gskey(xs)]
+      xw <- dcast(xs, key ~ sample_id, value.var = "score")
+      xw <- unique(xw, by = "key")
+      X <- as.matrix(xw[, -1, with = FALSE])
+      rownames(X) <- xw[[1]]
     }
     # If we want to split, it (only?) makes sense to split by collection
     split <- if (split) split_gskey(rownames(X))$collection else NULL

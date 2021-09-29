@@ -7,25 +7,32 @@
 zScore(x, summary = c("mean", "sqrt"), trim = 0, ...)
 }
 \arguments{
-\item{x}{gene x sample matrix}
+\item{x}{gene x sample matrix with rows already subsetted to the ones you
+care about.}
 
 \item{summary}{sqrt or mean}
 
 \item{trim}{calculate trimmed mean?}
+
+\item{...}{pass through arguments}
+}
+\value{
+A list of stats related to the zscore. You care mostly about
+\verb{$score}.
 }
 \description{
 Calculate single sample geneset score by average z-score method
 }
 \examples{
 vm <- exampleExpressionSet(do.voom=TRUE)
-gdb <- conform(getMSigGeneSetDb('H', "human", "entrez"), vm)
-features <- featureIds(gdb, 'H', 'HALLMARK_INTERFERON_GAMMA_RESPONSE',
+gdb <- conform(exampleGeneSetDb(), vm)
+features <- featureIds(gdb, 'c2', 'BURTON_ADIPOGENESIS_PEAK_AT_2HR',
                        value='x.idx')
-scores <- zScore(vm[features,])$score
+zscores <- zScore(vm[features,])
 
 ## Use scoreSingleSamples to facilitate scoring of all gene sets
-scores.all <- scoreSingleSamples(gdb, vm, 'zscore')
-s2 <- with(subset(scores.all, name == 'HALLMARK_INTERFERON_GAMMA_RESPONSE'),
+scores.all <- scoreSingleSamples(gdb, vm, 'zscore', summary = "mean")
+s2 <- with(subset(scores.all, name == 'BURTON_ADIPOGENESIS_PEAK_AT_2HR'),
            setNames(score, sample_id))
-all.equal(s2, scores)
+all.equal(s2, zscores$score)
 }

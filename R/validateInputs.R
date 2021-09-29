@@ -19,13 +19,21 @@
 #' @param x The expression object to use
 #' @param design A design matrix, if the GSEA method(s) require it
 #' @param contrast A contrast vector (if the GSEA method(s) require it)
-#' @param A character vector of the GSEA methods that these inputs will be used
-#'   for
+#' @param methods A character vector of the GSEA methods that these inputs will
+#'  be used for.
+#' @param xmeta. hack for supportin data.frame inputs.
 #' @param require.x.rownames Leave this alone, should always be `TRUE` but
 #'   have it in this package for dev/testing purposes.
 #' @param ... other variables that called methods can check if they want
 #' @return A list with "normalized" versions of `$x`, `$design`, and `$contrast`
 #'   for downstream use.
+#' @examples
+#' dge.stats <- exampleDgeResult()
+#' ranks <- setNames(dge.stats$t, dge.stats$feature_id)
+#' gdb <- exampleGeneSetDb()
+#' ok <- validateInputs(ranks, gdb, methods = c("cameraPR", "fgsea"))
+#' # need full expressionset & design for romer
+#' null <- failWith(NULL, validateInputs(ranks, gdb, methods = "romer"))
 validateInputs <- function(x, design=NULL, contrast=NULL, methods=NULL,
                            xmeta. = NULL, require.x.rownames=TRUE, ...) {
   if (is.character(methods)) {

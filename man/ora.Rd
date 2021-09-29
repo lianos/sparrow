@@ -2,11 +2,12 @@
 % Please edit documentation in R/do.ora.R
 \name{ora}
 \alias{ora}
-\title{Performs an overrepresentation analysis, (optinally) accounting for bias.}
+\alias{plot_ora_bias}
+\title{Performs an overrepresentation analysis, (optionally) accounting for bias.}
 \usage{
 ora(
+  x,
   gsd,
-  dat,
   selected = "significant",
   groups = NULL,
   feature.bias = NULL,
@@ -14,15 +15,16 @@ ora(
   restrict.universe = FALSE,
   plot.bias = FALSE,
   ...,
-  as.dt = FALSE,
-  .pipelined = FALSE
+  as.dt = FALSE
 )
+
+plot_ora_bias(x, selected, feature.bias, ...)
 }
 \arguments{
-\item{gsd}{The GeneSetDb}
-
-\item{dat}{A data.frame with feature-level statistics. Minimally, this should
+\item{x}{A data.frame with feature-level statistics. Minimally, this should
 have a \code{"feature_id"} (character) column, but read on ...}
+
+\item{gsd}{The GeneSetDb}
 
 \item{selected}{Either the name of a logical column in \code{dat} used to subset
 out the features to run the enrichement over, or a character vector of
@@ -49,6 +51,12 @@ CRAN package is required when this is not NULL.}
 this plot without running \code{ora} using the \code{\link[=plot_ora_bias]{plot_ora_bias()}},
 like so:
 \code{plot_ora_bias(dat, selected = selected, groups = groups, feature.bias = feature.bias)}}
+
+\item{...}{parameters passed to \code{conform()}}
+
+\item{as.dt}{If \code{FALSE} (default), the data.frame like thing that
+this funciton returns will be set to a data.frame. Set this to \code{TRUE}
+to keep this object as a \code{data.table}}
 }
 \value{
 A data.frame of pathway enrichment. The last N colums are enrichment
@@ -75,16 +83,22 @@ The meat and potatoes of this function's code was extracted from
 Note that the BiasedUrn CRAN package needs to be installed to support biased
 enrichment testing
 }
+\section{Functions}{
+\itemize{
+\item \code{plot_ora_bias}: plots the bias of coviarate to DE / selected status. Code
+taken from \code{\link[limma:goana]{limma::kegga()}}
+}}
+
 \examples{
 dgestats <- exampleDgeResult("human", "ensembl")
 gdb <- getMSigGeneSetDb("h", "human", "ensembl")
 
 # Run enrichmnent without accounting for any bias
-nobias <- ora(gdb, dgestats, selected = "selected", groups = "direction",
+nobias <- ora(dgestats, gdb, selected = "selected", groups = "direction",
               feature.bias = NULL)
 
 # Run enrichment and account for gene length
-lbias <- ora(gdb, dgestats, selected = "selected",
+lbias <- ora(dgestats, gdb, selected = "selected",
              feature.bias = "effective_length")
 
 # plot length bias with DGE status
@@ -94,7 +108,7 @@ plot_ora_bias(dgestats, "selected", "effective_length")
 biased <- dgestats[order(dgestats$pval),]
 biased$effective_length <- sort(biased$effective_length, decreasing = TRUE)
 plot_ora_bias(biased, "selected", "effective_length")
-etest <- ora(gdb, biased, selected = "selected",
+etest <- ora(biased, gdb, selected = "selected",
              groups = "direction",
              feature.bias = "effective_length")
 }

@@ -29,6 +29,7 @@
 #'   specifies what to center
 #' @param scale Either a logical, characeter, or numeric-like value that
 #'   specifies what to scale
+#' @param ... pass through arguments
 #' @return a scaled version of `x`
 #' @examples
 #' # see tests/testthat/test-scale_rows.R for more examples

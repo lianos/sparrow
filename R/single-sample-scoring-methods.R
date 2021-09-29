@@ -56,14 +56,14 @@
 #'   the SVD/PCA decomposition are included for the ride.
 #' @examples
 #' vm <- exampleExpressionSet(do.voom=TRUE)
-#' gdb <- conform(getMSigGeneSetDb('H', "human", "entrez"), vm)
-#' features <- featureIds(gdb, 'H', 'HALLMARK_INTERFERON_GAMMA_RESPONSE',
+#' gdb <- conform(exampleGeneSetDb(), vm)
+#' features <- featureIds(gdb, 'c2', 'BURTON_ADIPOGENESIS_PEAK_AT_2HR',
 #'                        value='x.idx')
 #' scores <- eigenWeightedMean(vm[features,])$score
 #'
 #' ## Use scoreSingleSamples to facilitate scoring of all gene sets
 #' scores.all <- scoreSingleSamples(gdb, vm, 'ewm')
-#' s2 <- with(subset(scores.all, name == 'HALLMARK_INTERFERON_GAMMA_RESPONSE'),
+#' s2 <- with(subset(scores.all, name == 'BURTON_ADIPOGENESIS_PEAK_AT_2HR'),
 #'            setNames(score, sample_id))
 #' all.equal(s2, scores)
 eigenWeightedMean <- function(x, eigengene=1L, center=TRUE, scale=TRUE,
@@ -123,34 +123,28 @@ eigenWeightedMean <- function(x, eigengene=1L, center=TRUE, scale=TRUE,
   res
 }
 
-#' Just like eigenWeightedMean but direct from PCA (no gsdscore)
-#'
-#' @export
-pcWeightedMean <- function(x, eigengene=1L, center=TRUE, scale=TRUE,
-                           uncenter=center, unscale=scale, retx=FALSE,
-                           weights=NULL, normalize = FALSE, all.x = NULL,
-                           ..., .drop.sd = 1e-4) {
-  stop("TODO: implement pcWeightedMean")
-}
-
 #' Calculate single sample geneset score by average z-score method
 #'
 #' @export
-#' @param x gene x sample matrix
+#' @param x gene x sample matrix with rows already subsetted to the ones you
+#'   care about.
 #' @param summary sqrt or mean
 #' @param trim calculate trimmed mean?
+#' @param ... pass through arguments
+#' @return A list of stats related to the zscore. You care mostly about
+#'   `$score`.
 #' @examples
 #' vm <- exampleExpressionSet(do.voom=TRUE)
-#' gdb <- conform(getMSigGeneSetDb('H', "human", "entrez"), vm)
-#' features <- featureIds(gdb, 'H', 'HALLMARK_INTERFERON_GAMMA_RESPONSE',
+#' gdb <- conform(exampleGeneSetDb(), vm)
+#' features <- featureIds(gdb, 'c2', 'BURTON_ADIPOGENESIS_PEAK_AT_2HR',
 #'                        value='x.idx')
-#' scores <- zScore(vm[features,])$score
+#' zscores <- zScore(vm[features,])
 #'
 #' ## Use scoreSingleSamples to facilitate scoring of all gene sets
-#' scores.all <- scoreSingleSamples(gdb, vm, 'zscore')
-#' s2 <- with(subset(scores.all, name == 'HALLMARK_INTERFERON_GAMMA_RESPONSE'),
+#' scores.all <- scoreSingleSamples(gdb, vm, 'zscore', summary = "mean")
+#' s2 <- with(subset(scores.all, name == 'BURTON_ADIPOGENESIS_PEAK_AT_2HR'),
 #'            setNames(score, sample_id))
-#' all.equal(s2, scores)
+#' all.equal(s2, zscores$score)
 zScore <- function(x, summary = c('mean', 'sqrt'), trim = 0, ...) {
   x <- as_matrix(x)
   summary <- match.arg(summary)
@@ -218,6 +212,8 @@ zScore <- function(x, summary = c('mean', 'sqrt'), trim = 0, ...) {
 #'   \code{TRUE}, will return a \code{ret$pca$x} matrix that has the rotated
 #'   variables.
 #' @param ... these aren't used in here
+#' @param .use_irlba when `TRUE`, used [irlba::svdr()] instead of [base::svd()].
+#'   Default: `FALSE`.
 #' @param .drop.sd When zero-sd (non varying) features are scaled, their values
 #'   are `NaN`. When the Features with rowSds < this threshold (default 1e-4) are
 #'   identified, and their scaled values are set to 0.
@@ -351,7 +347,11 @@ gsdScore <- function(x, eigengene = 1L, center = TRUE, scale = TRUE,
   ctrb <- sweep(axproj, 2, colSums(axproj), '/')
   colnames(ctrb) <- paste0('PC', seq(ncol(ctrb)))
 
-  rn <- if (!is.null(rownames(ctrb))) rownames(ctrb) else paste0('r', 1:nrow(ctrb))
+  rn <- if (!is.null(rownames(ctrb))) {
+    rownames(ctrb)
+  } else {
+    paste0('r', seq_len(nrow(ctrb)))
+  }
   ctrb <- cbind(
     data.frame(feature_id=rn, stringsAsFactors=FALSE),
     as.data.frame(ctrb))
@@ -363,6 +363,5 @@ gsdScore <- function(x, eigengene = 1L, center = TRUE, scale = TRUE,
               percentVar=pca.d^2 / sum(pca.d^2))
   class(pca) <- 'prcomp'
 
-  list(score=score, egene=egene,
-       svd=s, pca=pca, factor.contrib=ctrb)
+  list(score = score, egene = egene, svd = s, pca = pca, factor.contrib = ctrb)
 }

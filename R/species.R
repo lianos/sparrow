@@ -1,11 +1,21 @@
 #' Match a species query to the regularized species info.
 #'
 #' @export
-#' @param query the species name to lookup
-species_info <- function(query, ...) {
+#' @param query the species name to lookup, if `NULL` (default), returns the
+#'   internal species info table, otherwise the row of the table that matches
+#'   `query`.
+#' @param ... pass through
+#' @return a data.frame of species-related information that is used to fetch
+#'   appropriate annotation files and conversion functions between species
+#'   for gene identifiers, and such.
+#' @examples
+#' species_info()
+#' species_info("human")
+species_info <- function(query = NULL, ...) {
   info <- read.csv(
     stringsAsFactors = FALSE,
     system.file("extdata", "species-info.csv", package = "sparrow"))
+  if (is.null(query)) return(info)
   query <- assert_string(query)
   query <- gsub(" +", "_", tolower(query))
   idx <- NA

@@ -2,38 +2,46 @@
 % Please edit documentation in R/GeneSetDb-methods.R
 \name{conversion}
 \alias{conversion}
-\alias{as.data.frame.GeneSetDb}
+\alias{as.data.table.GeneSetDb}
 \alias{as.data.frame}
 \alias{as.list}
-\alias{as.list.GeneSetDb}
+\alias{as.data.table}
+\alias{as.data.frame.GeneSetDb}
 \title{Convert a GeneSetDb to other formats.}
 \usage{
-\method{as.data.frame}{GeneSetDb}(
+\method{as.data.table}{GeneSetDb}(
   x,
-  row.names = NULL,
-  optional = FALSE,
+  keep.rownames = FALSE,
   value = c("feature_id", "x.id", "x.idx"),
   active.only = is.conformed(x),
   ...
 )
 
-\method{as.list}{GeneSetDb}(
+\method{as.data.frame}{GeneSetDb}(
   x,
+  row.names = NULL,
+  optional = NULL,
   value = c("feature_id", "x.id", "x.idx"),
   active.only = is.conformed(x),
-  nested = FALSE,
   ...
 )
 }
 \arguments{
 \item{x}{A \code{GeneSetDb} object}
 
-\item{value}{The value type to export for the feature ids}
+\item{keep.rownames}{included here just for consistency with
+\code{data.table::as.data.table}, but it is not used}
+
+\item{value}{The value type to export for the feature ids, defaults to
+\code{"feature_id"}.}
 
 \item{active.only}{If the \code{GeneSetDb} is conformed, do you want to only
 return the features and genests that match target and are "active"?}
 
-\item{...}{nothing}
+\item{...}{pass through arguments (not used)}
+
+\item{row.names, optional}{included here for consistency with \code{as.data.frame}
+generic function definition, but these are not used.}
 }
 \value{
 a converted \code{GeneSetDb}
@@ -43,7 +51,7 @@ As awesome as a GeneSetDb is, you might find a time when you'll need your
 gene set information in an other format. To do that, we provide the
 following functions:
 \itemize{
-\item \code{as.data.frame(gdb)}: Perhaps the most natural format to convert to in
+\item \code{as.data.(table|frame)(gdb)}: Perhaps the most natural format to convert to in
 order to save locally and examine outside of Bioconductor's GSEA universe,
 but not many other tools accept gene set definitions in this format.
 \item \code{as.list(gdb)}: A named list of feature identifiers. This is the format
@@ -68,6 +76,11 @@ into a different target space (entrez to ensembl, for instance). Using
 this option, the features will be provided in the target space.
 }
 }
+\section{Functions}{
+\itemize{
+\item \code{as.data.frame.GeneSetDb}: convert a GeneSetDb to data.frame
+}}
+
 \examples{
 es <- exampleExpressionSet()
 gdb <- conform(exampleGeneSetDb(), es)

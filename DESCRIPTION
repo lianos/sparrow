@@ -1,13 +1,19 @@
 Package: sparrow
 Type: Package
-Title: Take command of set enrichment analyses through a unified interface.
-Version: 0.98.10
+Title: Take command of set enrichment analyses through a unified interface
+Version: 0.99.00
 Authors@R: c(
-    person("Steve", "Lianoglou", , "slianoglou@gmail.com", c("aut", "cre")),
+    person(
+        "Steve", "Lianoglou", role = c("aut", "cre"),
+        email = "slianoglou@gmail.com",
+        comment = c(ORCID = "0000-0002-0924-1754")),
     person("Denali Therapeutics", role = c("fnd"), comment = "2018+"),
     person("Genentech", role = c("fnd"), comment = "2014 - 2017"))
-Description: Provides a unified interface to orchestrate a plethora of GSEA
-    methods and quickly interrogate their results.
+Description: Provides a unified interface to a variety of GSEA techniques from
+    different bioconductor packages. Results are harmonized into a single object
+    and can be interrogated uniformly for quick exploration and interpretation
+    of results. Interactive exploration of GSEA results is enabled through
+    a shiny app provided by a sparrow.shiny sibling package.
 Depends:
     R (>= 4.0)
 Imports:
@@ -21,19 +27,20 @@ Imports:
     DelayedMatrixStats,
     edgeR (>= 3.18.1),
     ggplot2 (>= 2.2.0),
+    graphics,
+    grDevices,
     GSEABase,
     GSVA,
-    hexbin,
     irlba,
     limma,
     Matrix,
-    matrixStats (>= 0.58.0),
     methods,
     plotly (>= 4.9.0),
+    stats,
+    utils,
     viridis
 Suggests:
     AnnotationDbi,
-    babelgene (>= 21.4),
     BiasedUrn,
     Biobase (>= 2.24.0),
     BiocStyle,
@@ -43,7 +50,9 @@ Suggests:
     fgsea,
     GO.db,
     goseq,
+    hexbin,
     magrittr,
+    matrixStats,
     msigdbr (>= 7.4.1),
     KernSmooth,
     knitr,

@@ -1,9 +1,11 @@
 #' Creates a "geneset smart" ComplexHeatmap::Heatmap
 #'
 #' @description
-#' Encapsulates many common "moves" you'll make when trying to make a heatmap,
-#' especially if you are trying to show geneset activity across a panel of
-#' samples.
+#' Before we get started, note that you probably want to use [mgheatmap2()].
+#'
+#' This function encapsulates many common "moves" you'll make when trying to
+#' make a heatmap, especially if you are trying to show geneset activity across
+#' a panel of samples.
 #'
 #' **NOTE**: this function will **almost certainly** reorder the rows of the
 #' input matrix. If you are concatentating Heatmap objects together horizontally
@@ -51,6 +53,7 @@
 #' @importFrom circlize colorRamp2
 #' @importFrom ComplexHeatmap Heatmap
 #' @importFrom viridis viridis
+#' @seealso [mgheatmap2()]
 #'
 #' @param x the data matrix
 #' @param gdb `GeneSetDb` object that holds the genesets to plot. Defaults to
@@ -77,6 +80,11 @@
 #'   This can be a superset of the names found in `gdb`. As of ComplexHeatmap
 #'   v2 (maybe earlier versions), this doesn't really work when
 #'   `cluster_rows = TRUE`.
+#' @param name passed down to [ComplexHeatmap::Heatmap()]
+#' @param rm.collection.prefix When `TRUE` (default), removes the collection
+#'   name from the genesets annotated on the heatmap.
+#' @param center,scale boolean parameters passed down into the the single
+#'   sample gene set scoring methods defined by `aggregate.by`
 #' @param rm.dups if `aggregate.by == 'none'`, do we remove genes that
 #'   appear in more than one geneset? Defaults to `FALSE`
 #' @param recenter do you want to mean center the rows of the heatmap matrix
@@ -101,8 +109,8 @@
 #'   quantile range to be calculated. Otherwise the number are assumed to
 #'   mark the top and bottom of the color scale range you want to use.
 #' @param transpose Flip display so that rows are columns. Default is `FALSE`.
-#' @param ... parameters to send down to [scoreSingleSamples()] or
-#'   [ComplexHeatmap::Heatmap()].
+#' @param ... parameters to send down to [scoreSingleSamples()],
+#'   [ComplexHeatmap::Heatmap()], [renameRows()] internal `as_matrix()`.
 #' @return A `Heatmap` object.
 #'
 #' @examples
@@ -234,10 +242,12 @@ mgheatmap <- function(x, gdb = NULL, col = NULL,
                               center = center, scale = scale, ...)
 
     } else {
-      xs <- scores[scores[['method']] == aggregate.by,,drop=FALSE]
-      xs$key <- encode_gskey(xs)
-      X <- acast(xs, key ~ sample_id, value.var = "score")
-      X <- X[unique(gdbc.df$key),]
+      xs <- setDT(scores[scores[['method']] == aggregate.by,,drop=FALSE])
+      xs[, key:= encode_gskey(xs)]
+      xw <- dcast(xs, key ~ sample_id, value.var = "score")
+      xw <- unique(xw, by = "key")
+      X <- as.matrix(xw[, -1, with = FALSE])
+      rownames(X) <- xw[[1]]
     }
     # If we want to split, it (only?) makes sense to split by collection
     split <- if (split) split_gskey(rownames(X))$collection else NULL

@@ -14,6 +14,9 @@ the collection you want to rename, and their values are the new names.}
 
 \item{...}{pass it along}
 }
+\value{
+GeneSetDb \code{x} with renamed \code{geneSets(x)$collection} values.
+}
 \description{
 This function remaps names of collections in the database from their current
 names to ones specified by the user.

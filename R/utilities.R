@@ -1,4 +1,22 @@
-#' Helper utitlity to rename specified names of a vector
+# The functions here are meant to be internal utility functions to this package
+# and not for external/end-user use.
+
+#' Convenience wrapper to require specified packages
+#'
+#' @noRd
+#' @param pkg A character vector of packages to require
+#' @param quietly defaults to true
+#' @param ... passed into [requireNamespace()]
+reqpkg <- function(pkg, quietly = TRUE, ...) {
+  assert_character(pkg)
+  for (p in pkg) {
+    if (!requireNamespace(p, ..., quietly = quietly)) {
+      stop("'", p, "' package required, please install it.", call. = FALSE)
+    }
+  }
+}
+
+#' Helper utility to rename specified names of a vector
 #'
 #' Looks for values in `x` that are specified in `names(rename)`, and changes
 #' the names in `x` with the ones specified in the values of `rename`.
@@ -73,6 +91,7 @@ get_function <- function(name, ...) {
   isTRUE(name.match) && isTRUE(coll.match)
 }
 
+#' A utility function to extract preranked statistics from different inputs.
 #' @noRd
 extract_preranked_stats <- function(x, design, contrast, robust.fit=FALSE,
                                     robust.eBayes=FALSE, logFC=NULL,
@@ -116,6 +135,11 @@ extract_preranked_stats <- function(x, design, contrast, robust.fit=FALSE,
 #'
 #' @export
 #' @rdname gskey
+#' @param x a data.frame with collection,name columns OR a character vector
+#'   of collection names
+#' @param y if `x` is a data.frame: nothing, otherwise a character vector
+#'   of geneset names
+#' @param sep the string to use to concatenate collections and names
 #' @return a character vector
 #' @examples
 #' gdf <- exampleGeneSetDF()
@@ -137,8 +161,12 @@ encode_gskey <- function(x, y, sep=";;") {
 
 #' Splits collection,name combinations to collection,name data.frames
 #'
+#' `splt_gskey` is the inverse function of `encode_gskey()`
+#'
 #' @export
 #' @rdname gskey
+#' @param x a character vector of encoded geneset keys from [encode_gskey()]
+#' @param sep the separator used in the encoding of geneset names
 #' @return a data.frame with (collection,name) columns
 split_gskey <- function(x, sep=";;") {
   stopifnot(all(grepl(sep, x)))
@@ -321,6 +349,9 @@ check.dt <- function(x, ref) {
 #' @export
 #' @param ... pieces of the message
 #' @param file where to send the message. Defaults to \code{stderr()}
+#' @return Nothing, dumps text to `file`
+#' @examples
+#' msg("this is a message", "to stderr")
 msg <- function(..., file=stderr()) {
   cat(paste(rep('-', 80), collapse=''), '\n', file=file)
   cat(..., '\n', file=file)
@@ -342,9 +373,8 @@ msg <- function(..., file=stderr()) {
 #' @param file where msg sends the message
 #' @return the result of `expr` if successful, otherwise `default` value.
 #' @examples
-#' \dontrun{
-#' failWith(NULL, stop("no error, just NULL"))
-#' }
+#' # look, this doesn't throw an error, it just returns NULL
+#' x <- failWith(NULL, stop("no error, just NULL"), silent = TRUE)
 failWith <- function(default=NULL, expr, frame=parent.frame(),
                      message=geterrmessage(), silent=FALSE, file=stderr()) {
   tryCatch(eval(expr, frame), error=function(e) {

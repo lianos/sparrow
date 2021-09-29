@@ -3,7 +3,7 @@ context("data.frame ranks/DGE input to seas")
 xdf <- exampleDgeResult()
 scores <- setNames(xdf$logFC, xdf$feature_id)
 
-gdb <- getMSigGeneSetDb("h", "human", "ensembl")
+gdb <- randomGeneSetDb(xdf)
 gdb <- conform(gdb, xdf$feature_id)
 gs.idx <- as.list(gdb, active.only = TRUE, value = "x.idx")
 

@@ -27,6 +27,11 @@ around into some clustering.}
 \item{col.point}{the color of the points in the scatterplots}
 
 \item{diag.distro}{show the distribution of values on the diagnols?}
+
+\item{smooth.scatter}{boolean to indicate wether to use a normal scatter, or
+a \code{\link[graphics:smoothScatter]{graphics::smoothScatter()}}. Defaults to \code{TRUE} if \code{nrow(E) > 400}}
+
+\item{...}{pass through arguments to internal panel functions}
 }
 \value{
 nothing, just creates the plot

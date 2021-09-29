@@ -31,6 +31,7 @@
 #' @param active.only only look for gene sets that are "active"? Defaults to
 #'   `TRUE` if `x` is conformed to a target expression object, else `FALSE`.
 #'   [conform()] for further details.
+#' @param ... pass through arguments
 #' @return A vector of identifiers (or indexes into an expression object,
 #'   depending on the `value` argument) for the features in the specified
 #'   geneset. `NA` is returned if the geneset is not "active" (ie. listed in
@@ -51,23 +52,36 @@
 #' ## returned as row indices into vm
 #' fids.idxs <- featureIds(gdb, 'c2', value='x.idx')
 setGeneric("featureIds", signature="x",
-function(x, i, j, value=c('feature_id', 'x.id', 'x.idx'),
-         active.only=is.conformed(x), ...) {
-  standardGeneric("featureIds")
-})
+           function(x, i, j, value=c('feature_id', 'x.id', 'x.idx'),
+                    active.only=is.conformed(x), ...)
+             standardGeneric("featureIds"))
 
 #' Fetch the featureIdMap for a `GeneSetDb`
+#'
+#' The GeneSetDb has an internal data structure that is used to cross reference
+#' the feature_id's used in the database construction to the features in the
+#' expression object that is used to run GSEA methods against.
+#'
 #' @exportMethod featureIdMap
+#' @param x the object to retrieve the featureIdMap from
+#' @param ... pass through arguments
+#' @return a data.frame of input feature_id's to conformed id's/rows/etc
+#' @examples
+#' gdb <- exampleGeneSetDb()
+#' vm <- exampleExpressionSet()
+#' gdb <- conform(gdb, vm)
+#' fmap <- featureIdMap(gdb)
 setGeneric("featureIdMap", function(x, ...) standardGeneric("featureIdMap"))
 
-setGeneric("featureIdMap<-", function(x, value) {
+setGeneric("featureIdMap<-", function(x, value)
   standardGeneric("featureIdMap<-")
-})
+)
 
 
 #' Gene Set Collection Metadata
 #'
-#' @description
+#' Associates key:value metadata to a gene set collection of a [GeneSetDb()].
+#'
 #' The design of the GeneSetDb is such that we assume that groups of gene sets
 #' are usually defined together and will therefore share similar metadata.
 #' These groups of gene sets will fall into the same "collection", and,
@@ -81,10 +95,10 @@ setGeneric("featureIdMap<-", function(x, value) {
 #' can browse to in order to find out more information about the gene set.
 #'
 #' There are explicit helper functions that set and get these aforementioned
-#' metadata, namely [org()], [featureIdType()],
-#' [geneSetCollectionURLfunction()], and [geneSetURL()]. Aribtrary
-#' metadata can be stored at the collection level using the
-#' [addCollectionMetadata()] function. More details are provided below.
+#' metadata, namely `featureIdType()`, `geneSetCollectionURLfunction()`, and
+#' `geneSetURL()`. Aribtrary metadata can be stored at the collection level
+#' using the [addCollectionMetadata()] function. More details are provided
+#' below.
 #'
 #' @exportMethod collectionMetadata
 #' @rdname collectionMetadata
@@ -92,43 +106,35 @@ setGeneric("featureIdMap<-", function(x, value) {
 #' @param x Object to extract the collectionMetadata from
 #' @param collection The geneset collection to to query
 #' @param name The name of the metadata variable to get the value for
+#' @template asdt-param
 #' @param ... not used yet
 #'
 #' @examples
-#' gdb <- getMSigGeneSetDb('H')
+#' gdb <- exampleGeneSetDb()
 #'
-#' ## Gene Set URLs
-#' geneSetURL(gdb, 'H', 'HALLMARK_ADIPOGENESIS')
-#' geneSetURL(gdb, c('H', 'H'),
-#'            c('HALLMARK_ADIPOGENESIS', 'HALLMARK_ANGIOGENESIS'))
+#' # Gene Set URLs
+#' geneSetURL(gdb, 'c2', 'BIOCARTA_AGPCR_PATHWAY')
+#' geneSetURL(gdb, c('c2', 'c7'),
+#'            c('BIOCARTA_AGPCR_PATHWAY', 'GSE14308_TH2_VS_TH1_UP'))
 #'
-#' ## feature_id TYpe
-#' featureIdType(gdb, 'H')
-#'
-#' ## Organism
-#' org(gdb, 'H')
+#' # feature id types
+#' featureIdType(gdb, "c2") <- GSEABase::EntrezIdentifier()
+#' featureIdType(gdb, "c2")
 #'
 #' ## Arbitrary metadata
-#' gdb <- addCollectionMetadata(gdb, 'H', 'foo', 'bar')
-#' cmh <- collectionMetadata(gdb, 'H') ## print this to see
-setGeneric("collectionMetadata", signature=c("x", "collection", "name"),
-function(x, collection, name, ...) {
-  standardGeneric("collectionMetadata")
-})
-
-# ##' @export
-# ##' @rdname collectionMetadata
-# setGeneric("collectionMetadata<-", signature=c("x", "collection", "name"),
-# function(x, collection, name, value) {
-#   standardGeneric("collectionMetadata<-")
-# })
+#' gdb <- addCollectionMetadata(gdb, 'c2', 'foo', 'bar')
+#' cmh <- collectionMetadata(gdb, 'c2', as.dt = TRUE) ## print this to see
+setGeneric(
+  "collectionMetadata",
+  signature=c("x", "collection", "name"),
+  function(x, collection, name, ...) standardGeneric("collectionMetadata"))
 
 #' @section Gene Set URLs:
 #'
 #' A URL function can be defined per collection that takes the collection,name
 #' compound key and generates a URL for the gene set that the user can browse
 #' to for futher information. For instance, the
-#' [geneSetCollectionURLfunction()] for the MSigDB collections are defined
+#' `geneSetCollectionURLfunction()` for the MSigDB collections are defined
 #' like so:
 #'
 #' ```
@@ -152,21 +158,27 @@ function(x, collection, name, ...) {
 #'
 #' @return A character vector of URLs for each of the genesets identified by
 #'   `i, j`. `NA` is returned for genesets `i,j` that are not found in `x`.
-setGeneric("geneSetURL", signature="x", function(x, i, j, ...) {
-  standardGeneric("geneSetURL")
-})
+setGeneric("geneSetURL", signature="x", function(x, i, j, ...)
+  standardGeneric("geneSetURL"))
 
+
+# For some reason @describeIn doesn't work with the
+# `geneSetCollectionURLfunction` roxygen docs
+
+#' Get/set the gene set collection url function for a geneset collection
+#'
+#' Reference [collectionMetadata()] for more info.
+#' @rdname geneSetCollectionURLfunction
 #' @exportMethod geneSetCollectionURLfunction
-#' @rdname collectionMetadata
-setGeneric("geneSetCollectionURLfunction", signature="x", function(x, i, ...) {
-  standardGeneric("geneSetCollectionURLfunction")
-})
+setGeneric("geneSetCollectionURLfunction", signature="x", function(x, i, ...)
+  standardGeneric("geneSetCollectionURLfunction"))
 
 #' @export
-#' @rdname collectionMetadata
-setGeneric("geneSetCollectionURLfunction<-", signature="x", function(x, i, value) {
-  standardGeneric("geneSetCollectionURLfunction<-")
-})
+#' @rdname geneSetCollectionURLfunction
+setGeneric("geneSetCollectionURLfunction<-",
+           signature="x",
+           function(x, i, value)
+             standardGeneric("geneSetCollectionURLfunction<-"))
 
 #' @section Feature ID Types:
 #'
@@ -187,39 +199,13 @@ setGeneric("geneSetCollectionURLfunction<-", signature="x", function(x, i, value
 #' @exportMethod featureIdType
 #' @rdname collectionMetadata
 #' @inheritParams featureIds
-setGeneric("featureIdType", signature="x", function(x, i, ...) {
-  standardGeneric("featureIdType")
-})
+setGeneric("featureIdType", signature="x", function(x, i, ...)
+  standardGeneric("featureIdType"))
 
 #' @export
 #' @rdname collectionMetadata
-setGeneric("featureIdType<-", signature="x", function(x, i, value) {
-  standardGeneric("featureIdType<-")
-})
-
-#' @section Organism:
-#'
-#' You're going to want to keep track of the organism the experiments were run
-#' in that were used to define this collection of gene sets.
-#'
-#' ```
-#' gdb <- getMSigGeneSetDb('H')
-#' org(gdb, 'H') <- 'Homo_sapiens'
-#' ```
-#'
-#' @exportMethod org
-#' @rdname collectionMetadata
-#' @inheritParams featureIds
-setGeneric("org", signature="x", function(x, i, ...) {
-  standardGeneric("org")
-})
-
-#' @export
-#' @rdname collectionMetadata
-setGeneric("org<-", signature="x", function(x, i, value) {
-  standardGeneric("org<-")
-})
-
+setGeneric("featureIdType<-", signature="x", function(x, i, value)
+  standardGeneric("featureIdType<-"))
 
 #' Fetches information for a gene set
 #'
@@ -242,12 +228,11 @@ setGeneric("org<-", signature="x", function(x, i, value) {
 #'   (default: `FALSE`).
 #' @param ... passed down to inner functinos
 #' @template asdt-param
-#' @return a `data.(frame|table)` of gene set information. If \code{x} is a
+#' @return a `data.(frame|table)` of gene set information. If `x` is a
 #'   `SparrowResult` object, then differential expression statistics
 #'   are added as columns to this result.
-setGeneric("geneSet", signature="x", function(x, i, j, ...) {
-  standardGeneric("geneSet")
-})
+setGeneric("geneSet", signature="x", function(x, i, j, ...)
+  standardGeneric("geneSet"))
 
 #' Fetch the active (or all) gene sets from a GeneSetDb or SparrowResult
 #'
@@ -268,8 +253,8 @@ setGeneric("geneSets", function(x, ...) standardGeneric('geneSets'))
 #' Summarize geneset:feature relationships for specified set of features
 #'
 #' This function creates a geneset by feature table with geneset membership
-#' information for a specified feature set. Only the gene sets that have
-#' any of the `features` are included.
+#' information for the `features` specified by the user. Only the gene sets that
+#' have any of the `features` are included in the table returned.
 #'
 #' @rdname geneSetSummaryByGenes
 #' @exportMethod geneSetSummaryByGenes
@@ -286,6 +271,8 @@ setGeneric("geneSets", function(x, ...) standardGeneric('geneSets'))
 #'   `logFC(x)`, in which case the value for the feature from the given
 #'   column name would be used (setting this to `"symbol"`) would be a
 #'   common thing to do, for instance.
+#' @param ... pass through arguments
+#' @template asdt-param
 #' @return a data.frame of geneset <-> feature incidence/feature matrix.
 #'
 #' @examples
@@ -297,7 +284,8 @@ setGeneric("geneSets", function(x, ...) standardGeneric('geneSets'))
 #' gsm.fid <- geneSetSummaryByGenes(mg, features, feature.rename=NULL)
 #' gsm.sym <- geneSetSummaryByGenes(mg, features, feature.rename='symbol')
 setGeneric("geneSetSummaryByGenes", signature=c("x"),
-           function(x, features, with.features=TRUE, feature.rename=NULL, ...)
+           function(x, features, with.features = TRUE, feature.rename = NULL,
+                    ..., as.dt = FALSE)
              standardGeneric("geneSetSummaryByGenes"))
 
 #' @rdname conform
@@ -310,7 +298,13 @@ setGeneric("conform", function(x, ...) standardGeneric("conform"))
 #' @rdname subsetByFeatures
 #'
 #' @param x `GeneSetDb`
-#' @param featureIds Character vector of featureIds
+#' @param features Character vector of featureIds
+#' @param value are you feature id's entered as themselves (`feature_id`), which
+#'   is the default, or are you querying by their index into a target expression
+#'   object? This is only relevant if you are working with a `conform`-ed
+#'   GeneSetDb, and further you as a user won't likely invoke this argument,
+#'   but is used internally.
+#' @param ... pass through arguments
 #' @return A subset of `x` which contains only the geneSets that contain
 #'   features found in `featureIds`
 #'
@@ -319,15 +313,9 @@ setGeneric("conform", function(x, ...) standardGeneric("conform"))
 #' features <- c("55839", "8522", "29087")
 #' (gdb.sub <- subsetByFeatures(gdb, features))
 setGeneric("subsetByFeatures", signature="x",
-function(x, features, value=c('feature_id', 'x.id', 'x.idx'), ...) {
-  standardGeneric("subsetByFeatures")
-})
+function(x, features, value=c('feature_id', 'x.id', 'x.idx'), ...)
+  standardGeneric("subsetByFeatures"))
 
 #' @exportMethod unconform
 #' @rdname conform
 setGeneric("unconform", function(x, ...) standardGeneric("unconform"))
-
-#' Summarizes different results into tabular form
-#'
-#' @exportMethod summarized
-setGeneric("summarized", function(x, ...) standardGeneric("summarized"))

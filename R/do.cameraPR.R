@@ -22,6 +22,7 @@ do.cameraPR <- function(gsd, x, design, contrast=ncol(design),
   call.args[['index']] <- gs.idxs
   call.args[['sort']] <- FALSE
   call.args[['...']] <- NULL
+
   res <- do.call(limma::cameraPR.default, call.args)
   setattr(res, 'rawresult', TRUE)
 }

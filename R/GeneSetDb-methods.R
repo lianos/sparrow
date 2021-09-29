@@ -52,6 +52,7 @@ annotateGeneSetMembership <- function(x, gdb, x.ids=NULL, ...) {
   cbind(x, t(im))
 }
 
+#' @describeIn geneSets Returns the number of genesets in a GeneSetDb
 setMethod("length", "GeneSetDb", function(x) nrow(geneSets(x)))
 
 #' (Re)-map geneset IDs to the rows in an expression object.
@@ -181,7 +182,9 @@ setMethod("unconform", "GeneSetDb", function(x, ...) {
 })
 
 #' @export
-#' @rdname conform
+#' @describeIn conform Checks to see if GeneSetDb `x` is conformed to a target
+#'   object `to`
+#' @param to the object to test conformation to
 is.conformed <- function(x, to) {
   if (!is(x, 'GeneSetDb')) {
     stop("Only works on the GeneSetDb")
@@ -249,7 +252,7 @@ incidenceMatrix <- function(x, y, ...) {
   dimnames <- list(encode_gskey(gs), ynames)
   out <- matrix(0L, nrow(gs), ncol, dimnames=dimnames)
 
-  for (i in 1:nrow(gs)) {
+  for (i in seq_len(nrow(gs))) {
     fids <- featureIds(x, gs$collection[i], gs$name[i], value=val)
     out[i, fids] <- 1L
   }
@@ -271,6 +274,15 @@ incidenceMatrix <- function(x, y, ...) {
 #' @param j name of geneset(s) (must be same length as `i`.
 #' @return logical indicating if geneset is active. throws an error if
 #'   any requested geneset does not exist in `x`.
+#' @examples
+#' dge.stats <- exampleDgeResult()
+#' y <- exampleExpressionSet(do.voom = FALSE)
+#' gdb <- conform(exampleGeneSetDb(), y, min.gs.size = 10)
+#' # size 9 geneset:
+#' geneSet(gdb, "c2", "BYSTRYKH_HEMATOPOIESIS_STEM_CELL_IL3RA")
+#' is.active(gdb, "c2", "BYSTRYKH_HEMATOPOIESIS_STEM_CELL_IL3RA")
+#' # geneset with >100 genes
+#' is.active(gdb, "c7", "GSE3982_MAC_VS_NEUTROPHIL_LPS_STIM_DN")
 is.active <- function(x, i, j) {
   stopifnot(is(x, 'GeneSetDb'))
   stopifnot(is.character(i), is.character(j), length(i) == length(j))
@@ -284,6 +296,7 @@ is.active <- function(x, i, j) {
   res
 }
 
+#' @describeIn subsetByFeatures subset GeneSetDb by feature id's
 setMethod("subsetByFeatures", c(x="GeneSetDb"),
 function(x, features, value=c('feature_id', 'x.id', 'x.idx'), ...) {
   value <- match.arg(value)
@@ -367,7 +380,9 @@ function(x, i, j, value=c('feature_id', 'x.id', 'x.idx'),
   fid.map[[value]]
 })
 
-setMethod("featureIdMap", c(x="GeneSetDb"), function(x, as.dt=FALSE) {
+#' @describeIn featureIdMap extract featureIdMap from a GeneSetDb
+#' @template asdt-param
+setMethod("featureIdMap", c(x="GeneSetDb"), function(x, as.dt = FALSE) {
   out <- x@featureIdMap
   if (!as.dt) out <- setDF(copy(out))
   out
@@ -400,7 +415,7 @@ setReplaceMethod('featureIdMap', 'GeneSetDb', function(x, value) {
   unconform(x)
 })
 
-#' @rdname geneSets
+#' @describeIn geneSets return all genesets from a GeneSetDb
 setMethod("geneSets", c(x="GeneSetDb"),
 function(x, active.only=is.conformed(x), ... , as.dt=FALSE) {
   out <- if (active.only[1L]) x@table[active == TRUE] else x@table
@@ -409,6 +424,15 @@ function(x, active.only=is.conformed(x), ... , as.dt=FALSE) {
 })
 
 #' @rdname geneSet
+#' @param collection using `i` as the parameter for "collection" isn't intuitive
+#'   so if speficially set this paramter, it will replace the value for `i`.
+#' @param name the same for the `collection`:`i` parameter relationship, but for
+#'   `j`:`name`.
+#' @examples
+#' gdb <- exampleGeneSetDb()
+#' geneSet(gdb, "c2", "KOMMAGANI_TP63_GAMMA_TARGETS")
+#' geneSet(gdb, collection = "c2", name = "KOMMAGANI_TP63_GAMMA_TARGETS")
+#' geneSet(gdb, name = "KOMMAGANI_TP63_GAMMA_TARGETS")
 setMethod("geneSet", c(x="GeneSetDb"),
 function(x, i, j, active.only=is.conformed(x), with.feature.map=FALSE, ...,
          collection = NULL, name = NULL, as.dt = FALSE) {
@@ -524,7 +548,14 @@ subset.GeneSetDb <- function(x, keep) {
 
 #' Subset whole genesets from a GeneSetDb
 #' @exportMethod [
-setMethod("[", "GeneSetDb", function(x, i, j, ..., drop=FALSE) {
+#' @param x GeneSetDb
+#' @param i a logical vector as long as `nrow(geneSets(x))` indicating which
+#'   geneSets to keep
+#' @param j ignored
+#' @param ... pass through arguments
+#' @return GeneSetDb `x` with a subset of the genesets it came in with.k
+#' @param drop ignored
+setMethod("[", "GeneSetDb", function(x, i, j, ..., drop = FALSE) {
   if (length(list(...)) > 0) {
     stop("parameters in '...' not supported")
   }
@@ -551,6 +582,10 @@ setMethod("[", "GeneSetDb", function(x, i, j, ..., drop=FALSE) {
 #' @param collection character vector of name(s) of the collections to query
 #' @param as.error logical if TRUE, this will error instead of returning FALSE
 #' @return logical indicating if this collection exists
+#' @examples
+#' gdb <- exampleGeneSetDb()
+#' hasGeneSetCollection(gdb, "c2")
+#' hasGeneSetCollection(gdb, "unknown collection")
 hasGeneSetCollection <- function(x, collection, as.error=FALSE) {
   stopifnot(is(x, 'GeneSetDb'))
   stopifnot(is.character(collection))
@@ -589,6 +624,7 @@ hasGeneSet <- function(x, collection, name, as.error=FALSE) {
   gs.exists
 }
 
+#' @describeIn collectionMetadata Returns metadata for all collections
 setMethod("collectionMetadata",
   c(x="GeneSetDb", collection="missing", name="missing"),
   function(x, collection, name, as.dt=FALSE) {
@@ -603,6 +639,7 @@ setMethod("collectionMetadata",
     out
   })
 
+#' @describeIn collectionMetadata Returns all metadata for a specific collection
 setMethod("collectionMetadata",
   c(x="GeneSetDb", collection="character", name="missing"),
   function(x, collection, name, as.dt=FALSE) {
@@ -619,6 +656,8 @@ setMethod("collectionMetadata",
     out
   })
 
+#' @describeIn collectionMetadata Returns the `name` metadata value for a given
+#'   `collection`.
 setMethod("collectionMetadata",
   c(x="GeneSetDb", collection="character", name="character"),
   function(x, collection, name, as.dt=FALSE) {
@@ -637,8 +676,7 @@ setMethod("collectionMetadata",
     cmd$value[[idx]]
   })
 
-#' TODO: This should accept a data.frame of collect,name combos
-#' @noRd
+#' @describeIn collectionMetadata returns the URL for a geneset
 setMethod("geneSetURL", c(x = "GeneSetDb"), function(x, i, j, ...) {
   stopifnot(is.character(i), is.character(j), length(i) == length(j))
   collections <- unique(i)
@@ -655,6 +693,16 @@ setMethod("geneSetURL", c(x = "GeneSetDb"), function(x, i, j, ...) {
   })
 })
 
+#' @describeIn geneSetCollectionURLfunction returns the gene set collection
+#'   url function from a GeneSetDb
+#' @param x The GeneSetDb
+#' @param i The collection to get the url function from
+#' @param ... pass through arguments (not used)
+#' @return the function that maps collection,name combinations to an
+#'   informational URL.
+#' @examples
+#' gdb <- exampleGeneSetDb()
+#' geneSetCollectionURLfunction(gdb, "c2", "BIOCARTA_AGPCR_PATHWAY")
 setMethod("geneSetCollectionURLfunction", "GeneSetDb", function(x, i, ...) {
   stopifnot(isSingleCharacter(i))
   fn.dt <- x@collectionMetadata[list(i, 'url_function'), nomatch = 0]
@@ -679,6 +727,13 @@ setMethod("geneSetCollectionURLfunction", "GeneSetDb", function(x, i, ...) {
   fn
 })
 
+#' @describeIn geneSetCollectionURLfunction sets the gene set collection url
+#'   function for a `GeneSetDb : Collection` combination.
+#' @param value the function to set as the geneset url function for the given
+#'   collection `i`. This can be an actual function object, or the (string)
+#'   name of the function to pull out of "the ether"
+#'   (`"pkgname::functionname"` can work, too). The latter is preferred as
+#'   it results in smaller serialized GeneSetDb objects.
 setReplaceMethod("geneSetCollectionURLfunction", "GeneSetDb",
 function(x, i, value) {
   valid <- function(v) {
@@ -717,47 +772,15 @@ function(x, i, value) {
   added
 })
 
+#' @describeIn collectionMetadata sets the feature id type for a collection
 setReplaceMethod("featureIdType", "GeneSetDb", function(x, i, value) {
   valid <- function(v) is(v, 'GeneIdentifierType')
   addCollectionMetadata(x, i, 'id_type', value, valid)
 })
 
+#' @describeIn collectionMetadata retrieves the feature id type for a collection
 setMethod("featureIdType", "GeneSetDb", function(x, i, ...) {
   x@collectionMetadata[list(i, 'id_type')]$value[[1L]]
-})
-
-setReplaceMethod("org", "GeneSetDb", function(x, i, value) {
-  valid <- function(v) {
-    if (!is.character(v) && length(v) == 1L) {
-      return(FALSE)
-    }
-    info <- strsplit(v, '_')[[1L]]
-    if (length(info) != 2L) {
-      return(FALSE)
-    }
-    known <- c('Mus_musculus', 'Homo_sapiens')
-    if (!v %in% known) {
-      warning("Value '",v,"' for organism is unrecognized (but will be used).",
-              v, immediate.=TRUE)
-    }
-    TRUE
-  }
-  if (missing(i)) {
-    colls <- unique(x@collectionMetadata$collection)
-    for (coll in colls) {
-      org(x, coll) <- value
-    }
-    return(x)
-  }
-  addCollectionMetadata(x, i, 'organism', value, valid)
-})
-
-setMethod("org", "GeneSetDb", function(x, i, ...) {
-  if (missing(i)) {
-    x@collectionMetadata[name == 'organism']
-  } else {
-    x@collectionMetadata[list(i, 'organism')]$value[[1L]]
-  }
 })
 
 #' @section Adding arbitrary collectionMetadata:
@@ -768,7 +791,7 @@ setMethod("org", "GeneSetDb", function(x, i, ...) {
 #' object to keep the one with the updated `collectionMetadata`. Although this
 #' function is exported, I imagine this being used mostly through predefined
 #' replace methods that use this as a utility function, such as the replacement
-#' methods for [org()], and [featureIdType()].
+#' methods `featureIdType<-`, `geneSetURLfunction<-`, etc.
 #'
 #' ```
 #' gdb <- getMSigGeneSetDb('H')
@@ -833,7 +856,7 @@ addCollectionMetadata <- function(x, xcoll, xname, value,
 #' If there already are defined meta values for the columns of `meta` in `x`,
 #' these will be updated with the values in `meta`.
 #'
-#' TODO: this should be a setReplaceMethod, Issue #13
+#' TODO: should this be a setReplaceMethod, Issue #13 (?)
 #' https://github.com/lianos/multiGSEA/issues/13
 #'
 #' @export
@@ -843,20 +866,13 @@ addCollectionMetadata <- function(x, xcoll, xname, value,
 #'   an arbitrary amount of columns to add as metadata for the genesets.
 #' @param ... not used yet
 #' @return the updated `GeneSetDb` object `x`.
+#' @examples
+#' gdb <- exampleGeneSetDb()
+#' meta.info <- transform(
+#'   geneSets(gdb)[, c("collection", "name")],
+#'   someinfo = sample(c("one", "two"), nrow(gdb), replace = TRUE))
+#' gdb <- addGeneSetMetadata(gdb, meta.info)
 addGeneSetMetadata <- function(x, meta, ...) {
-  if (FALSE) {
-    x <- exampleGeneSetDb()
-    x@table[, something := rnorm(.N)]
-    idx <- sample(nrow(x@table), 5)
-    meta <- data.table(collection = x@table$collection[idx],
-                       name = x@table$name[idx],
-                       something = 1:5, var2 = letters[1:5])
-    mb <- rbind(
-      meta,
-      data.table(collection = "c10", name = "wut", something = 10, var2 = "z"))
-    meta <- mb
-  }
-
   stopifnot(is(x, "GeneSetDb"))
   k <- key(x@table)
   stopifnot(is(meta, "data.frame"))
@@ -877,6 +893,8 @@ addGeneSetMetadata <- function(x, meta, ...) {
          "data.frame. This is currently not allowed.")
   }
 
+  # handle non std eval NOTE in R CMD check when using `:=` mojo
+  .idx. <- NULL
   xtable <- copy(x@table)[, .idx. := 1:.N]
   xref <- xtable[mdt]
 
@@ -890,8 +908,8 @@ addGeneSetMetadata <- function(x, meta, ...) {
 
   mcols <- setdiff(colnames(meta), c(k, special))
   if (length(mcols)) {
+    idxs <- xref[[".idx."]]
     for (mc in mcols) {
-      idxs <- xref[[".idx."]]
       vals <- meta[[mc]]
       xtable[idxs, (mc) := vals]
     }
@@ -900,30 +918,10 @@ addGeneSetMetadata <- function(x, meta, ...) {
   stopifnot(
     all.equal(xtable[, list(collection, name)], x@table[, list(collection, name)]),
     all.equal(xtable$N, x@table$N))
-
-  x@table <- transform(xtable, .idx. = NULL)
+  xtable[[".idx."]] <- NULL
+  x@table <- xtable
   x
 }
-
-
-#' Appends two GeneSetDb objects togethter.
-#'
-#' @param x A [GeneSetDb()] object
-#' @param values A [GeneSetDb()] object
-#' @param after not used
-#' @importMethodsFrom BiocGenerics append
-#' @exportMethod append
-#' @examples
-#' gdb1 <- exampleGeneSetDb()
-#' gdb2 <- GeneSetDb(exampleGeneSetDF())
-#' gdb <- combine(gdb1, gdb2)
-setMethod("append", c(x = "GeneSetDb"), function(x, values, after = NA) {
-  .Deprecated("combine")
-  if (!missing(after)) {
-    warning("`after` argument is ignored in append,GeneSetDb")
-  }
-  combine(x, values)
-})
 
 #' Combines two GeneSetDb objects together
 #'
@@ -932,6 +930,7 @@ setMethod("append", c(x = "GeneSetDb"), function(x, values, after = NA) {
 #' @param x a GeneSetDb object
 #' @param y a GeneSetDb object
 #' @param ... more things
+#' @return a new GeneSetDb that contains all genesets from `x` and `y`
 #' @examples
 #' gdb1 <- exampleGeneSetDb()
 #' gdb2 <- GeneSetDb(exampleGeneSetDF())
@@ -980,6 +979,7 @@ setMethod("combine", c(x = "GeneSetDb", y = "GeneSetDb"), function(x, y, ...) {
 
 #' @importMethodsFrom BiocGenerics nrow
 #' @exportMethod nrow
+#' @describeIn geneSets return number of genesets in GeneSetDb
 setMethod("nrow", "GeneSetDb", function(x) nrow(geneSets(x, as.dt=TRUE)))
 
 #' Checks equality (feature parity) between GeneSetDb objects
@@ -1036,7 +1036,7 @@ all.equal.GeneSetDb <- function(target, current, features.only = TRUE, ...) {
 #' gene set information in an other format. To do that, we provide the
 #' following functions:
 #'
-#' * `as.data.frame(gdb)`: Perhaps the most natural format to convert to in
+#' * `as.data.(table|frame)(gdb)`: Perhaps the most natural format to convert to in
 #'   order to save locally and examine outside of Bioconductor's GSEA universe,
 #'   but not many other tools accept gene set definitions in this format.
 #' * `as.list(gdb)`: A named list of feature identifiers. This is the format
@@ -1062,14 +1062,17 @@ all.equal.GeneSetDb <- function(target, current, features.only = TRUE, ...) {
 #' @export
 #' @rdname conversion
 #' @name conversion
-#' @aliases as.data.frame as.list
-#' @method as.data.frame GeneSetDb
+#' @aliases as.data.frame as.list as.data.table
+#' @method as.data.table GeneSetDb
 #'
 #' @param x A `GeneSetDb` object
-#' @param value The value type to export for the feature ids
+#' @param keep.rownames included here just for consistency with
+#'   `data.table::as.data.table`, but it is not used
+#' @param value The value type to export for the feature ids, defaults to
+#'   `"feature_id"`.
 #' @param active.only If the `GeneSetDb` is conformed, do you want to only
 #'   return the features and genests that match target and are "active"?
-#' @param ... nothing
+#' @param ... pass through arguments (not used)
 #' @return a converted `GeneSetDb`
 #'
 #' @examples
@@ -1079,9 +1082,9 @@ all.equal.GeneSetDb <- function(target, current, features.only = TRUE, ...) {
 #' gdb <- conform(gdb, es)
 #' gdfi <- as.data.frame(gdb, value = 'x.idx')
 #' gdl <- as.list(gdb)
-as.data.frame.GeneSetDb <- function(x, row.names=NULL, optional=FALSE,
-                                    value=c('feature_id', 'x.id', 'x.idx'),
-                                    active.only=is.conformed(x), ...) {
+as.data.table.GeneSetDb <- function(x, keep.rownames = FALSE,
+                                    value = c('feature_id', 'x.id', 'x.idx'),
+                                    active.only = is.conformed(x), ...) {
   stopifnot(is(x, 'GeneSetDb'))
   value <- match.arg(value)
   if (!is.conformed(x) && value %in% c('x.id', 'x.idx')) {
@@ -1112,8 +1115,19 @@ as.data.frame.GeneSetDb <- function(x, row.names=NULL, optional=FALSE,
   }
 
   setkeyv(out, key(x@db))
-  trimmed <- out[gs[, list(collection, name)]]
-  (setDF(trimmed))
+  out[gs[, list(collection, name)]]
+}
+
+#' @describeIn conversion convert a GeneSetDb to data.frame
+#' @export
+#' @method as.data.frame GeneSetDb
+#' @param row.names,optional included here for consistency with `as.data.frame`
+#'   generic function definition, but these are not used.
+as.data.frame.GeneSetDb <- function(x, row.names = NULL, optional = NULL,
+                                    value = c('feature_id', 'x.id', 'x.idx'),
+                                    active.only = is.conformed(x), ...) {
+  value <- match.arg(value)
+  setDF(as.data.table(x, value = value, active.only = active.only, ...))
 }
 
 #' Split and conserve ordering
@@ -1128,15 +1142,15 @@ csplit <- function(x, f) {
   split(x, ff)
 }
 
-#' @rdname conversion
+#' @noRd
 #' @method as.list GeneSetDb
 #' @export
-as.list.GeneSetDb <- function(x, value=c('feature_id', 'x.id', 'x.idx'),
-                              active.only=is.conformed(x), nested=FALSE,
+as.list.GeneSetDb <- function(x, value = c('feature_id', 'x.id', 'x.idx'),
+                              active.only = is.conformed(x), nested = FALSE,
                               ...) {
   stopifnot(is(x, 'GeneSetDb'))
   value <- match.arg(value)
-  df <- as.data.frame(x, value=value, active.only=active.only)
+  df <- as.data.frame(x, value = value, active.only = active.only)
   if (nested) {
     colls <- unique(df$collection)
     ## Using the "naive split" call converts xdf$name to a factor and doesn't
@@ -1166,7 +1180,7 @@ setAs("GeneSetDb", "GeneSetCollection", function(from) {
   setkeyv(id.type, 'collection')
   setkeyv(org, 'collection')
 
-  gsl <- lapply(1:nrow(gs), function(i) {
+  gsl <- lapply(seq_len(nrow(gs)), function(i) {
     name <- gs$name[i]
     coll <- gs$collection[i]
     idt <- id.type[coll]$value[[1]]

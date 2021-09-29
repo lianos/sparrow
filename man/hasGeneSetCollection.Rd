@@ -19,3 +19,8 @@ logical indicating if this collection exists
 \description{
 Check if a collection exists in the \code{GeneSetDb}
 }
+\examples{
+gdb <- exampleGeneSetDb()
+hasGeneSetCollection(gdb, "c2")
+hasGeneSetCollection(gdb, "unknown collection")
+}

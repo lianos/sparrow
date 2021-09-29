@@ -6,6 +6,21 @@
 \usage{
 \S4method{[}{GeneSetDb,ANY,ANY,ANY}(x, i, j, ..., drop = FALSE)
 }
+\arguments{
+\item{x}{GeneSetDb}
+
+\item{i}{a logical vector as long as \code{nrow(geneSets(x))} indicating which
+geneSets to keep}
+
+\item{j}{ignored}
+
+\item{...}{pass through arguments}
+
+\item{drop}{ignored}
+}
+\value{
+GeneSetDb \code{x} with a subset of the genesets it came in with.k
+}
 \description{
 Subset whole genesets from a GeneSetDb
 }

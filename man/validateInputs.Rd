@@ -21,13 +21,15 @@ validateInputs(
 
 \item{contrast}{A contrast vector (if the GSEA method(s) require it)}
 
+\item{methods}{A character vector of the GSEA methods that these inputs will
+be used for.}
+
+\item{xmeta.}{hack for supportin data.frame inputs.}
+
 \item{require.x.rownames}{Leave this alone, should always be \code{TRUE} but
 have it in this package for dev/testing purposes.}
 
 \item{...}{other variables that called methods can check if they want}
-
-\item{A}{character vector of the GSEA methods that these inputs will be used
-for}
 }
 \value{
 A list with "normalized" versions of \verb{$x}, \verb{$design}, and \verb{$contrast}
@@ -47,4 +49,12 @@ call, and not the original values for these objects themselves
 
 I know that the validation/checking logic is a bit painful (and repetitive)
 here. I will (perhaps) clean that up some day.
+}
+\examples{
+dge.stats <- exampleDgeResult()
+ranks <- setNames(dge.stats$t, dge.stats$feature_id)
+gdb <- exampleGeneSetDb()
+ok <- validateInputs(ranks, gdb, methods = c("cameraPR", "fgsea"))
+# need full expressionset & design for romer
+null <- failWith(NULL, validateInputs(ranks, gdb, methods = "romer"))
 }

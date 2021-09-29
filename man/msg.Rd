@@ -11,6 +11,12 @@ msg(..., file = stderr())
 
 \item{file}{where to send the message. Defaults to \code{stderr()}}
 }
+\value{
+Nothing, dumps text to \code{file}
+}
 \description{
 Utility function to cat a message to stderr (by default)
+}
+\examples{
+msg("this is a message", "to stderr")
 }

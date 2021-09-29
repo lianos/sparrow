@@ -22,18 +22,13 @@ validate.x.fgsea <- validate.X
 #' **This function is not meant to be called directly.** It should only be
 #' called internally within [seas()].
 #'
-#' @param gsd The [GeneSetDb()] for analysis
-#' @inheritParams calculateIndividualLogFC
-#' @param ... arguments to pass down into [calculateIndividualLogFC()]
-#' @return A data.table of fgsea results.
+#' @noRd
 do.fgsea <- function(gsd, x, design, contrast = ncol(design),
-                     sampleSize = 101, eps = 1e-10,
+                     sampleSize = 101, eps = 1e-50,
                      scoreType = c("std", "pos", "neg"),
                      nproc = 0, gseaParam = 1, nPermSimple = 1000,
                      absEps = NULL, use.fgsea.simple = FALSE,
-                     score.by = c('t', 'logFC', 'pval'), logFC = NULL,
-                     gs.idxs = as.list(gsd, active.only=TRUE, value='x.idx'),
-                     ...) {
+                     score.by = c('t', 'logFC', 'pval'), logFC = NULL, ...) {
 
   scoreType <- match.arg(scoreType)
   score.by <- match.arg(score.by)
@@ -50,8 +45,8 @@ do.fgsea <- function(gsd, x, design, contrast = ncol(design),
   ## in the internally called conform(gsd, x, min.gs.size, max.gs.size) call
   gs.size <- range(subset(geneSets(gsd), active)$n)
 
-  ## fgsea function wans a list of gene identifiers for pathway definition
-  pathways <- lapply(gs.idxs, function(idxs) names(stats)[idxs])
+  ## fgsea function wants a list of gene identifiers for pathway definition
+  pathways <- as.list(gsd, active.only = TRUE, value = "x.id")
 
   if (isTRUE(use.fgsea.simple)) {
     res <- fgsea::fgseaSimple(
@@ -60,12 +55,17 @@ do.fgsea <- function(gsd, x, design, contrast = ncol(design),
       scoreType = scoreType, nproc = nproc,
       gseaParam = gseaParam)
   } else {
+    # I've checked the equivalence of the values here with those in
+    # test-fgsea.R#38 or so, and can't figure out why our pvals and NES are off.
+    #
+    # Rerunning fgsea() with the same random.seed creates the same results
+    # Rerunning seas(..., methods = "fgsea", .random.seed = xx) also same
     res <- fgsea::fgseaMultilevel(
       pathways, stats, sampleSize = sampleSize,
       minSize = gs.size[1L], maxSize = gs.size[2L],
       eps = eps, scoreType = scoreType, nproc = nproc,
       gseaParam = gseaParam,
-      # nPermSimple = nPermSimple, # TODO: uncomment for next version of bioc
+      nPermSimple = nPermSimple,
       absEps = absEps)
   }
   setattr(res, 'rawresult', TRUE)

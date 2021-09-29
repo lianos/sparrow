@@ -167,6 +167,8 @@ melt.gs.scores <- function(gdb, scores) {
   out <- data.table::melt.data.table(out, c("collection", "name", "n"),
                                      variable.name = "sample_id",
                                      value.name='score')
+  # handle non std eval NOTE in R CMD check when using `:=` data.table mojo
+  sample_id <- NULL
   out[, sample_id := as.character(sample_id)]
 }
 
@@ -176,7 +178,7 @@ melt.gs.scores <- function(gdb, scores) {
 #' variance of the mean, cf. Lee, E., et al. Inferring pathway activity toward
 #' precise disease classification. PLoS Comput. Biol. 4, e1000217 (2008).
 do.scoreSingleSamples.zscore <- function(gdb, y, zsummary=c('mean', 'sqrt'),
-                                         trim=0.10, gs.idxs=NULL, do.scale=TRUE,
+                                         trim=0, gs.idxs=NULL, do.scale=TRUE,
                                          ...) {
   stopifnot(is.conformed(gdb, y))
   zsummary <- match.arg(zsummary)
@@ -193,7 +195,7 @@ do.scoreSingleSamples.zscore <- function(gdb, y, zsummary=c('mean', 'sqrt'),
   if (is.null(gs.idxs)) gs.idxs <- as.list(gdb, active.only=TRUE, value='x.idx')
   if (do.scale) y <- t(scale(t(y)))
 
-  scores <- sapply(1:ncol(y), function(y.col) {
+  scores <- sapply(seq_len(ncol(y)), function(y.col) {
     col.vals <- y[, y.col]
     sapply(seq(gs.idxs), function(gs.idx) {
       vidx <- gs.idxs[[gs.idx]]
@@ -265,7 +267,8 @@ do.scoreSingleSamples.gsva <- function(gdb, y, method, as.matrix=FALSE,
 #' genesets. It does NOTE normalize the scores within each geneset
 #' independantly of the others.
 #'
-#' @export
+#' This method is an internal utilit function and not exported on purpose
+#'
 #' @param x a `numeric` vector of ssGSEA scores for a single signature
 #' @param bounds the maximum and minimum scores obvserved used to normalize
 #'   against.

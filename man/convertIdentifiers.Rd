@@ -2,52 +2,107 @@
 % Please edit documentation in R/convertIdentifiers.R
 \name{convertIdentifiers}
 \alias{convertIdentifiers}
-\title{Converts the feature identifiers in a GeneSetDb to a set of new ones.}
+\title{Converts internal feature identifiers in a GeneSetDb to a set of new ones.}
 \usage{
 convertIdentifiers(
   x,
-  xref,
-  original_id = colnames(xref)[1L],
-  target_id = colnames(xref)[2L],
+  from = NULL,
+  to = NULL,
+  id.type = c("ensembl", "entrez", "symbol"),
+  xref = NULL,
+  extra.cols = NULL,
+  min_support = 3,
+  top = TRUE,
   ...
 )
 }
 \arguments{
 \item{x}{The GeneSetDb with identifiers to convert}
 
-\item{xref}{If a species (\code{"mouse"} or \code{"human"}) we will load the internal
-ensembl <-> entrez data.frame, or you can provide your own.}
+\item{from, to}{If you are doing identifier and/orspecies conversion using
+babelgene, \code{to} is the species you want to convert to, and \code{from} is the
+species of \code{x}. If you are only doing id type conversion within the same
+species, specify the current species in \code{from}.
+If you are providing a data.frame map of identifiers in \code{xref}, \code{to} is
+the name of the column that holds the new identifiers, and \code{from} is the
+name of the column that holds the current identifiers.}
+
+\item{id.type}{If you are using babelgene conversion, this specifies the
+type of identifier you want to convert to. It can be any of \code{"ensembl"},
+\code{"entrez"}, or \code{"symbol"}.}
+
+\item{xref}{a data.frame used to map current identifiers to target ones.}
+
+\item{extra.cols}{a character vector of columns from \code{to} to add to the
+features of the new GeneSetDb. If you want to keep the original identifiers
+of the remapped features, include \code{"original_id"} as one of the values
+here.}
+
+\item{min_support, top}{Parameters used in the internal call to
+\code{\link[babelgene:orthologs]{babelgene::orthologs()}}}
+
+\item{...}{pass through args (not used)}
 }
 \value{
-a remapped GeneSetDb object
+A new GeneSetDb object with converted identifiers. We try to retain
+any metadata in the original object, but no guarantees are given. If
+\code{id_type} was stored previously in the collectionMetadata, that will be
+dropped.
 }
 \description{
-The various GeneSetDb data providers limit the identifier types that they
-provide. Use this function to map the given identifiers to whichever type
-you like.
+The various GeneSetDb data providers (MSigDb, KEGG, etc). limit the
+identifier types that they return. Use this function to map the given
+identifiers to whichever type you like.
 }
 \details{
-You need to provide a data.frame that has a column for the current
-identifiers and another column for the target identifiers.
-
-If you don't provide a data.frame we can use to translate identifiers,
-we'll use hte babelgene package.
+For best results, provide your own identifier mapping reference, but we
+provide a convenience wrapper around the \code{\link[babelgene:orthologs]{babelgene::orthologs()}} function to
+change between identifier types and species.
 
 When there are multiple target id's for the source id, they will all be
-returned. When there is no target id for the source id, the soure feature
+returned. When there is no target id for the source id, the soucre feature
 will be axed.
-
-By default, the first column of the \code{xref} data.frame is assumed to be
-the source identifiers, and the second is the target_id you want to remap
-the identifiers to.
 }
+\section{Custom Mapping}{
+
+You need to provide a data.frame via the \code{xref} paramater that has a column
+for the current identifiers and another column for the target identifiers.
+The columns are specified by the \code{from} and \code{to} paramters, respectively.
+}
+
+\section{Convenience identifier and species mapping}{
+
+If you don't provide a data.frame, you can provide a species name. We will
+rely on the {babelgene} package for the conversion, so you will have to
+provide a species name that it recognizes.
+}
+
 \examples{
+# You can convert the identifiers within a GeneSetDb to some other type
+# by providing a "translation" table. Check out the unit tests for more
+# examples.
+gdb <- exampleGeneSetDb() # this has no symbols in it
+
+# Define a silly conversion table.
+xref <- data.frame(
+  current_id = featureIds(gdb),
+  new_id = paste0(featureIds(gdb), "_symbol"))
+gdb2 <- convertIdentifiers(gdb, from = "current_id", to = "new_id",
+                           xref = xref, extra.cols = "original_id")
+geneSet(gdb2, name = "BIOCARTA_AGPCR_PATHWAY")
+
+# Convert entrez to ensembl id's using babelgene
 \dontrun{
-# This function needs to be reimplemented using the {babelgene} package,
-# and these examples are left for posterity to remind us of what once was.
-gdb.entrez <- exampleGeneSetDb()
-gdb.ens <- convertIdentifiers(gdb.entrez, "human",
-                             original_id = "entrezgene_id",
-                             target_id = "ensembl_gene_id")
+# The conversion functionality via babelgene isn't yet implemented, but
+# will look like this.
+
+# 1. convert the human entrez identifiers to ensembl
+gdb.ens <- convertIdentifiers(gdb, "human", id.type = "ensembl")
+
+# 2. convert the human entrez to mouse entrez
+gdb.entm <- convertIdentifiers(gdb, "human", "mouse", id.type = "entrez")
+
+# 3. convert the human entrez to mouse ensembl
+gdb.ensm <- convertIdentifiers(gdb, "human", "mouse", id.type = "ensembl")
 }
 }

@@ -5,20 +5,31 @@
 
 #' Create an interactive volcano plot
 #'
-#' Convenience function to create volcano plots from differents types of
-#' objects we generate in this package. This is mostly used by the
-#' *sparrow.shiny* package.
+#' Convenience function to create volcano plots from results generated within
+#' this package. This is mostly used by `{sparrow.shiny}`.
 #'
 #' @export
 #' @importFrom ggplot2 aes ggplot geom_hex
 #' @importFrom plotly add_lines config ggplotly layout plotly_build
+#' @inheritParams volcanoStatsTable
+#' @param xlab,ylab x and y axis labels
+#' @param highlight A vector of featureIds to highlight, or a GeneSetDb
+#'   that we can extract the featureIds from for this purpose.
+#' @param horiz_line A (optionally named) number vecor (length 1) that indicates
+#'   where a line should be drawn across the volcano plot. This is usually done
+#'   to signify statistical significance. When the number is "named", this
+#'   indicates that you want to find an approximation of the values plotted
+#'   on y based on some transformation of the values that is the named column
+#'   of x (like "padj"). The default value `c(padj = 0.10)` indicates you
+#'   want to draw a line at approximately where the adjust pvalue of 0.10 is
+#'   on the y-axis, which is the *nominal* pvalues.
 #' @param xhex The raw `.xv` (not `xtfrm(.xv)`) value that acts
 #'   as a threshold such that values less than this will be hexbinned.
 #' @param yhex the `.yvt` value threshold. Vaues less than this will
 #'   be hexbinned.
-#' @param highlight A vector of featureIds to highlight, or a GeneSetDb
-#'   that we can extract the featureIds from for this purpose.
-#'
+#' @param ... pass through arguments (not used)
+#' @return a ploty plot object
+#' @inheritParams iplot
 #' @examples
 #' mg <- exampleSparrowResult()
 #' volcanoPlot(mg)
@@ -28,11 +39,12 @@ volcanoPlot <- function(x, stats='dge', xaxis='logFC', yaxis='pval', idx,
                         ytfrm=function(vals) -log10(vals),
                         xlab=xaxis, ylab=sprintf('-log10(%s)', yaxis),
                         highlight=NULL,
-                        horiz_lines=c('padj'=0.10),
+                        horiz_line = c(padj = 0.10),
                         xhex=NULL, yhex=NULL,
                         width=NULL, height=NULL,
                         shiny_source='mgvolcano', ggtheme=theme_bw(), ...) {
-  ## NOTE: I should use S3 or S4 here, but I'm lazy right now.
+  # TODO: Consider updating volcanoPlot to use S3 or S4 here, or outsource
+  #       this to another package, like EnhancedVolcano(?)
   dat <- volcanoStatsTable(x, stats, xaxis, yaxis, idx, xtfrm, ytfrm)
 
   yvals <- dat[['.yvt']]
@@ -50,6 +62,7 @@ volcanoPlot <- function(x, stats='dge', xaxis='logFC', yaxis='pval', idx,
   ## should be hexbinized
   do.hex <- is.numeric(xhex) && is.numeric(yhex)
   if (do.hex) {
+    reqpkg("hexbin")
     hex.me <- abs(dat[['.xv']]) <= xhex | dat[['.yvt']] <= yhex
   } else {
     hex.me <- rep(FALSE, nrow(dat))
@@ -75,29 +88,34 @@ volcanoPlot <- function(x, stats='dge', xaxis='logFC', yaxis='pval', idx,
   gg <- mg_add_points(gg, pts)
   gg <- mg_add_points(gg, hlite, color='red')
 
-  ## Add horizontal lines to indicate where padj of 0.10 lands
+  ## Add horizontal line to indicate where padj of 0.10 lands
   lpos <- NULL
-  if (is.numeric(horiz_lines) && !any(is.na(horiz_lines))) {
-    # q.thresh <- c(0.05, 0.10, 0.20)
-    q.thresh <- c(horiz_lines)
-    horiz.unit <- names(horiz_lines)[1L]
+  if (test_number(horiz_line, null.ok = FALSE)) {
+    assert_number(horiz_line, lower = 0, upper = 1)
+    assert_named(horiz_line)
+    assert_subset(names(horiz_line), colnames(dat))
+    horiz.unit <- names(horiz_line)
     if (yaxis == horiz.unit) {
-      ypos <- horiz_lines
-    } else if (yaxis == 'pval' && horiz.unit == 'padj') {
-      ## Find the pvals that are closest to qvals without going over
-      ypos <- sapply(q.thresh, function(val) {
-        approx.target.from.transformed(val, dat$pval, dat$padj)
-      })
+      ypos <- horiz_line
     } else {
-      warning("Not drawing horiz_lines in volcano", immediate.=TRUE)
-      ypos <- rep(NA_real_, length(q.thresh))
+      ## Find the pvals that are closest to qvals without going over
+      # ypos <- vapply(q.thresh, function(val) {
+      #   approx.target.from.transformed(val, dat[[yaxis]], dat[[horiz.unit]])
+      # }, numeric(length(q.thresh)))
+      ypos <- .approx_target_from_transformed(
+        horiz_line,
+        dat[[yaxis]],
+        dat[[horiz.unit]])
+      if (is.na(ypos)) {
+        warning("Not drawing horiz_lines in volcano", immediate.=TRUE)
+      }
     }
     names(ypos) <- NULL
     ypos <- ypos[!is.na(ypos)]
     if (length(ypos) > 0) {
       lpos <- ytfrm(ypos)
       ablabel <- if (horiz.unit == 'padj') 'q-value' else horiz.unit
-      lbl <- sprintf('%s: %.2f', ablabel, horiz_lines[1L])
+      lbl <- sprintf('%s: %.2f', ablabel, horiz_line[1L])
     }
   }
 
@@ -122,23 +140,6 @@ volcanoPlot <- function(x, stats='dge', xaxis='logFC', yaxis='pval', idx,
   p <- layout(p, dragmode="select", autosize=FALSE, xaxis=list(title=xlab),
               yaxis=list(title=ylab))
   p <- plotly_build(p)
-
-  ## We don't need to do this when we don't ggplotly(..., tooltip='text')
-  ## Disable hovering on hexbin
-  # p$x$source <- shiny_source
-  # if (nrow(hex)) {
-  #   # hexidx <- 2:(length(p$x$data) -1L)
-  #   end.idx <- length(p$x$data)
-  #   if (nrow(pts)) end.idx <- end.idx - 1L
-  #   if (nrow(hlite)) end.idx <- end.idx - 1L
-  #   hexidx <- 1:end.idx
-  #   for (idx in hexidx) {
-  #     p$x$data[[idx]]$hoverinfo <- 'none'
-  #     # len <- length(p$x$data[[idx]]$x)
-  #     # p$x$data[[idx]]$text <- sprintf('count: %d', rep(len))
-  #   }
-  # }
-
   config(p, displaylogo=FALSE)
 }
 
@@ -179,13 +180,13 @@ mg_add_points <- function(gg, dat, color='black') {
 #'
 #' @param target the FDR value you are trying to find on the nominal pvalue
 #'   space (y-axis). This is a value on the FDR scale
-#' @param pvals the distribution of nominal pvalues
-#' @param padjs the adjusted pvalues from `pvals`
+#' @param orig the distribution of nominal pvalues
+#' @param xformed the adjusted pvalues from `pvals`
 #' @param thresh how close padj has to be in padjs to get its nominal
 #'   counterpart
 #' @return numeric answer, or NA if can't find nominal pvalue within given
 #'   threshold for padjs
-approx.target.from.transformed <- function(target, orig, xformed,
+.approx_target_from_transformed <- function(target, orig, xformed,
                                            thresh=1e-2) {
   xdiffs <- abs(xformed - target)
   idx <- which.min(xdiffs)
@@ -201,16 +202,7 @@ approx.target.from.transformed <- function(target, orig, xformed,
 }
 
 #' @noRd
-extract.genes <- function(x, ...) {
-  stopifnot(is.character(x) || is(x, 'GeneSetDb') || is(x, 'SparrowResult'))
-  if (is.character(x)) {
-    return(x)
-  }
-  featureIds(x)
-}
-
-#' @noRd
-volcano.source.type <- function(x) {
+.volcano_source_type <- function(x) {
   is.valid <- sapply(.volcano.sources, function(src) is(x, src))
   if (sum(is.valid) != 1L) {
     stop("Illegal object type for source of volcano: ", class(x)[1L])
@@ -256,7 +248,7 @@ volcanoStatsTable <- function(x, stats='dge', xaxis='logFC', yaxis='pval',
                              xtfrm=identity,
                              ytfrm=function(vals) -log10(vals)) {
   stopifnot(is.function(xtfrm), is.function(ytfrm))
-  type <- volcano.source.type(x)
+  type <- .volcano_source_type(x)
   if (is(x, 'SparrowResultContainer')) {
     x <- x$mg
   }
@@ -285,7 +277,7 @@ volcanoStatsTable <- function(x, stats='dge', xaxis='logFC', yaxis='pval',
   if (!'feature_id' %in% names(x)) {
     ids <- rownames(x)
     if (is.null(ids)) {
-      ids <- as.character(1:nrow(x))
+      ids <- as.character(seq_len(nrow(x)))
     }
     x[['feature_id']] <- ids
   }

@@ -13,7 +13,8 @@ validate.x.roast <- validate.X
 #' @importFrom limma mroast
 #' @importFrom edgeR mroast.DGEList
 do.roast <- function(gsd, x, design, contrast=ncol(design),
-                     gs.idxs=as.list(gsd, active.only=TRUE, value='x.idx'), ...) {
+                     gs.idxs=as.list(gsd, active.only=TRUE, value='x.idx'),
+                     ...) {
   stopifnot(is.conformed(gsd, x))
   args <- list(...)
   call.args <- as.list(formals(limma::mroast.default))
@@ -43,7 +44,8 @@ do.roast <- function(gsd, x, design, contrast=ncol(design),
 mgres.roast <- function(res, gsd, ...) {
   if (!isTRUE(attr(res, 'rawresult'))) return(res)
   out <- cbind(geneSets(gsd, as.dt=TRUE)[, list(collection, name)], setDT(res))
-  NGenes <- NULL # silence R CMD check NOTEs
+  # silence R CMD check NOTEs
+  NGenes <- FDR <- FDR.Mixed <- PValue.Mixed <- PValue <- NULL
   out[, NGenes := NULL]
 
   # result may not have an FDR column if we only tested on geneset

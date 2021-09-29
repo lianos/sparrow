@@ -8,6 +8,7 @@
 #' @param rename a named character vector. `names(rename)` are the names of
 #'   the collection you want to rename, and their values are the new names.
 #' @param ... pass it along
+#' @return GeneSetDb `x` with renamed `geneSets(x)$collection` values.
 #' @examples
 #' gdb <- exampleGeneSetDb()
 #' ngdb <- renameCollections(gdb, c("c2" = "MSigDB C2", "c7" = "ImmuneSigDb"))

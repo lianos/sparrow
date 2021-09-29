@@ -16,7 +16,9 @@ p.matrix(
 \item{names}{the entries from \code{resultNames(x)} that you want to include
 in the matrix. By default we take all of them.}
 
-\item{pval}{Are we testing pvalues or adjusted pvalues?}
+\item{pcol}{The name of the column in \code{logFC(x)} where the type of pvalues
+are that we are collection. Pick on of \code{"padj"}, \code{"padj.by.collection"},
+or \code{"pval"}}
 }
 \value{
 A matrix of the desired pvalues for all genesets
@@ -26,9 +28,6 @@ You might want a matrix of pvalues (or FDRs) for the gene sets across all
 GSEA methods you tried. I think I did, once, so here it is.
 }
 \examples{
-# vm <- exampleExpressionSet(do.voom=TRUE)
-# gdb <- exampleGeneSetDb()
-# mg <- seas(vm, gdb, "cameraPR", design = vm$design, contrast = 'tumor')
 mg <- exampleSparrowResult()
 pm <- p.matrix(mg)
 }

@@ -44,7 +44,7 @@ test_that("rename returns unique rownames when there are duplciates in map", {
     from = rownames(m),
     to = sample(tail(letters, 4), nrow(m), replace = TRUE),
     stringsAsFactors = FALSE)
-  # if rename.duplicates is deault (original), let's put the original name
+  # if duplicate.policy is deault (original), let's put the original name
   # back in to see if renaming happens correctly
   re$to.o <- re$to
   re$to.o <- ifelse(duplicated(re$to.o), re$from, re$to)
@@ -53,7 +53,7 @@ test_that("rename returns unique rownames when there are duplciates in map", {
   expect_equal(rownames(m.re), re$to.o)
 
   m.re.u <- renameRows(m, re[, 1:2],
-                        rename.duplicates = "make.unique")
+                        duplicate.policy = "make.unique")
   expect_equal(sub("\\..*$", "", rownames(m.re.u)), re$to)
 })
 

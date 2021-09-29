@@ -1,13 +1,18 @@
 context("overrepresentation analysis ('ora')")
 
-gdb. <- getMSigGeneSetDb("h", "human", "ensembl")
+# Manually slimming down the GeneSetDb to only include features in the
+# 1000 gene data.frame input test data
+gdb. <- local({
+  dge.res <- exampleDgeResult("human", "ensembl")
+  randomGeneSetDb(dge.res)
+})
 
 test_that("induced length associattion to significance is accounted for", {
   biased <- exampleDgeResult("human", "ensembl",
                              induce.bias = "effective_length")
 
-  nbias <- ora(gdb., biased, selected = "selected", feature.bias = NULL)
-  lbias <- ora(gdb., biased, selected = "selected",
+  nbias <- ora(biased, gdb., selected = "selected", feature.bias = NULL)
+  lbias <- ora(biased, gdb., selected = "selected",
                feature.bias = "effective_length")
   if (FALSE) {
     plot_ora_bias(biased, "selected", "effective_length")
@@ -25,14 +30,14 @@ test_that("induced length associattion to significance is accounted for", {
   # majority of pvalues when corrected for effective_length should be penalized,
   # which is to say: higher.
   frac.less <- mean(lbias$P.all > nbias$P.all)
-  expect_true(frac.less > 0.70)
+  expect_true(frac.less > 0.5)
 
-  # ranomizing length should negate penalty
+  # randomizing length should negate penalty on positive dge on longer genes
   set.seed(0xBEEF)
-  rando <- mutate(biased, effective_length = sample(effective_length))
-  rbias <- ora(gdb., rando, selected = "selected",
+  rando <- transform(biased, effective_length = sample(effective_length))
+  rbias <- ora(rando, gdb., selected = "selected",
                feature.bias = "effective_length")
-  expect_equal(rbias$P.all, nbias$P.all, tolerance = 0.005)
+  expect_equal(rbias$P.all, nbias$P.all, tolerance = 0.009)
 
   if (FALSE) {
     plot_ora_bias(rando, "selected", "effective_length")
@@ -44,8 +49,8 @@ test_that("ora,groups variable accepts column or list", {
   group.list <- split(dfinput$feature_id, dfinput$direction)
   p.cols <- paste0("P.", c("all", "down", "up"))
 
-  g1 <- ora(gdb., dfinput, selected = "selected", groups = "direction")
-  g2 <- ora(gdb., dfinput, selected = "selected", groups = group.list)
+  g1 <- ora(dfinput, gdb., selected = "selected", groups = "direction")
+  g2 <- ora(dfinput, gdb., selected = "selected", groups = group.list)
   expect_equal(g1$Pathway, g2$Pathway)
   for (pname in p.cols) {
     expect_numeric(g1[[pname]], info = pname)
@@ -64,7 +69,7 @@ test_that("ora and goseq give probably approximately correct answers", {
                               induce.bias = "effective_length")
 
   # no bias correction
-  e1 <- ora(gdb., dfinput, selected = "selected", groups = "direction")
+  e1 <- ora(dfinput, gdb., selected = "selected", groups = "direction")
   g1 <- expect_warning({
     sparrow::goseq(
       gdb.,
@@ -78,8 +83,8 @@ test_that("ora and goseq give probably approximately correct answers", {
   expect_equal(e1$P.all, g1$over_represented_pvalue)
 
   # length correction
-  e2 <- ora(gdb., dfinput, selected = "selected", groups = "direction",
-                   feature.bias = "effective_length")
+  e2 <- ora(dfinput, gdb., selected = "selected", groups = "direction",
+            feature.bias = "effective_length")
   g2 <- expect_warning({
     sparrow::goseq(
       gdb.,
@@ -116,14 +121,13 @@ test_that("ora and goseq give probably approximately correct answers", {
 test_that("'naked' ora call vs seas pipeline are equivalent", {
   dfinput <- exampleDgeResult("human", "ensembl",
                               induce.bias = "effective_length")
-  nres <- ora(gdb., dfinput, selected = "selected", groups = "direction",
-                     feature.bias = "effective_length")
+  nres <- ora(dfinput, gdb., selected = "selected", groups = "direction",
+              feature.bias = "effective_length")
   mres <- seas(setNames(dfinput$t, dfinput$feature_id), gdb., "ora",
                feature.bias = "effective_length",
                xmeta. = dfinput)
 
-  groups <- c(all = "ora", up = "ora.up",
-              down = "ora.down")
+  groups <- c(all = "ora", up = "ora.up", down = "ora.down")
   expect_setequal(resultNames(mres), groups)
 
   for (i in seq(groups)) {

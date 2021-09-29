@@ -28,6 +28,11 @@
 #' @param species "human" or "mouse"
 #'
 #' @return A wired up GeneSetDb
+#' @examples
+#' \donttest{
+#' # this requires you have the PANTHER.db package installed via BiocManager
+#' gdb.panther <- getPantherGeneSetDb(species = "human")
+#' }
 getPantherGeneSetDb <- function(type=c('pathway', 'goslim'),
                                 species=c('human', 'mouse')) {
   species <- match.arg(species)
@@ -60,7 +65,6 @@ getPantherGeneSetDb <- function(type=c('pathway', 'goslim'),
                 goslim=getPantherGOSLIM(p.db, org.db))
   mapIds <- getFromNamespace('mapIds', 'AnnotationDbi')
   out@db$symbol <- mapIds(org.db, out@db$feature_id, 'SYMBOL', 'ENTREZID')
-  org(out) <- xorg
   out
 }
 
@@ -83,7 +87,7 @@ getPantherPathways <- function(p.db, org.db) {
   m <- m[!is.na(m[['ENTREZID']]),,drop=FALSE]
   names(m) <- c("uniprot_id", "pathway_id", "name", "feature_id")
 
-  gdb <- GeneSetDb(m, collection = cname)
+  gdb <- GeneSetDb(m, collectionName = cname)
   geneSetCollectionURLfunction(gdb, cname) <- ".geneSetURL.PANTHERpathway"
   featureIdType(gdb, cname) <- EntrezIdentifier()
   gdb

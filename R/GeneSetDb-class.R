@@ -104,7 +104,10 @@
 #'   can't be defined from this, then collections will be named anonymously.
 #'   If a value is passed here, it will overide any names stored in the list of
 #'   `x`.
-#'
+#' @param ... these aren't used for anything in particular, but are here to
+#'   catch extra arguments that may get passed down if this function is part
+#'   of some call chain.
+#' @return A GeneSetDb object
 #' @examples
 #' ## exampleGeneSetDF provides gene set definitions in "long form". We show
 #' ## how this can easily turned into a GeneSetDb from this form, or convert
@@ -130,17 +133,9 @@
 #' fids <- featureIds(gdb.df)
 #'
 #' # GeneSetDb Manipulation ....................................................
-#' # Subset ImmuneSigDB down to only gene sets defined from mouse
-#' # NOTE: This doesn't work with updated MSigDB collections
-#' \dontrun{
-#' idb <- getMSigGeneSetDb('c7', 'mouse')
-#' igs <- geneSets(idb)
-#' table(igs$organism)
-#' ## Homo sapiens Mus musculus
-#' ##         1888         2984
-#' idb.mm <- idb[igs$organism == 'Mus musculus']
-#' length(idb.mm) ## 2984
-#' }
+#' # Subset down to only t cell related gene sets
+#' gdb.t <- gdb.df[grepl("T cell", geneSets(gdb.df)$name)]
+#' gdb.t
 GeneSetDb <- function(x, featureIdMap = NULL, collectionName = NULL, ...) {
   UseMethod("GeneSetDb", x)
 }
@@ -362,7 +357,7 @@ GeneSetDb.GeneSetCollection <- function(x, featureIdMap = NULL,
     stop("Invalid value for `collectionName`")
   }
 
-  lol <- lapply(1:length(x), function(i) {
+  lol <- lapply(seq_len(length(x)), function(i) {
     gsc.name <- collectionName[i]
     gsc <- x[[i]]
     id.list <- lapply(gsc, geneIds)

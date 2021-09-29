@@ -52,6 +52,8 @@ object.
 \item{active.only}{only look for gene sets that are "active"? Defaults to
 \code{TRUE} if \code{x} is conformed to a target expression object, else \code{FALSE}.
 \code{\link[=conform]{conform()}} for further details.}
+
+\item{...}{pass through arguments}
 }
 \value{
 A vector of identifiers (or indexes into an expression object,
