@@ -21,13 +21,13 @@ validateInputs(
 
 \item{contrast}{A contrast vector (if the GSEA method(s) require it)}
 
+\item{methods}{A character vector of the GSEA methods that these inputs will
+be used for.}
+
 \item{require.x.rownames}{Leave this alone, should always be \code{TRUE} but
 have it in this package for dev/testing purposes.}
 
 \item{...}{other variables that called methods can check if they want}
-
-\item{A}{character vector of the GSEA methods that these inputs will be used
-for}
 }
 \value{
 A list with "normalized" versions of \verb{$x}, \verb{$design}, and \verb{$contrast}

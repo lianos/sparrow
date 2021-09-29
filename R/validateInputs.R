@@ -19,8 +19,8 @@
 #' @param x The expression object to use
 #' @param design A design matrix, if the GSEA method(s) require it
 #' @param contrast A contrast vector (if the GSEA method(s) require it)
-#' @param A character vector of the GSEA methods that these inputs will be used
-#'   for
+#' @param methods A character vector of the GSEA methods that these inputs will
+#'  be used for.
 #' @param require.x.rownames Leave this alone, should always be `TRUE` but
 #'   have it in this package for dev/testing purposes.
 #' @param ... other variables that called methods can check if they want

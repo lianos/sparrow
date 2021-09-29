@@ -139,6 +139,7 @@ pcWeightedMean <- function(x, eigengene=1L, center=TRUE, scale=TRUE,
 #' @param x gene x sample matrix
 #' @param summary sqrt or mean
 #' @param trim calculate trimmed mean?
+#' @param ... pass through arguments
 #' @examples
 #' vm <- exampleExpressionSet(do.voom=TRUE)
 #' gdb <- conform(getMSigGeneSetDb('H', "human", "entrez"), vm)

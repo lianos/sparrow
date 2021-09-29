@@ -239,7 +239,7 @@ enumeration of the methods you want to use in your analysis.
 The call to `seas()` will perform these analyses and return a
 `SparrowResult` object which you can then use for downstream analysis.
 
-```{r run-multi-GSEA, eval=!exists('mg'), results='hide', warning=FALSE}
+```{r run-multi-GSEA, results='hide', warning=FALSE}
 mg <- seas(
   vm, gdb, c('camera', 'fry', 'ora'),
   design = vm$design, contrast = cm[, 'BvH'],

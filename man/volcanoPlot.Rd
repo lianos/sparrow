@@ -26,6 +26,29 @@ volcanoPlot(
 )
 }
 \arguments{
+\item{x}{A \code{SparrowResult} object, or a \code{data.frame}}
+
+\item{stats}{One of \code{"dge"} or \code{resultNames(x)}}
+
+\item{xaxis}{the column of the the provided (or extracted)
+\code{data.frame} to use for the xaxis and yaxis of the volcano}
+
+\item{yaxis}{the column of the the provided (or extracted)
+\code{data.frame} to use for the xaxis and yaxis of the volcano}
+
+\item{idx}{The column of the \code{data.frame} to use as the identifier
+for the element in the row. You probably don't want to mess with this}
+
+\item{xtfrm}{A function that transforms the \code{xaxis} column to an
+appropriate scale for the x-axis. This is the \code{identity} function
+by default, because most often the logFC is plotted as is.}
+
+\item{ytfrm}{A function that transforms the \code{yaxis} column to an
+appropriate scale for the y-axis. This is the \code{-log10(yval)} function
+by default, because this is how we most often plot the y-axis.}
+
+\item{xlab, ylab}{x and y axis labels}
+
 \item{highlight}{A vector of featureIds to highlight, or a GeneSetDb
 that we can extract the featureIds from for this purpose.}
 
@@ -43,6 +66,16 @@ as a threshold such that values less than this will be hexbinned.}
 
 \item{yhex}{the \code{.yvt} value threshold. Vaues less than this will
 be hexbinned.}
+
+\item{width}{the width and height of the output plotly plot}
+
+\item{height}{the width and height of the output plotly plot}
+
+\item{shiny_source}{the name of this element that is used in shiny callbacks.
+Defaults to \code{"mggenes"}.}
+
+\item{ggtheme}{a ggplot theme, like the thing returned from
+\code{\link[ggplot2:ggtheme]{ggplot2::theme_bw()}}.}
 }
 \description{
 Convenience function to create volcano plots from results generated within

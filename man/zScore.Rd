@@ -12,6 +12,8 @@ zScore(x, summary = c("mean", "sqrt"), trim = 0, ...)
 \item{summary}{sqrt or mean}
 
 \item{trim}{calculate trimmed mean?}
+
+\item{...}{pass through arguments}
 }
 \description{
 Calculate single sample geneset score by average z-score method

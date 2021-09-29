@@ -11,10 +11,10 @@
 #' @export
 #' @importFrom ggplot2 aes ggplot geom_hex
 #' @importFrom plotly add_lines config ggplotly layout plotly_build
-#' @param xhex The raw `.xv` (not `xtfrm(.xv)`) value that acts
-#'   as a threshold such that values less than this will be hexbinned.
-#' @param yhex the `.yvt` value threshold. Vaues less than this will
-#'   be hexbinned.
+#' @inheritParams volcanoStatsTable
+#' @param xlab,ylab x and y axis labels
+#' @param highlight A vector of featureIds to highlight, or a GeneSetDb
+#'   that we can extract the featureIds from for this purpose.
 #' @param horiz_line A (optionally named) number vecor (length 1) that indicates
 #'   where a line should be drawn across the volcano plot. This is usually done
 #'   to signify statistical significance. When the number is "named", this
@@ -23,9 +23,11 @@
 #'   of x (like "padj"). The default value `c(padj = 0.10)` indicates you
 #'   want to draw a line at approximately where the adjust pvalue of 0.10 is
 #'   on the y-axis, which is the *nominal* pvalues.
-#' @param highlight A vector of featureIds to highlight, or a GeneSetDb
-#'   that we can extract the featureIds from for this purpose.
-#'
+#' @param xhex The raw `.xv` (not `xtfrm(.xv)`) value that acts
+#'   as a threshold such that values less than this will be hexbinned.
+#' @param yhex the `.yvt` value threshold. Vaues less than this will
+#'   be hexbinned.
+#' @inheritParams iplot
 #' @examples
 #' mg <- exampleSparrowResult()
 #' volcanoPlot(mg)
