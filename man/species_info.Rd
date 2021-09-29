@@ -8,7 +8,10 @@ species_info(query = NULL, ...)
 }
 \arguments{
 \item{query}{the species name to lookup, if \code{NULL} (default), returns the
-internal species info table}
+internal species info table, otherwise the row of the table that matches
+\code{query}.}
+
+\item{...}{pass through}
 }
 \description{
 Match a species query to the regularized species info.

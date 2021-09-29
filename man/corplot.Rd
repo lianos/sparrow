@@ -28,8 +28,10 @@ around into some clustering.}
 
 \item{diag.distro}{show the distribution of values on the diagnols?}
 
-\item{smooth.scater}{boolean to indicate wether to use a normal scatter, or
+\item{smooth.scatter}{boolean to indicate wether to use a normal scatter, or
 a \code{\link[graphics:smoothScatter]{graphics::smoothScatter()}}. Defaults to \code{TRUE} if \code{nrow(E) > 400}}
+
+\item{...}{pass through arguments to internal panel functions}
 }
 \value{
 nothing, just creates the plot

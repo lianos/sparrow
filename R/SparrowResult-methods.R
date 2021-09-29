@@ -107,8 +107,8 @@ function(x, ..., as.dt=FALSE) {
   geneSets(geneSetDb(x), active.only=TRUE, as.dt=as.dt)
 })
 
-# Here's your chance to vectorize this. Once that's done push this code down
-# into geneSetUrl,GeneSetDb
+#' @describeIn collectionMetadata returns the URL for a geneset from a
+#'   SparrowResult object
 setMethod("geneSetURL", c(x="SparrowResult"), function(x, i, j, ...) {
   geneSetURL(geneSetDb(x), i, j, ...)
 })
@@ -342,11 +342,11 @@ result <- function(x, ...) {
 #'   columns of the `method`-specific statistics returned, ie. the
 #'   `pval` column from the `"camera"` result will be turned to
 #'   `pval.camera`.
-#'
+#' @template asdt-param
 #' @return a data.table with the results from the requested method.
 result.SparrowResult <- function(x, name = NULL, stats.only=FALSE,
-                                   rank.by=c('pval', 't', 'logFC'),
-                                   add.suffix=FALSE, as.dt=FALSE, ...) {
+                                 rank.by=c('pval', 't', 'logFC'),
+                                 add.suffix=FALSE, as.dt=FALSE, ...) {
   stopifnot(is(x, 'SparrowResult'))
   if (is.null(resultNames(x)) || length(resultNames(x)) == 0) {
     return(results(x, name, as.dt=as.dt))
@@ -559,13 +559,12 @@ setMethod("show", "SparrowResult", function(object) {
 #' @param x A [SparrowResult()] object.
 #' @param names the entries from `resultNames(x)` that you want to include
 #'   in the matrix. By default we take all of them.
-#' @param pval Are we testing pvalues or adjusted pvalues?
+#' @param pcol The name of the column in `logFC(x)` where the type of pvalues
+#'   are that we are collection. Pick on of `"padj"`, `"padj.by.collection"`,
+#'   or `"pval"`
 #' @return A matrix of the desired pvalues for all genesets
 #'
 #' @examples
-#' # vm <- exampleExpressionSet(do.voom=TRUE)
-#' # gdb <- exampleGeneSetDb()
-#' # mg <- seas(vm, gdb, "cameraPR", design = vm$design, contrast = 'tumor')
 #' mg <- exampleSparrowResult()
 #' pm <- p.matrix(mg)
 p.matrix <- function(x, names=resultNames(x),

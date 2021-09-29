@@ -4,7 +4,7 @@
 \alias{randomGeneSetDb}
 \title{Generates a fake GeneSetDb by sampling from features in a seas input.}
 \usage{
-randomGeneSetDb(x, n = 10, bias = NULL, seed = 10, ...)
+randomGeneSetDb(x, n = 10, bias = NULL, ...)
 }
 \arguments{
 \item{x}{an input container to \code{\link[=seas]{seas()}}}
@@ -19,7 +19,7 @@ having some weird crashes in the unit tests of bioc3.14-devel.
 }
 \details{
 This is a helper function for development, and shouldn't be used by normal
-users of this package
+users of this package.
 }
 \examples{
 gdb.rando <- randomGeneSetDb(exampleDgeResult(), 10, bias = "t")

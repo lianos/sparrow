@@ -26,7 +26,7 @@ a data.frame with (collection,name) columns
 The "key" form often comes out as rownames to matrices and such, or
 particularly for sending genesets down into wrapped methods, like do.camera.
 
-This is the inverse function of \code{\link[=encode_gsey]{encode_gsey()}}.
+\code{splt_gskey} is the inverse function of \code{encode_gskey()}
 }
 \examples{
 gdf <- exampleGeneSetDF()

@@ -40,6 +40,8 @@
 #'   [ggplot2::theme_bw()].
 #' @param trim used to define the upper and lower quantiles to max out the
 #'   individual gene statistics in the selected geneset.
+#' @param ... pass through parameters to internal boxplot/density/gsea
+#'   plotting functions
 #' @return the ploty plot ojbect
 #' @examples
 #' mgr <- exampleSparrowResult()

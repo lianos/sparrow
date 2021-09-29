@@ -59,6 +59,9 @@ Defaults to \code{"mggenes"}.}
 
 \item{trim}{used to define the upper and lower quantiles to max out the
 individual gene statistics in the selected geneset.}
+
+\item{...}{pass through parameters to internal boxplot/density/gsea
+plotting functions}
 }
 \value{
 the ploty plot ojbect

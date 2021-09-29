@@ -846,6 +846,20 @@ mgx <- seas(vm, gdb, c('camera', 'roast'),
             inter.gene.cor = 0.04, nrot = 500)
 ```
 
+## Conclusion
+
+Have fun running GSEA with sparrow!
+
+<details>
+<summary>Session Information</summary>
+
+```{r session-info}
+sessionInfo()
+```
+
+</details>
+
+
 [BiocSet]: http://bioconductor.org/packages/release/bioc/html/BiocSet.html
 [msigdb]: http://software.broadinstitute.org/gsea/msigdb/
 [msigdbr]: https://cran.r-project.org/package=msigdbr

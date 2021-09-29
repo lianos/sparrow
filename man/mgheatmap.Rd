@@ -59,6 +59,11 @@ This can be a superset of the names found in \code{gdb}. As of ComplexHeatmap
 v2 (maybe earlier versions), this doesn't really work when
 \code{cluster_rows = TRUE}.}
 
+\item{name}{passed down to \code{\link[ComplexHeatmap:Heatmap]{ComplexHeatmap::Heatmap()}}}
+
+\item{rm.collection.prefix}{When \code{TRUE} (default), removes the collection
+name from the genesets annotated on the heatmap.}
+
 \item{rm.dups}{if \code{aggregate.by == 'none'}, do we remove genes that
 appear in more than one geneset? Defaults to \code{FALSE}}
 
@@ -68,6 +73,9 @@ prior to calling \code{\link[ComplexHeatmap:Heatmap]{ComplexHeatmap::Heatmap()}}
 \item{rescale}{do you want to standardize the row variance to one on the
 values of the heatmap matrix prior to calling
 \code{\link[ComplexHeatmap:Heatmap]{ComplexHeatmap::Heatmap()}}?}
+
+\item{center, scale}{boolean parameters passed down into the the single
+sample gene set scoring methods defined by \code{aggregate.by}}
 
 \item{rename.rows}{defaults to \code{NULL}, which induces no action. Specifying
 a paramter here assumes you want to rename the rows of the heatmap.
@@ -90,8 +98,8 @@ mark the top and bottom of the color scale range you want to use.}
 
 \item{transpose}{Flip display so that rows are columns. Default is \code{FALSE}.}
 
-\item{...}{parameters to send down to \code{\link[=scoreSingleSamples]{scoreSingleSamples()}} or
-\code{\link[ComplexHeatmap:Heatmap]{ComplexHeatmap::Heatmap()}}.}
+\item{...}{parameters to send down to \code{\link[=scoreSingleSamples]{scoreSingleSamples()}},
+\code{\link[ComplexHeatmap:Heatmap]{ComplexHeatmap::Heatmap()}}, \code{\link[=renameRows]{renameRows()}} internal \code{as_matrix()}.}
 }
 \value{
 A \code{Heatmap} object.
@@ -99,7 +107,7 @@ A \code{Heatmap} object.
 \description{
 Encapsulates many common "moves" you'll make when trying to make a heatmap,
 especially if you are trying to show geneset activity across a panel of
-samples.
+samples. Note that you should prefer using \code{\link[=mgheatmap2]{mgheatmap2()}}.
 
 \strong{NOTE}: this function will \strong{almost certainly} reorder the rows of the
 input matrix. If you are concatentating Heatmap objects together horizontally
@@ -163,4 +171,7 @@ mg2 <- mgheatmap(vm, gdb, aggregate.by='ewm', split=TRUE,
                  top_annotation = col.anno, show_column_names = FALSE,
                  column_title = "Gene Set Activity in BRCA subset",
                  rename.rows = rr)
+}
+\seealso{
+\code{\link[=mgheatmap2]{mgheatmap2()}}
 }

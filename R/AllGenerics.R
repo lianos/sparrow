@@ -295,12 +295,13 @@ setGeneric("conform", function(x, ...) standardGeneric("conform"))
 #' @rdname subsetByFeatures
 #'
 #' @param x `GeneSetDb`
-#' @param featureIds Character vector of featureIds
+#' @param features Character vector of featureIds
 #' @param value are you feature id's entered as themselves (`feature_id`), which
 #'   is the default, or are you querying by their index into a target expression
 #'   object? This is only relevant if you are working with a `conform`-ed
 #'   GeneSetDb, and further you as a user won't likely invoke this argument,
 #'   but is used internally.
+#' @param ... pass through arguments
 #' @return A subset of `x` which contains only the geneSets that contain
 #'   features found in `featureIds`
 #'

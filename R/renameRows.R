@@ -23,7 +23,7 @@
 #'     candidate rownames for the object.
 #'   * A two column data.frame. The first column has entries in rownames(x),
 #'     and the second column is the value to rename it to.
-#' @param rename.duplicates The policy used to deal with duplicates in the
+#' @param duplicate.policy The policy used to deal with duplicates in the
 #'   renamed values. If Multiple elements in the source can be renamed to
 #'   the same elements in the target (think of microarray probes to gene
 #'   symbols), what to do? By deafult (`"original"`), one of the original
@@ -31,13 +31,14 @@
 #'   original (unique) names. When set to `"make.unique"`, the new name
 #'   will be kept, but `*.1`, `*.2`, etc. will be appended to all but the
 #'   first multimapper.
+#' @param ... pass through variable down to default method
 #' @examples
 #' eset <- exampleExpressionSet(do.voom = FALSE)
 #' ess <- renameRows(eset, "symbol")
 #'
 #' vm <- exampleExpressionSet(do.voom = TRUE)
 #' vms <- renameRows(vm, "symbol")
-renameRows <- function(x, xref, ...) {
+renameRows <- function(x, xref, duplicate.policy = "original", ...) {
   UseMethod("renameRows", x)
 }
 
@@ -46,11 +47,11 @@ renameRows <- function(x, xref, ...) {
 #' should be renamed to.
 #'
 #' @noRd
-.renameRows.df <- function(x, xref = NULL, rowmeta.df = NULL,
-                            rename.duplicates = c("original", "make.unique"),
-                            ...) {
+.renameRows.df <- function(x, xref = NULL,
+                           duplicate.policy = c("original", "make.unique"),
+                           rowmeta.df = NULL, ...) {
   stopifnot(is.character(x))
-  rename.duplicates <- match.arg(rename.duplicates)
+  duplicate.policy <- match.arg(duplicate.policy)
 
   if (!is.data.frame(xref)) {
     stopifnot(
@@ -84,7 +85,7 @@ renameRows <- function(x, xref, ...) {
   # Remove ambiguity in remapping process. If the same original ID can be
   # remapped to several other ones, then only one will be picked.
   out <- xref[!duplicated(xref[[1L]]),,drop = FALSE]
-  if (rename.duplicates == "original") {
+  if (duplicate.policy == "original") {
     # If there are duplicated values in the entries that x can be translated to,
     # then those renamed entries will remap x to itself
     out[[2L]] <- ifelse(duplicated(out[[2L]]), out[[1L]], out[[2L]])
@@ -96,7 +97,8 @@ renameRows <- function(x, xref, ...) {
 }
 
 #' @export
-renameRows.default <- function(x, xref = NULL, ...) {
+renameRows.default <- function(x, xref = NULL, duplicate.policy = "original",
+                               ...) {
   if (is.null(xref)) {
     warning("No `xref` provided, returning object unchanged", immediate. = TRUE)
     return(x)
@@ -109,7 +111,7 @@ renameRows.default <- function(x, xref = NULL, ...) {
   if (length(dim(x)) != 2L) {
     stop("The input object isn't 2d-subsetable")
   }
-  xref <- .renameRows.df(rownames(x), xref, ...)
+  xref <- .renameRows.df(rownames(x), xref, duplicate.policy, ...)
   nomatch <- setdiff(rn, xref[[1L]])
   if (length(nomatch)) {
     stop(length(nomatch), " rownames do not have a lookup to use in renaming")
@@ -120,14 +122,15 @@ renameRows.default <- function(x, xref = NULL, ...) {
 }
 
 #' @noRd
-.renameRows.bioc <- function(x, xref = NULL, ...) {
+.renameRows.bioc <- function(x, xref = NULL, duplicate.policy = "original",
+                             ...) {
   if (is.null(xref)) return(x)
   if (is.character(xref) && length(xref) == 1L) {
     xref <- data.frame(from = rownames(x),
                        to = fdata(x)[[xref]],
                        stringsAsFactors = FALSE)
   }
-  out <- renameRows.default(x, xref = xref, ...)
+  out <- renameRows.default(x, xref = xref, duplicate.policy, ...)
   rownames(fdata(out)) <- rownames(out)
   out
 }
@@ -135,24 +138,28 @@ renameRows.default <- function(x, xref = NULL, ...) {
 
 #' @export
 #' @noRd
-renameRows.EList <- function(x, xref = NULL, ...) {
-  .renameRows.bioc(x, xref, ...)
+renameRows.EList <- function(x, xref = NULL, duplicate.policy = "original",
+                             ...) {
+  .renameRows.bioc(x, xref, duplicate.policy, ...)
 }
 
 #' @export
 #' @noRd
-renameRows.DGEList <- function(x, xref = NULL, ...) {
-  .renameRows.bioc(x, xref, ...)
+renameRows.DGEList <- function(x, xref = NULL, duplicate.policy = "original",
+                               ...) {
+  .renameRows.bioc(x, xref, duplicate.policy, ...)
 }
 
 #' @export
 #' @noRd
-renameRows.SummarizedExperiment <- function(x, xref, ...) {
-  .renameRows.bioc(x, xref, ...)
+renameRows.SummarizedExperiment <- function(x, xref,
+                                            duplicate.policy = "original",
+                                            ...) {
+  .renameRows.bioc(x, xref, duplicate.policy, ...)
 }
 
 #' @export
 #' @noRd
-renameRows.eSet <- function(x, xref, ...) {
-  .renameRows.bioc(x, xref, ...)
+renameRows.eSet <- function(x, xref, duplicate.policy = "original", ...) {
+  .renameRows.bioc(x, xref, duplicate.policy, ...)
 }

@@ -24,6 +24,8 @@ validateInputs(
 \item{methods}{A character vector of the GSEA methods that these inputs will
 be used for.}
 
+\item{xmeta.}{hack for supportin data.frame inputs.}
+
 \item{require.x.rownames}{Leave this alone, should always be \code{TRUE} but
 have it in this package for dev/testing purposes.}
 

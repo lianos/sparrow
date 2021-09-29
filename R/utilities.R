@@ -161,7 +161,8 @@ encode_gskey <- function(x, y, sep=";;") {
 
 #' Splits collection,name combinations to collection,name data.frames
 #'
-#' This is the inverse function of [encode_gsey()].
+#' `splt_gskey` is the inverse function of `encode_gskey()`
+#'
 #' @export
 #' @rdname gskey
 #' @param x a character vector of encoded geneset keys from [encode_gskey()]

@@ -2,7 +2,9 @@
 #'
 #' @export
 #' @param query the species name to lookup, if `NULL` (default), returns the
-#'   internal species info table
+#'   internal species info table, otherwise the row of the table that matches
+#'   `query`.
+#' @param ... pass through
 #' @examples
 #' species_info()
 #' species_info("human")

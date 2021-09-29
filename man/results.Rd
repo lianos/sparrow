@@ -59,6 +59,10 @@ columns of the \code{method}-specific statistics returned, ie. the
 \code{pval} column from the \code{"camera"} result will be turned to
 \code{pval.camera}.}
 
+\item{as.dt}{If \code{FALSE} (default), the data.frame like thing that
+this funciton returns will be set to a data.frame. Set this to \code{TRUE}
+to keep this object as a \code{data.table}}
+
 \item{names}{the names of the GSEA methods to be reported. By default,
 this function will display results for all methods.}
 

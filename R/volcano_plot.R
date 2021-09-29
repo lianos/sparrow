@@ -27,6 +27,7 @@
 #'   as a threshold such that values less than this will be hexbinned.
 #' @param yhex the `.yvt` value threshold. Vaues less than this will
 #'   be hexbinned.
+#' @param ... pass through arguments (not used)
 #' @inheritParams iplot
 #' @examples
 #' mg <- exampleSparrowResult()

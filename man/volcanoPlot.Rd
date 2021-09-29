@@ -76,6 +76,8 @@ Defaults to \code{"mggenes"}.}
 
 \item{ggtheme}{a ggplot theme, like the thing returned from
 \code{\link[ggplot2:ggtheme]{ggplot2::theme_bw()}}.}
+
+\item{...}{pass through arguments (not used)}
 }
 \description{
 Convenience function to create volcano plots from results generated within

@@ -21,6 +21,7 @@
 #' @param contrast A contrast vector (if the GSEA method(s) require it)
 #' @param methods A character vector of the GSEA methods that these inputs will
 #'  be used for.
+#' @param xmeta. hack for supportin data.frame inputs.
 #' @param require.x.rownames Leave this alone, should always be `TRUE` but
 #'   have it in this package for dev/testing purposes.
 #' @param ... other variables that called methods can check if they want

@@ -156,9 +156,14 @@
 #'   be selected for enrichment (ie. statistically significant differntially
 #'   expressed genes would have `TRUE` values). Only used when `x` is a
 #'   data.frame-like input.
+#' @param group_by A name of character vector in `x` which is used to split up
+#'   features into groups for testing batches. Only used when `x` is a
+#'   data.frame-like input for methods like [ora()].
 #' @param bias_by The name of a numeric colum in `x` that can be used in [ora()]
 #'   to adjust for bias in enrichment tests (like gene legnth, average
 #'   expression, etc.). Only used when `x` is a data.frame-like input.
+#' @param xmeta. A hack to support data.frame inputs for `x`. End users should
+#'   not use this.
 #' @param .parallel by default, `.parallel=FALSE` runs each GSEA in a
 #'   serial manner. If `.parallel=TRUE`, the GSEA execution loop is
 #'   parallelized using the *BiocParallel* package. Note that you might want to
@@ -200,7 +205,7 @@ seas <- function(x, gsd, methods = NULL,
   }
 
   # Supporting for data.frames is painful right now, and will be refactored
-  # during the next release cycle.
+  # during a future release cycle.
   if (is.data.frame(x)) {
     rank_order <- match.arg(rank_order)
     assert_character(x[["feature_id"]])

@@ -12,13 +12,15 @@ subsetByFeatures(x, features, value = c("feature_id", "x.id", "x.idx"), ...)
 \arguments{
 \item{x}{\code{GeneSetDb}}
 
+\item{features}{Character vector of featureIds}
+
 \item{value}{are you feature id's entered as themselves (\code{feature_id}), which
 is the default, or are you querying by their index into a target expression
 object? This is only relevant if you are working with a \code{conform}-ed
 GeneSetDb, and further you as a user won't likely invoke this argument,
 but is used internally.}
 
-\item{featureIds}{Character vector of featureIds}
+\item{...}{pass through arguments}
 }
 \value{
 A subset of \code{x} which contains only the geneSets that contain

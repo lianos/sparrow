@@ -107,7 +107,7 @@ do.ora <- function(gsd, x, design, contrast = ncol(design),
     groups <- NULL
   }
 
-  res <- ora(gsd, logFC, selected = "significant",
+  res <- ora(logFC, gsd, selected = "significant",
              groups = groups,
              feature.bias = feature.bias,
              restrict.universe = restrict.universe,
@@ -149,7 +149,7 @@ mgres.ora <- function(res, gsd, ...) {
   out[, padj := p.adjust(pval, 'BH')]
 }
 
-#' Performs an overrepresentation analysis, (optinally) accounting for bias.
+#' Performs an overrepresentation analysis, (optionally) accounting for bias.
 #'
 #' This function wraps [limma::kegga()] to perform biased overrepresntation
 #' analysis over gene set collection stored in a GeneSetDb (`gsd`) object. Its
@@ -176,9 +176,9 @@ mgres.ora <- function(res, gsd, ...) {
 #' Gene ontology analysis for RNA-seq: accounting for selection bias.
 #' *Genome Biology* 11, R14. http://genomebiology.com/2010/11/2/R14
 #'
-#' @param gsd The GeneSetDb
-#' @param dat A data.frame with feature-level statistics. Minimally, this should
+#' @param x A data.frame with feature-level statistics. Minimally, this should
 #'   have a `"feature_id"` (character) column, but read on ...
+#' @param gsd The GeneSetDb
 #' @param selected Either the name of a logical column in `dat` used to subset
 #'   out the features to run the enrichement over, or a character vector of
 #'   `"feature_id"`s that are selected from `dat[["feature_id"]]`.
@@ -200,6 +200,8 @@ mgres.ora <- function(res, gsd, ...) {
 #'   like so:
 #'   `plot_ora_bias(dat, selected = selected, groups = groups,
 #'                         feature.bias = feature.bias)`
+#' @param ... parameters passed to `conform()`
+#' @template asdt-param
 #' @return A data.frame of pathway enrichment. The last N colums are enrichment
 #'   statistics per pathway, grouped by the `groups` parameter. `P.all` are the
 #'   stats for all selected features, and the remaingin `P.*` columns are for
@@ -210,11 +212,11 @@ mgres.ora <- function(res, gsd, ...) {
 #' gdb <- getMSigGeneSetDb("h", "human", "ensembl")
 #'
 #' # Run enrichmnent without accounting for any bias
-#' nobias <- ora(gdb, dgestats, selected = "selected", groups = "direction",
+#' nobias <- ora(dgestats, gdb, selected = "selected", groups = "direction",
 #'               feature.bias = NULL)
 #'
 #' # Run enrichment and account for gene length
-#' lbias <- ora(gdb, dgestats, selected = "selected",
+#' lbias <- ora(dgestats, gdb, selected = "selected",
 #'              feature.bias = "effective_length")
 #'
 #' # plot length bias with DGE status
@@ -224,16 +226,16 @@ mgres.ora <- function(res, gsd, ...) {
 #' biased <- dgestats[order(dgestats$pval),]
 #' biased$effective_length <- sort(biased$effective_length, decreasing = TRUE)
 #' plot_ora_bias(biased, "selected", "effective_length")
-#' etest <- ora(gdb, biased, selected = "selected",
+#' etest <- ora(biased, gdb, selected = "selected",
 #'              groups = "direction",
 #'              feature.bias = "effective_length")
-ora <- function(gsd, dat, selected = "significant",
+ora <- function(x, gsd, selected = "significant",
                 groups = NULL,
                 feature.bias = NULL, universe = NULL,
                 restrict.universe = FALSE,
                 plot.bias = FALSE, ...,
-                as.dt = FALSE, .pipelined = FALSE) {
-  dat <- validate.xmeta(dat) # enforse feature_id column
+                as.dt = FALSE) {
+  dat <- validate.xmeta(x) # enforse feature_id column
   if (is.null(universe)) universe <- dat[["feature_id"]]
 
   # If this is .pipelined, do we have to conform? I should check that.

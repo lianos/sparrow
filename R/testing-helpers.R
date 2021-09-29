@@ -184,7 +184,7 @@ exampleDgeResult <- function(species = "human", id.type = "ensembl",
 #' having some weird crashes in the unit tests of bioc3.14-devel.
 #'
 #' This is a helper function for development, and shouldn't be used by normal
-#' users of this package
+#' users of this package.
 #'
 #' @export
 #' @param x an input container to [seas()]
@@ -193,10 +193,9 @@ exampleDgeResult <- function(species = "human", id.type = "ensembl",
 #' @export
 #' @examples
 #' gdb.rando <- randomGeneSetDb(exampleDgeResult(), 10, bias = "t")
-randomGeneSetDb <- function(x, n = 10, bias = NULL, seed = 10, ...) {
+randomGeneSetDb <- function(x, n = 10, bias = NULL, ...) {
   assert_class(x, "data.frame") # only data.frames for now
   assert_number(n, lower = 2, upper = 100)
-  set.seed(seed)
   gsets <- lapply(seq_len(n), function(i) {
     idx <- sample(nrow(x), 10, prob = abs(x$t))
     wtf <- data.frame(

@@ -4,7 +4,7 @@
 \alias{renameRows}
 \title{Smartly/easily rename the rows of an object.}
 \usage{
-renameRows(x, xref, ...)
+renameRows(x, xref, duplicate.policy = "original", ...)
 }
 \arguments{
 \item{x}{an object to whose rows need renaming}
@@ -22,7 +22,7 @@ candidate rownames for the object.
 and the second column is the value to rename it to.
 }}
 
-\item{rename.duplicates}{The policy used to deal with duplicates in the
+\item{duplicate.policy}{The policy used to deal with duplicates in the
 renamed values. If Multiple elements in the source can be renamed to
 the same elements in the target (think of microarray probes to gene
 symbols), what to do? By deafult (\code{"original"}), one of the original
@@ -30,6 +30,8 @@ elements will be renamed to the new name, and the rest will keep their
 original (unique) names. When set to \code{"make.unique"}, the new name
 will be kept, but \verb{*.1}, \verb{*.2}, etc. will be appended to all but the
 first multimapper.}
+
+\item{...}{pass through variable down to default method}
 }
 \description{
 The most common usecase for this is when you have a SummarizedExperiment,
