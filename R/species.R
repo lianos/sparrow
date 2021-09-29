@@ -5,6 +5,9 @@
 #'   internal species info table, otherwise the row of the table that matches
 #'   `query`.
 #' @param ... pass through
+#' @return a data.frame of species-related information that is used to fetch
+#'   appropriate annotation files and conversion functions between species
+#'   for gene identifiers, and such.
 #' @examples
 #' species_info()
 #' species_info("human")

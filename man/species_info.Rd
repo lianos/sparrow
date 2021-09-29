@@ -13,6 +13,11 @@ internal species info table, otherwise the row of the table that matches
 
 \item{...}{pass through}
 }
+\value{
+a data.frame of species-related information that is used to fetch
+appropriate annotation files and conversion functions between species
+for gene identifiers, and such.
+}
 \description{
 Match a species query to the regularized species info.
 }
