@@ -9,7 +9,7 @@ name: test-coverage
 jobs:
   test-coverage:
     runs-on: ubuntu-latest
-    container: facilebio/facilebio_base_extra
+    container: lianos/sparrow:devel
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
       NOT_CRAN: true
