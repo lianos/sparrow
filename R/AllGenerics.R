@@ -66,6 +66,11 @@ setGeneric("featureIds", signature="x",
 #' @param x the object to retrieve the featureIdMap from
 #' @param ... pass through arguments
 #' @return a data.frame of input feature_id's to conformed id's/rows/etc
+#' @examples
+#' gdb <- exampleGeneSetDb()
+#' vm <- exampleExpressionSet()
+#' gdb <- conform(gdb, vm)
+#' fmap <- featureIdMap(gdb)
 setGeneric("featureIdMap", function(x, ...) standardGeneric("featureIdMap"))
 
 setGeneric("featureIdMap<-", function(x, value)
@@ -310,8 +315,3 @@ function(x, features, value=c('feature_id', 'x.id', 'x.idx'), ...)
 #' @exportMethod unconform
 #' @rdname conform
 setGeneric("unconform", function(x, ...) standardGeneric("unconform"))
-
-#' Summarizes different results into tabular form
-#'
-#' @exportMethod summarized
-setGeneric("summarized", function(x, ...) standardGeneric("summarized"))
