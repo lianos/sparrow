@@ -28,6 +28,7 @@
 #' @param yhex the `.yvt` value threshold. Vaues less than this will
 #'   be hexbinned.
 #' @param ... pass through arguments (not used)
+#' @return a ploty plot object
 #' @inheritParams iplot
 #' @examples
 #' mg <- exampleSparrowResult()

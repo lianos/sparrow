@@ -32,6 +32,7 @@
 #'   will be kept, but `*.1`, `*.2`, etc. will be appended to all but the
 #'   first multimapper.
 #' @param ... pass through variable down to default method
+#' @return An updated version of `x` with freshly minted rownames.
 #' @examples
 #' eset <- exampleExpressionSet(do.voom = FALSE)
 #' ess <- renameRows(eset, "symbol")

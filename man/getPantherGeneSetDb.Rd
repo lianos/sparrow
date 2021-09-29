@@ -43,3 +43,9 @@ PANTHER provides their own set of
 it's not clear how often these get updated.
 }
 
+\examples{
+\donttest{
+# this requires you have the PANTHER.db package installed via BiocManager
+gdb.panther <- getPantherGeneSetDb(species = "human")
+}
+}

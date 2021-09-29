@@ -33,6 +33,9 @@ first multimapper.}
 
 \item{...}{pass through variable down to default method}
 }
+\value{
+An updated version of \code{x} with freshly minted rownames.
+}
 \description{
 The most common usecase for this is when you have a SummarizedExperiment,
 DGEList, matrix, etc. that is "rownamed" by some gene idnetifiers (ensembl,

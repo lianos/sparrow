@@ -12,7 +12,8 @@ Authors@R: c(
 Description: Provides a unified interface to a variety of GSEA techniques from
     different bioconductor packages. Results are harmonized into a single object
     and can be interrogated uniformly for quick exploration and interpretation
-    of results.
+    of results. Interactive exploration of GSEA results is enabled through
+    a shiny app provided by a sparrow.shiny sibling package.
 Depends:
     R (>= 4.0)
 Imports:
@@ -27,6 +28,7 @@ Imports:
     edgeR (>= 3.18.1),
     ggplot2 (>= 2.2.0),
     graphics,
+    grDevices,
     GSEABase,
     GSVA,
     irlba,

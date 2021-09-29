@@ -18,7 +18,7 @@
 #' @param ... pass through arguments
 #' @return A GeneSetDb of the kegg stuffs
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # connects to the internet and takes a while
 #' mouse.entrez <- getKeggGeneSetDb("mouse", id.type = "entrez")
 #' mouse.ens <- getKeggGeneSetDb("mouse", id.type = "ensembl")

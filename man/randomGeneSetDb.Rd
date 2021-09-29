@@ -15,6 +15,9 @@ randomGeneSetDb(x, n = 10, bias = NULL, ...)
 
 \item{...}{pass through args}
 }
+\value{
+A randomly generated GeneSetDb you can use against \code{x} for testing.
+}
 \description{
 I wrote this because initial fetching from msigdbr can be slow, and also
 having some weird crashes in the unit tests of bioc3.14-devel.

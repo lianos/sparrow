@@ -31,7 +31,7 @@ Note that \strong{it is your responsibility} to ensure that you can use the KEGG
 database according to their licensing requirements.
 }
 \examples{
-\dontrun{
+\donttest{
 # connects to the internet and takes a while
 mouse.entrez <- getKeggGeneSetDb("mouse", id.type = "entrez")
 mouse.ens <- getKeggGeneSetDb("mouse", id.type = "ensembl")

@@ -83,7 +83,7 @@ or more of the following as appropriate:
 }
 
 \examples{
-\dontrun{
+\donttest{
   # these take a while to load initially, so put them in dontrun blocks.
   # you should run these interactively to understand what they return
   gdb <- getMSigGeneSetDb(c("h", "reactome"), "human", "entrez")

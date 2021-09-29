@@ -553,6 +553,7 @@ subset.GeneSetDb <- function(x, keep) {
 #'   geneSets to keep
 #' @param j ignored
 #' @param ... pass through arguments
+#' @return GeneSetDb `x` with a subset of the genesets it came in with.k
 #' @param drop ignored
 setMethod("[", "GeneSetDb", function(x, i, j, ..., drop = FALSE) {
   if (length(list(...)) > 0) {

@@ -18,6 +18,9 @@ geneSets to keep}
 
 \item{drop}{ignored}
 }
+\value{
+GeneSetDb \code{x} with a subset of the genesets it came in with.k
+}
 \description{
 Subset whole genesets from a GeneSetDb
 }

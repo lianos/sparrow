@@ -79,6 +79,9 @@ Defaults to \code{"mggenes"}.}
 
 \item{...}{pass through arguments (not used)}
 }
+\value{
+a ploty plot object
+}
 \description{
 Convenience function to create volcano plots from results generated within
 this package. This is mostly used by \code{{sparrow.shiny}}.

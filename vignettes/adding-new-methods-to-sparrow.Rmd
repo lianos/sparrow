@@ -8,8 +8,6 @@ abstract: >
   we describe how to do that here.
 output:
   BiocStyle::html_document:
-    highlight: pygments
-    toc: true
     fig_width: 5
     css: mystyles.css
 vignette: >
@@ -69,6 +67,17 @@ the following internal sparrow methods.
   `pval`, and `padj` columns.
 
 Look to the implementation in the `do.camera.R` file for a reference.
+
+## Reproducibility
+
+<details>
+<summary>Session Information</summary>
+
+```{r session-info}
+sessionInfo()
+```
+
+</details>
 
 [BiocSet]: http://bioconductor.org/packages/release/bioc/html/BiocSet.html
 [msigdb]: http://software.broadinstitute.org/gsea/msigdb/

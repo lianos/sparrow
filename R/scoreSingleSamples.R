@@ -178,7 +178,7 @@ melt.gs.scores <- function(gdb, scores) {
 #' variance of the mean, cf. Lee, E., et al. Inferring pathway activity toward
 #' precise disease classification. PLoS Comput. Biol. 4, e1000217 (2008).
 do.scoreSingleSamples.zscore <- function(gdb, y, zsummary=c('mean', 'sqrt'),
-                                         trim=0.10, gs.idxs=NULL, do.scale=TRUE,
+                                         trim=0, gs.idxs=NULL, do.scale=TRUE,
                                          ...) {
   stopifnot(is.conformed(gdb, y))
   zsummary <- match.arg(zsummary)

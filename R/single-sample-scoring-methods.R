@@ -56,14 +56,14 @@
 #'   the SVD/PCA decomposition are included for the ride.
 #' @examples
 #' vm <- exampleExpressionSet(do.voom=TRUE)
-#' gdb <- conform(getMSigGeneSetDb('H', "human", "entrez"), vm)
-#' features <- featureIds(gdb, 'H', 'HALLMARK_INTERFERON_GAMMA_RESPONSE',
+#' gdb <- conform(exampleGeneSetDb(), vm)
+#' features <- featureIds(gdb, 'c2', 'BURTON_ADIPOGENESIS_PEAK_AT_2HR',
 #'                        value='x.idx')
 #' scores <- eigenWeightedMean(vm[features,])$score
 #'
 #' ## Use scoreSingleSamples to facilitate scoring of all gene sets
 #' scores.all <- scoreSingleSamples(gdb, vm, 'ewm')
-#' s2 <- with(subset(scores.all, name == 'HALLMARK_INTERFERON_GAMMA_RESPONSE'),
+#' s2 <- with(subset(scores.all, name == 'BURTON_ADIPOGENESIS_PEAK_AT_2HR'),
 #'            setNames(score, sample_id))
 #' all.equal(s2, scores)
 eigenWeightedMean <- function(x, eigengene=1L, center=TRUE, scale=TRUE,
@@ -126,22 +126,25 @@ eigenWeightedMean <- function(x, eigengene=1L, center=TRUE, scale=TRUE,
 #' Calculate single sample geneset score by average z-score method
 #'
 #' @export
-#' @param x gene x sample matrix
+#' @param x gene x sample matrix with rows already subsetted to the ones you
+#'   care about.
 #' @param summary sqrt or mean
 #' @param trim calculate trimmed mean?
 #' @param ... pass through arguments
+#' @return A list of stats related to the zscore. You care mostly about
+#'   `$score`.
 #' @examples
 #' vm <- exampleExpressionSet(do.voom=TRUE)
-#' gdb <- conform(getMSigGeneSetDb('H', "human", "entrez"), vm)
-#' features <- featureIds(gdb, 'H', 'HALLMARK_INTERFERON_GAMMA_RESPONSE',
+#' gdb <- conform(exampleGeneSetDb(), vm)
+#' features <- featureIds(gdb, 'c2', 'BURTON_ADIPOGENESIS_PEAK_AT_2HR',
 #'                        value='x.idx')
-#' scores <- zScore(vm[features,])$score
+#' zscores <- zScore(vm[features,])
 #'
 #' ## Use scoreSingleSamples to facilitate scoring of all gene sets
-#' scores.all <- scoreSingleSamples(gdb, vm, 'zscore')
-#' s2 <- with(subset(scores.all, name == 'HALLMARK_INTERFERON_GAMMA_RESPONSE'),
+#' scores.all <- scoreSingleSamples(gdb, vm, 'zscore', summary = "mean")
+#' s2 <- with(subset(scores.all, name == 'BURTON_ADIPOGENESIS_PEAK_AT_2HR'),
 #'            setNames(score, sample_id))
-#' all.equal(s2, scores)
+#' all.equal(s2, zscores$score)
 zScore <- function(x, summary = c('mean', 'sqrt'), trim = 0, ...) {
   x <- as_matrix(x)
   summary <- match.arg(summary)

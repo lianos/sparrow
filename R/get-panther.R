@@ -28,6 +28,11 @@
 #' @param species "human" or "mouse"
 #'
 #' @return A wired up GeneSetDb
+#' @examples
+#' \donttest{
+#' # this requires you have the PANTHER.db package installed via BiocManager
+#' gdb.panther <- getPantherGeneSetDb(species = "human")
+#' }
 getPantherGeneSetDb <- function(type=c('pathway', 'goslim'),
                                 species=c('human', 'mouse')) {
   species <- match.arg(species)
