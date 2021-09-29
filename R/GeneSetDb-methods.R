@@ -1087,10 +1087,10 @@ as.data.table.GeneSetDb <- function(x, value = c('feature_id', 'x.id', 'x.idx'),
 #' @describeIn conversion convert a GeneSetDb to data.frame
 #' @export
 #' @method as.data.frame GeneSetDb
-as.data.frame.GeneSetDb <- function(x, value=c('feature_id', 'x.id', 'x.idx'),
-                                    active.only=is.conformed(x), ...) {
+as.data.frame.GeneSetDb <- function(x, value = c('feature_id', 'x.id', 'x.idx'),
+                                    active.only = is.conformed(x), ...) {
   value <- match.arg(value)
-  setDF(as.data.table(x, row.names, optional, value, active.only, ...))
+  setDF(as.data.table(x, value = value, active.only = active.only, ...))
 }
 
 #' Split and conserve ordering
@@ -1108,12 +1108,12 @@ csplit <- function(x, f) {
 #' @noRd
 #' @method as.list GeneSetDb
 #' @export
-as.list.GeneSetDb <- function(x, value=c('feature_id', 'x.id', 'x.idx'),
-                              active.only=is.conformed(x), nested=FALSE,
+as.list.GeneSetDb <- function(x, value = c('feature_id', 'x.id', 'x.idx'),
+                              active.only = is.conformed(x), nested = FALSE,
                               ...) {
   stopifnot(is(x, 'GeneSetDb'))
   value <- match.arg(value)
-  df <- as.data.frame(x, value=value, active.only=active.only)
+  df <- as.data.frame(x, value = value, active.only = active.only)
   if (nested) {
     colls <- unique(df$collection)
     ## Using the "naive split" call converts xdf$name to a factor and doesn't
