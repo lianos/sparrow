@@ -5,6 +5,7 @@ BiocParallel
 checkmate
 circlize
 ComplexHeatmap
+covr
 data.table
 DelayedMatrixStats
 edgeR
@@ -34,6 +35,7 @@ msigdbr
 KernSmooth
 knitr
 PANTHER.db
+pkgdown
 R.utils
 reactome.db
 reshape2
