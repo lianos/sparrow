@@ -13,13 +13,13 @@ stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://
 [![codecov](https://codecov.io/gh/lianos/sparrow/branch/develop/graph/badge.svg)](https://codecov.io/gh/lianos/sparrow)
 <!-- badges: end -->
 
-`sparrow` (formerly [multiGSEA](https://github.com/lianos/multiGSEA))
-was built to facilitate the use of gene sets in the analysis of high
-throughput genomics data (primarily RNA-seq). Analysts can orchestrate
-any number of GSEA methods across a specific contrast using the unified
-interface provided by the `seas`. A shiny application is provided via
-the [sparrow.shiny](https://github.com/lianos/sparrow.shiny) package
-that enables the interactive exploration of of GSEA results.
+`sparrow` was built to facilitate the use of gene sets in the analysis
+of high throughput genomics data (primarily RNA-seq). Analysts can
+orchestrate any number of GSEA methods across a specific contrast using
+the unified interface provided by the `seas`. A shiny application is
+provided via the
+[sparrow.shiny](https://github.com/lianos/sparrow.shiny) package that
+enables the interactive exploration of of GSEA results.
 
 -   The `seas` function is a wrapper that orchestrates the execution of
     any number of user-specified gene set enrichment analyses (GSEA)
@@ -120,3 +120,10 @@ remotes::install_github("lianos/sparrow")
 
 To install the shiny bits for this package, you can install the
 `{sparrow.shiny}` in a similar way as described above.
+
+## Historical Note
+
+This package used to be called
+[multiGSEA](https://github.com/lianos/multiGSEA)), but it’s name was
+changed to avoid conflict with another package by the same name that was
+submitted to Bioconductor version 3.12.
