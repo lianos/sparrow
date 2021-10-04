@@ -13,8 +13,7 @@ set.seed(123)
 per.group <- 5
 
 library(DESeq2)
-brca.fn <- file.path('/Users/lianogls/GNE/data/TCGA/v6/rnaseq',
-                     'TCGA-rnaseq-BRCA.rds')
+brca.fn <- file.path('~/tmp/TCGA-rnaseq-BRCA.rds')
 x <- readRDS(brca.fn)
 
 out <- x[, (x$PAM50confidence == 1 & !is.na(x$PAM50confidence)) | x$Cancer_Status == 'normal']

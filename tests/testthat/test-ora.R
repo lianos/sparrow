@@ -8,6 +8,7 @@ gdb. <- local({
 })
 
 test_that("induced length associattion to significance is accounted for", {
+  set.seed(0xBEEF)
   biased <- exampleDgeResult("human", "ensembl",
                              induce.bias = "effective_length")
 
@@ -33,7 +34,7 @@ test_that("induced length associattion to significance is accounted for", {
   expect_true(frac.less > 0.5)
 
   # randomizing length should negate penalty on positive dge on longer genes
-  set.seed(0xBEEF)
+  set.seed(0xFEED)
   rando <- transform(biased, effective_length = sample(effective_length))
   rbias <- ora(rando, gdb., selected = "selected",
                feature.bias = "effective_length")

@@ -105,6 +105,7 @@
 #' @return A `Heatmap` object.
 #'
 #' @examples
+#' \donttest{
 #' vm <- exampleExpressionSet()
 #' gdb <- exampleGeneSetDb()
 #' col.anno <- ComplexHeatmap::HeatmapAnnotation(
@@ -130,6 +131,7 @@
 #'                   top_annotation = col.anno, show_column_names = FALSE,
 #'                   column_title = "Gene Set Activity in BRCA subset",
 #'                   rename.rows = rr)
+#' }
 mgheatmap2 <- function(x, gdb = NULL, col = NULL,
                        aggregate.by = c("none", "ewm", "ewz", "zscore"),
                        split = TRUE, scores = NULL, gs.order = NULL,

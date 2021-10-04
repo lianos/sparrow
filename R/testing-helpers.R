@@ -159,21 +159,29 @@ exampleSparrowResult <- function(cached = TRUE,
 #'   `"effective_length"` or `"AveExpr"`. These are columns that are included
 #'   in the output. If `NULL`, no bias is introduced into the result.
 #' @rdname examples
-exampleDgeResult <- function(species = "human", id.type = "ensembl",
+exampleDgeResult <- function(species = "human",
+                             id.type = c("entrez", "ensembl"),
                              induce.bias = NULL) {
   # we only have human/ensembl for now
   species <- match.arg(species, "human")
-  id.type <- match.arg(id.type, "ensembl")
+  id.type <- match.arg(id.type)
   dge.fn <- system.file(
     "extdata", "testdata",
     "dataframe-input-short.csv.gz",
     package = "sparrow")
   out <- data.table::fread(dge.fn, data.table = FALSE)
+
+  if (id.type == "entrez") {
+    out[["feature_id"]] <- as.character(out[["entrez_id"]])
+  }
+  out[["entrez_id"]] <- NULL
+
   if (is.character(induce.bias)) {
     bias <- match.arg(induce.bias, c("effective_length", "AveExpr"))
     o <- order(out[["pval"]])
     out[[bias]][o] <- sort(out[[bias]], decreasing = TRUE)
   }
+
   out$significant <- out$selected
   out
 }

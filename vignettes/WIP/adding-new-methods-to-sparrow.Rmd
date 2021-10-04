@@ -9,7 +9,6 @@ abstract: >
 output:
   BiocStyle::html_document:
     fig_width: 5
-    css: mystyles.css
 vignette: >
   %\VignetteIndexEntry{Adding new methods to sparrow}
   %\VignetteEngine{knitr::rmarkdown}

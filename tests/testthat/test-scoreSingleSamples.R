@@ -8,7 +8,7 @@ suppressPackageStartupMessages({
 })
 
 vm <- exampleExpressionSet()
-gdb <- getMSigGeneSetDb("h", "human", "entrez")
+gdb <- exampleGeneSetDb()
 
 test_that("scoreSingleSamples can use genesets of size n = 1 and value is gene", {
   genes <- c(GZMA = "3001", PRF1 = "5551", TGFB1 = "7040")
@@ -140,7 +140,7 @@ test_that("normalization works in eigenWeightedMean", {
 test_that("eigenWeightedMean can handle 0sd features", {
   # Added to address Issue #20
   # https://github.com/lianos/multiGSEA/issues/20
-  gs <- geneSet(conform(gdb, vm), name = "HALLMARK_TGF_BETA_SIGNALING")
+  gs <- geneSet(conform(gdb, vm), name = "GOZGIT_ESR1_TARGETS_DN")
   E.o <- vm$E[gs$feature_id,]
 
   # 0 out low variance genes: these will provide minor contributions to the

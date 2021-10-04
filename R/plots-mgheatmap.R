@@ -114,6 +114,7 @@
 #' @return A `Heatmap` object.
 #'
 #' @examples
+#' \donttest{
 #' library(ComplexHeatmap)
 #' vm <- exampleExpressionSet()
 #' gdb <- exampleGeneSetDb()
@@ -133,6 +134,7 @@
 #'                  top_annotation = col.anno, show_column_names = FALSE,
 #'                  column_title = "Gene Set Activity in BRCA subset",
 #'                  rename.rows = rr)
+#' }
 mgheatmap <- function(x, gdb = NULL, col = NULL,
                       aggregate.by = c("none", "ewm", "ewz", "zscore"),
                       split = TRUE, scores = NULL, gs.order = NULL,

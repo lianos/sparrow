@@ -9,9 +9,7 @@ test_that("MSigDB retrieval respects collection subsets", {
 
 test_that("with.kegg honors inclusion/exclusion of KEGG gene sets", {
   with.kegg <- getMSigGeneSetDb("c2", with.kegg = TRUE)
-
   no.kegg <- getMSigGeneSetDb("c2", with.kegg = FALSE)
-
   gs.kegg <- subset(geneSets(with.kegg), subcategory == "CP:KEGG")
   expect_true(nrow(gs.kegg) > 0L)
 
