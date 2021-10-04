@@ -39,6 +39,11 @@
 #'   features of the new GeneSetDb. If you want to keep the original identifiers
 #'   of the remapped features, include `"original_id"` as one of the values
 #'   here.
+#' @param allow.cartesian a boolean used to temporarily set the
+#'   `datatable.allow.cartesian` global option. If you are doing a 1:many
+#'   map of your identifiers, you may trigger this error. You can temporarily
+#'   turn this option/error off by setting `allow.cartesian = TRUE`. The
+#'   option will be restored to its "pre-function call" value `on.exit`.
 #' @param min_support,top Parameters used in the internal call to
 #'   [babelgene::orthologs()]
 #' @param ... pass through args (not used)
@@ -77,8 +82,14 @@
 convertIdentifiers <- function(x, from = NULL, to = NULL,
                                id.type = c("ensembl", "entrez", "symbol"),
                                xref = NULL, extra.cols = NULL,
+                               allow.cartesian = FALSE,
                                min_support = 3, top = TRUE, ...) {
   assert_class(x, "GeneSetDb")
+  if (!missing(allow.cartesian)) {
+    assert_logical(allow.cartesian)
+    dt.opts <- options(datatable.allow.cartesian = allow.cartesian)
+    on.exit(options(dt.opts))
+  }
   if (is.null(xref)) {
     # User is attempting to do an automated identifier conversion via babelgene
     stop("Identifer/species conversion by babelgene coming soon: ",
@@ -98,10 +109,12 @@ convertIdentifiers <- function(x, from = NULL, to = NULL,
   if (is.null(to)) to <- colnames(xref)[2L]
   assert_string(from)
   assert_string(to)
+
+  # columns to transfer over from `xref` ---------------------------------------
   take.cols <- c(from, to)
+  assert_character(extra.cols, null.ok = TRUE)
+  keep.original <- "original_id" %in% extra.cols
   if (!is.null(extra.cols) && length(extra.cols) > 0) {
-    assert_character(extra.cols)
-    keep.original <- "original_id" %in% extra.cols
     take.cols <- c(take.cols, setdiff(extra.cols, "original_id"))
   }
   assert_subset(take.cols, colnames(xref))
@@ -116,10 +129,16 @@ convertIdentifiers <- function(x, from = NULL, to = NULL,
     setnames(xref, to, "fid.new")
     to <- "fid.new"
   }
+  xref <- unique(xref, by = c(from, to))
+
   db <- merge(x@db, xref, by.x = "feature_id", by.y = from,
               suffixes = c(".original", ""))
   setnames(db, "feature_id", "original_id")
   setnames(db, to, "feature_id")
+  if (nrow(db) == 0) {
+    stop("None of the identifers in your original GeneSetDb match to the ",
+         "ones you are trying to convert to")
+  }
 
   # handle non std eval NOTE in R CMD check when using `:=` mojo
   N <- n <- active <- name <- original_id <- NULL

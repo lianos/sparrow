@@ -11,6 +11,7 @@ convertIdentifiers(
   id.type = c("ensembl", "entrez", "symbol"),
   xref = NULL,
   extra.cols = NULL,
+  allow.cartesian = FALSE,
   min_support = 3,
   top = TRUE,
   ...
@@ -37,6 +38,12 @@ type of identifier you want to convert to. It can be any of \code{"ensembl"},
 features of the new GeneSetDb. If you want to keep the original identifiers
 of the remapped features, include \code{"original_id"} as one of the values
 here.}
+
+\item{allow.cartesian}{a boolean used to temporarily set the
+\code{datatable.allow.cartesian} global option. If you are doing a 1:many
+map of your identifiers, you may trigger this error. You can temporarily
+turn this option/error off by setting \code{allow.cartesian = TRUE}. The
+option will be restored to its "pre-function call" value \code{on.exit}.}
 
 \item{min_support, top}{Parameters used in the internal call to
 \code{\link[babelgene:orthologs]{babelgene::orthologs()}}}
