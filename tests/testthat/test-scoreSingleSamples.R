@@ -1,6 +1,7 @@
 context("Single Sample Gene Set Scoring")
 
 test_that("scoreSingleSamples can use genesets of size n = 1 and value is gene", {
+  vm <- exampleExpressionSet()
   genes <- c(GZMA = "3001", PRF1 = "5551", TGFB1 = "7040")
   lol <- list(a = genes[1], b = genes[1:2], c = genes[1:3])
   gdbx <- GeneSetDb(lol, collectionName = "custom")
@@ -23,6 +24,8 @@ test_that("do.scoreSingleSamples.gsva produces correct gsva,plage,ssGSEA scores"
 })
 
 test_that("multiple 'melted' scores are returned in a long data.frame", {
+  vm <- exampleExpressionSet()
+  gdb <- exampleGeneSetDb()
   scores <- scoreSingleSamples(gdb, vm$E, methods=c('svd', 'ssgsea'))
   expect_is(scores, 'data.frame')
   expect_true(setequal(c('svd', 'ssgsea'), scores$method))
@@ -32,6 +35,9 @@ test_that("multiple 'melted' scores are returned in a long data.frame", {
 })
 
 test_that("ssGSEA.normalize returns same normalization as GSVA", {
+  vm <- exampleExpressionSet()
+  gdb <- exampleGeneSetDb()
+
   scores <- scoreSingleSamples(gdb, vm$E, methods='ssgsea', parallel.sz=1,
                                verbose=FALSE)
   my.norm <- sparrow:::ssGSEA.normalize(scores$score)
@@ -41,6 +47,8 @@ test_that("ssGSEA.normalize returns same normalization as GSVA", {
 })
 
 test_that("ssGSEA (raw) scores are not affected by samples included in test", {
+  vm <- exampleExpressionSet()
+  gdb <- exampleGeneSetDb()
   some <- sample(ncol(vm), 10)
   scores.all <- scoreSingleSamples(gdb, vm$E, methods='ssgsea', parallel.sz=1,
                                    verbose=FALSE)
@@ -53,6 +61,8 @@ test_that("ssGSEA (raw) scores are not affected by samples included in test", {
 })
 
 test_that("eigenWeightedMean with equal weights can be same as zScore", {
+  vm <- exampleExpressionSet()
+  gdb <- exampleGeneSetDb()
   gdbc <- conform(gdb, vm)
   gs.idxs <- as.list(gdbc, value='x.idx')
 
@@ -65,6 +75,8 @@ test_that("eigenWeightedMean with equal weights can be same as zScore", {
 })
 
 test_that("normalization works in eigenWeightedMean", {
+  vm <- exampleExpressionSet()
+  gdb <- exampleGeneSetDb()
   unorm <- scoreSingleSamples(gdb, vm, method = "ewm", normalize = FALSE)
   norm <- scoreSingleSamples(gdb, vm, method = "ewm", normalize = TRUE)
   expect_true(all(unorm$score >= norm$score))
@@ -73,6 +85,8 @@ test_that("normalization works in eigenWeightedMean", {
 })
 
 test_that("eigenWeightedMean can handle 0sd features", {
+  vm <- exampleExpressionSet()
+  gdb <- exampleGeneSetDb()
   # Added to address Issue #20
   # https://github.com/lianos/multiGSEA/issues/20
   gs <- geneSet(conform(gdb, vm), name = "GOZGIT_ESR1_TARGETS_DN")
