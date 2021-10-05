@@ -7,6 +7,36 @@ gdb. <- local({
   randomGeneSetDb(dge.res)
 })
 
+test_that("'naked' ora call vs seas pipeline are equivalent", {
+  dfinput <- exampleDgeResult("human", "ensembl",
+                              induce.bias = "effective_length")
+  nres <- ora(dfinput, gdb., selected = "selected", groups = "direction",
+              feature.bias = "effective_length")
+  mres <- seas(setNames(dfinput$t, dfinput$feature_id), gdb., "ora",
+               feature.bias = "effective_length",
+               xmeta. = dfinput)
+
+  groups <- c(all = "ora", up = "ora.up", down = "ora.down")
+  expect_setequal(resultNames(mres), groups)
+
+  for (i in seq(groups)) {
+    # Call ora direct
+    ename <- names(groups)[i]
+    pcol <- paste0("P.", ename)
+    cmp <- nres[, c("Pathway", "N", ename, pcol)]
+
+    # Pull out of SparrowResult object
+    mname <- groups[i]
+    mg <- result(mres, mname)
+    mg <- mg[, c("collection", "name", "N", "n", "n.drawn", "pval")]
+
+    expect_equal(mg$name, sub(".*;;", "", nres$Pathway), info = ename)
+    expect_equal(mg$n, cmp$N, info = ename)
+    expect_equal(mg$n.drawn, cmp[[ename]], info = ename)
+    expect_equal(mg$pval, cmp[[pcol]], info = ename)
+  }
+})
+
 test_that("induced length associattion to significance is accounted for", {
   set.seed(0xBEEF)
   biased <- exampleDgeResult("human", "ensembl",
@@ -15,30 +45,29 @@ test_that("induced length associattion to significance is accounted for", {
   nbias <- ora(biased, gdb., selected = "selected", feature.bias = NULL)
   lbias <- ora(biased, gdb., selected = "selected",
                feature.bias = "effective_length")
-  if (FALSE) {
-    plot_ora_bias(biased, "selected", "effective_length")
-  }
-  expect_equal(nbias$Pathway, lbias$Pathway)
-  expect_equal(nbias$N, lbias$N)
-  expect_equal(nbias$all, lbias$all)
-  expect_equal(nbias$up, lbias$up)
-  expect_equal(nbias$down, lbias$down)
+
+  # general returned structure is the same
+  expect_equal(
+    nbias[, c("Pathway", "N", "all")],
+    lbias[, c("Pathway", "N", "all")])
+
+  # when accounting for length bias, majority of pvalues should be penalized
+  frac.less <- mean(lbias$P.all > nbias$P.all)
+  expect_true(frac.less > 0.7)
 
   if (FALSE) {
+    plot_ora_bias(biased, "selected", "effective_length")
     plot(-log10(nbias$P.all), -log10(lbias$P.all))
     abline(0,1,col = "red")
   }
-  # majority of pvalues when corrected for effective_length should be penalized,
-  # which is to say: higher.
-  frac.less <- mean(lbias$P.all > nbias$P.all)
-  expect_true(frac.less > 0.5)
 
-  # randomizing length should negate penalty on positive dge on longer genes
+  # When we adjust for a randomized length bias, the results should be similar
+  # to those that do not adjust for a length bias at all
   set.seed(0xFEED)
   rando <- transform(biased, effective_length = sample(effective_length))
   rbias <- ora(rando, gdb., selected = "selected",
                feature.bias = "effective_length")
-  expect_equal(rbias$P.all, nbias$P.all, tolerance = 0.009)
+  expect_lt(mean(rbias$P.all - nbias$P.all)**2, 1e-4)
 
   if (FALSE) {
     plot_ora_bias(rando, "selected", "effective_length")
@@ -117,36 +146,6 @@ test_that("ora and goseq give probably approximately correct answers", {
   # test that average difference is less than a threshold
   pval.diff <- abs(e2$P.all - g2$over_represented_pvalue)
   expect_lt(mean(pval.diff), 0.025)
-})
-
-test_that("'naked' ora call vs seas pipeline are equivalent", {
-  dfinput <- exampleDgeResult("human", "ensembl",
-                              induce.bias = "effective_length")
-  nres <- ora(dfinput, gdb., selected = "selected", groups = "direction",
-              feature.bias = "effective_length")
-  mres <- seas(setNames(dfinput$t, dfinput$feature_id), gdb., "ora",
-               feature.bias = "effective_length",
-               xmeta. = dfinput)
-
-  groups <- c(all = "ora", up = "ora.up", down = "ora.down")
-  expect_setequal(resultNames(mres), groups)
-
-  for (i in seq(groups)) {
-    # Call ora direct
-    ename <- names(groups)[i]
-    pcol <- paste0("P.", ename)
-    cmp <- nres[, c("Pathway", "N", ename, pcol)]
-
-    # Pull out of SparrowResult object
-    mname <- groups[i]
-    mg <- result(mres, mname)
-    mg <- mg[, c("collection", "name", "N", "n", "n.drawn", "pval")]
-
-    expect_equal(mg$name, sub(".*;;", "", nres$Pathway), info = ename)
-    expect_equal(mg$n, cmp$N, info = ename)
-    expect_equal(mg$n.drawn, cmp[[ename]], info = ename)
-    expect_equal(mg$pval, cmp[[pcol]], info = ename)
-  }
 })
 
 test_that("ora over ANOVA anaysis works through seas", {
