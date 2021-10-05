@@ -35,13 +35,11 @@ test_that("enrichment-based methods work", {
   mgres <- result(mg, "goseq")
   mgres$key <- encode_gskey(mgres)
 
-  gseq <- expect_warning({
-    sparrow::goseq(
-      gdb,
-      selected = subset(xdf, significant)$feature_id,
-      universe = xdf$feature_id,
-      feature.bias = fbias)
-  }, "initial point")
+  gseq <- sparrow::goseq(
+    gdb,
+    selected = subset(xdf, significant)$feature_id,
+    universe = xdf$feature_id,
+    feature.bias = fbias)
 
   expect_equal(mgres$key, gseq$category)
   expect_equal(mgres$pval, gseq$over_represented_pvalue)

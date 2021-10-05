@@ -146,6 +146,7 @@ the "Examples" section here.
 }
 
 \examples{
+\donttest{
 vm <- exampleExpressionSet()
 gdb <- exampleGeneSetDb()
 col.anno <- ComplexHeatmap::HeatmapAnnotation(
@@ -171,4 +172,5 @@ mg2 <- mgheatmap2(vm, gdb, aggregate.by='ewm', split=TRUE,
                   top_annotation = col.anno, show_column_names = FALSE,
                   column_title = "Gene Set Activity in BRCA subset",
                   rename.rows = rr)
+}
 }

@@ -79,14 +79,13 @@ released GSDecon package by Jason Hackney}
 }
 \examples{
 vm <- exampleExpressionSet(do.voom=TRUE)
-gdb <- conform(getMSigGeneSetDb('H', "human", "entrez"), vm)
-features <- featureIds(gdb, 'H', 'HALLMARK_INTERFERON_GAMMA_RESPONSE',
-                       value='x.idx')
+gdb <- conform(exampleGeneSetDb(), vm)
+features <- featureIds(gdb, "c2", "BURTON_ADIPOGENESIS_PEAK_AT_2HR")
 scores <- gsdScore(vm[features,])$score
 
 ## Use scoreSingleSamples to facilitate scoring of all gene sets
 scores.all <- scoreSingleSamples(gdb, vm, 'gsd')
-s2 <- with(subset(scores.all, name == 'HALLMARK_INTERFERON_GAMMA_RESPONSE'),
+s2 <- with(subset(scores.all, name == 'BURTON_ADIPOGENESIS_PEAK_AT_2HR'),
            setNames(score, sample_id))
 all.equal(s2, scores)
 }

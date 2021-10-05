@@ -154,7 +154,8 @@ exampleSparrowResult <- function(cached = TRUE,
 #' @export
 #' @param species the species to return the example result from (right now,
 #'   only "human")
-#' @param id.type the type of identifiers to use (right now, only "ensembl")
+#' @param id.type the type of identifiers to use: `"entrez"` (default) or
+#'   `"ensembl"`.
 #' @param induce.bias We can simulate a bias on the pvalue by the gene's
 #'   `"effective_length"` or `"AveExpr"`. These are columns that are included
 #'   in the output. If `NULL`, no bias is introduced into the result.

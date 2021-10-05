@@ -90,8 +90,8 @@ taken from \code{\link[limma:goana]{limma::kegga()}}
 }}
 
 \examples{
-dgestats <- exampleDgeResult("human", "ensembl")
-gdb <- getMSigGeneSetDb("h", "human", "ensembl")
+dgestats <- exampleDgeResult()
+gdb <- randomGeneSetDb(dgestats)
 
 # Run enrichmnent without accounting for any bias
 nobias <- ora(dgestats, gdb, selected = "selected", groups = "direction",

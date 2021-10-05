@@ -22,7 +22,11 @@ exampleGeneSetDF()
 
 exampleSparrowResult(cached = TRUE, methods = c("cameraPR", "fry"))
 
-exampleDgeResult(species = "human", id.type = "ensembl", induce.bias = NULL)
+exampleDgeResult(
+  species = "human",
+  id.type = c("entrez", "ensembl"),
+  induce.bias = NULL
+)
 }
 \arguments{
 \item{dataset}{Character vector indicating what samples wanted, either
@@ -49,7 +53,8 @@ Otherwise calculates a fresh one using the \code{methods} provided}
 \item{species}{the species to return the example result from (right now,
 only "human")}
 
-\item{id.type}{the type of identifiers to use (right now, only "ensembl")}
+\item{id.type}{the type of identifiers to use: \code{"entrez"} (default) or
+\code{"ensembl"}.}
 
 \item{induce.bias}{We can simulate a bias on the pvalue by the gene's
 \code{"effective_length"} or \code{"AveExpr"}. These are columns that are included

@@ -154,6 +154,7 @@ the "Examples" section here.
 }
 
 \examples{
+\donttest{
 library(ComplexHeatmap)
 vm <- exampleExpressionSet()
 gdb <- exampleGeneSetDb()
@@ -173,6 +174,7 @@ mg2 <- mgheatmap(vm, gdb, aggregate.by='ewm', split=TRUE,
                  top_annotation = col.anno, show_column_names = FALSE,
                  column_title = "Gene Set Activity in BRCA subset",
                  rename.rows = rr)
+}
 }
 \seealso{
 \code{\link[=mgheatmap2]{mgheatmap2()}}
