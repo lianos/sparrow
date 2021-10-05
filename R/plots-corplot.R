@@ -57,7 +57,7 @@ corplot <- function(E, title, cluster = FALSE, col.point = '#00000066',
           main=title, smooth.scatter = smooth.scatter)
   })
 
-  invisible(NULL)
+  invisible(E)
 }
 
 ## Helper functions ------------------------------------------------------------

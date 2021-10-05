@@ -1,7 +1,7 @@
 Package: sparrow
 Type: Package
 Title: Take command of set enrichment analyses through a unified interface
-Version: 0.99.2
+Version: 0.99.3
 Authors@R: c(
     person(
         "Steve", "Lianoglou", role = c("aut", "cre"),
@@ -30,7 +30,6 @@ Imports:
     graphics,
     grDevices,
     GSEABase,
-    GSVA,
     irlba,
     limma,
     Matrix,
@@ -48,6 +47,7 @@ Suggests:
     dplyr,
     dtplyr,
     fgsea,
+    GSVA,
     GO.db,
     goseq,
     hexbin,

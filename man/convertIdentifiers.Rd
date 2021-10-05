@@ -84,6 +84,13 @@ rely on the {babelgene} package for the conversion, so you will have to
 provide a species name that it recognizes.
 }
 
+\section{Species and Identifier Conversion via babelgene}{
+
+We plan to provide a quick wrapper to babelgene's ortholog mapping function
+to make identifier conversion a easier through this function. You can track
+this in [sparrow issue #2\link{https://github.com/lianos/sparrow/issues/2}.
+}
+
 \examples{
 # You can convert the identifiers within a GeneSetDb to some other type
 # by providing a "translation" table. Check out the unit tests for more

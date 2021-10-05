@@ -1,6 +1,10 @@
 Changes in version 0.99.0 (2021-09-29)
 * Submission to Bioconductor
-* Breaking changes:
+* Breaking changes from pre-release:
   - First two parameters in ora() function have been swapped so that the
     first parameter (`x`) is the object (data.frame) to run an over
     representation analysis against, and the second parameter is the GeneSetDb.
+  - scoreSingleSamples no longer drops features in `y` that are not found
+    in the GeneSetDb used for scoring. This was changed so that gsva and ssGSEA
+    scores match the scores produced by a normal GSVA::gsva call. You can set
+    the `drop.unconformed = TRUE` to retain the older behavior.

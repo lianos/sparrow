@@ -10,6 +10,7 @@ scoreSingleSamples(
   methods = "ewm",
   as.matrix = FALSE,
   drop.sd = 1e-04,
+  drop.unconformed = FALSE,
   verbose = FALSE,
   recenter = FALSE,
   rescale = FALSE,
@@ -31,6 +32,12 @@ data.frame? Defaults to \code{FALSE}.}
 
 \item{drop.sd}{Genes with a standard deviation across columns in \code{y}
 that is less than this value will be dropped.}
+
+\item{drop.unconformed}{When \code{TRUE}, genes in \code{y} that are not found in
+\code{gdb} are removed from the expression container. You may want to set this
+to \code{TRUE} when \code{y} is very large until better sparse matrix support is
+injected. This will change the scores for gsva and ssGSEA, though.
+Default is \code{FALSE}.}
 
 \item{verbose}{make some noise? Defaults to \code{FALSE}.}
 

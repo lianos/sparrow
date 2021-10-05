@@ -1,14 +1,4 @@
 context("Single Sample Gene Set Scoring")
-suppressPackageStartupMessages({
-  suppressWarnings({
-    # library(GSDecon)
-    # library(parallel)
-    library(GSVA)
-  })
-})
-
-vm <- exampleExpressionSet()
-gdb <- exampleGeneSetDb()
 
 test_that("scoreSingleSamples can use genesets of size n = 1 and value is gene", {
   genes <- c(GZMA = "3001", PRF1 = "5551", TGFB1 = "7040")
@@ -18,67 +8,22 @@ test_that("scoreSingleSamples can use genesets of size n = 1 and value is gene",
   expect_equal(scores["custom;;a",], vm$E[genes[1],])
 })
 
-test_that('do.scoreSingleSamples.gsva is equivalent to GSVA::gsva', {
-
-  E <- vm$E
-  gdb <- conform(gdb, E)
+test_that("do.scoreSingleSamples.gsva produces correct gsva,plage,ssGSEA scores", {
+  vm <- exampleExpressionSet()
+  gdb <- conform(exampleGeneSetDb(), vm)
   lol <- as.list(gdb)
 
-  set.seed(0xBEEF)
-  gsva.ex <- GSVA::gsva(E, lol, method='gsva', parallel.sz=1, verbose=FALSE)
+  E <- vm$E
 
-  set.seed(0xBEEF)
-  gsva.mg <- expect_warning({
-    scoreSingleSamples(gdb, E, methods='gsva', as.matrix=TRUE)
-  }, "GSVA")
-
-  # Can't figure out why these aren't exact just yet! I suspect the genes
-  # that make it through the gsva filtering step might be alterd a bit?
-  avg.diffs <- sapply(1:ncol(gsva.mg), function(i) {
-    mean(abs(gsva.mg[, i] - gsva.ex[,i]))
-  })
-  cors <- sapply(seq_len(ncol(gsva.mg)), function(i) {
-    round(cor(gsva.mg[, i], gsva.ex[,i], method = "spearman"), 2)
-  })
-  expect_true(all(cors >= 0.97))
-
-  # gsva.mg.melt <- scoreSingleSamples(gdb, E, methods='gsva',
-  #                               verbose=FALSE, melted=TRUE)
-  plage.ex <- gsva(E, lol, method='plage', parallel.sz=1, verbose=FALSE)
-  plage.mg <- expect_warning({
-    scoreSingleSamples(gdb, E, methods='plage', as.matrix=TRUE)
-  }, "GSVA")
-
-  # expect_equal(plage.mg, plage.ex,info='GSVA,gsva')
-  cors <- sapply(seq_len(ncol(gsva.mg)), function(i) {
-    round(cor(gsva.mg[, i], gsva.ex[,i], method = "spearman"), 2)
-  })
-  expect_true(all(cors >= 0.97))
-
-
-  counts <- exampleExpressionSet(do.voom = FALSE)$counts
-
-  set.seed(0xBEEF)
-  gsvar.ex <- gsva(counts, lol, method='gsva', kcdf='Poisson', parallel.sz=1,
-                   verbose=FALSE)
-  set.seed(0xBEEF)
-  gsvar.mg <- expect_warning({
-    scoreSingleSamples(gdb, counts, method='gsva', kcdf='Poisson',
-                       as.matrix=TRUE)
-  }, "GSVA")
-  # expect_equal(gsvar.mg, gsvar.ex, info='GSVA,gsva RNAseq',
-  #              tolerance = sqrt(.Machine$double.eps))
-  cors <- sapply(seq_len(ncol(gsvar.mg)), function(i) {
-    round(cor(gsvar.mg[, i], gsvar.ex[,i], method = "spearman"), 2)
-  })
-  expect_true(all(cors >= 0.97))
-
+  for (method in c("gsva", "plage", "ssgsea")) {
+    ex <- GSVA::gsva(vm$E, lol, method = method, parallel.sz = 1, verbose = FALSE)
+    res <- scoreSingleSamples(gdb, vm, methods = method, as.matrix = TRUE)
+    expect_equal(res, ex, info = paste0("GSVA::", method))
+  }
 })
 
 test_that("multiple 'melted' scores are returned in a long data.frame", {
-  scores <- expect_warning({
-    scoreSingleSamples(gdb, vm$E, methods=c('svd', 'ssgsea'))
-  }, "GSVA")
+  scores <- scoreSingleSamples(gdb, vm$E, methods=c('svd', 'ssgsea'))
   expect_is(scores, 'data.frame')
   expect_true(setequal(c('svd', 'ssgsea'), scores$method))
   n.samples <- ncol(vm)
@@ -87,31 +32,21 @@ test_that("multiple 'melted' scores are returned in a long data.frame", {
 })
 
 test_that("ssGSEA.normalize returns same normalization as GSVA", {
-  scores <- expect_warning({
-    set.seed(123)
-    scoreSingleSamples(gdb, vm$E, methods='ssgsea', parallel.sz=1,
-                       verbose=FALSE)
-  }, "GSVA")
+  scores <- scoreSingleSamples(gdb, vm$E, methods='ssgsea', parallel.sz=1,
+                               verbose=FALSE)
   my.norm <- sparrow:::ssGSEA.normalize(scores$score)
-  ssgsea.norm <- expect_warning({
-    set.seed(123)
-    scoreSingleSamples(gdb, vm$E, methods='ssgsea', parallel.sz=1,
-                       ssgsea.norm=TRUE)
-  }, "GSVA")
+  ssgsea.norm <- scoreSingleSamples(gdb, vm$E, methods='ssgsea', parallel.sz=1,
+                                    ssgsea.norm=TRUE)
   expect_equal(my.norm, ssgsea.norm$score)
 })
 
 test_that("ssGSEA (raw) scores are not affected by samples included in test", {
   some <- sample(ncol(vm), 10)
-  scores.all <- expect_warning({
-    scoreSingleSamples(gdb, vm$E, methods='ssgsea', parallel.sz=1,
-                       verbose=FALSE)
-  }, "GSVA")
-  scores.some <- expect_warning({
-    scoreSingleSamples(gdb, vm$E[, some],
-                       methods='ssgsea', parallel.sz=1,
-                       verbose=FALSE)
-  }, "GSVA")
+  scores.all <- scoreSingleSamples(gdb, vm$E, methods='ssgsea', parallel.sz=1,
+                                   verbose=FALSE)
+  scores.some <- scoreSingleSamples(gdb, vm$E[, some],
+                                    methods='ssgsea', parallel.sz=1,
+                                    verbose=FALSE)
   scores <- merge(scores.all, scores.some, suffixes=c('.all', '.some'),
                   by=c('collection', 'name', 'sample_id'))
   expect_equal(scores$scores.all, scores$scores.some)

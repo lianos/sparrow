@@ -44,6 +44,11 @@
 #'   data.frame? Defaults to `FALSE`.
 #' @param drop.sd Genes with a standard deviation across columns in \code{y}
 #'   that is less than this value will be dropped.
+#' @param drop.unconformed When `TRUE`, genes in `y` that are not found in
+#'   `gdb` are removed from the expression container. You may want to set this
+#'   to `TRUE` when `y` is very large until better sparse matrix support is
+#'   injected. This will change the scores for gsva and ssGSEA, though.
+#'   Default is `FALSE`.
 #' @param verbose make some noise? Defaults to `FALSE`.
 #' @param recenter,rescale If `TRUE`, the scores computed by each method
 #'   are centered and scaled using the `scale` function. These variables
@@ -77,8 +82,9 @@
 #' zw <- reshape2::dcast(zs, name + sample_id ~ method, value.var='score')
 #' corplot(zw[, c("ewm", "ewz", "zscore")], title = "EW zscores")
 scoreSingleSamples <- function(gdb, y, methods = "ewm", as.matrix = FALSE,
-                               drop.sd = 1e-4, verbose = FALSE,
-                               recenter = FALSE, rescale = FALSE, ...,
+                               drop.sd = 1e-4, drop.unconformed = FALSE,
+                               verbose = FALSE, recenter = FALSE,
+                               rescale = FALSE, ...,
                                as.dt = FALSE) {
   methods <- tolower(methods)
   if (as.matrix && length(methods) > 1L) {
@@ -94,22 +100,32 @@ scoreSingleSamples <- function(gdb, y, methods = "ewm", as.matrix = FALSE,
   ## TODO: Enable dispatch on whatever `method`s user asks for
   stopifnot(is(gdb, 'GeneSetDb'))
   gdb <- conform(gdb, y, ...)
-  y.all <- as_matrix(y, gdb) # subsets y down to features in gdb
+
+  # We used to filter down y.all to only include rows that appeared as features
+  # in the in the GeneSetDb object, however this will change the scoring output
+  # of some methods, namely *all* of the ones in GSVA (gsva, ssgsea, plage).
+  if (isTRUE(drop.unconformed)) {
+    y.all <- as_matrix(y, gdb)
+  } else {
+    y.all <- as_matrix(y)
+  }
+
   if (is(y.all, "sparseMatrix")) {
-    # Can't get everything to be transparent with sparse matrics just yet
+    # Can't get everything to be transparent with sparse matrices just yet
     # If you are scoring single cell data with a gdb that covers a large
     # proportion of your feature space, you might be sorry right about now.
     y.all <- as.matrix(y.all)
   }
-
   sds <- DelayedMatrixStats::rowSds(y.all)
-
   sd0 <- sds < drop.sd
   y <- y.all[!sd0,,drop=FALSE]
   if (any(sd0)) {
     warning(sum(sd0), " row(s) removed from expression object (y) due to 0sd")
   }
+
   gdb <- conform(gdb, y, ...)
+
+  # y.slim <- as_matrix(y, gdb) # subsets y down to features in gdb
 
   if (is.null(colnames(y))) {
     colnames(y) <- if (ncol(y) == 1) 'score' else paste0('scores', seq(ncol(y)))
@@ -222,43 +238,56 @@ do.scoreSingleSamples.mean <- function(gdb, y, gs.idxs=NULL, ...) {
                                trim=0, gs.idxs=gs.idxs, do.scale=FALSE)
 }
 
-#' @noRd
-.xformGdbForGSVA <- function(gdb, y) {
-  stopifnot(is.conformed(gdb, y))
-  stopifnot(is.matrix(y))
-  out <- lapply(as.list(gdb, value='x.idx'), function(i) {
-    rownames(y)[i]
-  })
-  out
-}
+# #' @importFrom GSVA gsva
+# #' @noRd
+# do.scoreSingleSamples.gsva <- function(gdb, y, method, as.matrix=FALSE,
+#                                        parallel.sz=1, ssgsea.norm=FALSE,
+#                                        gs.idxs=NULL, ...) {
+#   if (is.null(gs.idxs)) {
+#     gs.idxs <- as.list(gdb, active.only=TRUE, value='x.idx')
+#   }
+#   idxs <- lapply(gs.idxs, function(i) rownames(y)[i])
+#   f <- formals(GSVA:::.gsva)
+#   args <- list(...)
+#   ## I want to explicity show that we are setting parallel.sz to 4 here, since
+#   ## it will defalut to "Infinity" (all your cores are belong to GSVA)
+#   args$parallel.sz <- parallel.sz
+#   args$ssgsea.norm <- ssgsea.norm
+#   take <- intersect(names(args), names(f))
+#   gargs <- list(expr=y, gset.idx.list=idxs, method=method)
+#   gargs <- c(gargs, args[take])
+#
+#   gres <- do.call(gsva, gargs)
+#   gres
+# }
 
-#' @importFrom GSVA gsva
+#' This can handle method = "gsva", "ssgsea", and "plage"
 #' @noRd
-do.scoreSingleSamples.gsva <- function(gdb, y, method, as.matrix=FALSE,
-                                       parallel.sz=1, ssgsea.norm=FALSE,
-                                       gs.idxs=NULL, ...) {
-  # idxs <- .xformGdbForGSVA(gdb, y)
-  warning("The current version of scoreSingleSamples produces *minor* ",
-          "differences in GSVA-based single sample gene set scores.\n",
-          "https://github.com/lianos/multiGSEA/issues/10",
-          immediate. = TRUE)
+do.scoreSingleSamples.gsva <- function(gdb, y, method,
+                                       kcdf = c("Gaussian", "Poisson", "none"),
+                                       abs.ranking = FALSE,
+                                       parallel.sz = 1, mx.diff = TRUE,
+                                       tau = NULL,
+                                       ssgsea.norm = TRUE,
+                                       gs.idxs=NULL, verbose = FALSE, ...) {
+  reqpkg("GSVA")
+  method <- match.arg(method, c("gsva", "ssgsea", "plage"))
+  kcdf <- match.arg(kcdf)
+  if (is.null(tau)) tau <- switch(method, gsva=1, ssgsea=0.25, NA)
+
+  # gsva requires that the geneset list is defined using the rownames
+  # of the expression matrix
   if (is.null(gs.idxs)) {
-    gs.idxs <- as.list(gdb, active.only=TRUE, value='x.idx')
+    gs.idxs <- as.list(gdb, active.only = TRUE, value = "x.idx")
   }
   idxs <- lapply(gs.idxs, function(i) rownames(y)[i])
-  f <- formals(GSVA:::.gsva)
-  args <- list(...)
-  ## I want to explicity show that we are setting parallel.sz to 4 here, since
-  ## it will defalut to "Infinity" (all your cores are belong to GSVA)
-  args$parallel.sz <- parallel.sz
-  args$ssgsea.norm <- ssgsea.norm
-  take <- intersect(names(args), names(f))
-  gargs <- list(expr=y, gset.idx.list=idxs, method=method)
-  gargs <- c(gargs, args[take])
-
-  gres <- do.call(gsva, gargs)
-  gres
+  GSVA::gsva(y, idxs, method = method, kcdf = kcdf,
+             abs.ranking = abs.ranking, parallel.sz = parallel.sz,
+             mx.diff = mx.diff, tau = tau, ssgsea.norm = ssgsea.norm,
+             verbose = verbose)
 }
+
+
 
 #' Normalize a vector of ssGSEA scores in the ssGSEA way.
 #'

@@ -11,7 +11,7 @@
 #' When there are multiple target id's for the source id, they will all be
 #' returned. When there is no target id for the source id, the soucre feature
 #' will be axed.
-
+#'
 #' @section Custom Mapping:
 #' You need to provide a data.frame via the `xref` paramater that has a column
 #' for the current identifiers and another column for the target identifiers.
@@ -21,6 +21,11 @@
 #' If you don't provide a data.frame, you can provide a species name. We will
 #' rely on the {babelgene} package for the conversion, so you will have to
 #' provide a species name that it recognizes.
+#'
+#' @section Species and Identifier Conversion via babelgene:
+#' We plan to provide a quick wrapper to babelgene's ortholog mapping function
+#' to make identifier conversion a easier through this function. You can track
+#' this in [sparrow issue #2[https://github.com/lianos/sparrow/issues/2].
 #'
 #' @export
 #' @param x The GeneSetDb with identifiers to convert
@@ -92,8 +97,9 @@ convertIdentifiers <- function(x, from = NULL, to = NULL,
   }
   if (is.null(xref)) {
     # User is attempting to do an automated identifier conversion via babelgene
-    stop("Identifer/species conversion by babelgene coming soon: ",
-         "https://github.com/lianos/sparrow/issues/2")
+    stop("Identifer & species conversion via babelgene coming soon, ",
+         "cf. the 'Species and Identifier Conversion' section ",
+         "`?convertIdentifiers`")
     id.type <- match.arg(id.type)
     bres <- .prep_babelgene_table(featureIds(x), to, id.type,
                                   from == "human", min_support, top)
