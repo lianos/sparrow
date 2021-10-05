@@ -226,7 +226,7 @@ is.conformed <- function(x, to) {
 #'
 #' @examples
 #' vm <- exampleExpressionSet()
-#' gdb <- getMSigGeneSetDb('H', 'human', 'entrez')
+#' gdb <- exampleGeneSetDb()
 #' im <- incidenceMatrix(gdb)
 #' imv <- incidenceMatrix(gdb, vm)
 incidenceMatrix <- function(x, y, ...) {
