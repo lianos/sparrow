@@ -88,7 +88,7 @@ provide a species name that it recognizes.
 
 We plan to provide a quick wrapper to babelgene's ortholog mapping function
 to make identifier conversion a easier through this function. You can track
-this in [sparrow issue #2\link{https://github.com/lianos/sparrow/issues/2}.
+this in \href{https://github.com/lianos/sparrow/issues/2}{sparrow issue #2}.
 }
 
 \examples{

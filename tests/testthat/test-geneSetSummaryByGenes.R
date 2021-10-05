@@ -6,7 +6,7 @@ test_that("geneSetSummaryByGenes,GeneSetDb returns a legit result", {
   gdb <- exampleGeneSetDb()
   features <- sample(featureIds(gdb), 10)
 
-  res <- geneSetSummaryByGenes(gdb, features, with.features=TRUE)
+  res <- geneSetSummaryByGenes(gdb, features, with.features = TRUE)
 
   # 1. Ensure that geneset <-> geneset membership is legit. We do this by
   #    manipulating the result into a long form data.table that looks like
@@ -14,14 +14,16 @@ test_that("geneSetSummaryByGenes,GeneSetDb returns a legit result", {
   #    table to only include the queried features, then compare the two.
   gdb.sub <- subsetByFeatures(gdb, features)
   db.expect <- gdb.sub@db %>%
-    copy %>%
+    copy() %>%
     subset(feature_id %in% features) %>%
     setkeyv(c('collection', 'name', 'feature_id'))
   db.result <- res %>%
     dplyr::select(collection, name, starts_with('featureId_')) %>%
-    reshape2::melt(c('collection', 'name')) %>%
-      dplyr::rename(feature_id=variable, present=value) %>%
-    dplyr::mutate(feature_id=sub('featureId_', '', feature_id)) %>%
+    setDT() %>%
+    melt(c('collection', 'name')) %>%
+    setDF() %>%
+    dplyr::rename(feature_id = variable, present=value) %>%
+    dplyr::mutate(feature_id = sub('featureId_', '', feature_id)) %>%
     dplyr::filter(present) %>%
     dplyr::select(-present) %>%
     setDT() %>%
@@ -41,10 +43,15 @@ test_that("geneSetSummaryByGenes,SparrowResult returns a legit result", {
                                feature.rename=FALSE)
 
   ## Check that logFC for each feature is accurate
-  lfc <- reshape2::melt(as.matrix(res[, features, drop=FALSE])) %>%
-    dplyr::transmute(feature_id=as.character(Var2), logFC=value) %>%
+  lfc <- res %>%
+    dplyr::select({{features}}) %>%
+    setDT() %>%
+    melt(measure.vars = features, variable.factor = FALSE) %>%
+    setDF() %>%
+    dplyr::rename(feature_id = variable, logFC = value) %>%
     dplyr::filter(logFC != 0) %>%
-    dplyr::distinct(feature_id, .keep_all=TRUE) %>%
+    setDT() %>%
+    unique(by = "feature_id") %>%
     dplyr::arrange(feature_id)
 
   lfc.ex <- logFC(mg) %>%
@@ -55,23 +62,26 @@ test_that("geneSetSummaryByGenes,SparrowResult returns a legit result", {
 
   ## check that symbol remapping works, too
   res.s <- geneSetSummaryByGenes(mg, features, with.features=TRUE,
-                                 feature.rename='symbol', as.dt=TRUE)
+                                 feature.rename='symbol')
 
   lfc.ex <- logFC(mg) %>%
     dplyr::filter(feature_id %in% features) %>%
-    dplyr::transmute(renamed=ifelse(!is.na(symbol), symbol, paste0('featureId_', feature_id)),
-                     logFC) %>%
+    dplyr::transmute(
+      renamed = ifelse(
+        !is.na(symbol),
+        symbol, paste0('featureId_', feature_id)),
+      logFC) %>%
     dplyr::arrange(renamed)
   expect_true(all(lfc.ex$renamed %in% colnames(res.s)))
 
   lfc.s <- res.s %>%
-    as.data.frame() %>%
     dplyr::select(!!lfc.ex$renamed) %>%
-    as.matrix() %>%
-    reshape2::melt() %>%
-    dplyr::transmute(renamed=as.character(Var2), logFC=value) %>%
+    setDT() %>%
+    melt(measure.vars = colnames(.), variable.factor = FALSE) %>%
+    setDF() %>%
+    dplyr::rename(renamed = variable, logFC = value) %>%
     dplyr::filter(logFC != 0) %>%
-    dplyr::distinct(renamed, .keep_all=TRUE) %>%
+    unique(by = "renamed") %>%
     dplyr::arrange(renamed)
   expect_equal(lfc.s, lfc.ex, check.attributes = FALSE)
 })

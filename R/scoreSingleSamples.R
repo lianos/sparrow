@@ -62,25 +62,29 @@
 #'   and as many columns as `ncol(x)`
 #'
 #' @examples
-#' library(reshape2)
 #' gdb <- exampleGeneSetDb()
 #' vm <- exampleExpressionSet()
 #' scores <- scoreSingleSamples(
-#'   gdb, vm, methods = c("ewm", "ssgsea", "gsva", "ewz", "zscore"),
-#'   center = TRUE, scale = TRUE, ssgsea.norm = TRUE)
+#'   gdb, vm, methods = c("ewm", "gsva", "zscore"),
+#'   center = TRUE, scale = TRUE, ssgsea.norm = TRUE, as.dt = TRUE)
 #'
-#' sw <- reshape2::dcast(scores, name + sample_id ~ method, value.var='score')
+#' sw <- data.table::dcast(scores, name + sample_id ~ method, value.var='score')
 #'
-#' corplot(sw[, c("ewm", "ssgsea", "gsva", "ewz", "zscore")],
-#'         title = "Single Sample Score Comparison")
-#'
-#' # I think the eigenWeighteZscore is just ewm with un(center|scale) = FALSE
+#' \donttest{
+#' corplot(
+#'   sw[, c("ewm", "gsva", "zscore")],
+#'   title = "Single Sample Score Comparison")
+#' }
 #'
 #' zs <- scoreSingleSamples(
 #'   gdb, vm, methods = c('ewm', 'ewz', 'zscore'), summary = "mean",
-#'   center = TRUE, scale = TRUE, uncenter = FALSE, unscale = FALSE)
-#' zw <- reshape2::dcast(zs, name + sample_id ~ method, value.var='score')
-#' corplot(zw[, c("ewm", "ewz", "zscore")], title = "EW zscores")
+#'   center = TRUE, scale = TRUE, uncenter = FALSE, unscale = FALSE,
+#'   as.dt = TRUE)
+#' zw <- data.table::dcast(zs, name + sample_id ~ method, value.var='score')
+#'
+#' \donttest{
+#'   corplot(zw[, c("ewm", "ewz", "zscore")], title = "EW zscores")
+#' }
 scoreSingleSamples <- function(gdb, y, methods = "ewm", as.matrix = FALSE,
                                drop.sd = 1e-4, drop.unconformed = FALSE,
                                verbose = FALSE, recenter = FALSE,
@@ -97,8 +101,7 @@ scoreSingleSamples <- function(gdb, y, methods = "ewm", as.matrix = FALSE,
          "\nValid methods are: ",
          paste(names(gs.score.map), collapse=','))
   }
-  ## TODO: Enable dispatch on whatever `method`s user asks for
-  stopifnot(is(gdb, 'GeneSetDb'))
+  # stopifnot(is(gdb, 'GeneSetDb'))
   gdb <- conform(gdb, y, ...)
 
   # We used to filter down y.all to only include rows that appeared as features

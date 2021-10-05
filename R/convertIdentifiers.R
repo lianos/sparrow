@@ -25,7 +25,7 @@
 #' @section Species and Identifier Conversion via babelgene:
 #' We plan to provide a quick wrapper to babelgene's ortholog mapping function
 #' to make identifier conversion a easier through this function. You can track
-#' this in [sparrow issue #2[https://github.com/lianos/sparrow/issues/2].
+#' this in [sparrow issue #2](https://github.com/lianos/sparrow/issues/2).
 #'
 #' @export
 #' @param x The GeneSetDb with identifiers to convert

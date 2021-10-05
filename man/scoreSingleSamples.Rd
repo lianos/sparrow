@@ -95,23 +95,27 @@ without transforming the data.
 }
 
 \examples{
-library(reshape2)
 gdb <- exampleGeneSetDb()
 vm <- exampleExpressionSet()
 scores <- scoreSingleSamples(
-  gdb, vm, methods = c("ewm", "ssgsea", "gsva", "ewz", "zscore"),
-  center = TRUE, scale = TRUE, ssgsea.norm = TRUE)
+  gdb, vm, methods = c("ewm", "gsva", "zscore"),
+  center = TRUE, scale = TRUE, ssgsea.norm = TRUE, as.dt = TRUE)
 
-sw <- reshape2::dcast(scores, name + sample_id ~ method, value.var='score')
+sw <- data.table::dcast(scores, name + sample_id ~ method, value.var='score')
 
-corplot(sw[, c("ewm", "ssgsea", "gsva", "ewz", "zscore")],
-        title = "Single Sample Score Comparison")
-
-# I think the eigenWeighteZscore is just ewm with un(center|scale) = FALSE
+\donttest{
+corplot(
+  sw[, c("ewm", "gsva", "zscore")],
+  title = "Single Sample Score Comparison")
+}
 
 zs <- scoreSingleSamples(
   gdb, vm, methods = c('ewm', 'ewz', 'zscore'), summary = "mean",
-  center = TRUE, scale = TRUE, uncenter = FALSE, unscale = FALSE)
-zw <- reshape2::dcast(zs, name + sample_id ~ method, value.var='score')
-corplot(zw[, c("ewm", "ewz", "zscore")], title = "EW zscores")
+  center = TRUE, scale = TRUE, uncenter = FALSE, unscale = FALSE,
+  as.dt = TRUE)
+zw <- data.table::dcast(zs, name + sample_id ~ method, value.var='score')
+
+\donttest{
+  corplot(zw[, c("ewm", "ewz", "zscore")], title = "EW zscores")
+}
 }
