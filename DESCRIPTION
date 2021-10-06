@@ -20,6 +20,7 @@ Imports:
     babelgene (>= 21.4),
     BiocGenerics,
     BiocParallel,
+    BiocSet,
     checkmate,
     circlize,
     ComplexHeatmap (>= 2.0),

@@ -474,6 +474,19 @@ test_that('subset.GeneSetDb ("[".GeneSetDb) creates valid result', {
   # expect_true(validObject(sdb))
 })
 
-test_that("GeneSetDb indexing `[` works", {
-  ## TODO: Test indexing GeneSetDbs
+test_that("Simple BiocSet <-> GeneSetDb conversions work", {
+  gs.list <- unlist(exampleGeneSets(), recursive = FALSE)
+  names(gs.list) <- sub(".*??\\.", "", names(gs.list))
+
+  # BiocSet can be created from a list of features, we'll match our conversions
+  # to this
+  bs.ex <- BiocSet::BiocSet(gs.list)
+  gdb <- GeneSetDb(gs.list, collectionName = "collection")
+
+  # GeneSetDb to BiocSet conversion:
+  bs.out <- as(gdb, "BiocSet")
+  expect_equal(bs.out, bs.ex, check.attributes = FALSE)
+
+  gdb.bs <- GeneSetDb(bs.ex, collectionName = "collection")
+  expect_equal(gdb.bs, gdb)
 })

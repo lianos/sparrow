@@ -1029,6 +1029,8 @@ all.equal.GeneSetDb <- function(target, current, features.only = TRUE, ...) {
             collectionMetadata(current, as.dt=TRUE))
 }
 
+# Conversion Methods -----------------------------------------------------------
+
 #' Convert a GeneSetDb to other formats.
 #'
 #' @description
@@ -1166,6 +1168,7 @@ as.list.GeneSetDb <- function(x, value = c('feature_id', 'x.id', 'x.idx'),
   out
 }
 
+#' @noRd
 #' @importFrom GSEABase GeneSetCollection GeneSet NullIdentifier
 setAs("GeneSetDb", "GeneSetCollection", function(from) {
   gs <- geneSets(from, as.dt=TRUE)
@@ -1200,6 +1203,24 @@ setAs("GeneSetDb", "GeneSetCollection", function(from) {
   })
   gsc <- GeneSetCollection(gsl)
   gsc
+})
+
+#' @noRd
+setAs("GeneSetDb", "BiocSet", function(from) {
+  # we can transfer a lot of things over, like the geneSetURL's and other
+  # collectionMetadata, but for now let's just get the basics going
+
+  # Append collectio names or no? The BiocSet doesn't have this concept, and
+  # primary keys there are just the set names.
+  #
+  # Let's check if the geneset names only are unique, in which case we won't
+  # include the collection prefix, otherwise we must.
+  rm.prefix <- !any(duplicated(geneSets(from)$name))
+  gs.list <- as.list(from)
+  if (rm.prefix) {
+    names(gs.list) <- sub(".*?;;", "", names(gs.list))
+  }
+  BiocSet::BiocSet(gs.list)
 })
 
 ## -----------------------------------------------------------------------------

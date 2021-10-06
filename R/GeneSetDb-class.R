@@ -338,6 +338,15 @@ GeneSetDb.GeneSetCollection <- function(x, featureIdMap = NULL,
   .GeneSetDb.list.of.GeneSetCollections(gsc.list, featureIdMap, collectionName)
 }
 
+#' @noRd
+#' @export
+GeneSetDb.BiocSet <- function(x, featureIdMap = NULL,
+                              collectionName = "BiocSet Collection", ...) {
+  tbl <- x@elementset
+  names(tbl) <- c("feature_id", "name")
+  GeneSetDb(tbl, featureIdMap = NULL, collectionName = collectionName, ...)
+}
+
 #' Create a GeneSetDb from a named list of GeneSetCollection objects, each
 #' each GeneSetCollection of the list represents its own "collection" group
 #' in a GeneSetDb.
@@ -376,10 +385,12 @@ GeneSetDb.GeneSetCollection <- function(x, featureIdMap = NULL,
   GeneSetDb(lol, featureIdMap, collectionName)
 }
 
-setAs("GeneSetCollection", "GeneSetDb", function(from) {
+setAs("GeneSetCollection", "GeneSetDb", function(from) GeneSetDb(from))
+setAs("BiocSet", "GeneSetDb", function(from) {
+  # There's a lot we can transfer over, including which sets are "active"
+  # and whatnot. For now, let's just get the basics in.
   GeneSetDb(from)
 })
-
 
 ## Constructor Helper Functions ------------------------------------------------
 

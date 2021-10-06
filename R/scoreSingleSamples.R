@@ -101,7 +101,8 @@ scoreSingleSamples <- function(gdb, y, methods = "ewm", as.matrix = FALSE,
          "\nValid methods are: ",
          paste(names(gs.score.map), collapse=','))
   }
-  # stopifnot(is(gdb, 'GeneSetDb'))
+  if (!is(gdb, "GeneSetDb")) gdb <- GeneSetDb(gdb, ...)
+  assert_class(gdb, "GeneSetDb")
   gdb <- conform(gdb, y, ...)
 
   # We used to filter down y.all to only include rows that appeared as features
