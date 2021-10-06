@@ -92,9 +92,9 @@
       <p>The sparrow package facilitates the use of gene sets in the analysis of high throughput genomics data. It provides simple execution and comparison of several GSEA approaches through a unified interface within the user’s workspace or interactively via a shiny application provided by the sparrow.shiny package. This package also provides an easy wrapper to single sample gene set scoring and geneset-centric heatmaps for visualization. sparrow package version: 0.99.4</p>
     </div>
     
-<div id="overview" class="section level2">
-<h2 class="hasAnchor">
-<a href="#overview" class="anchor"></a>Overview</h2>
+<div id="overview" class="section level1">
+<h1 class="hasAnchor">
+<a href="#overview" class="anchor"></a>Overview</h1>
 <p>The <code>sparrow</code> package was built to facilitate the use of gene sets in the analysis of high throughput genomics data (primarily RNA-seq). It does so by providing these top-line functionalities:</p>
 <ul>
 <li>The <code>seas</code> function is a wrapper that orchestrates the execution of any number of user-specified gene set enrichment analyses (GSEA) over a particular experimental contrast of interest. This will create a <code>SparrowResult</code> object which stores the results of each GSEA method internally, allowing for easy query and retrieval.</li>
@@ -144,9 +144,9 @@
 <p>When using these methods in analyses that lead to publication, please cite the original papers that developed these methods and cite sparrow when its functionality assisted in your interpretation and analysis.</p>
 <p>The sparrow package provides a small example expression dataset extracted from the TCGA BRCA dataset, which is available via the <code>exampleExpressionSet</code> function. In this vignette we will explore differential expression and gene set enrichment analysis by examining differences between basal and her2 PAM50 subtypes.</p>
 </div>
-<div id="standard-workflow" class="section level2">
-<h2 class="hasAnchor">
-<a href="#standard-workflow" class="anchor"></a>Standard Workflow</h2>
+<div id="standard-workflow" class="section level1">
+<h1 class="hasAnchor">
+<a href="#standard-workflow" class="anchor"></a>Standard Workflow</h1>
 <p>Let’s begin by setting up our work environment for exploratory analysis using the sparrow package.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">sparrow</span><span class="op">)</span>
@@ -161,9 +161,9 @@
 <div class="note">
 <p>Internally, sparrow leverages the <a href="https://CRAN.R-project.org/package=data.table">data.table</a> package for fast indexing and manipulation over data.frames. All functions that return these objects back to the user have an <code>as.dt</code> argument, which is set to <code>FALSE</code> by default. This means that unless the end user wants to work with <code>data.table</code> objects, they will always be returned a <code>data.frame</code>.</p>
 </div>
-<div id="data-setup" class="section level3">
-<h3 class="hasAnchor">
-<a href="#data-setup" class="anchor"></a>Data Setup</h3>
+<div id="data-setup" class="section level2">
+<h2 class="hasAnchor">
+<a href="#data-setup" class="anchor"></a>Data Setup</h2>
 <p>sparrow is most straightforward to use when our data objects and analysis are performed with either the edgeR or voom/limma pipelines and when we use Entrez IDs for gene gene identifiers.</p>
 <p>The <code>exampleExpressionSet</code> function gives us just such an object. We call it below in a manner that gives us an object that allows us to explore expression differences between different subtypes of breast cancer.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -190,9 +190,9 @@
 <p>Note that there are many tutorials online that outline how to generate expression matrices for use with differential expression and analysis, such as the one that is returned from the <code>exampleExpressionSet</code> function. Summarizing assay data into such a format is out of scope for this vignette, but you can reference the <a href="http://bioconductor.org/packages/release/data/experiment/vignettes/airway/inst/doc/airway.html">airway vignette</a> for full details (among others).</p>
 </div>
 </div>
-<div id="data-analysis" class="section level3">
-<h3 class="hasAnchor">
-<a href="#data-analysis" class="anchor"></a>Data Analysis</h3>
+<div id="data-analysis" class="section level2">
+<h2 class="hasAnchor">
+<a href="#data-analysis" class="anchor"></a>Data Analysis</h2>
 <p>We will identify the genes and genesets that are differentially expressed between the basal and her2 subtypes. The <code>vm</code> object has already been <code>voom</code>d using this design:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">vm</span><span class="op">$</span><span class="va">design</span></code></pre></div>
@@ -223,9 +223,9 @@
 ##   Basal   1
 ##   Her2   -1
 ##   LumA    0</code></pre>
-<div id="differential-gene-expression" class="section level4">
-<h4 class="hasAnchor">
-<a href="#differential-gene-expression" class="anchor"></a>Differential Gene Expression</h4>
+<div id="differential-gene-expression" class="section level3">
+<h3 class="hasAnchor">
+<a href="#differential-gene-expression" class="anchor"></a>Differential Gene Expression</h3>
 <p>In this section, we first show you the straightforward analysis you would do if you were only testing for differential gene expression.</p>
 <p>With the data we have at hand, you would simply do the following:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
@@ -234,14 +234,14 @@
   <span class="va">eBayes</span>
 <span class="va">tt</span> <span class="op">&lt;-</span> <span class="fu">topTable</span><span class="op">(</span><span class="va">fit</span>, <span class="st">'BvH'</span>, n<span class="op">=</span><span class="cn">Inf</span>, sort.by<span class="op">=</span><span class="st">'none'</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="gene-set-enrichment-analysis" class="section level4">
-<h4 class="hasAnchor">
-<a href="#gene-set-enrichment-analysis" class="anchor"></a>Gene Set Enrichment Analysis</h4>
+<div id="gene-set-enrichment-analysis" class="section level3">
+<h3 class="hasAnchor">
+<a href="#gene-set-enrichment-analysis" class="anchor"></a>Gene Set Enrichment Analysis</h3>
 <p>Given that we now have all of the pieces of data required for a differential expression analysis, performing GSEA is trivial using the <code>seas</code> wrapper function. We simply need to now define (1) the battery of gene sets we want to test against, and (2) the GSEA methods we want to explore.</p>
 </div>
-<div id="gene-sets-to-test" class="section level4">
-<h4 class="hasAnchor">
-<a href="#gene-sets-to-test" class="anchor"></a>Gene Sets to Test</h4>
+<div id="gene-sets-to-test" class="section level3">
+<h3 class="hasAnchor">
+<a href="#gene-sets-to-test" class="anchor"></a>Gene Sets to Test</h3>
 <p>The <em>sparrow</em> package provides a <code>GeneSetDb</code> class, which is used instead of a <code><a href="https://rdrr.io/pkg/GSEABase/man/GeneSetCollection-methods.html">GSEABase::GeneSetCollection</a></code> to house collections of genesets. You can easily create a <code>GeneSetDb</code> object from a custom set of gene sets you have on hand, but the package also provides convenience wrappers to generate <code>GeneSetDb</code> objects from popular gene annotation resources such as <a href="http://software.broadinstitute.org/gsea/msigdb/">MSigDB</a>, <a href="http://pantherdb.org">PANTHER</a>, etc.</p>
 <p>We’ll use the <code>getMSigGeneSetDb</code> convenience function provided by the <em>sparrow</em> package to load the <a href="http://www.cell.com/cell-systems/abstract/S2405-4712(15)00218-5">hallmark</a> (<code>"h"</code>) and <a href="http://software.broadinstitute.org/gsea/msigdb/collections.jsp#C2">c2 (curated)</a> (<code>"c2"</code>) gene set collections from <a href="http://software.broadinstitute.org/gsea/msigdb/">MSigDB</a>.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
@@ -261,9 +261,9 @@
 <p>For more details on creating and manipulating <code>GeneSetDb</code> objects, please jump the to <em><a href="#the-genesetdb-class">The GeneSetDb Class</a></em> section.</p>
 </div>
 </div>
-<div id="running-sparrow" class="section level3">
-<h3 class="hasAnchor">
-<a href="#running-sparrow" class="anchor"></a>Running sparrow</h3>
+<div id="running-sparrow" class="section level2">
+<h2 class="hasAnchor">
+<a href="#running-sparrow" class="anchor"></a>Running sparrow</h2>
 <p>Performing multiple gene set enrichment analyses over your contrast of interest simply requires you to provide a <code>GeneSetDb</code> object along with your data and an enumeration of the methods you want to use in your analysis.</p>
 <p>The call to <code><a href="../reference/seas.html">seas()</a></code> will perform these analyses and return a <code>SparrowResult</code> object which you can then use for downstream analysis.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
@@ -280,9 +280,9 @@
   feature.bias <span class="op">=</span> <span class="st">"size"</span><span class="op">)</span></code></pre></div>
 <p>We will unpack the details of the <code><a href="../reference/seas.html">seas()</a></code> call shortly …</p>
 </div>
-<div id="implicit-differential-expression" class="section level3">
-<h3 class="hasAnchor">
-<a href="#implicit-differential-expression" class="anchor"></a>Implicit Differential Expression</h3>
+<div id="implicit-differential-expression" class="section level2">
+<h2 class="hasAnchor">
+<a href="#implicit-differential-expression" class="anchor"></a>Implicit Differential Expression</h2>
 <p>First, let’s note that in addition to running a plethora of GSEA’s over our data we’ve also run a standard differential expression analysis. If you’ve passed a <code>matrix</code>, <code>ExpressionSet</code> or <code>EList</code> into <code><a href="../reference/seas.html">seas()</a></code>, a <em>limma</em>-based <code>lmFit  %&gt;% (eBayes|treat) %&gt;% (topTable|topTreat)</code> pipeline was run. If a <code>DGEList</code> was passed, then <code>seas</code> utilizes the <em>edgeR</em>-based <code>glmQLFit %&gt;% (glmQLFTest | glmTreat) %&gt;% topTags</code> pipeline.</p>
 <p>The result of the internally run differential expression analysis is accessible via a call to <code>logFC</code> function on the <code>SparrowResult</code> object:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
@@ -307,9 +307,9 @@
 <p>The internally performed differential expression analysis within the <code><a href="../reference/seas.html">seas()</a></code> call can be customized almost as extensively as an explicitly performed analysis that you would run using limma or edgeR by sending more parameters through <code><a href="../reference/seas.html">seas()</a></code>’s <code>...</code> argument.</p>
 <p>See the <em><a href="#custom-differential-expression">Custom Differential Expression</a></em> section further in the vignette as well as the help available in <code><a href="../reference/calculateIndividualLogFC.html">?calculateIndividualLogFC</a></code> (which is called inside the <code><a href="../reference/seas.html">seas()</a></code> function) for more information.</p>
 </div>
-<div id="explicit-gsea" class="section level3">
-<h3 class="hasAnchor">
-<a href="#explicit-gsea" class="anchor"></a>Explicit GSEA</h3>
+<div id="explicit-gsea" class="section level2">
+<h2 class="hasAnchor">
+<a href="#explicit-gsea" class="anchor"></a>Explicit GSEA</h2>
 <p>We also have the results of all the GSEA analyses that we specified to our <code>seas</code> call via the <code>methods</code> parameter.</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mg</span></code></pre></div>
@@ -328,9 +328,9 @@
 ## 10          H   ora.up            50         0      0        0</code></pre>
 <p>The table above enumerates the different GSEA methods run over each geneset collection in the rows. The columns enumerate the number of genesets that the collection has in total (<code>geneset_count</code>), and how many were found significant at a given FDR, which is set to 20% by default. The <code>show</code> command for the <code>SparrowResult</code> object simply calls the <code>tabulateResults</code> function, which you can call directly with the value of <code>max.p</code> that you might find more appropriate.</p>
 </div>
-<div id="exploring-results" class="section level3">
-<h3 class="hasAnchor">
-<a href="#exploring-results" class="anchor"></a>Exploring Results</h3>
+<div id="exploring-results" class="section level2">
+<h2 class="hasAnchor">
+<a href="#exploring-results" class="anchor"></a>Exploring Results</h2>
 <p>GSEA results can be examined interactively via the command line, or via a shiny application. You can use the <code>resultNames</code> function to find out what GSEA methods were run, and therefore available to you, within the the <code>SparrowResult</code> object:</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/resultNames.html">resultNames</a></span><span class="op">(</span><span class="va">mg</span><span class="op">)</span></code></pre></div>
@@ -368,9 +368,9 @@
 <p>The results provided in the table generated from a call to <code>geneSet</code> are independant of GSEA method. The statistics appended to the gene set members are simply the ones generated from a differential expression analysis.</p>
 </div>
 </div>
-<div id="plotting" class="section level3">
-<h3 class="hasAnchor">
-<a href="#plotting" class="anchor"></a>Plotting</h3>
+<div id="plotting" class="section level2">
+<h2 class="hasAnchor">
+<a href="#plotting" class="anchor"></a>Plotting</h2>
 <p><em>sparrow</em> provides a number of interactive plotting facilities to explore the enrichment of a single geneset under the given contrast. In the boxplots and density plots shown below, the log fold changes (logFCs) (or t-statistics) for all genes under the contrast are visualized in the “background” set, and these same values are shown for the desired geneset under the “geneset” group.</p>
 <p>The logFC (or t-statistics) of the genes in the gene set are plotted as points, which allow you to hover to identify the identity of the genes that land in the regions of the distributions you care about.</p>
 <div class="note">
@@ -397,9 +397,9 @@
 <div class="figure">
 <img src="images/static-iplot-wnt-beta-gsea.png" alt=""><p class="caption">gsea plot of geneset log2FC’s</p>
 </div>
-<div id="interactive-exploration" class="section level4">
-<h4 class="hasAnchor">
-<a href="#interactive-exploration" class="anchor"></a>Interactive Exploration</h4>
+<div id="interactive-exploration" class="section level3">
+<h3 class="hasAnchor">
+<a href="#interactive-exploration" class="anchor"></a>Interactive Exploration</h3>
 <p>A sister <code>sparrow.shiny</code> package is available that can be used to interactively explore <code>SparrowResult</code> objects to help you try to make sense of the enrichment hits you get (or not!). The application can be invoked as follows:</p>
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">sparrow.shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/sparrow.shiny/man/explore.html">explore</a></span><span class="op">(</span><span class="va">mg</span><span class="op">)</span></code></pre></div>
@@ -410,9 +410,9 @@
 </div>
 </div>
 </div>
-<div id="singe-sample-gene-set-scoring" class="section level2">
-<h2 class="hasAnchor">
-<a href="#singe-sample-gene-set-scoring" class="anchor"></a>Singe Sample Gene Set Scoring</h2>
+<div id="singe-sample-gene-set-scoring" class="section level1">
+<h1 class="hasAnchor">
+<a href="#singe-sample-gene-set-scoring" class="anchor"></a>Singe Sample Gene Set Scoring</h1>
 <p>It can be both convenient and effective to transform a gene-by-sample expression matrix to a geneset-by-sample expression matrix. By doing so, so we can quickly identify biological processes that are up/down regulated (loosely speaking) in each sample.</p>
 <p>We can generate single sample gene set scores using the gene sets defined in a <code>GeneSetDb</code> using the <code>scoreSingleSamples</code> function. This function takes a <code>GeneSetDb</code>, an expression container, and a <code>methods</code> argument, which is analagous to the <code>methods</code> argument in the <code><a href="../reference/seas.html">seas()</a></code> call: it defines all of the scoring methos the user wants to apply to each sample.</p>
 <p>Let’s pick a few gene sets to score our samples with for this exercise. We’ll take the significant hallmark gene sets, or any other significant gene set that has a large (on average) log fold change beteen conditions.</p>
@@ -426,9 +426,9 @@
 <p>Recall that the GSEA analysis we performed was perfomed between the Basal and Her2 subtypes, so we will use an expression matrix that only has the samples from those two groups.</p>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">vm.bh</span> <span class="op">&lt;-</span> <span class="va">vm</span><span class="op">[</span>, <span class="va">vm</span><span class="op">$</span><span class="va">targets</span><span class="op">$</span><span class="va">PAM50subtype</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Basal"</span>, <span class="st">"Her2"</span><span class="op">)</span><span class="op">]</span></code></pre></div>
-<div id="generating-single-sample-gene-set-scores" class="section level3">
-<h3 class="hasAnchor">
-<a href="#generating-single-sample-gene-set-scores" class="anchor"></a>Generating Single Sample Gene Set Scores</h3>
+<div id="generating-single-sample-gene-set-scores" class="section level2">
+<h2 class="hasAnchor">
+<a href="#generating-single-sample-gene-set-scores" class="anchor"></a>Generating Single Sample Gene Set Scores</h2>
 <p>Once we have a <code>GeneSetDb</code> object that contains all of the gene sets we wish to use to create single sample gene set scores, we can use the <code>scoreSingleSamples</code> function to produce these scores using a variety of algorithmes, which the user species using the <code>methods</code> parameter.</p>
 <p>The <code>scoreSingleSamples</code> function will return a long <code>data.frame</code> with <code>length(methods) * ncol(exprs)</code> rows. Each row represents the score for the given <code>sample</code> using the specified <code>method</code>. You can subset against the <code>method</code> column to extract all of the single sample scores for a given method.</p>
 <div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
@@ -453,9 +453,9 @@
 <p><img src="sparrow_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
 <p>Further exposition on the “ewm” (eigenWeightedMean) scoring method can be found in the <code><a href="../reference/eigenWeightedMean.html">?eigenWeightedMean</a></code> function.</p>
 </div>
-<div id="visualizing-single-sample-gene-set-scores" class="section level3">
-<h3 class="hasAnchor">
-<a href="#visualizing-single-sample-gene-set-scores" class="anchor"></a>Visualizing Single Sample Gene Set Scores</h3>
+<div id="visualizing-single-sample-gene-set-scores" class="section level2">
+<h2 class="hasAnchor">
+<a href="#visualizing-single-sample-gene-set-scores" class="anchor"></a>Visualizing Single Sample Gene Set Scores</h2>
 <p>The “long” data.frame nature of the results produced by <code>scoreSingleSamples</code> makes it convenient to use with graphing libraries like ggplot2 so that we can create arbitrary visualizations. Creating boxplots for gene sets per subtype is an easy way to explore these results.</p>
 <p>Let’s annotate each row in <code>scores.all</code> with the subtype annotation and observe how these methods score each sample for a few gene sets.</p>
 <div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
@@ -473,18 +473,18 @@
 <p><img src="sparrow_files/figure-html/anno-scores-1.png" width="700"></p>
 </div>
 </div>
-<div id="gene-set-based-heatmap-with-mgheatmap" class="section level2">
-<h2 class="hasAnchor">
-<a href="#gene-set-based-heatmap-with-mgheatmap" class="anchor"></a>Gene Set Based Heatmap with mgheatmap</h2>
+<div id="gene-set-based-heatmap-with-mgheatmap" class="section level1">
+<h1 class="hasAnchor">
+<a href="#gene-set-based-heatmap-with-mgheatmap" class="anchor"></a>Gene Set Based Heatmap with mgheatmap</h1>
 <p>We often want to create expression based heatmaps that highlight the behavior of gene sets across our samples. The <code>mgheatmap</code> function uses the <a href="http://bioconductor.org/packages/ComplexHeatmap">ComplexHeatmap</a> package to create two different types of heatmaps:</p>
 <ol style="list-style-type: decimal">
 <li>Gene based heatmaps, that split the genes (rows) based on their genesets</li>
 <li>Single sample gene set based heatmaps, optionally split by gene set collection.</li>
 </ol>
 <p>The <code>mgheatmap</code> function has a set of arguments that customize how the heatmap is to be created (gene level vs. gene set level, whether to split it, etcv) and will also use the <code>...</code> argument to pass any parameters down to the inner <code><a href="https://rdrr.io/pkg/ComplexHeatmap/man/Heatmap.html">ComplexHeatmap::Heatmap</a></code> function call and customize its behavior. The <code>mgheatmap</code> function returns a <code>ComplexHeatmap,Heatmap</code> object for plotting or combining with other ComplexHeatmap heatmaps or annotations in order to create arbitrarily complex/informative heatmap figures.</p>
-<div id="gene-level-based-heatmap-from-genesets" class="section level3">
-<h3 class="hasAnchor">
-<a href="#gene-level-based-heatmap-from-genesets" class="anchor"></a>Gene level based heatmap (from genesets)</h3>
+<div id="gene-level-based-heatmap-from-genesets" class="section level2">
+<h2 class="hasAnchor">
+<a href="#gene-level-based-heatmap-from-genesets" class="anchor"></a>Gene level based heatmap (from genesets)</h2>
 <p>You can plot a heatmap of the genes from a predefined set of gene sets by providing the gene sets you want to visualize in a <code>GeneSetDb</code> object.</p>
 <p>We’ll create a new <code>GeneSetDb</code> object using the first two gene sets in <code>gdb.sub</code> and draw a heatmap of their expression.</p>
 <div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
@@ -500,9 +500,9 @@
           recenter <span class="op">=</span> <span class="cn">TRUE</span>, top_annotation <span class="op">=</span> <span class="va">col.anno</span>, zlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">3</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="sparrow_files/figure-html/gheatmap-1.png" width="384"></p>
 </div>
-<div id="gene-set-based-heatmap" class="section level3">
-<h3 class="hasAnchor">
-<a href="#gene-set-based-heatmap" class="anchor"></a>Gene set-based heatmap</h3>
+<div id="gene-set-based-heatmap" class="section level2">
+<h2 class="hasAnchor">
+<a href="#gene-set-based-heatmap" class="anchor"></a>Gene set-based heatmap</h2>
 <p>You can often get a higher information:ink ratio by plotting heatmaps based on single sample gene set scores as opposed to the genes that make up a geneset.</p>
 <p>Let’s see what the simple 2-geneset version of the heatmap above looks like:</p>
 <div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
@@ -519,9 +519,9 @@
 <p><img src="sparrow_files/figure-html/gshm-all-1.png" width="768"></p>
 </div>
 </div>
-<div id="the-genesetdb-class" class="section level2">
-<h2 class="hasAnchor">
-<a href="#the-genesetdb-class" class="anchor"></a>The GeneSetDb Class</h2>
+<div id="the-genesetdb-class" class="section level1">
+<h1 class="hasAnchor">
+<a href="#the-genesetdb-class" class="anchor"></a>The GeneSetDb Class</h1>
 <p><strong>NOTE:</strong> The GeneSetDb class was initially developed to address some peculiarities of storing, querying, and manipulating gene sets using the old-school <code><a href="https://rdrr.io/pkg/GSEABase/man/GeneSetCollection-methods.html">GSEABase::GeneSetCollection</a></code> class. It is not meant to replace the more recently developd BiocSet class, and we plan to support and migrate to that gene set container in the future. This section provides a quick overview of some of the functionality of gene set container.</p>
 <p>We can, for instance, identify all 84 gene sets that have genes “10014” and “1454” (entrez ids) as members (HDAC5 and CSNK1E, respectively).</p>
 <div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
@@ -550,9 +550,9 @@
 ## 204         C2    ABE_VEGFA_TARGETS_2HR       5539      PPY
 ## 205         C2    ABE_VEGFA_TARGETS_2HR       5580    PRKCD</code></pre>
 <p>The <code>(collection,name)</code> tuple is the primary key of a gene set. The <code>feature_id</code> column stores gene identifiers. For the time being, it will be most natural for these IDs to simply be ensembl gene identifiers (or entrez ids) as many of the annotation databases use these identifiers, as well.</p>
-<div id="building-a-genesetdb" class="section level3">
-<h3 class="hasAnchor">
-<a href="#building-a-genesetdb" class="anchor"></a>Building a GeneSetDb</h3>
+<div id="building-a-genesetdb" class="section level2">
+<h2 class="hasAnchor">
+<a href="#building-a-genesetdb" class="anchor"></a>Building a GeneSetDb</h2>
 <p>The sparrow package provides convenience funcitons to fetch genesets from many sources and convert them into a GeneSetDb object. The two most useful sources may be:</p>
 <ul>
 <li>
@@ -577,9 +577,9 @@
 <p>For some reason the <code>PANTHER.db</code> package needs to be installed in a user-writable package location for this to work properly. If you see an error that speaks to using “rsqlite to write to a readonly database”, you will have to re-install <code>PANTHER.db</code> in a user-writable directory using <code><a href="https://rdrr.io/pkg/BiocManager/man/install.html">BiocManager::install("PANTHER.db")</a></code></p>
 </div>
 </div>
-<div id="subsetting-a-genesetdb" class="section level3">
-<h3 class="hasAnchor">
-<a href="#subsetting-a-genesetdb" class="anchor"></a>Subsetting a GeneSetDb</h3>
+<div id="subsetting-a-genesetdb" class="section level2">
+<h2 class="hasAnchor">
+<a href="#subsetting-a-genesetdb" class="anchor"></a>Subsetting a GeneSetDb</h2>
 <p>The subsetting functionality for a <code>GeneSetDb</code> isn’t quite as fluent as I would like to be. Improvements will be provided in a future release.</p>
 <p>Let’s say we wanted to include only the genesets where their “subcategory” was “<a href="https://www.gsea-msigdb.org/gsea/msigdb/genesets.jsp?collection=CP:PID">CP:PID</a>”, we would like to do it like this:</p>
 <div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
@@ -591,9 +591,9 @@
 <p>To reiterate, <code><a href="https://rdrr.io/r/base/length.html">length(keep)</a></code> <strong>must equal</strong> <code><a href="https://rdrr.io/r/base/nrow.html">nrow(geneSets(gdb))</a></code>.</p>
 <p>We have also showed you above how to create a subsetted <code>GeneSetDb</code> by keeping only the gene sets that have certain features in them using the <code>subsetByFeatures</code> function.</p>
 </div>
-<div id="active-vs-inactive-gene-sets" class="section level3">
-<h3 class="hasAnchor">
-<a href="#active-vs-inactive-gene-sets" class="anchor"></a>Active vs Inactive Gene Sets</h3>
+<div id="active-vs-inactive-gene-sets" class="section level2">
+<h2 class="hasAnchor">
+<a href="#active-vs-inactive-gene-sets" class="anchor"></a>Active vs Inactive Gene Sets</h2>
 <p>A <code>GeneSetDb</code> is used to hold “the universe” of genes that belong to different gene sets across different collections. Depending on the assay performed to measure these genes, the set of genes you observe in your study will likely be a subset of the genes in the <code>GeneSetDb</code>. As such, prior to using a <code>GeneSetDb</code> for GSEA, it must be “conformed” to a target object that will be used for the input to the GESA (either a matrix of expression, or a pre ranked vector of statistics). This step will index into the target expression object and identify which rows of the object correspond to which genes in the <code>GeneSetDb</code>.</p>
 <p>“Conformation” happens automatically within the <code><a href="../reference/seas.html">seas()</a></code> call, but we call it explicitly below to outline its functionality. The command below conforms the <code>GeneSetDb</code> to our target “voomed” <code>EList</code>, and deactivates gene sets (i.e. removes them from downstream GSEA) that have less than 10 or more than 100 genes that were found in <code>vm</code>:</p>
 <div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
@@ -608,9 +608,9 @@
 ## 6         C2 ABDULRAHMAN_KIDNEY_CANCER_VHL_DN   TRUE 13 12         CGP M2096</code></pre>
 <p>We can see that, only 23 of the 26 genes in the <code>(C2,ABBUD_LIF_SIGNALING_1_DN)</code> were found in the rows of <code>vm</code>, and the <code>(C2,ABBUD_LIF_SIGNALING_2_DN)</code> was “deactivated.” Deactivated (<code>active == FALSE</code>) gene sets will be ignored during downstream analyses. This gene set was deactivated because it only has five “conformed” genes, but the minimum geneset size we wanted to consider (<code>min.gs.size</code>) was set to ten in our call to <code>conform</code>.</p>
 </div>
-<div id="accessing-members-of-a-gene-set" class="section level3">
-<h3 class="hasAnchor">
-<a href="#accessing-members-of-a-gene-set" class="anchor"></a>Accessing members of a gene set</h3>
+<div id="accessing-members-of-a-gene-set" class="section level2">
+<h2 class="hasAnchor">
+<a href="#accessing-members-of-a-gene-set" class="anchor"></a>Accessing members of a gene set</h2>
 <p>The <code>geneSet</code> and <code>featureIds</code> functions allow the user to identify the genes found in a gene set. Both of these functions take an <code>active.only</code> argument, which is <code>TRUE</code> by default. This specifies that only the genes that have been successfully conformed to a gene set should be the ones that are returned.</p>
 <p>For instance, we can identify which genes belong to the <code>(C2,ABBUD_LIF_SIGNALING_1_DN)</code>, and which three were not found in <code>vm</code> like so:</p>
 <div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
@@ -629,9 +629,9 @@
 ## 5          C2 ABBUD_LIF_SIGNALING_1_DN   TRUE 28 25       1943  EFNA2
 ## 12         C2 ABBUD_LIF_SIGNALING_1_DN   TRUE 28 25       3170  FOXA2</code></pre>
 </div>
-<div id="mapping-of-gene-set-featureids-to-target-expression-containers" class="section level3">
-<h3 class="hasAnchor">
-<a href="#mapping-of-gene-set-featureids-to-target-expression-containers" class="anchor"></a>Mapping of gene set featureIds to target expression containers</h3>
+<div id="mapping-of-gene-set-featureids-to-target-expression-containers" class="section level2">
+<h2 class="hasAnchor">
+<a href="#mapping-of-gene-set-featureids-to-target-expression-containers" class="anchor"></a>Mapping of gene set featureIds to target expression containers</h2>
 <p>It may be that the IDs used in a gene set collection are different from the ones used as the rownames of your expression container. For instance, the IDs used for a given gene set collection in the <code>GeneSetDb</code> might be Ensembl gene identifiers, but the rownames of the expression object might be Entrez ID. This is where the <code>mapping</code> parameter becomes useful.</p>
 <p>The <code>GeneSetDb</code> class has a concept of an internal <code>featureIdMap</code> to accommodate these scenarios, which would allow for a non-destructive mapping of the original IDs to a new “ID space” (entrez to ensembl, for instance).</p>
 <p>This functionality is not ready for this release, but it’s just a note to keep the user aware of some future development of the package. For the time being, the user is required to manually map the feautreIds in their expression matrix to be concordant with the ones found in the <code>GeneSetDb</code>.</p>
@@ -650,13 +650,13 @@
 <p>We grabbed the <code>symbol</code> column from <code>vm$genes</code> and “smartly” renamed the rows of <code>vm</code> with the values there. Refer to the <code><a href="../reference/renameRows.html">?renameRows</a></code> man page for more details. This, of course, still requires you to manually fetch and map identifiers, but still …</p>
 </div>
 </div>
-<div id="customizing-analyses" class="section level2">
-<h2 class="hasAnchor">
-<a href="#customizing-analyses" class="anchor"></a>Customizing Analyses</h2>
+<div id="customizing-analyses" class="section level1">
+<h1 class="hasAnchor">
+<a href="#customizing-analyses" class="anchor"></a>Customizing Analyses</h1>
 <p>The internal differential expression analysis as well the gene set enrichment analyses can be customized by passing parameters through the <code>...</code> in the <code><a href="../reference/seas.html">seas()</a></code> function.</p>
-<div id="custom-differential-expression" class="section level3">
-<h3 class="hasAnchor">
-<a href="#custom-differential-expression" class="anchor"></a>Custom Differential Expression</h3>
+<div id="custom-differential-expression" class="section level2">
+<h2 class="hasAnchor">
+<a href="#custom-differential-expression" class="anchor"></a>Custom Differential Expression</h2>
 <p>The internal differential expression pipeline, exported via the <code>calculateIndividualLogFC</code> function allows the end user to configure an “arbitrarily complex” differential expression analysis using either edgeR’s quasilikelihood framework (if the input is a DGEList) or a direct limma analysis (with a pre-voomed EList, expression matrix, or whatever).</p>
 <p>User’s should refer to the <code><a href="../reference/calculateIndividualLogFC.html">?calculateIndividualLogFC</a></code> help page to see which parameters are exposed for a differential expression analysis and configure them accordingly. When calling <code><a href="../reference/seas.html">seas()</a></code> use these same parameters in the call and they will be provided to <code>calculateIndividualLogFC</code>.</p>
 <p>For instance, if you wanted to use limma’s “treat” functionality to specify a minimal log fold change threshold for statistical significance, you would do so as follows:</p>
@@ -667,9 +667,9 @@
            feature.bias<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/setNames.html">setNames</a></span><span class="op">(</span><span class="va">vm</span><span class="op">$</span><span class="va">genes</span><span class="op">$</span><span class="va">size</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">vm</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>Using the internal <code>treat</code> functionality would really only affect enrichment tests that first threshold the genes in your experiment as “significant” or not, like <code>goseq</code> and not tests like <code>camera</code>.</p>
 </div>
-<div id="custom-gsea" class="section level3">
-<h3 class="hasAnchor">
-<a href="#custom-gsea" class="anchor"></a>Custom GSEA</h3>
+<div id="custom-gsea" class="section level2">
+<h2 class="hasAnchor">
+<a href="#custom-gsea" class="anchor"></a>Custom GSEA</h2>
 <p>The GSEA methods that are wrapped by <code><a href="../reference/seas.html">seas()</a></code> all take the same parameters that are defined by their implementation. Simply pass these parameters down via the <code>...</code> in the <code><a href="../reference/seas.html">seas()</a></code> call.</p>
 <p>For instance, you can read <code>?camera</code> to find that the <code>camera</code> method accepts an <code>inter.gene.cor</code> parameter, and <code>?roast</code> will tell you that you can specify the number of rotations used via the <code>nrot</code> parameter.</p>
 <div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
@@ -678,9 +678,9 @@
             inter.gene.cor <span class="op">=</span> <span class="fl">0.04</span>, nrot <span class="op">=</span> <span class="fl">500</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
-<div id="reproducibility" class="section level2">
-<h2 class="hasAnchor">
-<a href="#reproducibility" class="anchor"></a>Reproducibility</h2>
+<div id="reproducibility" class="section level1">
+<h1 class="hasAnchor">
+<a href="#reproducibility" class="anchor"></a>Reproducibility</h1>
 <details><summary>
 Session Information
 </summary><div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
