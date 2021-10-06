@@ -261,8 +261,8 @@ geneSetsStats <- function(x, feature.min.logFC=1, feature.max.padj=0.10,
 #' lfc <- logFC(mg)
 logFC <- function(x, as.dt=FALSE) {
   stopifnot(is(x, 'SparrowResult'))
-  out <- x@logFC
-  if (!as.dt) out <- setDF(copy(out))
+  out <- copy(x@logFC)
+  if (!as.dt) out <- setDF(out)
   out
 }
 
