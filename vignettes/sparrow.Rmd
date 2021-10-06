@@ -35,7 +35,7 @@ knitr::opts_chunk$set(
 #    enrichtest/goseq PAC unit test.
 ```
 
-## Overview
+# Overview
 
 The `sparrow` package was built to facilitate the use of gene sets in the
 analysis of high throughput genomics data (primarily RNA-seq). It does so
@@ -107,7 +107,7 @@ function. In this vignette we will explore differential expression and gene
 set enrichment analysis by examining differences between basal and her2 PAM50
 subtypes.
 
-## Standard Workflow
+# Standard Workflow
 
 Let's begin by setting up our work environment for exploratory analysis using
 the sparrow package.
@@ -133,7 +133,7 @@ default. This means that unless the end user wants to work with `data.table`
 objects, they will always be returned a `data.frame`.
 </div>
 
-### Data Setup
+## Data Setup
 
 sparrow is most straightforward to use when our data objects and analysis are
 performed with either the edgeR or voom/limma pipelines and when we use
@@ -163,7 +163,7 @@ of scope for this vignette, but you can reference the
 for full details (among others).
 </div>
 
-### Data Analysis
+## Data Analysis
 
 We will identify the genes and genesets that are differentially expressed
 between the basal and her2 subtypes. The `vm` object has already been `voom`d
@@ -180,7 +180,7 @@ contrast:
 (cm <- makeContrasts(BvH=Basal - Her2, levels=vm$design))
 ```
 
-#### Differential Gene Expression
+### Differential Gene Expression
 
 In this section, we first show you the straightforward analysis you would do
 if you were only testing for differential gene expression.
@@ -194,14 +194,14 @@ fit <- lmFit(vm, vm$design) %>%
 tt <- topTable(fit, 'BvH', n=Inf, sort.by='none')
 ```
 
-#### Gene Set Enrichment Analysis
+### Gene Set Enrichment Analysis
 
 Given that we now have all of the pieces of data required for a differential
 expression analysis, performing GSEA is trivial using the `seas` wrapper
 function. We simply need to now define (1) the battery of gene sets we want to
 test against, and (2) the GSEA methods we want to explore.
 
-#### Gene Sets to Test
+### Gene Sets to Test
 
 The *sparrow* package provides a `GeneSetDb` class, which is used instead of
 a `GSEABase::GeneSetCollection` to house collections of genesets. You
@@ -230,7 +230,7 @@ geneSets(gdb) %>%
 For more details on creating and manipulating `GeneSetDb` objects, please jump
 the to *[The GeneSetDb Class](#the-genesetdb-class)* section.
 
-### Running sparrow
+## Running sparrow
 
 Performing multiple gene set enrichment analyses over your contrast of interest
 simply requires you to provide a `GeneSetDb` object along with your data and an
@@ -255,7 +255,7 @@ mg <- seas(
 
 We will unpack the details of the `seas()` call shortly ...
 
-### Implicit Differential Expression
+## Implicit Differential Expression
 
 First, let's note that in addition to running a plethora of GSEA's over our data
 we've also run a standard differential expression analysis. If you've passed
@@ -296,7 +296,7 @@ section further in the vignette as well as the help available in
 `?calculateIndividualLogFC` (which is called inside the `seas()` function)
 for more information.
 
-### Explicit GSEA
+## Explicit GSEA
 
 We also have the results of all the GSEA analyses that we specified to our
 `seas` call via the `methods` parameter.
@@ -313,7 +313,7 @@ at a given FDR, which is set to 20% by default. The `show` command for the
 you can call directly with the value of `max.p` that you might find more
 appropriate.
 
-### Exploring Results
+## Exploring Results
 
 GSEA results can be examined interactively via the command line, or via a shiny
 application. You can use the `resultNames` function to find out what GSEA
@@ -364,7 +364,7 @@ independant of GSEA method. The statistics appended to the gene set members
 are simply the ones generated from a differential expression analysis.
 </div>
 
-### Plotting
+## Plotting
 
 *sparrow* provides a number of interactive plotting facilities to explore the
 enrichment of a single geneset under the given contrast. In the boxplots and
@@ -409,7 +409,7 @@ iplot(mg, 'H', 'HALLMARK_WNT_BETA_CATENIN_SIGNALING',
 
 ![gsea plot of geneset log2FC's](images/static-iplot-wnt-beta-gsea.png)
 
-#### Interactive Exploration
+### Interactive Exploration
 
 A sister `sparrow.shiny` package is available that can be used to
 interactively explore `SparrowResult` objects to help you try to make sense
@@ -425,7 +425,7 @@ sparrow.shiny::explore(mg)
 Please refer to the `"sparrow-shiny"` vignette in the `sparrow.shiny`
 package for documentation on the application's use.
 
-## Singe Sample Gene Set Scoring
+# Singe Sample Gene Set Scoring
 
 It can be both convenient and effective to transform a gene-by-sample expression
 matrix to a geneset-by-sample expression matrix. By doing so, so we can quickly
@@ -463,7 +463,7 @@ from those two groups.
 vm.bh <- vm[, vm$targets$PAM50subtype %in% c("Basal", "Her2")]
 ```
 
-### Generating Single Sample Gene Set Scores
+## Generating Single Sample Gene Set Scores
 
 Once we have a `GeneSetDb` object that contains all of the gene sets we wish
 to use to create single sample gene set scores, we can use the
@@ -505,7 +505,7 @@ corplot(swa[, -(1:2), with = FALSE], cluster=TRUE)
 Further exposition on the "ewm" (eigenWeightedMean) scoring method can be
 found in the `?eigenWeightedMean` function.
 
-### Visualizing Single Sample Gene Set Scores
+## Visualizing Single Sample Gene Set Scores
 
 The "long" data.frame nature of the results produced by `scoreSingleSamples`
 makes it convenient to use with graphing libraries like ggplot2 so that we can
@@ -529,7 +529,7 @@ ggplot(some.scores, aes(subtype, score)) +
   facet_grid(name ~ method)
 ```
 
-## Gene Set Based Heatmap with mgheatmap
+# Gene Set Based Heatmap with mgheatmap
 
 We often want to create expression based heatmaps that highlight the behavior of
 gene sets across our samples. The `mgheatmap` function uses the
@@ -549,7 +549,7 @@ create arbitrarily complex/informative heatmap figures.
 
 [cplxhmap]: http://bioconductor.org/packages/ComplexHeatmap
 
-### Gene level based heatmap (from genesets)
+## Gene level based heatmap (from genesets)
 
 You can plot a heatmap of the genes from a predefined set of gene sets by
 providing the gene sets you want to visualize in a `GeneSetDb` object.
@@ -570,7 +570,7 @@ mgheatmap(vm.bh, gdb.2, aggregate.by = "none", split = TRUE,
           recenter = TRUE, top_annotation = col.anno, zlim = c(-3, 3))
 ```
 
-### Gene set-based heatmap
+## Gene set-based heatmap
 
 You can often get a higher information:ink ratio by plotting heatmaps based
 on single sample gene set scores as opposed to the genes that make up a
@@ -594,7 +594,7 @@ mgheatmap(vm.bh, gdb.sub,
           top_annotation=col.anno, zlim = c(-2.5, 2.5))
 ```
 
-## The GeneSetDb Class
+# The GeneSetDb Class
 
 **NOTE:** The GeneSetDb class was initially developed to address some
 peculiarities of storing, querying, and manipulating gene sets using the
@@ -635,7 +635,7 @@ column stores gene identifiers. For the time being, it will be most natural
 for these IDs to simply be ensembl gene identifiers (or entrez ids) as many of
 the annotation databases use these identifiers, as well.
 
-### Building a GeneSetDb
+## Building a GeneSetDb
 
 The sparrow package provides convenience funcitons to fetch genesets from many
 sources and convert them into a GeneSetDb object. The two most useful sources
@@ -681,7 +681,7 @@ re-install `PANTHER.db` in a user-writable directory using
 
 </div>
 
-### Subsetting a GeneSetDb
+## Subsetting a GeneSetDb
 
 The subsetting functionality for a `GeneSetDb` isn't quite as fluent as I would
 like to be. Improvements will be provided in a future release.
@@ -708,7 +708,7 @@ We have also showed you above how to create a subsetted `GeneSetDb` by keeping
 only the gene sets that have certain features in them using the
 `subsetByFeatures` function.
 
-### Active vs Inactive Gene Sets
+## Active vs Inactive Gene Sets
 
 A `GeneSetDb` is used to hold "the universe" of genes that belong to different
 gene sets across different collections. Depending on the assay performed to
@@ -738,7 +738,7 @@ gene set was deactivated  because it only has five "conformed" genes, but the
 minimum geneset size we wanted to consider (`min.gs.size`) was set to ten in
 our call to `conform`.
 
-### Accessing members of a gene set
+## Accessing members of a gene set
 
 The `geneSet` and `featureIds` functions allow the user to identify the genes
 found in a gene set. Both of these functions take an `active.only` argument,
@@ -763,7 +763,7 @@ gdbc %>%
   subset(feature_id %in% missed)
 ```
 
-### Mapping of gene set featureIds to target expression containers
+## Mapping of gene set featureIds to target expression containers
 
 It may be that the IDs used in a gene set collection are different from the
 ones used as the rownames of your expression container. For instance, the IDs
@@ -796,13 +796,13 @@ of `vm` with the values there. Refer to the `?renameRows` man page for more
 details. This, of course, still requires you to manually fetch and map
 identifiers, but still ...
 
-## Customizing Analyses
+# Customizing Analyses
 
 The internal differential expression analysis as well the gene set enrichment
 analyses can be customized by passing parameters through the `...` in the
 `seas()` function.
 
-### Custom Differential Expression
+## Custom Differential Expression
 
 The internal differential expression pipeline, exported via the
 `calculateIndividualLogFC` function allows the end user to configure an
@@ -830,7 +830,7 @@ Using the internal `treat` functionality would really only affect enrichment
 tests that first threshold the genes in your experiment as "significant" or not,
 like `goseq` and not tests like `camera`.
 
-### Custom GSEA
+## Custom GSEA
 
 The GSEA methods that are wrapped by `seas()` all take the same parameters
 that are defined by their implementation. Simply pass these parameters down
@@ -846,7 +846,7 @@ mgx <- seas(vm, gdb, c('camera', 'roast'),
             inter.gene.cor = 0.04, nrot = 500)
 ```
 
-## Reproducibility
+# Reproducibility
 
 <details>
 <summary>Session Information</summary>
