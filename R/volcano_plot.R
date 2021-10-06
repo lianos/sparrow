@@ -42,7 +42,8 @@ volcanoPlot <- function(x, stats='dge', xaxis='logFC', yaxis='pval', idx,
                         horiz_line = c(padj = 0.10),
                         xhex=NULL, yhex=NULL,
                         width=NULL, height=NULL,
-                        shiny_source='mgvolcano', ggtheme=theme_bw(), ...) {
+                        shiny_source='mgvolcano', ggtheme=ggplot2::theme_bw(),
+                        ...) {
   # TODO: Consider updating volcanoPlot to use S3 or S4 here, or outsource
   #       this to another package, like EnhancedVolcano(?)
   dat <- volcanoStatsTable(x, stats, xaxis, yaxis, idx, xtfrm, ytfrm)

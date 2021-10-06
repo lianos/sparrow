@@ -37,12 +37,12 @@
 #'   Defaults to `"mggenes"`.
 #' @param width,height the width and height of the output plotly plot
 #' @param ggtheme a ggplot theme, like the thing returned from
-#'   [ggplot2::theme_bw()].
+#'  `ggplot2::theme_bw()`, for instance.
 #' @param trim used to define the upper and lower quantiles to max out the
 #'   individual gene statistics in the selected geneset.
 #' @param ... pass through parameters to internal boxplot/density/gsea
 #'   plotting functions
-#' @return the ploty plot ojbect
+#' @return the ploty plot object
 #' @examples
 #' mgr <- exampleSparrowResult()
 #' iplot(mgr, "c2", "BURTON_ADIPOGENESIS_PEAK_AT_2HR", c("t-statistic" = "t"),
@@ -54,7 +54,7 @@ iplot <- function(x, y, j, value = "logFC",
                   tools=c('wheel_zoom', 'box_select', 'reset', 'save'),
                   main=NULL, with.legend=TRUE,
                   shiny_source='mggenes', width=NULL, height=NULL,
-                  ggtheme=theme_bw(), trim=0.005, ...) {
+                  ggtheme=ggplot2::theme_bw(), trim=0.005, ...) {
   if (FALSE) {
     x <- xmg; y <- 'H'; j <- 'HALLMARK_E2F_TARGETS'; value <- 'logFC';
     main <- NULL; type <- 'boxplot'; with.legend <- TRUE

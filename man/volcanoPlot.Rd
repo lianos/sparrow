@@ -21,7 +21,7 @@ volcanoPlot(
   width = NULL,
   height = NULL,
   shiny_source = "mgvolcano",
-  ggtheme = theme_bw(),
+  ggtheme = ggplot2::theme_bw(),
   ...
 )
 }
@@ -75,7 +75,7 @@ be hexbinned.}
 Defaults to \code{"mggenes"}.}
 
 \item{ggtheme}{a ggplot theme, like the thing returned from
-\code{\link[ggplot2:ggtheme]{ggplot2::theme_bw()}}.}
+\code{ggplot2::theme_bw()}, for instance.}
 
 \item{...}{pass through arguments (not used)}
 }

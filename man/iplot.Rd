@@ -16,7 +16,7 @@ iplot(
   shiny_source = "mggenes",
   width = NULL,
   height = NULL,
-  ggtheme = theme_bw(),
+  ggtheme = ggplot2::theme_bw(),
   trim = 0.005,
   ...
 )
@@ -55,7 +55,7 @@ Defaults to \code{"mggenes"}.}
 \item{width, height}{the width and height of the output plotly plot}
 
 \item{ggtheme}{a ggplot theme, like the thing returned from
-\code{\link[ggplot2:ggtheme]{ggplot2::theme_bw()}}.}
+\code{ggplot2::theme_bw()}, for instance.}
 
 \item{trim}{used to define the upper and lower quantiles to max out the
 individual gene statistics in the selected geneset.}
@@ -64,7 +64,7 @@ individual gene statistics in the selected geneset.}
 plotting functions}
 }
 \value{
-the ploty plot ojbect
+the ploty plot object
 }
 \description{
 It is informative to look at the individual log fold changes of the genes

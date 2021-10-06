@@ -342,7 +342,7 @@ check.dt <- function(x, ref) {
 }
 
 
-## Random Utilitis -------------------------------------------------------------
+## Random Utilities ------------------------------------------------------------
 
 #' Utility function to cat a message to stderr (by default)
 #'
