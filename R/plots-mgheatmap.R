@@ -154,7 +154,11 @@ mgheatmap <- function(x, gdb = NULL, col = NULL,
       aggregate.by %in% scores$method)
   }
 
-  if (!is.null(gdb)) stopifnot(is(gdb, "GeneSetDb"))
+  if (!is.null(gdb)) {
+    if (!is(gdb, "GeneSetDb")) {
+      gdb <- GeneSetDb(gdb)
+    }
+  }
 
   # split.by <- match.arg(split.by)
   drop1.split <- missing(split)
