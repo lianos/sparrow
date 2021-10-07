@@ -57,19 +57,10 @@ by providing these top-line functionalities:
 * The `scoreSingleSamples` function is a wrapper that enables the user to
   generate single sample gene set scores using a variety of different
   single sample gene set scoring methods.
-* The `GeneSetDb` class: a new class to store collections of gene sets. This
-  provides a bit more functionality than the base `GeneSetCollection` class
-  defined in the [GSEABase](http://bioconductor.org/packages/GSEABase).
-* A convenience `getMSigGeneSetDb()` function, which enables the user to
-  fetch arbitraty subsets of the MSigDB collections mapped to different
-  organisms and identifier types.
-
-<div class="note">
-The [BiocSet][] package was introduced in Bioconductor version 3.10, which
-should supersede the `GeneSetDb` class introduced here. sparrow will endeavor
-to transition to using that class to store gene set collections in the near
-future.
-</div>
+* Convenience gene set collection retrieval functions that return `BiocSet`s
+  from widely used databases, like `getMSigCollection()` ([MSigDB][msigdb]),
+  `getKeggCollection()` ([KEGG][]), `getPantherCollection()`, etc. with
+  support for different organisms and identifier types (partially).
 
 The initial GSEA methods that sparrow wrapped were the ones provided by limma
 and edgeR. As such, many analyses using sparrow expect you to re-use the same
@@ -85,10 +76,6 @@ performed by analyzing the ranks of genes within this vector.
 
 The user can invoke one `seas()` call that can orchestrate multiple analyses
 of any type.
-
-All GSEA methods require the use of a `GeneSetDb` object, which is a new class
-provided by this package that holds geneset collection information which is
-stored primarily as tables / data.frames.
 
 Currently supported gene set enrichment methods include:
 
@@ -208,7 +195,8 @@ gene sets. The `GeneSetDb` object is used heavily for the internal functionality
 of `{sparrow}`, however you can provide sparrow with collections of gene sets
 using other containers from the bioconductor universe, like a `BiocSet::BiocSet`
 or a `GSEABase::GeneSetCollection`. This package provides convenience methods
-to convert between these different types of gene set containers.
+to convert between these different types of gene set containers. Please refer
+to *[The GeneSetDb Class](#the-genesetdb-class)* section for more details.
 
 The {sparrow} package also provides convenience methods to retrieve gene set
 collections from different sourckes, like [MSigDB][msigdb],
@@ -241,9 +229,6 @@ geneSets(gdb) %>%
   head %>%
   select(1:4)
 ```
-
-For more details on creating and manipulating `GeneSetDb` objects, please jump
-the to *[The GeneSetDb Class](#the-genesetdb-class)* section.
 
 ## Running sparrow
 

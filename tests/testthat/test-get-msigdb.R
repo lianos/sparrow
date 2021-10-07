@@ -22,7 +22,7 @@ test_that("url function stored correctly", {
   go.mf.df <- sparrow:::.pkgcache$msigdb$`Homo sapiens`[gs_subcat == "GO:MF"]
   go.cc.df <- sparrow:::.pkgcache$msigdb$`Homo sapiens`[gs_subcat == "GO:CC"]
 
-  gdb.pro <- getMSigGeneSetDb("C5", promote_subcategory_to_collection = TRUE)
+  gdb.pro <- getMSigGeneSetDb("C5", promote.subcategory.to.collection = TRUE)
   gdb.npro <- getMSigGeneSetDb("C5")
 
   genesets <- c(
