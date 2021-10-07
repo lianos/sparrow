@@ -116,26 +116,14 @@
 ## 1          camera preranked   limma
 ## 2        cameraPR preranked   limma
 ## 3           fgsea preranked   fgsea
-## 4             ora       ora   limma
+## 4             ora       ora     ora
 ## 5             fry preranked   limma
 ## 6           roast preranked   limma
 ## 7           romer preranked   limma
 ## 8           goseq       ora   goseq
 ## 9     geneSetTest preranked   limma
 ## 10          logFC preranked   limma
-## 11 svdGeneSetTest      meta sparrow
-##                                                              comment
-## 1                                                                   
-## 2                                                                   
-## 3                                                                   
-## 4  A generic wrapper to the limma::kegga (biased) enrichment testing
-## 5                                                                   
-## 6                                                                   
-## 7                                                                   
-## 8                                                                   
-## 9                                                                   
-## 10                                                                  
-## 11</code></pre>
+## 11 svdGeneSetTest      meta sparrow</code></pre>
 <p>When using these methods in analyses that lead to publication, please cite the original papers that developed these methods and cite sparrow when its functionality assisted in your interpretation and analysis.</p>
 <p>The sparrow package provides a small example expression dataset extracted from the TCGA BRCA dataset, which is available via the <code>exampleExpressionSet</code> function. In this vignette we will explore differential expression and gene set enrichment analysis by examining differences between basal and her2 PAM50 subtypes.</p>
 </div>
@@ -154,12 +142,12 @@
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-datatable.com">data.table</a></span><span class="op">)</span>
 <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme_get.html">theme_set</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="note">
-<p>Internally, sparrow leverages the <a href="https://CRAN.R-project.org/package=data.table">data.table</a> package for fast indexing and manipulation over data.frames. All functions that return these objects back to the user have an <code>as.dt</code> argument, which is set to <code>FALSE</code> by default. This means that unless the end user wants to work with <code>data.table</code> objects, they will always be returned a <code>data.frame</code>.</p>
+<p>Internally, sparrow leverages the <a href="https://CRAN.R-project.org/package=data.table">data.table</a> package for fast indexing and manipulation over data.frames. All functions that return data.frame looking objects back have converted it from an data.table prior to return. All such functions take an <code>as.dt</code> argument, which is set to <code>FALSE</code> by default that controls this behavior. If you want <code>{sparrow}</code> to return a data.table back to you from some function, try adding an <code>as.dt = TRUE</code> argument to the end of the function call.</p>
 </div>
 <div id="data-setup" class="section level2">
 <h2 class="hasAnchor">
 <a href="#data-setup" class="anchor"></a>Data Setup</h2>
-<p>sparrow is most straightforward to use when our data objects and analysis are performed with either the edgeR or voom/limma pipelines and when we use Entrez IDs for gene gene identifiers.</p>
+<p>sparrow is most straightforward to use when our data objects and analysis are performed with either the edgeR or voom/limma pipelines and when we use standard gene identifiers (like esnemble) as <code><a href="https://rdrr.io/r/base/colnames.html">rownames()</a></code> to these objects.</p>
 <p>The <code>exampleExpressionSet</code> function gives us just such an object. We call it below in a manner that gives us an object that allows us to explore expression differences between different subtypes of breast cancer.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">vm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/exampleExpressionSet.html">exampleExpressionSet</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="st">"tumor-subtype"</span>, do.voom <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
@@ -326,7 +314,7 @@
 ## 8           H ora.down            50         2      0        2
 ## 9          C2   ora.up          6074        20     17        3
 ## 10          H   ora.up            50         0      0        0</code></pre>
-<p>The table above enumerates the different GSEA methods run over each geneset collection in the rows. The columns enumerate the number of genesets that the collection has in total (<code>geneset_count</code>), and how many were found significant at a given FDR, which is set to 20% by default. The <code>show</code> command for the <code>SparrowResult</code> object simply calls the <code>tabulateResults</code> function, which you can call directly with the value of <code>max.p</code> that you might find more appropriate.</p>
+<p>The table above enumerates the different GSEA methods run over each geneset collection in the rows. The columns enumerate the number of genesets that the collection has in total (<code>geneset_count</code>), and how many were found significant at a given FDR, which is set to 20% by default. The <code>show</code> command for the <code>SparrowResult</code> object simply calls the <code><a href="../reference/resultNames.html">tabulateResults()</a></code> function, which you can call directly with the value of <code>max.p</code> that you might find more appropriate.</p>
 </div>
 <div id="exploring-results" class="section level2">
 <h2 class="hasAnchor">
@@ -335,7 +323,7 @@
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/resultNames.html">resultNames</a></span><span class="op">(</span><span class="va">mg</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "camera"   "fry"      "ora"      "ora.down" "ora.up"</code></pre>
-<p>Note that when running a “goseq” analysis, sparrow will (by default) run it three different ways. By running an enrichment analysis on all differentially expressed genes, then separately for only genes that go up in your contrast, and a third time for only the genes that go down.</p>
+<p>Note that when running an “over representation analysis” <code>"ora"</code> (or <code>"goseq"</code>), it will be run three different ways. The tests will be run first by testing all differentially expressed genes that meet a given set of min logFC and max FDR thresholds, then separately for only genes that go up in your contrast, and a third time for only the genes that go down.</p>
 <p>The individual gene set statistics generated by each method are available via the <code>result</code> function (or several can be returned with <code>results</code>):</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">cam.res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/resultNames.html">result</a></span><span class="op">(</span><span class="va">mg</span>, <span class="st">'camera'</span><span class="op">)</span>

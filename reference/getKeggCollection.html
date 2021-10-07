@@ -175,8 +175,8 @@ database according to their licensing requirements.</p>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
 <span class='co'># connects to the internet and takes a while</span>
 <span class='va'>mouse.entrez</span> <span class='op'>&lt;-</span> <span class='fu'>getKeggCollection</span><span class='op'>(</span><span class='st'>"mouse"</span>, id.type <span class='op'>=</span> <span class='st'>"entrez"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: geneSetURL does not return a string when called</span></div><div class='output co'>#&gt; <span class='error'>Error in addCollectionMetadata(x, i, "url_function", value, valid): Invalid value used to update KEGG,url_function</span></div><div class='input'><span class='va'>human.enrez</span> <span class='op'>&lt;-</span> <span class='fu'>getKeggCollection</span><span class='op'>(</span><span class='st'>"human"</span>, id.type <span class='op'>=</span> <span class='st'>"entrez"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: geneSetURL does not return a string when called</span></div><div class='output co'>#&gt; <span class='error'>Error in addCollectionMetadata(x, i, "url_function", value, valid): Invalid value used to update KEGG,url_function</span></div><div class='input'><span class='co'># }</span>
+<span class='va'>human.enrez</span> <span class='op'>&lt;-</span> <span class='fu'>getKeggCollection</span><span class='op'>(</span><span class='st'>"human"</span>, id.type <span class='op'>=</span> <span class='st'>"entrez"</span><span class='op'>)</span>
+<span class='co'># }</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
