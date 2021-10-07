@@ -10,8 +10,8 @@ getMSigDbCollection(
   species = "human",
   id.type = c("ensembl", "entrez", "symbol"),
   with.kegg = FALSE,
-  promote_subcategory_to_collection = FALSE,
-  prefix_collection = TRUE,
+  promote.subcategory.to.collection = FALSE,
+  prefix.collection = TRUE,
   ...
 )
 
@@ -20,8 +20,8 @@ getMSigGeneSetDb(
   species = "human",
   id.type = c("ensembl", "entrez", "symbol"),
   with.kegg = FALSE,
-  promote_subcategory_to_collection = FALSE,
-  prefix_collection = FALSE,
+  promote.subcategory.to.collection = FALSE,
+  prefix.collection = FALSE,
   ...
 )
 }
@@ -45,14 +45,14 @@ restricted license, so by default we do not return them as part of the
 GeneSetDb. To include the KEGG gene sets when asking for the c2
 collection, set this flag to \code{TRUE}.}
 
-\item{promote_subcategory_to_collection}{there are different sources of
+\item{promote.subcategory.to.collection}{there are different sources of
 genesets for a number of the collections in MSigDB. These are included
 in the \code{gs_subcat} column of \code{geneSets(this)}. When this is set to \code{TRUE},
 the collection column for the genesets is appended with the subcatory.
 So, instead of having a massive \code{"C2"} collection, you'll have bunch of
 collections like \code{"C2_CGP"}, \code{"C2_CP:BIOCARTA"}, etc.}
 
-\item{prefix_collection}{When \code{TRUE} (default: \code{FALSE}), the \code{"C1"}, \code{"C2"},
+\item{prefix.collection}{When \code{TRUE} (default: \code{FALSE}), the \code{"C1"}, \code{"C2"},
 etc. is prefixed with \code{"MSigDB_*"}}
 
 \item{...}{pass through parameters}

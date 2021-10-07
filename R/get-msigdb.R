@@ -43,13 +43,13 @@
 #'   restricted license, so by default we do not return them as part of the
 #'   GeneSetDb. To include the KEGG gene sets when asking for the c2
 #'   collection, set this flag to `TRUE`.
-#' @param promote_subcategory_to_collection there are different sources of
+#' @param promote.subcategory.to.collection there are different sources of
 #'   genesets for a number of the collections in MSigDB. These are included
 #'   in the `gs_subcat` column of `geneSets(this)`. When this is set to `TRUE`,
 #'   the collection column for the genesets is appended with the subcatory.
 #'   So, instead of having a massive `"C2"` collection, you'll have bunch of
 #'   collections like `"C2_CGP"`, `"C2_CP:BIOCARTA"`, etc.
-#' @param prefix_collection When `TRUE` (default: `FALSE`), the `"C1"`, `"C2"`,
+#' @param prefix.collection When `TRUE` (default: `FALSE`), the `"C1"`, `"C2"`,
 #'   etc. is prefixed with `"MSigDB_*"`
 #' @param ... pass through parameters
 #' @return a `BiocSet` of the MSigDB collections
@@ -68,12 +68,12 @@ getMSigDbCollection <- function(collection = NULL,
                                 species = "human",
                                 id.type = c("ensembl", "entrez", "symbol"),
                                 with.kegg = FALSE,
-                                promote_subcategory_to_collection = FALSE,
-                                prefix_collection = TRUE, ...) {
+                                promote.subcategory.to.collection = FALSE,
+                                prefix.collection = TRUE, ...) {
   id.type <- match.arg(id.type)
   out <- getMSigGeneSetDb(
     collection, species, id.type, with.kegg,
-    promote_subcategory_to_collection, prefix_collection, ...)
+    promote.subcategory.to.collection, prefix.collection, ...)
   as(out, "BiocSet")
 }
 
@@ -84,8 +84,8 @@ getMSigGeneSetDb <- function(collection = NULL,
                              species = "human",
                              id.type = c("ensembl", "entrez", "symbol"),
                              with.kegg = FALSE,
-                             promote_subcategory_to_collection = FALSE,
-                             prefix_collection = FALSE, ...) {
+                             promote.subcategory.to.collection = FALSE,
+                             prefix.collection = FALSE, ...) {
   if (!requireNamespace("msigdbr", quietly = TRUE)) {
     stop("The msigdbr package is required for this functionality")
   }
@@ -124,13 +124,13 @@ getMSigGeneSetDb <- function(collection = NULL,
     out <- out[gs_subcat != "CP:KEGG"]
   }
 
-  if (prefix_collection) {
+  if (prefix.collection) {
     out[, collection := paste0("MSigDB_", out$gs_cat)]
   } else {
     out[, collection := gs_cat]
   }
 
-  if (promote_subcategory_to_collection) {
+  if (promote.subcategory.to.collection) {
     out[, collection := {
       ifelse(nchar(out$gs_subcat) == 0L,
              out$collection,
