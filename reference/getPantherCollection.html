@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get/set the gene set collection url function for a geneset collection — geneSetCollectionURLfunction • sparrow</title>
+<title>Get pathways/GOslim collections from PANTHER.db Biocondcutor package. — getPantherCollection • sparrow</title>
 
 
 <!-- jquery -->
@@ -41,8 +41,10 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Get/set the gene set collection url function for a geneset collection — geneSetCollectionURLfunction" />
-<meta property="og:description" content="Reference collectionMetadata() for more info." />
+<meta property="og:title" content="Get pathways/GOslim collections from PANTHER.db Biocondcutor package. — getPantherCollection" />
+<meta property="og:description" content="This is a convience function that orchestrates the PANTHER.db package to
+return GeneSetDb objects for either pathway or GOslim information for
+human or mouse." />
 
 
 
@@ -120,79 +122,74 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get/set the gene set collection url function for a geneset collection</h1>
+    <h1>Get pathways/GOslim collections from PANTHER.db Biocondcutor package.</h1>
     
-    <div class="hidden name"><code>geneSetCollectionURLfunction.Rd</code></div>
+    <div class="hidden name"><code>getPantherCollection.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Reference <code><a href='collectionMetadata.html'>collectionMetadata()</a></code> for more info.</p>
+    <p>This is a convience function that orchestrates the PANTHER.db package to
+return GeneSetDb objects for either pathway or GOslim information for
+human or mouse.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>geneSetCollectionURLfunction</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>i</span>, <span class='va'>...</span><span class='op'>)</span>
+    <pre class="usage"><span class='fu'>getPantherCollection</span><span class='op'>(</span>
+  type <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"pathway"</span>, <span class='st'>"goslim"</span><span class='op'>)</span>,
+  species <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"human"</span>, <span class='st'>"mouse"</span><span class='op'>)</span>
+<span class='op'>)</span>
 
-<span class='fu'>geneSetCollectionURLfunction</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>i</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='va'>value</span>
-
-<span class='co'># S4 method for GeneSetDb</span>
-<span class='fu'>geneSetCollectionURLfunction</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>i</span>, <span class='va'>...</span><span class='op'>)</span>
-
-<span class='co'># S4 method for GeneSetDb</span>
-<span class='fu'>geneSetCollectionURLfunction</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>i</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='va'>value</span>
-
-<span class='co'># S4 method for SparrowResult</span>
-<span class='fu'>geneSetCollectionURLfunction</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>i</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+<span class='fu'>getPantherGeneSetDb</span><span class='op'>(</span>
+  type <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"pathway"</span>, <span class='st'>"goslim"</span><span class='op'>)</span>,
+  species <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"human"</span>, <span class='st'>"mouse"</span><span class='op'>)</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>The GeneSetDb</p></td>
+      <th>type</th>
+      <td><p>"pathway" or, "goslim"</p></td>
     </tr>
     <tr>
-      <th>i</th>
-      <td><p>The collection to get the url function from</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>pass through arguments (not used)</p></td>
-    </tr>
-    <tr>
-      <th>value</th>
-      <td><p>the function to set as the geneset url function for the given
-collection <code>i</code>. This can be an actual function object, or the (string)
-name of the function to pull out of "the ether"
-(<code>"pkgname::functionname"</code> can work, too). The latter is preferred as
-it results in smaller serialized GeneSetDb objects.</p></td>
+      <th>species</th>
+      <td><p>"human" or "mouse"</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>the function that maps collection,name combinations to an
-informational URL.</p>
-    <h2 class="hasAnchor" id="methods-by-class-"><a class="anchor" href="#methods-by-class-"></a>Methods (by class)</h2>
+    <p>A BiocSet of panther pathways</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Note that for some reason the <code>PANTHER.db</code> package needs to be
+installed in a user-writable package location for this to work properly.
+If you see an error like "Error in resqlite_send_query ... attempt to
+write a readonly database", this is the problem. Please install another
+version of the <code>PANTHER.db</code> package in a user-writable directory using
+<code><a href='https://rdrr.io/pkg/BiocManager/man/install.html'>BiocManager::install()</a></code>.</p>
+    <h2 class="hasAnchor" id="functions"><a class="anchor" href="#functions"></a>Functions</h2>
 
     
 <ul>
-<li><p><code>GeneSetDb</code>: returns the gene set collection
-url function from a GeneSetDb</p></li>
-<li><p><code>GeneSetDb</code>: sets the gene set collection url
-function for a <code>GeneSetDb : Collection</code> combination.</p></li>
-<li><p><code>SparrowResult</code>: return the url function from a
-<code>SparrowResult</code> object.</p></li>
+<li><p><code>getPantherGeneSetDb</code>: returns a GeneSetDb</p></li>
 </ul>
+    <h2 class="hasAnchor" id="goslim"><a class="anchor" href="#goslim"></a>GOSLIM</h2>
+
+    
+
+<p><a href='http://geneontology.org/page/go-slim-and-subset-guide'>GO Slims</a> are
+"cut down" versions of the GO ontology that contain a subset of the terms in
+the whole GO.</p>
+<p>PANTHER provides their own set of
+<a href='http://www.pantherdb.org/panther/ontologies.jsp'>GO slims</a>, although
+it's not clear how often these get updated.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>gdb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='exampleExpressionSet.html'>exampleGeneSetDb</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='fu'>geneSetCollectionURLfunction</span><span class='op'>(</span><span class='va'>gdb</span>, <span class='st'>"c2"</span>, <span class='st'>"BIOCARTA_AGPCR_PATHWAY"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; function (collection, name, ...) 
-#&gt; {
-#&gt;     url &lt;- "http://www.broadinstitute.org/gsea/msigdb/cards/%s.html"
-#&gt;     sprintf(url, name)
-#&gt; }
-#&gt; &lt;bytecode: 0x563fc25a1888&gt;
-#&gt; &lt;environment: namespace:sparrow&gt;</div></pre>
+    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
+<span class='co'># this requires you have the PANTHER.db package installed via BiocManager</span>
+<span class='va'>bsc.panther</span> <span class='op'>&lt;-</span> <span class='fu'>getPantherCollection</span><span class='op'>(</span>species <span class='op'>=</span> <span class='st'>"human"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='error'>Error in getPantherGeneSetDb(type, species): org.Hs.eg.db bioconductor package required for this species query</span></div><div class='input'><span class='co'># }</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

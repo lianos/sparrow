@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get/set the gene set collection url function for a geneset collection — geneSetCollectionURLfunction • sparrow</title>
+<title>Retrieves the KEGG gene set collection via its REST API — getKeggCollection • sparrow</title>
 
 
 <!-- jquery -->
@@ -41,8 +41,9 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Get/set the gene set collection url function for a geneset collection — geneSetCollectionURLfunction" />
-<meta property="og:description" content="Reference collectionMetadata() for more info." />
+<meta property="og:title" content="Retrieves the KEGG gene set collection via its REST API — getKeggCollection" />
+<meta property="og:description" content="Uses limma::getGeneKEGGLinks() and limma::getKEGGPathwayNames()
+internally." />
 
 
 
@@ -120,79 +121,63 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get/set the gene set collection url function for a geneset collection</h1>
+    <h1>Retrieves the KEGG gene set collection via its REST API</h1>
     
-    <div class="hidden name"><code>geneSetCollectionURLfunction.Rd</code></div>
+    <div class="hidden name"><code>getKeggCollection.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Reference <code><a href='collectionMetadata.html'>collectionMetadata()</a></code> for more info.</p>
+    <p>Uses <code><a href='https://rdrr.io/pkg/limma/man/goana.html'>limma::getGeneKEGGLinks()</a></code> and <code><a href='https://rdrr.io/pkg/limma/man/goana.html'>limma::getKEGGPathwayNames()</a></code>
+internally.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>geneSetCollectionURLfunction</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>i</span>, <span class='va'>...</span><span class='op'>)</span>
+    <pre class="usage"><span class='fu'>getKeggCollection</span><span class='op'>(</span>species <span class='op'>=</span> <span class='st'>"human"</span>, id.type <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"ensembl"</span>, <span class='st'>"entrez"</span><span class='op'>)</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>geneSetCollectionURLfunction</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>i</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='va'>value</span>
-
-<span class='co'># S4 method for GeneSetDb</span>
-<span class='fu'>geneSetCollectionURLfunction</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>i</span>, <span class='va'>...</span><span class='op'>)</span>
-
-<span class='co'># S4 method for GeneSetDb</span>
-<span class='fu'>geneSetCollectionURLfunction</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>i</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='va'>value</span>
-
-<span class='co'># S4 method for SparrowResult</span>
-<span class='fu'>geneSetCollectionURLfunction</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>i</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+<span class='fu'>getKeggGeneSetDb</span><span class='op'>(</span>species <span class='op'>=</span> <span class='st'>"human"</span>, id.type <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"ensembl"</span>, <span class='st'>"entrez"</span><span class='op'>)</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>The GeneSetDb</p></td>
+      <th>species</th>
+      <td><p><code>"human"</code>, <code>"mouse"</code> or any of the bioconductor or kegg-style
+abbreviations.</p></td>
     </tr>
     <tr>
-      <th>i</th>
-      <td><p>The collection to get the url function from</p></td>
+      <th>id.type</th>
+      <td><p>Gene identifiers are returned by the REST service as
+entrez identifiers. Set this to <code>"ensembl"</code> to translate them internally
+using <code><a href='convertIdentifiers.html'>convertIdentifiers()</a></code>. If <code>species</code>is not <code>"human"</code> or <code>"mouse"</code>,
+you need to provide an idxref table that works with <code><a href='convertIdentifiers.html'>convertIdentifiers()</a></code>.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>pass through arguments (not used)</p></td>
-    </tr>
-    <tr>
-      <th>value</th>
-      <td><p>the function to set as the geneset url function for the given
-collection <code>i</code>. This can be an actual function object, or the (string)
-name of the function to pull out of "the ether"
-(<code>"pkgname::functionname"</code> can work, too). The latter is preferred as
-it results in smaller serialized GeneSetDb objects.</p></td>
+      <td><p>pass through arguments</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>the function that maps collection,name combinations to an
-informational URL.</p>
-    <h2 class="hasAnchor" id="methods-by-class-"><a class="anchor" href="#methods-by-class-"></a>Methods (by class)</h2>
+    <p>A BiocSet of the kegg stuffs</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Currently we just support the pathway database, and only entrez ids.</p>
+<p>Note that <strong>it is your responsibility</strong> to ensure that you can use the KEGG
+database according to their licensing requirements.</p>
+    <h2 class="hasAnchor" id="functions"><a class="anchor" href="#functions"></a>Functions</h2>
 
     
 <ul>
-<li><p><code>GeneSetDb</code>: returns the gene set collection
-url function from a GeneSetDb</p></li>
-<li><p><code>GeneSetDb</code>: sets the gene set collection url
-function for a <code>GeneSetDb : Collection</code> combination.</p></li>
-<li><p><code>SparrowResult</code>: return the url function from a
-<code>SparrowResult</code> object.</p></li>
+<li><p><code>getKeggGeneSetDb</code>: method that returns a GeneSetDb</p></li>
 </ul>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>gdb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='exampleExpressionSet.html'>exampleGeneSetDb</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='fu'>geneSetCollectionURLfunction</span><span class='op'>(</span><span class='va'>gdb</span>, <span class='st'>"c2"</span>, <span class='st'>"BIOCARTA_AGPCR_PATHWAY"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; function (collection, name, ...) 
-#&gt; {
-#&gt;     url &lt;- "http://www.broadinstitute.org/gsea/msigdb/cards/%s.html"
-#&gt;     sprintf(url, name)
-#&gt; }
-#&gt; &lt;bytecode: 0x563fc25a1888&gt;
-#&gt; &lt;environment: namespace:sparrow&gt;</div></pre>
+    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
+<span class='co'># connects to the internet and takes a while</span>
+<span class='va'>mouse.entrez</span> <span class='op'>&lt;-</span> <span class='fu'>getKeggCollection</span><span class='op'>(</span><span class='st'>"mouse"</span>, id.type <span class='op'>=</span> <span class='st'>"entrez"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: geneSetURL does not return a string when called</span></div><div class='output co'>#&gt; <span class='error'>Error in addCollectionMetadata(x, i, "url_function", value, valid): Invalid value used to update KEGG,url_function</span></div><div class='input'><span class='va'>human.enrez</span> <span class='op'>&lt;-</span> <span class='fu'>getKeggCollection</span><span class='op'>(</span><span class='st'>"human"</span>, id.type <span class='op'>=</span> <span class='st'>"entrez"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: geneSetURL does not return a string when called</span></div><div class='output co'>#&gt; <span class='error'>Error in addCollectionMetadata(x, i, "url_function", value, valid): Invalid value used to update KEGG,url_function</span></div><div class='input'><span class='co'># }</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

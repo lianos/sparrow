@@ -79,7 +79,7 @@
       <h1 data-toc-skip>Performing gene set enrichment analyses with sparrow</h1>
                         <h4 class="author">Steve Lianoglou</h4>
             
-            <h4 class="date">6 October 2021</h4>
+            <h4 class="date">7 October 2021</h4>
       
       
       <div class="hidden name"><code>sparrow.Rmd</code></div>
@@ -102,7 +102,7 @@
 <li>An “over representation analysis” method <code><a href="../reference/ora.html">ora()</a></code> which wraps the biased enrichment functionality found within <code><a href="https://rdrr.io/pkg/limma/man/goana.html">limma::kegga</a></code> and generalizes it to work against data.frame inputs with arbitrary genesets.</li>
 <li>The <code>scoreSingleSamples</code> function is a wrapper that enables the user to generate single sample gene set scores using a variety of different single sample gene set scoring methods.</li>
 <li>The <code>GeneSetDb</code> class: a new class to store collections of gene sets. This provides a bit more functionality than the base <code>GeneSetCollection</code> class defined in the <a href="http://bioconductor.org/packages/GSEABase">GSEABase</a>.</li>
-<li>A convenience <code><a href="../reference/getMSigGeneSetDb.html">getMSigGeneSetDb()</a></code> function, which enables the user to fetch arbitraty subsets of the MSigDB collections mapped to different organisms and identifier types.</li>
+<li>A convenience <code><a href="../reference/getMSigDbCollection.html">getMSigGeneSetDb()</a></code> function, which enables the user to fetch arbitraty subsets of the MSigDB collections mapped to different organisms and identifier types.</li>
 </ul>
 <div class="note">
 <p>The <a href="http://bioconductor.org/packages/release/bioc/html/BiocSet.html">BiocSet</a> package was introduced in Bioconductor version 3.10, which should supersede the <code>GeneSetDb</code> class introduced here. sparrow will endeavor to transition to using that class to store gene set collections in the near future.</p>
@@ -245,7 +245,7 @@
 <p>The <em>sparrow</em> package provides a <code>GeneSetDb</code> class, which is used instead of a <code><a href="https://rdrr.io/pkg/GSEABase/man/GeneSetCollection-methods.html">GSEABase::GeneSetCollection</a></code> to house collections of genesets. You can easily create a <code>GeneSetDb</code> object from a custom set of gene sets you have on hand, but the package also provides convenience wrappers to generate <code>GeneSetDb</code> objects from popular gene annotation resources such as <a href="http://software.broadinstitute.org/gsea/msigdb/">MSigDB</a>, <a href="http://pantherdb.org">PANTHER</a>, etc.</p>
 <p>We’ll use the <code>getMSigGeneSetDb</code> convenience function provided by the <em>sparrow</em> package to load the <a href="http://www.cell.com/cell-systems/abstract/S2405-4712(15)00218-5">hallmark</a> (<code>"h"</code>) and <a href="http://software.broadinstitute.org/gsea/msigdb/collections.jsp#C2">c2 (curated)</a> (<code>"c2"</code>) gene set collections from <a href="http://software.broadinstitute.org/gsea/msigdb/">MSigDB</a>.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/getMSigGeneSetDb.html">getMSigGeneSetDb</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"h"</span>, <span class="st">"c2"</span><span class="op">)</span>, <span class="st">"human"</span>, id.type <span class="op">=</span> <span class="st">"entrez"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/getMSigDbCollection.html">getMSigGeneSetDb</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"h"</span>, <span class="st">"c2"</span><span class="op">)</span>, <span class="st">"human"</span>, id.type <span class="op">=</span> <span class="st">"entrez"</span><span class="op">)</span></code></pre></div>
 <p>You can view a table of the gene sets defined inside a <code>GeneSetDb</code> (<code>gdb</code>)object via its <code><a href="../reference/geneSets.html">geneSets(gdb)</a></code> accessor:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/geneSets.html">geneSets</a></span><span class="op">(</span><span class="va">gdb</span><span class="op">)</span> <span class="op">%&gt;%</span>
@@ -556,9 +556,9 @@
 <p>The sparrow package provides convenience funcitons to fetch genesets from many sources and convert them into a GeneSetDb object. The two most useful sources may be:</p>
 <ul>
 <li>
-<a href="http://software.broadinstitute.org/gsea/msigdb/">MSigDB</a> via <code><a href="../reference/getMSigGeneSetDb.html">getMSigGeneSetDb(...)</a></code>. Although the core <code>sparrow</code> package provides the getter function for these genesets, the main data retrieval functionality is provided through the <a href="https://cran.r-project.org/package=msigdbr">msigdbr</a> package.</li>
+<a href="http://software.broadinstitute.org/gsea/msigdb/">MSigDB</a> via <code><a href="../reference/getMSigDbCollection.html">getMSigGeneSetDb(...)</a></code>. Although the core <code>sparrow</code> package provides the getter function for these genesets, the main data retrieval functionality is provided through the <a href="https://cran.r-project.org/package=msigdbr">msigdbr</a> package.</li>
 <li>
-<a href="http://pantherdb.org">PANTHER</a> (pathways and GOSLIM) via <code><a href="../reference/getPantherGeneSetDb.html">getPantherGeneSetDb()</a></code>
+<a href="http://pantherdb.org">PANTHER</a> (pathways and GOSLIM) via <code><a href="../reference/getPantherCollection.html">getPantherGeneSetDb()</a></code>
 </li>
 </ul>
 <p>You can create a custom <code>GeneSetDb</code> via the <code>GeneSetDb</code> constructor, which accpets the following inputs:</p>
@@ -569,8 +569,8 @@
 </ol>
 <p>Two <code>GeneSetDb</code> objects can be combined using the <code>append</code> function. For now it is your responsibility to ensure that the two <code>GeneSetDb</code> objedts are “reasonably conformable”, ie. they use the same types of gene identifiers, and are referencing the same species, etc.</p>
 <div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">msigdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/getMSigGeneSetDb.html">getMSigGeneSetDb</a></span><span class="op">(</span><span class="st">'H'</span>, <span class="st">'human'</span><span class="op">)</span>
-<span class="va">goslimdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/getPantherGeneSetDb.html">getPantherGeneSetDb</a></span><span class="op">(</span><span class="st">'goslim'</span>, <span class="st">'human'</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">msigdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/getMSigDbCollection.html">getMSigGeneSetDb</a></span><span class="op">(</span><span class="st">'H'</span>, <span class="st">'human'</span><span class="op">)</span>
+<span class="va">goslimdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/getPantherCollection.html">getPantherGeneSetDb</a></span><span class="op">(</span><span class="st">'goslim'</span>, <span class="st">'human'</span><span class="op">)</span>
 <span class="va">gdb.uber</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/combine.html">combine</a></span><span class="op">(</span><span class="va">msigdb</span>, <span class="va">goslimdb</span><span class="op">)</span></code></pre></div>
 <p>See the help and examples in <code><a href="../reference/GeneSetDb-class.html">?GeneSetDb</a></code> for more information.</p>
 <div class="warning">
