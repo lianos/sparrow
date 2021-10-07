@@ -14,20 +14,6 @@
 #' @examples
 #' sparrow_methods()
 sparrow_methods <- function() {
-  methods <- list(
-    camera = list(package = "edgeR", type = "required"),
-    cameraPR = list(package = "edgeR", type = "required"),
-    fgsea = list(package = "fgsea", type = "suggested"),
-    ora = list(package = "limma", type = "required"),
-    fry = list(package = "edgeR", type = "required"),
-    roast = list(package = "edgeR", type = "required"),
-    romer = list(package = "edgeR", type = "required"),
-    goseq = list(package = "goseq", type = "suggested"),
-    geneSetTest = list(package = "edgeR", type = "required"),
-    logFC = list(package="sparrow", type = "required"),
-    svdGeneSetTest = list(package="sparrow", type = "required")
-  )
-
   fn <- system.file("extdata", "gsea-methods.csv", package = "sparrow")
   methods <- read.csv(fn, stringsAsFactors = FALSE)
   methods

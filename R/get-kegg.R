@@ -78,11 +78,14 @@ getKeggGeneSetDb <- function(species = "human",
 }
 
 #' @noRd
-.geneSetURL.KEGG <- function(collection, name, gdb, ...) {
-  if (missing(gdb) || !is(gdb, "GeneSetDb")) {
-    return("https://www.kegg.jp/kegg/pathway.html")
+.geneSetURL.KEGG <- function(collection, name, gdb = NULL, ...) {
+  url <- "https://www.kegg.jp/kegg/pathway.html"
+  if (test_class(gdb, "GeneSetDb")) {
+    gs <- try(geneSet(gdb, collection = collection, name = name), silent = TRUE)
+    if (is.data.frame(gs)) {
+      pid <- gs$pathway_id[1L]
+      url <- paste0("https://www.genome.jp/dbget-bin/www_bget?", pid)
+    }
   }
-  gs <- geneSets(gdb)
-  pathway_id <- gs[gs[["name"]] == name,][["pathway_id"]]
-  sprintf("https://www.genome.jp/dbget-bin/www_bget?%s", pathway_id)
+  url
 }
