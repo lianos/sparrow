@@ -90,6 +90,8 @@ iplot <- function(x, name, value = "logFC",
     return(iplot.gsea.plot(lfc, gset, rank_by = value, title = main, ...))
   }
 
+  # Avoid notes in R CMD check from data.table NSE mojo
+  val <- NULL
   lfc[, val := lfc[[value]]]
   gset[, val := gset[[value]]]
   dat <- local({

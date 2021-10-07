@@ -59,8 +59,10 @@ by providing these top-line functionalities:
   single sample gene set scoring methods.
 * Convenience gene set collection retrieval functions that return `BiocSet`s
   from widely used databases, like `getMSigCollection()` ([MSigDB][msigdb]),
-  `getKeggCollection()` ([KEGG][]), `getPantherCollection()`, etc. with
-  support for different organisms and identifier types (partially).
+  `getKeggCollection()` ([KEGG][KEGG]), `getPantherCollection()`
+  ([PANTHER database](pantherdb)), and `getReactomeCollection()`
+  ([Reactome][reactome]) with support for different organisms and identifier
+  types (partially).
 
 The initial GSEA methods that sparrow wrapped were the ones provided by limma
 and edgeR. As such, many analyses using sparrow expect you to re-use the same
@@ -883,4 +885,5 @@ sessionInfo()
 [c7]: http://software.broadinstitute.org/gsea/msigdb/collections.jsp#C7
 [KEGG]: https://www.genome.jp/kegg/
 [pantherdb]: http://pantherdb.org
+[reactome]: https://reactome.org/
 [pgoslim]: http://www.pantherdb.org/panther/ontologies.jsp
