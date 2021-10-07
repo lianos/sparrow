@@ -15,8 +15,7 @@
 #' @importFrom ggplot2 theme_bw
 #'
 #' @param x A [SparrowResult()] object
-#' @param y the name of the gene set collection
-#' @param j the name of the gene set name
+#' @param name the name of the geneset to plot
 #' @param value A string indicating the column name for the value of the
 #'   gene-level metadata to plot. Default is `"logFC"`. Anoter often used choice
 #'   might also be `"t"`, to plot t-statistics (if they're in the result). But
@@ -33,6 +32,9 @@
 #'   "psig", and "sig". "notsig" implies that the FDR >= 10%, "psig" means that
 #'   FDR <= 10%, but the logFC is "unremarkable" (< 1), and "sig" means
 #'   that both the FDR <= 10% and the logFC >= 1
+#' @param collection If you have genesets with duplicate names in `x`
+#'   (only possible with a `GeneSetDb` object), provide the name of the
+#'   collection here to disambiguate (default: `NULL`).
 #' @param shiny_source the name of this element that is used in shiny callbacks.
 #'   Defaults to `"mggenes"`.
 #' @param width,height the width and height of the output plotly plot
@@ -45,45 +47,56 @@
 #' @return the ploty plot object
 #' @examples
 #' mgr <- exampleSparrowResult()
-#' iplot(mgr, "c2", "BURTON_ADIPOGENESIS_PEAK_AT_2HR", c("t-statistic" = "t"),
+#' iplot(mgr, "BURTON_ADIPOGENESIS_PEAK_AT_2HR",
+#'       value = c("t-statistic" = "t"),
 #'       type = "density")
-#' iplot(mgr, "c2", "BURTON_ADIPOGENESIS_PEAK_AT_2HR", c("t-statistic" = "t"),
+#' iplot(mgr, "BURTON_ADIPOGENESIS_PEAK_AT_2HR",
+#'       value = c("log2FC" = "logFC"),
+#'       type = "boxplot")
+#' iplot(mgr, "BURTON_ADIPOGENESIS_PEAK_AT_2HR",
+#'       value = c("-statistic" = "t"),
 #'       type = "gsea")
-iplot <- function(x, y, j, value = "logFC",
-                  type=c("density", "gsea", "boxplot"),
-                  tools=c('wheel_zoom', 'box_select', 'reset', 'save'),
-                  main=NULL, with.legend=TRUE,
-                  shiny_source='mggenes', width=NULL, height=NULL,
-                  ggtheme=ggplot2::theme_bw(), trim=0.005, ...) {
+iplot <- function(x, name, value = "logFC",
+                  type = c("density", "gsea", "boxplot"),
+                  tools = c('wheel_zoom', 'box_select', 'reset', 'save'),
+                  main = NULL, with.legend = TRUE,
+                  collection = NULL,
+                  shiny_source = 'mggenes', width = NULL, height = NULL,
+                  ggtheme = ggplot2::theme_bw(), trim = 0.005, ...) {
   if (FALSE) {
     x <- xmg; y <- 'H'; j <- 'HALLMARK_E2F_TARGETS'; value <- 'logFC';
     main <- NULL; type <- 'boxplot'; with.legend <- TRUE
   }
+  assert_class(x, "SparrowResult")
+  assert_string(name)
+  assert_string(collection, null.ok = TRUE)
+  assert_string(main, null.ok = TRUE)
 
-  stopifnot(is(x, 'SparrowResult'))
   type <- match.arg(type)
   lfc <- copy(logFC(x, as.dt = TRUE)[, group := "bg"])
   match.arg(value, colnames(lfc))
   stopifnot(is.numeric(lfc[[value]]))
 
-  if (missing(main)) {
-    main <- sprintf("%s (%s)", j, y)
+  if (is.null(main)) {
+    main <- name
+    if (!is.null(collection)) main <- sprintf("%s (%s)", main, collection)
   }
 
+  gset <- geneSet(x, name = name, collection = collection, as.dt = TRUE)
+  collection <- gset$collection[1L]
+  name <- gset$name[1L]
+
   if (type == "gsea") {
-    gset <- geneSet(x, collection = y, name = j)
     return(iplot.gsea.plot(lfc, gset, rank_by = value, title = main, ...))
   }
 
-  # silence R CMD check NOTEs
-  val <- NULL
+  lfc[, val := lfc[[value]]]
+  gset[, val := gset[[value]]]
   dat <- local({
-    lfc[, val := lfc[[value]]]
-    gs.stats <- copy(geneSet(x, y, j, as.dt=TRUE))[, group := 'geneset']
-    gs.stats[, val := gs.stats[[value]]]
-    kcols <- intersect(names(gs.stats), names(lfc))
+    gset[, group := "geneset"]
+    kcols <- intersect(names(gset), names(lfc))
 
-    out <- rbind(lfc[, kcols, with=FALSE], gs.stats[, kcols, with=FALSE])
+    out <- rbind(lfc[, kcols, with = FALSE], gset[, kcols, with = FALSE])
     out[, significant := {
       tmp <- ifelse(significant, 'sig', 'notsig')
       ifelse(padj < 0.10 & tmp == 'notsig', 'psig', tmp)
@@ -91,12 +104,12 @@ iplot <- function(x, y, j, value = "logFC",
   })
 
   if (type == 'density') {
-    out <- iplot.density.plotly(x, y, j, value, main, dat=dat,
+    out <- iplot.density.plotly(x, dat, value, main,
                                 with.legend=with.legend, tools=tools,
                                 shiny_source=shiny_source,
                                 ggtheme=ggtheme, trim=trim, ...)
   } else if (type == 'boxplot') {
-    out <- iplot.boxplot.plotly(x, y, j, value, main, dat=dat,
+    out <- iplot.boxplot.plotly(x, dat, value, main,
                                 with.legend=with.legend, tools=tools,
                                 shiny_source=shiny_source,
                                 width=width, height=height, ggtheme=ggtheme,
@@ -241,7 +254,7 @@ iplot.gsea.plot <- function(lfc, geneset, rank_by, title, gseaParam = 1,
 
 #' @noRd
 #' @importFrom plotly add_markers add_lines config layout plot_ly
-iplot.density.plotly <- function(x, y, j, value, main, dat, with.legend=TRUE,
+iplot.density.plotly <- function(x, dat, value, main, with.legend=TRUE,
                                  with.points=TRUE, shiny_source='mggenes',
                                  legend.pos=c('inside', 'outside'),
                                  height=NULL, width=NULL, trim=0.02,
@@ -313,8 +326,8 @@ iplot.density.plotly <- function(x, y, j, value, main, dat, with.legend=TRUE,
 
 #' @noRd
 #' @importFrom plotly config ggplotly layout plotly_build
-#' @importFrom ggplot2 aes geom_boxplot geom_jitter ggplot
-iplot.boxplot.plotly <- function(x, y, j, value, main, dat, with.legend=TRUE,
+#' @importFrom ggplot2 aes geom_boxplot geom_jitter ggplot labs
+iplot.boxplot.plotly <- function(x, dat, value, main, with.legend=TRUE,
                                  with.points=TRUE, shiny_source='mggenes',
                                  height=NULL, width=NULL, ggtheme=theme_bw(),
                                  trim=0.02, ...) {
@@ -333,7 +346,11 @@ iplot.boxplot.plotly <- function(x, y, j, value, main, dat, with.legend=TRUE,
   val <- symbol <- NULL
   gg <- ggplot(bg, aes(group, val)) +
     geom_boxplot(data=bg) +
-    geom_boxplot(outlier.shape=NA, data=gs)
+    geom_boxplot(outlier.shape=NA, data=gs) +
+    labs(
+      title = main,
+      x = NULL,
+      y = label)
   if ('symbol' %in% names(bg) && with.points) {
     gg <- gg +
       suppressWarnings({
@@ -363,7 +380,7 @@ iplot.boxplot.plotly <- function(x, y, j, value, main, dat, with.legend=TRUE,
   p <- suppressMessages({
     ggplotly(gg, width = width, height = height, tooltip = "text")
   })
-  p <- layout(p, yaxis = list(title=label),
+  p <- layout(p, # yaxis = list(title=label),
               dragmode = "select", showlegend = with.legend)
   p <- plotly_build(p)
 

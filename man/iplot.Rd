@@ -6,13 +6,13 @@
 \usage{
 iplot(
   x,
-  y,
-  j,
+  name,
   value = "logFC",
   type = c("density", "gsea", "boxplot"),
   tools = c("wheel_zoom", "box_select", "reset", "save"),
   main = NULL,
   with.legend = TRUE,
+  collection = NULL,
   shiny_source = "mggenes",
   width = NULL,
   height = NULL,
@@ -24,9 +24,7 @@ iplot(
 \arguments{
 \item{x}{A \code{\link[=SparrowResult]{SparrowResult()}} object}
 
-\item{y}{the name of the gene set collection}
-
-\item{j}{the name of the gene set name}
+\item{name}{the name of the geneset to plot}
 
 \item{value}{A string indicating the column name for the value of the
 gene-level metadata to plot. Default is \code{"logFC"}. Anoter often used choice
@@ -48,6 +46,10 @@ three levels a point (gene level statistic) can be color as, "notsig",
 "psig", and "sig". "notsig" implies that the FDR >= 10\%, "psig" means that
 FDR <= 10\%, but the logFC is "unremarkable" (< 1), and "sig" means
 that both the FDR <= 10\% and the logFC >= 1}
+
+\item{collection}{If you have genesets with duplicate names in \code{x}
+(only possible with a \code{GeneSetDb} object), provide the name of the
+collection here to disambiguate (default: \code{NULL}).}
 
 \item{shiny_source}{the name of this element that is used in shiny callbacks.
 Defaults to \code{"mggenes"}.}
@@ -77,8 +79,13 @@ You can visualize this behavior via a \code{type = "density"} plot, or a
 }
 \examples{
 mgr <- exampleSparrowResult()
-iplot(mgr, "c2", "BURTON_ADIPOGENESIS_PEAK_AT_2HR", c("t-statistic" = "t"),
+iplot(mgr, "BURTON_ADIPOGENESIS_PEAK_AT_2HR",
+      value = c("t-statistic" = "t"),
       type = "density")
-iplot(mgr, "c2", "BURTON_ADIPOGENESIS_PEAK_AT_2HR", c("t-statistic" = "t"),
+iplot(mgr, "BURTON_ADIPOGENESIS_PEAK_AT_2HR",
+      value = c("log2FC" = "logFC"),
+      type = "boxplot")
+iplot(mgr, "BURTON_ADIPOGENESIS_PEAK_AT_2HR",
+      value = c("-statistic" = "t"),
       type = "gsea")
 }

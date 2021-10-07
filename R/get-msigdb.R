@@ -57,19 +57,19 @@
 #' \donttest{
 #'   # these take a while to load initially, so put them in dontrun blocks.
 #'   # you should run these interactively to understand what they return
-#'   bcs <- getMSigDbCollection("h", "human", "entrez")
-#'   bcs.h.entrez <- getMSigDbCollection(c("h", "c2"), "human", "entrez")
-#'   bcs.h.ens <- getMSigDbCollection(c("h", "c2"), "human", "ensembl")
-#'   bcs.m.entrez <- getMSigDbCollection(c("h", "c2"), "mouse", "entrez")
+#'   bcs <- getMSigCollection("h", "human", "entrez")
+#'   bcs.h.entrez <- getMSigCollection(c("h", "c2"), "human", "entrez")
+#'   bcs.h.ens <- getMSigCollection(c("h", "c2"), "human", "ensembl")
+#'   bcs.m.entrez <- getMSigCollection(c("h", "c2"), "mouse", "entrez")
 #'
 #'   gdb <- getMSigGeneSetDb("h", "human", "entrez")
 #' }
-getMSigDbCollection <- function(collection = NULL,
-                                species = "human",
-                                id.type = c("ensembl", "entrez", "symbol"),
-                                with.kegg = FALSE,
-                                promote.subcategory.to.collection = FALSE,
-                                prefix.collection = TRUE, ...) {
+getMSigCollection <- function(collection = NULL,
+                              species = "human",
+                              id.type = c("ensembl", "entrez", "symbol"),
+                              with.kegg = FALSE,
+                              promote.subcategory.to.collection = FALSE,
+                              prefix.collection = FALSE, ...) {
   id.type <- match.arg(id.type)
   out <- getMSigGeneSetDb(
     collection, species, id.type, with.kegg,
@@ -78,7 +78,7 @@ getMSigDbCollection <- function(collection = NULL,
 }
 
 
-#' @describeIn getMSigDbCollection retrieval method for a GeneSetDb container
+#' @describeIn getMSigCollection retrieval method for a GeneSetDb container
 #' @export
 getMSigGeneSetDb <- function(collection = NULL,
                              species = "human",

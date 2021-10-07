@@ -203,12 +203,19 @@ test against, and (2) the GSEA methods we want to explore.
 
 ### Gene Sets to Test
 
-The *sparrow* package provides a `GeneSetDb` class, which is used instead of
-a `GSEABase::GeneSetCollection` to house collections of genesets. You
-can easily create a `GeneSetDb` object from a custom set of gene sets you have
-on hand, but the package also provides convenience wrappers to generate
-`GeneSetDb` objects from popular gene annotation resources such as
-[MSigDB][msigdb], [PANTHER][pantherdb], etc.
+The *sparrow* package provides a `GeneSetDb` class to store collections of 
+gene sets. The `GeneSetDb` object is used heavily for the internal functionality
+of `{sparrow}`, however you can provide sparrow with collections of gene sets
+using other containers from the bioconductor universe, like a `BiocSet::BiocSet`
+or a `GSEABase::GeneSetCollection`. This package provides convenience methods
+to convert between these different types of gene set containers.
+
+The {sparrow} package also provides convenience methods to retrieve gene set
+collections from different sourckes, like [MSigDB][msigdb],
+[PANTHER][pantherdb], [KEGG][], etc. These methods are named using the following
+pattern: `get<CollectionName>Collection()` to return a `BiocSet` with the 
+gene sets from the collection, or `get<CollectionName>GeneSetDb()` to get
+a `GeneSetDb` of the same.
 
 We'll use the `getMSigGeneSetDb` convenience function provided by the
 *sparrow* package to load the [hallmark][hallmark] (`"h"`) and
@@ -217,6 +224,14 @@ We'll use the `getMSigGeneSetDb` convenience function provided by the
 ```{r build-gdb}
 gdb <- getMSigGeneSetDb(c("h", "c2"), "human", id.type = "entrez")
 ```
+
+:::note
+To retrieve a `BiocSet` of these same collections, you could do:
+
+```r
+bsc <- getMSigCollection(c("h", "c2"), "human", id.type = "entrez")
+```
+:::
 
 You can view a table of the gene sets defined inside a `GeneSetDb` (`gdb`)object
 via its `geneSets(gdb)` accessor:
@@ -233,8 +248,8 @@ the to *[The GeneSetDb Class](#the-genesetdb-class)* section.
 ## Running sparrow
 
 Performing multiple gene set enrichment analyses over your contrast of interest
-simply requires you to provide a `GeneSetDb` object along with your data and an
-enumeration of the methods you want to use in your analysis.
+simply requires you to provide a `GeneSetDb` (or `BiocSet`) object along with
+your data and an enumeration of the methods you want to use in your analysis.
 
 The call to `seas()` will perform these analyses and return a
 `SparrowResult` object which you can then use for downstream analysis.
@@ -353,7 +368,7 @@ You can also list the members of a geneset and their individual differential
 expression statistics for the contrast under test using the `geneSet` function.
 
 ```{r geneset-result}
-geneSet(mg, 'H', 'HALLMARK_WNT_BETA_CATENIN_SIGNALING') %>%
+geneSet(mg, name = 'HALLMARK_WNT_BETA_CATENIN_SIGNALING') %>%
   select(symbol, entrez_id, logFC, pval, padj) %>% 
   head()
 ```
@@ -386,8 +401,8 @@ normally get from `iplot()`.
 **Boxplot**
 
 ```{r iplot-wnt-beta, fig.asp=1, eval=FALSE}
-iplot(mg, 'H', 'HALLMARK_WNT_BETA_CATENIN_SIGNALING',
-      type='boxplot', value='logFC')
+iplot(mg, 'HALLMARK_WNT_BETA_CATENIN_SIGNALING',
+      type = 'boxplot', value = 'logFC')
 ```
 
 ![boxplot of geneset log2FC's](images/static-iplot-wnt-beta-box.png)
@@ -395,16 +410,16 @@ iplot(mg, 'H', 'HALLMARK_WNT_BETA_CATENIN_SIGNALING',
 **Density**
 
 ```{r iplot-wnt-beta-density, fig.asp=1, eval=FALSE}
-iplot(mg, 'H', 'HALLMARK_WNT_BETA_CATENIN_SIGNALING',
-      type='density', value='logFC')
+iplot(mg, 'HALLMARK_WNT_BETA_CATENIN_SIGNALING',
+      type = 'density', value = 'logFC')
 ```
 ![density plot of geneset log2FC's](images/static-iplot-wnt-beta-density.png)
 
 **GSEA plot**
 
 ```{r iplot-wnt-beta-gsea, fig.asp=1, eval=FALSE, message=FALSE, warning=FALSE}
-iplot(mg, 'H', 'HALLMARK_WNT_BETA_CATENIN_SIGNALING',
-      type='gsea', value='logFC')
+iplot(mg, 'HALLMARK_WNT_BETA_CATENIN_SIGNALING',
+      type = 'gsea', value = 'logFC')
 ```
 
 ![gsea plot of geneset log2FC's](images/static-iplot-wnt-beta-gsea.png)
@@ -441,11 +456,11 @@ all of the scoring methos the user wants to apply to each sample.
 
 Let's pick a few gene sets to score our samples with for this exercise. We'll
 take the significant hallmark gene sets, or any other significant gene set that
-has a large (on average) log fold change beteen conditions.
+has a large (on average) log fold change between conditions.
 
 ```{r ssgenesets}
 sig.res <- cam.res %>%
-  filter(padj < 0.05 & (collection == 'H' | abs(mean.logFC) >= 2))
+  filter(padj < 0.05 & (grepl("HALLMARK", name) | abs(mean.logFC) >= 2))
 gdb.sub <- gdb[geneSets(gdb)$name %in% sig.res$name]
 ```
 
@@ -596,34 +611,38 @@ mgheatmap(vm.bh, gdb.sub,
 
 # The GeneSetDb Class
 
-**NOTE:** The GeneSetDb class was initially developed to address some
-peculiarities of storing, querying, and manipulating gene sets using the
-old-school `GSEABase::GeneSetCollection` class. It is not meant to replace the
-more recently developd BiocSet class, and we plan to support and migrate to that
-gene set container in the future. This section provides a quick overview of
-some of the functionality of gene set container.
+The GeneSetDb class was developed to address the internal needs of the sparrow
+package for fast look up, subsetting, cross reference, etc. of a collection of
+gene sets. At the time (~2015), it was developed because the classes used for
+this purpose in the bioconductor ecosystem (a `GSEABase::GeneSetCollection`,
+or a simple list of gene vectors) didn't cut the mustard.
 
-We can, for instance, identify all 84 gene sets that have genes "10014" and
-"1454" (entrez ids) as members (HDAC5 and CSNK1E, respectively).
+More recently, bioc-core has developed a new class called a `BiocSet` that is
+feature-rich and shares significant overlap with the features in the 
+`sparrow::GeneSetDb` class. Although we can't quite replace the internals of
+{sparrow} to use the `BiocSet` just yet, users are encouraged to provide
+collections of gene sets in the form of a `BiocSet` everywhere {sparrow}
+functions require gene set collections, like `seas()` and
+`scoreSingleSamples()`. You can also convert a `sparrow::GeneSetDb()` to a
+`BiocSet` via a simple call: `as(gdb, "BiocSet")`.
 
-```{r subset-gdb}
-gdb.sub <- subsetByFeatures(gdb, c('10014', '1454'))
-nrow(gdb); nrow(gdb.sub)
-```
+
+The remainder of this section provides a quick overview of the `GeneSetDb`
+class.
 
 The GeneSetDb object uses the `data.table` package internally for fast lookup.
-The code will be optimized in the future to be even more performant. Internally
-the collection of gene set information is minimally stored as a three-column
-`data.table` in "long form", which has the following columns:
+Internally the collection of gene set information is minimally stored as a
+three-column `data.table` in "long form", which has the following columns:
 
 * collection
 * name
 * feature_id
 
-More columns can be added to the internal `data.table` (a "symbol" column, for
-instance), but those are the only three you need. To see what we are talking
-about, exactly, you can call the `as.data.frame` function on a `GeneSetDb`
-object:
+More columns can be added to the internal `data.table` (a "symbol" column,
+for instance), but those are the only three you need.
+
+To see what we are talking about, exactly, you can call the `as.data.frame`
+function on a `GeneSetDb` object:
 
 ```{r}
 as.data.frame(gdb)[c(1:5, 201:205),]
@@ -633,11 +652,14 @@ as.data.frame(gdb)[c(1:5, 201:205),]
 The `(collection,name)` tuple is the primary key of a gene set. The `feature_id`
 column stores gene identifiers. For the time being, it will be most natural
 for these IDs to simply be ensembl gene identifiers (or entrez ids) as many of
-the annotation databases use these identifiers, as well.
+the annotation databases use these identifiers, as well. In reality, you will
+want the values in the `feature_id` columns to match with the feature id's
+you have in your data container (ie. the `rownames()` of a
+`SummarizedExperiment`, for instance).
 
 ## Building a GeneSetDb
 
-The sparrow package provides convenience funcitons to fetch genesets from many
+The sparrow package provides convenience functions to fetch genesets from many
 sources and convert them into a GeneSetDb object. The two most useful sources
 may be:
 
@@ -645,21 +667,29 @@ may be:
   package provides the getter function for these genesets, the main data
   retrieval functionality is provided through the [msigdbr][] package.
 * [PANTHER][pantherdb] (pathways and GOSLIM) via `getPantherGeneSetDb()`
+* [KEGG][] via `getKeggGeneSetDb(...)`
 
-You can create a custom `GeneSetDb` via the `GeneSetDb` constructor, which
-accpets the following inputs:
+We also provide similarly named methos to retrieve these gene set collections
+as a `BiocSet`, just substitute `"Collection"` for `"GeneSetDb"`, ie.
+`getMsigCollection(...)`, `getPantherCollection(...)`, and
+`getKeggCollection(...)`.
 
-1. A data.frame of geneset membership. This requires `collection`, `name`, and
+You can create a custom `GeneSetDb` via the `GeneSetDb()` constructor, which
+accepts the following types of inputs.
+
+1. A `BiocSet`
+2. A `GeneSetCollection`
+3. A data.frame of geneset membership. This requires `collection`, `name`, and
    `feature_id` columns. Reference the output of `as.data.frame(gdb)` shown
    above.
-2. A named list of gene identifier vectors that represent genesets for a
+4. A named list of gene identifier vectors that represent genesets for a
    single collection
-3. A named list of (2)-like lists. The top level names are the names of the
+5. A named list of (2)-like lists. The top level names are the names of the
    different collections, and each sublist represents the genesets in that
    collection.
 
-Two `GeneSetDb` objects can be combined using the `append` function. For now
-it is your responsibility to ensure that the two `GeneSetDb` objedts are
+Two `GeneSetDb` objects can be combined using the `cobine()` function. For now
+it is your responsibility to ensure that the two `GeneSetDb` objects are
 "reasonably conformable", ie. they use the same types of gene identifiers, and
 are referencing the same species, etc.
 
@@ -683,30 +713,29 @@ re-install `PANTHER.db` in a user-writable directory using
 
 ## Subsetting a GeneSetDb
 
-The subsetting functionality for a `GeneSetDb` isn't quite as fluent as I would
-like to be. Improvements will be provided in a future release.
+The subsetting functionality for a `GeneSetDb` is a bit clunky. We assume
+you want to subset a GeneSetDb to include a subset of, well, gene sets.
 
-Let's say we wanted to include only the genesets where their "subcategory" was
-"[CP:PID][msigdbpid]", we would like to do it like this:
+One way you can do that is to provide a logical vector that is as long as there
+are gene sets in the GeneSetDb as an index.
 
-```r
-gdb.sub <- subset(gdb, subcategory == "CP:PID")
-```
-
-**Unfortunatey we aren't there yet**. Currently have to first define a logical
-vector over the `data.frame` you get from `geneSets(gdb)`. Then use that vector
-to remove gene sets using the `GeneSetDb,"["` function:
+For instance, if we want to include only the genesets in [CP:PID][msigdbpid],
+you can do that. This subcatory information is stored in the `"subcategory"`
+column from `geneSets(gdb)`
 
 ```{r subset-gdb-by-metadata}
 keep <- geneSets(gdb)$subcategory == "CP:PID"
 gdb.sub <- gdb[keep]
+geneSets(gdb.sub) %>% head()
 ```
 
-To reiterate, `length(keep)` **must equal** `nrow(geneSets(gdb))`.
+You can also subset a `GeneSetDb` to only include gene sets that contain
+certain features:
 
-We have also showed you above how to create a subsetted `GeneSetDb` by keeping
-only the gene sets that have certain features in them using the
-`subsetByFeatures` function.
+```{r subset-gdb}
+gdb.sub2 <- subsetByFeatures(gdb, c('10014', '1454'))
+nrow(gdb); nrow(gdb.sub2)
+```
 
 ## Active vs Inactive Gene Sets
 
@@ -867,5 +896,6 @@ sessionInfo()
 [c2]: http://software.broadinstitute.org/gsea/msigdb/collections.jsp#C2
 [c5]: http://software.broadinstitute.org/gsea/msigdb/collections.jsp#C5
 [c7]: http://software.broadinstitute.org/gsea/msigdb/collections.jsp#C7
+[KEGG]: https://www.genome.jp/kegg/
 [pantherdb]: http://pantherdb.org
 [pgoslim]: http://www.pantherdb.org/panther/ontologies.jsp

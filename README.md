@@ -45,31 +45,31 @@ however a brief description is outlined below.
 A subset of the RNA-seq data tumor/normal samples in the BRCA indication
 from the TCGA are provided in this package. We will use that data to
 perform a “camera” and “fry” gene set enrichment analysis of tumor vs
-normal samples using the MSigDB hallmark and c2 gene set collections
-with `sparrow::seas()`.
+normal samples using the MSigDB hallmark gene set collection with
+`sparrow::seas()`.
 
 ``` r
 library(sparrow)
 library(dplyr)
-gdb <- getMSigGeneSetDb(c('H', 'C2'), species = 'human', id.type = "entrez")
+bsc <- getMSigCollection('H', species = 'human', id.type = "entrez")
 vm <- exampleExpressionSet(dataset = 'tumor-vs-normal', do.voom = TRUE)
-mg <- seas(vm, gdb, c("camera", "fry"), design = vm$design, contrast = "tumor")
+mg <- seas(vm, bsc, c("cameraPR", "fry"), design = vm$design, contrast = "tumor")
 ```
 
 We can view the top “camera” results with the smallest pvalues like so:
 
 ``` r
-results(mg, "camera") %>%
+results(mg, "cameraPR") %>%
   arrange(pval) %>%
-  select(collection, name, padj) %>%
+  select(name, padj) %>%
   head
-#>   collection                                        name         padj
-#> 1         C2      SOTIRIOU_BREAST_CANCER_GRADE_1_VS_3_UP 1.422275e-36
-#> 2         C2 ROSTY_CERVICAL_CANCER_PROLIFERATION_CLUSTER 1.422275e-36
-#> 3         C2         NAKAYAMA_SOFT_TISSUE_TUMORS_PCA2_DN 1.971141e-23
-#> 4         C2              KANG_DOXORUBICIN_RESISTANCE_UP 1.380815e-22
-#> 5         C2               CROONQUIST_IL6_DEPRIVATION_DN 2.851619e-22
-#> 6         C2                     BENPORATH_PROLIFERATION 8.569928e-22
+#>                        name         padj
+#> 1      HALLMARK_E2F_TARGETS 4.303158e-21
+#> 2   HALLMARK_G2M_CHECKPOINT 5.412503e-16
+#> 3   HALLMARK_MYC_TARGETS_V1 8.642770e-10
+#> 4 HALLMARK_MTORC1_SIGNALING 3.170023e-07
+#> 5       HALLMARK_MYOGENESIS 3.402614e-06
+#> 6   HALLMARK_UV_RESPONSE_DN 6.624519e-06
 ```
 
 The shift in expression of the genes within the top gene set can be
@@ -78,16 +78,16 @@ interactive graphics, but rasterized versions are saved for use with
 this `README` file:
 
 ``` r
-iplot(mg, 'C2', 'SOTIRIOU_BREAST_CANCER_GRADE_1_VS_3_UP', type = "density")
+iplot(mg, 'HALLMARK_MYC_TARGETS_V1', type = "density")
 ```
 
 <img src="man/figures/README_iplot_density.png" />
 
 ``` r
-iplot(mg, 'C2', 'SOTIRIOU_BREAST_CANCER_GRADE_1_VS_3_UP', type = "boxplot")
+iplot(mg, 'HALLMARK_MYC_TARGETS_V1', type = "gsea")
 ```
 
-<img src="man/figures/README_iplot_boxplot.png" />
+<img src="man/figures/README_iplot_gsea.png" />
 
 When these plots are rendered in your workspace or an Rmarkdown
 document, the user can hover of the genes (dots) to see their name and

@@ -51,22 +51,22 @@ Full details that outline the use of this software package is provided in the
 A subset of the RNA-seq data tumor/normal samples in the BRCA indication from
 the TCGA are provided in this package. We will use that data to perform a
 "camera" and "fry" gene set enrichment analysis of tumor vs normal samples
-using the MSigDB hallmark and c2 gene set collections  with `sparrow::seas()`.
+using the MSigDB hallmark gene set collection  with `sparrow::seas()`.
 
 ```{r example, message=FALSE, warning=FALSE}
 library(sparrow)
 library(dplyr)
-gdb <- getMSigGeneSetDb(c('H', 'C2'), species = 'human', id.type = "entrez")
+bsc <- getMSigCollection('H', species = 'human', id.type = "entrez")
 vm <- exampleExpressionSet(dataset = 'tumor-vs-normal', do.voom = TRUE)
-mg <- seas(vm, gdb, c("camera", "fry"), design = vm$design, contrast = "tumor")
+mg <- seas(vm, bsc, c("cameraPR", "fry"), design = vm$design, contrast = "tumor")
 ```
 
 We can view the top "camera" results with the smallest pvalues like so:
 
 ```{r}
-results(mg, "camera") %>%
+results(mg, "cameraPR") %>%
   arrange(pval) %>%
-  select(collection, name, padj) %>%
+  select(name, padj) %>%
   head
 ```
 
@@ -75,16 +75,16 @@ with the `iplot` function below. This plot produces interactive graphics, but
 rasterized versions are saved for use with this `README` file:
 
 ```{r, eval = FALSE}
-iplot(mg, 'C2', 'SOTIRIOU_BREAST_CANCER_GRADE_1_VS_3_UP', type = "density")
+iplot(mg, 'HALLMARK_MYC_TARGETS_V1', type = "density")
 ```
 
 <img src="man/figures/README_iplot_density.png" />
 
 ```{r, eval = FALSE}
-iplot(mg, 'C2', 'SOTIRIOU_BREAST_CANCER_GRADE_1_VS_3_UP', type = "boxplot")
+iplot(mg, 'HALLMARK_MYC_TARGETS_V1', type = "gsea")
 ```
 
-<img src="man/figures/README_iplot_boxplot.png" />
+<img src="man/figures/README_iplot_gsea.png" />
 
 When these plots are rendered in your workspace or an Rmarkdown document,
 the user can hover of the genes (dots) to see their name and differential
@@ -92,6 +92,7 @@ expression statistics.
 
 For an immersive, interactive way to explore the GSEA results, use the
 `sparrow.shiny::explore(mg)` method!
+
 
 ## Installation
 

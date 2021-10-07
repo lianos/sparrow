@@ -1186,6 +1186,7 @@ as.list.GeneSetDb <- function(x, value = c('feature_id', 'x.id', 'x.idx'),
 }
 
 #' @noRd
+#' @importClassesFrom GSEABase GeneSetCollection
 #' @importFrom GSEABase GeneSetCollection GeneSet NullIdentifier
 setAs("GeneSetDb", "GeneSetCollection", function(from) {
   gs <- geneSets(from, as.dt=TRUE)
@@ -1223,6 +1224,7 @@ setAs("GeneSetDb", "GeneSetCollection", function(from) {
 })
 
 #' @noRd
+#' @importClassesFrom BiocSet BiocSet
 setAs("GeneSetDb", "BiocSet", function(from) {
   # we can transfer a lot of things over, like the geneSetURL's and other
   # collectionMetadata, but for now let's just get the basics going
