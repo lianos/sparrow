@@ -104,12 +104,13 @@ getReactomeGeneSetDb <- function(species = 'human',
 }
 
 .geneSetURL.REACTOME <- function(coll, gsname, gdb = NULL, ...) {
-  if (!is(gdb, "GeneSetDb")) {
-    return("https://reactome.org/")
+  url <- "https://reactome.org/"
+  if (is(gdb, "GeneSetDb")) {
+    gs <- geneSets(gdb)
+    gset <- gs[gs[["collection"]] == "Reactome" & gs[["name"]] == gsname,]
+    if (nrow(gset) == 1L) {
+      url <- sprintf("https://reactome.org/content/detail/%s", gset[["gs_id"]])
+    }
   }
-  gs <- geneSets(gdb)
-  gset <- gs[gs[["collection"]] == "Reactome" & gs[["name"]] == gsname,]
-  pathway_id <- gset[["gs_id"]]
-  sprintf("https://reactome.org/content/detail/%s", pathway_id)
-
+  url
 }

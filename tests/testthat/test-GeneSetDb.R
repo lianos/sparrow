@@ -8,9 +8,6 @@ context("GeneSetDb")
 ##      - collectionMetadata(x, collection, name)
 ##  * test collectionMetadata<- ensures single collection,name pairs
 
-gdb.h <- getMSigGeneSetDb(c('H'), "human", "entrez")
-gdb.c6 <- getMSigGeneSetDb(c('C6'), "human", "entrez")
-
 test_that("GeneSetDb constructor preserves featureIDs per geneset", {
   ## This test exercise both the single list and list-of-lists input for geneset
   ## membership info.
@@ -89,25 +86,35 @@ test_that("addGeneSetMetadata doesn't adds geneset metadata appropriately", {
 })
 
 test_that("GeneSetDb contructor converts GeneSetCollection properly", {
-  gsc <- as(gdb.h, 'GeneSetCollection')
-  gdbn <- GeneSetDb(gsc, collectionName = 'H')
-  expect_equal(gdb.h, gdbn, features.only=TRUE)
+  gdb.all <- exampleGeneSetDb()
+  # geneset collections do not handle "collection" like we do, so subset
+  # to just one
+  gdb.c2 <- gdb.all[gdb.all@table$collection == "c2"]
+  gsc <- as(gdb.c2, 'GeneSetCollection')
+  gdbn <- GeneSetDb(gsc, collectionName = "c2")
+  expect_equal(gdbn, gdb.c2, features.only=TRUE)
 })
 
 test_that("GeneSetDb contructor converts list of GeneSetCollection properly", {
-  gdbo <- combine(gdb.h, gdb.c6)
+  gdb.all <- exampleGeneSetDb()
+  gdb.c2 <- gdb.all[gdb.all@table$collection == "c2"]
+  gdb.c7 <- gdb.all[gdb.all@table$collection == "c7"]
+  gdbo <- combine(gdb.c2, gdb.c7)
 
-  gscl <- list(H  = as(gdb.h, 'GeneSetCollection'),
-               C6 = as(gdb.c6, 'GeneSetCollection'))
+  gscl <- list(c2 = as(gdb.c2, 'GeneSetCollection'),
+               c7 = as(gdb.c7, 'GeneSetCollection'))
   gdbn <- GeneSetDb(gscl)
 
-  ## Ensure that collection names are preserved, since gscl is a named list
-  ## of collections
+  # Ensure that collection names are preserved, since gscl is a named list
+  # of collections
   expect_equal(gdbn, gdbo)
 })
 
 test_that("GeneSetDb constructor honors custom collectionName args", {
-  gdbo <- combine(gdb.h, gdb.c6)
+  gdb.all <- exampleGeneSetDb()
+  gdb.c2 <- gdb.all[gdb.all@table$collection == "c2"]
+  gdb.c7 <- gdb.all[gdb.all@table$collection == "c7"]
+  gdbo <- combine(gdb.c2, gdb.c7)
 
   lol <- as.list(gdbo, nested=TRUE)
   new.cnames <- setNames(c('x1', 'x2'), names(lol))
@@ -129,14 +136,15 @@ test_that("GeneSetDb constructor honors custom collectionName args", {
 })
 
 test_that("as(gdb, 'GeneSetCollection') preserves featureIds per GeneSet", {
-  gdb <- getMSigGeneSetDb(c('h', 'c6'), "human", "entrez")
+  gdb <- exampleGeneSetDb()
   gsc <- as(gdb, 'GeneSetCollection')
   for (gs in gsc) {
     gs.info <- strsplit(GSEABase::setName(gs), ';')[[1]]
     coll <- gs.info[1]
     name <- gs.info[2]
-    expect_true(setequal(GSEABase::geneIds(gs), featureIds(gdb, coll, name)),
-                info=sprintf("feature_id match for geneset (%s,%s)", coll, name))
+    expect_true(
+      setequal(GSEABase::geneIds(gs), featureIds(gdb, coll, name)),
+      info=sprintf("feature_id match for geneset (%s,%s)", coll, name))
   }
 })
 
@@ -294,27 +302,52 @@ test_that("gene set metadata kept pre/post conform,GeneSetDb", {
 })
 
 test_that("combine,GeneSetDb honors geneset metadata in columns of geneSets()", {
-  m <- getMSigGeneSetDb('H', "human", "entrez")
-  r <- getReactomeGeneSetDb()
+  gdb.all <- exampleGeneSetDb()
+  # split and add gdb-specific metadata
+  gdb.c2   <- gdb.all[gdb.all@table$collection == "c2"]
+  gdb.c2@table$c2only <- "stuff"
 
-  a <- combine(r, m)
+  gdb.rest <- gdb.all[gdb.all@table$collection != "c2"]
+  gdb.rest@table$rest <- "things"
+  gdb2 <- combine(gdb.c2, gdb.rest)
 
   # Check that all columns are there
-  expect_true(setequal(c(names(geneSets(m)), names(geneSets(r))),
-                       names(geneSets(a))))
+  gs.c2 <- geneSets(gdb.c2, as.dt = TRUE)
+  gs.rest <- geneSets(gdb.rest, as.dt = TRUE)
+  gs.2 <- geneSets(gdb2, as.dt = TRUE)
+  expect_setequal(c(names(gs.c2), names(gs.rest)), names(gs.2))
+})
 
-  # Add species column to m@table to check if it carries through after combine
-  m@table$species <- 'human'
-  a2 <- combine(m, r)
-  expect_true(setequal(c(names(geneSets(m)), names(geneSets(r))),
-                       names(geneSets(a2))))
+test_that("combine,GeneSetDb's that have duplicate genesets works", {
+  gdb.all <- exampleGeneSetDb()
+  # split and add gdb-specific metadata
+  gdb.c2   <- gdb.all[gdb.all@table$collection == "c2"]
+  gdb.c2@table$c2only <- "stuff"
 
+  gdb.rest <- gdb.all[gdb.all@table$collection != "c7"]
+  gdb.rest@table$rest <- "things"
+  gdb2 <- combine(gdb.c2, gdb.rest)
+
+  # Check that all columns are there
+  gs.c2 <- geneSets(gdb.c2, as.dt = TRUE)
+  gs.rest <- geneSets(gdb.rest, as.dt = TRUE)
+  gs.2 <- geneSets(gdb2, as.dt = TRUE)
+  expect_setequal(c(names(gs.c2), names(gs.rest)), names(gs.2))
+
+  # duplicate genesets should have entries for both `c2only` and `rest`
+  has.both <- gs.2$collection == "c2"
+  is.complete <- complete.cases(gs.2[, .(c2only, rest)])
+  expect_true(all(is.complete[has.both]))
+  expect_true(!any(is.complete[!has.both]))
 })
 
 test_that("as.*.GeneSetDb conversions honor `active.only` requests", {
-  vm <- exampleExpressionSet()
-  gdb <- getMSigGeneSetDb(c('c2'), "human", "entrez")
-  expect_warning(gdbc <- conform(gdb, vm)) ## fires off warning when genesets are dropped
+  set.seed(0xBEEF)
+  # create a "short" expressionset so that many genes do not conform
+  vm.all <- exampleExpressionSet(do.voom = FALSE)
+  vm <- vm.all[sample(nrow(vm.all), 100),]
+  gdb <- exampleGeneSetDb()
+  gdbc <- expect_warning(conform(gdb, vm), "deactivating", ignore.case = TRUE)
 
   gs.all <- gdb@table$name
   gs.active <- subset(gdbc@table, active)$name
@@ -331,8 +364,11 @@ test_that("as.*.GeneSetDb conversions honor `active.only` requests", {
 
 test_that("Conformed GeneSetDb returns only matched genes on data.frame conversion", {
   vm <- exampleExpressionSet()
-  gdb <- getMSigGeneSetDb(c('c2'), "human", "entrez")
-  expect_warning(gdbc <- conform(gdb, vm)) ## fires off warning when genesets are dropped
+  gdb <- exampleGeneSetDb()
+  gdbc <- conform(gdb, vm)
+
+  # Ensure that there are some features missing in vm that are in the gdb
+  expect_true(any(geneSets(gdbc)$n < geneSets(gdbc)$N))
 
   gdb.df <- as.data.frame(gdb)
   gdbc.df <- as.data.frame(gdbc)

@@ -943,8 +943,8 @@ setMethod("combine", c(x = "GeneSetDb", y = "GeneSetDb"), function(x, y, ...) {
 
   fms <- list(featureIdMap(x, as.dt=TRUE), featureIdMap(y, as.dt=TRUE))
   fm <- rbindlist(fms, use.names=TRUE, fill=TRUE)
-  ## ensure that a feature_id entry maps to only one x.id entry
-  ## DEBUG: Is this uniquification necessary?
+  # ensure that a feature_id entry maps to only one x.id entry
+  # DEBUG: Is this uniquification necessary?
   fm <- unique(fm, by=c('feature_id', 'x.id'))
   fm[, x.idx := NA_integer_]  ## blow out any `conform`-ation information
   setkeyv(fm, 'feature_id')
@@ -956,21 +956,37 @@ setMethod("combine", c(x = "GeneSetDb", y = "GeneSetDb"), function(x, y, ...) {
   out <- .GeneSetDb(db=db, featureIdMap=fm, table=init.gsd.table.from.db(db),
                     collectionMetadata=cmeta)
 
-  ## Transfer over any extra metadata (columns) of the @table slots from
-  ## the two inputs incase the user stored extra data at the geneset level
-  ## in them.
-  gs <- rbindlist(list(x@table, y@table), use.names=TRUE, fill=TRUE)
-  add.gs.cols <- setdiff(names(gs), names(out@table))
-  if (length(add.gs.cols) > 0) {
+  # Transfer over any extra metadata (columns) of the @table slots from
+  # the two inputs incase the user stored extra data at the geneset level
+  # in them.
+  add.gs.cols <- setdiff(
+    c(names(x@table), names(y@table)),
+    names(out@table))
+  if (length(add.gs.cols)) {
     gs.keys <- key(out@table)
-    new.table <- merge(out@table,
-                       gs[, c(gs.keys, add.gs.cols), with=FALSE],
-                       by=gs.keys, all.x=TRUE)
-    if (!all.equal(out@table, new.table[, names(out@table), with=FALSE])) {
-      stop("There was a problem adding additional columns to geneset@table ",
-           "during `append`")
+    # If there were duplicate collection,name entries among the two GeneSetDb
+    # objects, let's pull them out here. If both share the same extra meta
+    # data names, x will win.
+    x.cols <- c(gs.keys, intersect(add.gs.cols, names(x@table)))
+    y.cols <- c(gs.keys, intersect(add.gs.cols, names(y@table)))
+    duped <- merge(
+      x@table[, x.cols, with = FALSE],
+      y@table[, y.cols, with = FALSE],
+      by = gs.keys,
+      suffixes = c("", ".axeme"))
+
+    # now just mash together the rest.
+    gs <- rbindlist(list(x@table, y@table), use.names = TRUE, fill = TRUE)
+    gs <- gs[, union(x.cols, y.cols), with = FALSE]
+    setkeyv(gs, gs.keys)
+    if (nrow(duped)) {
+      # duplicate collection,name gene sets in x and y create repeated rows
+      # in gs. Those are removed and replaced with `duped`
+      duped <- duped[, !grepl(".axeme", names(duped)), with = FALSE]
+      gs <- rbindlist(list(duped, gs[!duped]), use.names = TRUE, fill = TRUE)
+      setkeyv(gs, gs.keys)
     }
-    out@table <- new.table
+    out@table <- merge(out@table, gs, by = gs.keys, all.x = TRUE)
   }
 
   out
@@ -988,7 +1004,7 @@ setMethod("nrow", "GeneSetDb", function(x) nrow(geneSets(x, as.dt=TRUE)))
 #' @method all.equal GeneSetDb
 #' @param target The reference `GeneSetDb` to compare against
 #' @param current The `GeneSetDb` you wan to compare
-#' @param features.only Only compare the "core" columns of `target@@db`
+#' @param features.only Only compare the "core" columns of `target@db`
 #'   and `target@@table`. It is possible that you added additional columns
 #'   (to keep track of symbols in `target@@db`, for instance) that you
 #'   want to ignore for the purposes of the equality test.
