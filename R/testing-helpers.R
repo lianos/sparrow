@@ -108,6 +108,16 @@ exampleGeneSetDb <- function() {
   out
 }
 
+#' @section exampleBiocSet:
+#' Returns gene sets as a `BiocSet` object
+#'
+#' @rdname examples
+#' @aliases exampleGeneSetDb
+#' @export
+exampleBiocSet <- function() {
+  as(exampleGeneSetDb(), "BiocSet")
+}
+
 #' @section exampleGeneSetDF:
 #' Returns a data.frame of gene set definitions. A data.frame of this form
 #' can be passed into the `GeneSetDb()` contructor.

@@ -737,7 +737,6 @@ setMethod("geneSetCollectionURLfunction", "GeneSetDb", function(x, i, ...) {
 setReplaceMethod("geneSetCollectionURLfunction", "GeneSetDb",
 function(x, i, value) {
   valid <- function(v) {
-    # browser()
     v <- get_function(v)
     if (!isTRUE(is.function(v))) return(FALSE)
     args <- formalArgs(v)
@@ -749,7 +748,7 @@ function(x, i, value) {
               "and must also handle `...`")
       return(FALSE)
     }
-    url.test <- tryCatch(v("a", "b"), error = function(e) NULL)
+    url.test <- tryCatch(v("a", "b", x), error = function(e) NULL)
     if (!test_string(url.test)) {
       warning("geneSetURL does not return a string when called")
       return(FALSE)
@@ -764,7 +763,7 @@ function(x, i, value) {
   # only those arguments are kept in the environment, otherwise we only keep
   # objects that are character vectors
   if (is.function(value)) {
-    warning("Storing actuall functions as a url_function inflates serialized ",
+    warning("Storing actual functions as a url_function inflates serialized ",
             "consider storing the name of the function instead")
     environment(value) <- new.env(parent = parent.env(environment(value)))
   }
@@ -1038,13 +1037,14 @@ all.equal.GeneSetDb <- function(target, current, features.only = TRUE, ...) {
 #' gene set information in an other format. To do that, we provide the
 #' following functions:
 #'
+#' * `as(gdb, "BiocSetf')`: convert to a [BiocSet::BiocSet()].
+#' * `as(gdb, "GeneSetCollection")`: Convert to a
+#'   [GSEABase::GeneSetCollection()] object.
 #' * `as.data.(table|frame)(gdb)`: Perhaps the most natural format to convert to in
 #'   order to save locally and examine outside of Bioconductor's GSEA universe,
 #'   but not many other tools accept gene set definitions in this format.
 #' * `as.list(gdb)`: A named list of feature identifiers. This is the format
 #'   that many of the limma gene set testing methods use
-#' * `as(gdb, "GeneSetCollection")`: Convert to a
-#'   [GSEABase::GeneSetCollection()] object.
 #'
 #' @details
 #' The `as.*` functions accept a `value` parameter which indicates the type of
@@ -1080,6 +1080,7 @@ all.equal.GeneSetDb <- function(target, current, features.only = TRUE, ...) {
 #' @examples
 #' es <- exampleExpressionSet()
 #' gdb <- conform(exampleGeneSetDb(), es)
+#' bs <- as(gdb, "BiocSet")
 #' gdf <- as.data.frame(gdb)
 #' gdb <- conform(gdb, es)
 #' gdfi <- as.data.frame(gdb, value = 'x.idx')

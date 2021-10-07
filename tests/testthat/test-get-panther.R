@@ -1,4 +1,4 @@
-context("PANTHER.db")
+context("test panther gene set retrieval")
 
 # test_that("PANTHER.db GOSLIM categories work", {
 #   ## PANTHER.db v1.0.2 had messed up internal database mappings, so just want

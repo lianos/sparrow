@@ -2,9 +2,37 @@
 % Please edit documentation in R/convertIdentifiers.R
 \name{convertIdentifiers}
 \alias{convertIdentifiers}
+\alias{convertIdentifiers,BiocSet-method}
+\alias{convertIdentifiers,GeneSetDb-method}
 \title{Converts internal feature identifiers in a GeneSetDb to a set of new ones.}
 \usage{
 convertIdentifiers(
+  x,
+  from = NULL,
+  to = NULL,
+  id.type = c("ensembl", "entrez", "symbol"),
+  xref = NULL,
+  extra.cols = NULL,
+  allow.cartesian = FALSE,
+  min_support = 3,
+  top = TRUE,
+  ...
+)
+
+\S4method{convertIdentifiers}{BiocSet}(
+  x,
+  from = NULL,
+  to = NULL,
+  id.type = c("ensembl", "entrez", "symbol"),
+  xref = NULL,
+  extra.cols = NULL,
+  allow.cartesian = FALSE,
+  min_support = 3,
+  top = TRUE,
+  ...
+)
+
+\S4method{convertIdentifiers}{GeneSetDb}(
   x,
   from = NULL,
   to = NULL,
@@ -70,6 +98,13 @@ When there are multiple target id's for the source id, they will all be
 returned. When there is no target id for the source id, the soucre feature
 will be axed.
 }
+\section{Methods (by class)}{
+\itemize{
+\item \code{BiocSet}: converts identifiers in a BiocSet
+
+\item \code{GeneSetDb}: converts identifiers in a GeneSetDb
+}}
+
 \section{Custom Mapping}{
 
 You need to provide a data.frame via the \code{xref} paramater that has a column

@@ -1,5 +1,5 @@
 
-#' Fetches a `GeneSetDb` from geneset collections defined in MSigDB.
+#' Fetches gene set collections from the moleular signature database (MSigDB)
 #'
 #' This provides versioned genesets from gene set collections defined in
 #' [MSigDB](http://software.broadinstitute.org/gsea/msigdb). Collections can
@@ -52,16 +52,34 @@
 #' @param prefix_collection When `TRUE` (default: `FALSE`), the `"C1"`, `"C2"`,
 #'   etc. is prefixed with `"MSigDB_*"`
 #' @param ... pass through parameters
-#' @return a `GeneSetDb` object
+#' @return a `BiocSet` of the MSigDB collections
 #' @examples
 #' \donttest{
 #'   # these take a while to load initially, so put them in dontrun blocks.
 #'   # you should run these interactively to understand what they return
-#'   gdb <- getMSigGeneSetDb(c("h", "reactome"), "human", "entrez")
-#'   gdb.h.entrez <- getMSigGeneSetDb(c("h", "c2"), "human", "entrez")
-#'   gdb.h.ens <- getMSigGeneSetDb(c("h", "c2"), "human", "ensembl")
-#'   gdb.m.entrez <- getMSigGeneSetDb(c("h", "c2"), "mouse", "entrez")
+#'   bcs <- getMSigDbCollection("h", "human", "entrez")
+#'   bcs.h.entrez <- getMSigDbCollection(c("h", "c2"), "human", "entrez")
+#'   bcs.h.ens <- getMSigDbCollection(c("h", "c2"), "human", "ensembl")
+#'   bcs.m.entrez <- getMSigDbCollection(c("h", "c2"), "mouse", "entrez")
+#'
+#'   gdb <- getMSigGeneSetDb("h", "human", "entrez")
 #' }
+getMSigDbCollection <- function(collection = NULL,
+                                species = "human",
+                                id.type = c("ensembl", "entrez", "symbol"),
+                                with.kegg = FALSE,
+                                promote_subcategory_to_collection = FALSE,
+                                prefix_collection = TRUE, ...) {
+  id.type <- match.arg(id.type)
+  out <- getMSigGeneSetDb(
+    collection, species, id.type, with.kegg,
+    promote_subcategory_to_collection, prefix_collection, ...)
+  as(out, "BiocSet")
+}
+
+
+#' @describeIn getMSigDbCollection retrieval method for a GeneSetDb container
+#' @export
 getMSigGeneSetDb <- function(collection = NULL,
                              species = "human",
                              id.type = c("ensembl", "entrez", "symbol"),
@@ -160,8 +178,10 @@ getMSigGeneSetDb <- function(collection = NULL,
   gdb
 }
 
+
 #' @noRd
 .geneSetURL.msigdb <- function(collection, name, ...) {
   url <- "http://www.broadinstitute.org/gsea/msigdb/cards/%s.html"
   sprintf(url, name)
 }
+

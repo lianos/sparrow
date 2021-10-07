@@ -51,13 +51,14 @@ As awesome as a GeneSetDb is, you might find a time when you'll need your
 gene set information in an other format. To do that, we provide the
 following functions:
 \itemize{
+\item \verb{as(gdb, "BiocSetf')}: convert to a \code{\link[BiocSet:BiocSet-class]{BiocSet::BiocSet()}}.
+\item \code{as(gdb, "GeneSetCollection")}: Convert to a
+\code{\link[GSEABase:GeneSetCollection-methods]{GSEABase::GeneSetCollection()}} object.
 \item \code{as.data.(table|frame)(gdb)}: Perhaps the most natural format to convert to in
 order to save locally and examine outside of Bioconductor's GSEA universe,
 but not many other tools accept gene set definitions in this format.
 \item \code{as.list(gdb)}: A named list of feature identifiers. This is the format
 that many of the limma gene set testing methods use
-\item \code{as(gdb, "GeneSetCollection")}: Convert to a
-\code{\link[GSEABase:GeneSetCollection-methods]{GSEABase::GeneSetCollection()}} object.
 }
 }
 \details{
@@ -84,6 +85,7 @@ this option, the features will be provided in the target space.
 \examples{
 es <- exampleExpressionSet()
 gdb <- conform(exampleGeneSetDb(), es)
+bs <- as(gdb, "BiocSet")
 gdf <- as.data.frame(gdb)
 gdb <- conform(gdb, es)
 gdfi <- as.data.frame(gdb, value = 'x.idx')

@@ -1,4 +1,4 @@
-context("getMSigGeneSetDb")
+context("retrieve MSigDB collections")
 
 test_that("MSigDB retrieval respects collection subsets", {
   gdb.all <- getMSigGeneSetDb()
@@ -43,16 +43,3 @@ test_that("url function stored correctly", {
                  info = paste("no promo subcat url", gocat, goname, sep = ":"))
   }
 })
-
-# test_that("promotion of subcategory to collection is kosher", {
-#   gdb <-  getMSigGeneSetDb(c("h", "reactome", "c5"))
-#
-#   go.url <- basename(geneSetURL(gdb, "GO_BP", "2FE_2S_CLUSTER_ASSEMBLY"))
-#   expect_equal(go.url, "GO_2FE_2S_CLUSTER_ASSEMBLY.html")
-#
-#   react.url <- geneSetURL(
-#     gdb, "REACTOME" ,"ACTIVATED_NTRK3_SIGNALS_THROUGH_PI3K")
-#   react.url <- basename(react.url)
-#
-#   expect_equal(react.url, "REACTOME_ACTIVATED_NTRK3_SIGNALS_THROUGH_PI3K.html")
-# })

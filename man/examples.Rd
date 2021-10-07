@@ -4,6 +4,7 @@
 \alias{exampleExpressionSet}
 \alias{exampleGeneSets}
 \alias{exampleGeneSetDb}
+\alias{exampleBiocSet}
 \alias{exampleGeneSetDF}
 \alias{exampleSparrowResult}
 \alias{exampleDgeResult}
@@ -17,6 +18,8 @@ exampleExpressionSet(
 exampleGeneSets(x, unlist = !missing(x))
 
 exampleGeneSetDb()
+
+exampleBiocSet()
 
 exampleGeneSetDF()
 
@@ -85,6 +88,11 @@ container \code{x} are used (this is a legacy feature that we should nuke).
 \section{exampleGeneSetDb}{
 
 Returns gene sets as a \code{GeneSetDb} object
+}
+
+\section{exampleBiocSet}{
+
+Returns gene sets as a \code{BiocSet} object
 }
 
 \section{exampleGeneSetDF}{

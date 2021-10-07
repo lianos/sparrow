@@ -1,6 +1,5 @@
-#' Get pathways/GOslim information from PANTHER.db Biocondcutor package.
+#' Get pathways/GOslim collections from PANTHER.db Biocondcutor package.
 #'
-#' @description
 #' This is a convience function that orchestrates the PANTHER.db package to
 #' return GeneSetDb objects for either pathway or GOslim information for
 #' human or mouse.
@@ -21,18 +20,27 @@
 #' [GO slims](http://www.pantherdb.org/panther/ontologies.jsp), although
 #' it's not clear how often these get updated.
 #'
-#' @rdname getPantherGeneSetDb
 #' @export
 #' @importFrom GSEABase EntrezIdentifier
 #' @param type "pathway" or, "goslim"
 #' @param species "human" or "mouse"
 #'
-#' @return A wired up GeneSetDb
+#' @return A BiocSet of panther pathways
 #' @examples
 #' \donttest{
 #' # this requires you have the PANTHER.db package installed via BiocManager
-#' gdb.panther <- getPantherGeneSetDb(species = "human")
+#' bsc.panther <- getPantherCollection(species = "human")
 #' }
+getPantherCollection <- function(type = c("pathway", "goslim"),
+                                 species = c("human", "mouse")) {
+  type <- match.arg(type)
+  species <- match.arg(species)
+  out <- getPantherGeneSetDb(type, species)
+  as(out, "BiocSet")
+}
+
+#' @describeIn  getPantherCollection returns a GeneSetDb
+#' @export
 getPantherGeneSetDb <- function(type=c('pathway', 'goslim'),
                                 species=c('human', 'mouse')) {
   species <- match.arg(species)
@@ -68,11 +76,7 @@ getPantherGeneSetDb <- function(type=c('pathway', 'goslim'),
   out
 }
 
-#' @rdname getPantherGeneSetDb
-#' @export
-getGOslimGeneSetDb <- function(species=c('human', 'mouse')) {
-  getPantherGeneSetDb('goslim', species)
-}
+# Internal Helper functions ----------------------------------------------------
 
 #' @noRd
 getPantherPathways <- function(p.db, org.db) {

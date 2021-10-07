@@ -1,4 +1,4 @@
-#' Retrieves a GeneSetDb from KEGG's REST API
+#' Retrieves the KEGG gene set collection via its REST API
 #'
 #' Uses [limma::getGeneKEGGLinks()] and [limma::getKEGGPathwayNames()]
 #' internally.
@@ -16,14 +16,23 @@
 #'   using [convertIdentifiers()]. If `species`is not `"human"` or `"mouse"`,
 #'   you need to provide an idxref table that works with [convertIdentifiers()].
 #' @param ... pass through arguments
-#' @return A GeneSetDb of the kegg stuffs
+#' @return A BiocSet of the kegg stuffs
 #' @examples
 #' \donttest{
 #' # connects to the internet and takes a while
-#' mouse.entrez <- getKeggGeneSetDb("mouse", id.type = "entrez")
-#' mouse.ens <- getKeggGeneSetDb("mouse", id.type = "ensembl")
-#' human.enrez <- getKeggGeneSetDb("human", id.type = "entrez")
+#' mouse.entrez <- getKeggCollection("mouse", id.type = "entrez")
+#' human.enrez <- getKeggCollection("human", id.type = "entrez")
 #' }
+getKeggCollection <- function(species = "human",
+                              id.type = c("ensembl", "entrez"),
+                              ...) {
+  id.type <- match.arg(id.type)
+  out <- getKeggGeneSetDb(species, id.type, ...)
+  as(out, "BiocSet")
+}
+
+#' @describeIn getKeggCollection method that returns a GeneSetDb
+#' @export
 getKeggGeneSetDb <- function(species = "human",
                              id.type = c("ensembl", "entrez"),
                              ...) {
@@ -44,6 +53,7 @@ getKeggGeneSetDb <- function(species = "human",
   }
   gdb
 }
+
 
 .get_kegg_pathway_db <- function(sinfo, id.type = c("ensembl", "entrez"), ...) {
   if (FALSE) {

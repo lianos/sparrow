@@ -72,6 +72,9 @@ get_function <- function(name, ...) {
   } else {
     out <- getFunction(name)
   }
+  if (!is.function(out)) {
+    warning("function `", name, "` not found")
+  }
   out
 }
 

@@ -84,12 +84,33 @@
 #' # 3. convert the human entrez to mouse ensembl
 #' gdb.ensm <- convertIdentifiers(gdb, "human", "mouse", id.type = "ensembl")
 #' }
-convertIdentifiers <- function(x, from = NULL, to = NULL,
-                               id.type = c("ensembl", "entrez", "symbol"),
-                               xref = NULL, extra.cols = NULL,
-                               allow.cartesian = FALSE,
-                               min_support = 3, top = TRUE, ...) {
-  assert_class(x, "GeneSetDb")
+setGeneric(
+  "convertIdentifiers",
+  signature = "x",
+  function(x, from = NULL, to = NULL,
+           id.type = c("ensembl", "entrez", "symbol"),
+           xref = NULL, extra.cols = NULL,
+           allow.cartesian = FALSE,
+           min_support = 3, top = TRUE, ...)
+    standardGeneric("convertIdentifiers"))
+
+#' @describeIn convertIdentifiers converts identifiers in a BiocSet
+setMethod("convertIdentifiers", c(x = "BiocSet"),
+function(x, from = NULL, to = NULL,
+         id.type = c("ensembl", "entrez", "symbol"),
+         xref = NULL, extra.cols = NULL,
+         allow.cartesian = FALSE,
+         min_support = 3, top = TRUE, ...) {
+  stop("Not yet implemented")
+})
+
+#' @describeIn convertIdentifiers converts identifiers in a GeneSetDb
+setMethod("convertIdentifiers", c(x = "GeneSetDb"),
+function(x, from = NULL, to = NULL,
+         id.type = c("ensembl", "entrez", "symbol"),
+         xref = NULL, extra.cols = NULL,
+         allow.cartesian = FALSE,
+         min_support = 3, top = TRUE, ...) {
   if (!missing(allow.cartesian)) {
     assert_logical(allow.cartesian)
     dt.opts <- options(datatable.allow.cartesian = allow.cartesian)
@@ -162,7 +183,7 @@ convertIdentifiers <- function(x, from = NULL, to = NULL,
   out <- GeneSetDb(gs.dt)
   out@collectionMetadata <- x@collectionMetadata[name != "id_type"]
   out
-}
+})
 
 #' Internal helper function to handle bookkeeping tasks invovled to enable
 #' species conversion from within convertIdentifiers

@@ -1,6 +1,5 @@
-#' Retrieve annotations from reactome.db
+#' Retrieve gene set collections from from reactome.db
 #'
-#' @importFrom GSEABase EntrezIdentifier
 #' @export
 #'
 #' @param species the species to get pathay information for
@@ -8,7 +7,21 @@
 #'   `reactome.db`, when `TRUE` (default), these are stripped from the gene set
 #'   names.
 #' @param id.type `"entrez"` or `"ensembl"`
-#' @return a reactome GeneSetDb object
+#' @return a reactome BiocSet object
+#' @examples
+#' \donttest{
+#'   bsc.h <- getReactomeCollection("human")
+#'   gdb.h <- getReactomeGeneSetDb("human")
+#' }
+getReactomeCollection <- function(species = 'human',
+                                  id.type = c("entrez", "ensembl"),
+                                  rm.species.prefix = TRUE) {
+  id.type <- match.arg(id.type)
+  out <- getReactomeGeneSetDb(species, id.type, rm.species.prefix)
+  as(out, "BiocSet")
+}
+
+#' @describeIn getReactomeCollection returns a GeneSetDb object
 getReactomeGeneSetDb <- function(species = 'human',
                                  id.type = c("entrez", "ensembl"),
                                  rm.species.prefix = TRUE) {
@@ -86,7 +99,7 @@ getReactomeGeneSetDb <- function(species = 'human',
 
   gdb <- GeneSetDb(info)
   geneSetCollectionURLfunction(gdb, "Reactome") <- ".geneSetURL.REACTOME"
-  featureIdType(gdb, "Reactome") <- EntrezIdentifier()
+  featureIdType(gdb, "Reactome") <- GSEABase::EntrezIdentifier()
   gdb
 }
 
