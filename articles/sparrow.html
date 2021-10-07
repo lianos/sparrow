@@ -101,12 +101,8 @@
 <li>A sister <code>sparrow.shiny</code> package provides an <code>explore</code> function, which is invoked on <code>SparrowResult</code> objects returned from a call to <code>seas</code>. The shiny application facilitates interactive exploration of these GSEA results. This application can also be deployed to a shiny server and can be initialized by uploading a serialized <code>SparrowResult</code> <code>*.rds</code> file.</li>
 <li>An “over representation analysis” method <code><a href="../reference/ora.html">ora()</a></code> which wraps the biased enrichment functionality found within <code><a href="https://rdrr.io/pkg/limma/man/goana.html">limma::kegga</a></code> and generalizes it to work against data.frame inputs with arbitrary genesets.</li>
 <li>The <code>scoreSingleSamples</code> function is a wrapper that enables the user to generate single sample gene set scores using a variety of different single sample gene set scoring methods.</li>
-<li>The <code>GeneSetDb</code> class: a new class to store collections of gene sets. This provides a bit more functionality than the base <code>GeneSetCollection</code> class defined in the <a href="http://bioconductor.org/packages/GSEABase">GSEABase</a>.</li>
-<li>A convenience <code><a href="../reference/getMSigCollection.html">getMSigGeneSetDb()</a></code> function, which enables the user to fetch arbitraty subsets of the MSigDB collections mapped to different organisms and identifier types.</li>
+<li>Convenience gene set collection retrieval functions that return <code>BiocSet</code>s from widely used databases, like <code><a href="../reference/getMSigCollection.html">getMSigCollection()</a></code> (<a href="http://software.broadinstitute.org/gsea/msigdb/">MSigDB</a>), <code><a href="../reference/getKeggCollection.html">getKeggCollection()</a></code> (<a href="https://www.genome.jp/kegg/">KEGG</a>), <code><a href="../reference/getPantherCollection.html">getPantherCollection()</a></code>, etc. with support for different organisms and identifier types (partially).</li>
 </ul>
-<div class="note">
-<p>The <a href="http://bioconductor.org/packages/release/bioc/html/BiocSet.html">BiocSet</a> package was introduced in Bioconductor version 3.10, which should supersede the <code>GeneSetDb</code> class introduced here. sparrow will endeavor to transition to using that class to store gene set collections in the near future.</p>
-</div>
 <p>The initial GSEA methods that sparrow wrapped were the ones provided by limma and edgeR. As such, many analyses using sparrow expect you to re-use the same data objects used for differential expression analysis, namely:</p>
 <ul>
 <li>Expression data (an <code>EList</code>, <code>DGEList</code>, or expression matrix)</li>
@@ -115,7 +111,6 @@
 </ul>
 <p>Other methods only require the user to provide a ranked vector of statistics that represent some differential expression statistic per gene, and the GSEA is performed by analyzing the ranks of genes within this vector.</p>
 <p>The user can invoke one <code><a href="../reference/seas.html">seas()</a></code> call that can orchestrate multiple analyses of any type.</p>
-<p>All GSEA methods require the use of a <code>GeneSetDb</code> object, which is a new class provided by this package that holds geneset collection information which is stored primarily as tables / data.frames.</p>
 <p>Currently supported gene set enrichment methods include:</p>
 <pre><code>##            method test_type package
 ## 1          camera preranked   limma
@@ -242,7 +237,7 @@
 <div id="gene-sets-to-test" class="section level3">
 <h3 class="hasAnchor">
 <a href="#gene-sets-to-test" class="anchor"></a>Gene Sets to Test</h3>
-<p>The <em>sparrow</em> package provides a <code>GeneSetDb</code> class to store collections of gene sets. The <code>GeneSetDb</code> object is used heavily for the internal functionality of <code>{sparrow}</code>, however you can provide sparrow with collections of gene sets using other containers from the bioconductor universe, like a <code><a href="https://rdrr.io/pkg/BiocSet/man/BiocSet-class.html">BiocSet::BiocSet</a></code> or a <code><a href="https://rdrr.io/pkg/GSEABase/man/GeneSetCollection-methods.html">GSEABase::GeneSetCollection</a></code>. This package provides convenience methods to convert between these different types of gene set containers.</p>
+<p>The <em>sparrow</em> package provides a <code>GeneSetDb</code> class to store collections of gene sets. The <code>GeneSetDb</code> object is used heavily for the internal functionality of <code>{sparrow}</code>, however you can provide sparrow with collections of gene sets using other containers from the bioconductor universe, like a <code><a href="https://rdrr.io/pkg/BiocSet/man/BiocSet-class.html">BiocSet::BiocSet</a></code> or a <code><a href="https://rdrr.io/pkg/GSEABase/man/GeneSetCollection-methods.html">GSEABase::GeneSetCollection</a></code>. This package provides convenience methods to convert between these different types of gene set containers. Please refer to <em><a href="#the-genesetdb-class">The GeneSetDb Class</a></em> section for more details.</p>
 <p>The {sparrow} package also provides convenience methods to retrieve gene set collections from different sourckes, like <a href="http://software.broadinstitute.org/gsea/msigdb/">MSigDB</a>, <a href="http://pantherdb.org">PANTHER</a>, <a href="https://www.genome.jp/kegg/">KEGG</a>, etc. These methods are named using the following pattern: <code>get&lt;CollectionName&gt;Collection()</code> to return a <code>BiocSet</code> with the gene sets from the collection, or <code>get&lt;CollectionName&gt;GeneSetDb()</code> to get a <code>GeneSetDb</code> of the same.</p>
 <p>We’ll use the <code>getMSigGeneSetDb</code> convenience function provided by the <em>sparrow</em> package to load the <a href="http://www.cell.com/cell-systems/abstract/S2405-4712(15)00218-5">hallmark</a> (<code>"h"</code>) and <a href="http://software.broadinstitute.org/gsea/msigdb/collections.jsp#C2">c2 (curated)</a> (<code>"c2"</code>) gene set collections from <a href="http://software.broadinstitute.org/gsea/msigdb/">MSigDB</a>.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
@@ -264,7 +259,6 @@
 ## 4         C2         ABBUD_LIF_SIGNALING_2_UP  FALSE 12
 ## 5         C2       ABDELMOHSEN_ELAVL4_TARGETS  FALSE 16
 ## 6         C2 ABDULRAHMAN_KIDNEY_CANCER_VHL_DN  FALSE 13</code></pre>
-<p>For more details on creating and manipulating <code>GeneSetDb</code> objects, please jump the to <em><a href="#the-genesetdb-class">The GeneSetDb Class</a></em> section.</p>
 </div>
 </div>
 <div id="running-sparrow" class="section level2">
