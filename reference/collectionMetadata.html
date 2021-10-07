@@ -274,7 +274,7 @@ like so:</p><pre><span class='va'>url.fn</span> <span class='op'>&lt;-</span> <s
   <span class='va'>url</span> <span class='op'>&lt;-</span> <span class='st'>'http://www.broadinstitute.org/gsea/msigdb/cards/%s.html'</span>
   <span class='fu'><a href='https://rdrr.io/r/base/sprintf.html'>sprintf</a></span><span class='op'>(</span><span class='va'>url</span>, <span class='va'>name</span><span class='op'>)</span>
 <span class='op'>}</span>
-<span class='va'>gdb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='getMSigDbCollection.html'>getMSigGeneSetDb</a></span><span class='op'>(</span><span class='st'>'H'</span><span class='op'>)</span>
+<span class='va'>gdb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='getMSigCollection.html'>getMSigGeneSetDb</a></span><span class='op'>(</span><span class='st'>'H'</span><span class='op'>)</span>
 <span class='fu'><a href='geneSetCollectionURLfunction.html'>geneSetCollectionURLfunction</a></span><span class='op'>(</span><span class='va'>gdb</span>, <span class='st'>'H'</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='va'>url.fn</span>
 </pre>
 
@@ -291,7 +291,7 @@ http://www.broadinstitute.org/gsea/msigdb/cards/HALLMARK_ANGIOGENESIS.html.</p>
 be of the same type. Most often you'll probably be working with Entrez
 identifiers, simply because that's what most of the annotations work with.</p>
 <p>As such, you'd define that your collection uses geneset identifiers like
-so:</p><pre><span class='va'>gdb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='getMSigDbCollection.html'>getMSigGeneSetDb</a></span><span class='op'>(</span><span class='st'>'H'</span><span class='op'>)</span>
+so:</p><pre><span class='va'>gdb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='getMSigCollection.html'>getMSigGeneSetDb</a></span><span class='op'>(</span><span class='st'>'H'</span><span class='op'>)</span>
 <span class='fu'>featureIdType</span><span class='op'>(</span><span class='va'>gdb</span>, <span class='st'>'H'</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'>GSEABase</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/GSEABase/man/GeneIdentifierType-constructors.html'>ENSEMBLIdentifier</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='co'>## or, equivalently (but you don't want to use this)</span>
 <span class='va'>gdb</span> <span class='op'>&lt;-</span> <span class='fu'>addCollectionMetadata</span><span class='op'>(</span><span class='va'>gdb</span>, <span class='st'>'H'</span>, <span class='st'>'id_type'</span>, <span class='fu'>GSEABase</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/GSEABase/man/GeneIdentifierType-constructors.html'>ENSEMBLIdentifier</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
@@ -307,7 +307,7 @@ so:</p><pre><span class='va'>gdb</span> <span class='op'>&lt;-</span> <span clas
 object to keep the one with the updated <code>collectionMetadata</code>. Although this
 function is exported, I imagine this being used mostly through predefined
 replace methods that use this as a utility function, such as the replacement
-methods <code>featureIdType&lt;-</code>, <code>geneSetURLfunction&lt;-</code>, etc.</p><pre><span class='va'>gdb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='getMSigDbCollection.html'>getMSigGeneSetDb</a></span><span class='op'>(</span><span class='st'>'H'</span><span class='op'>)</span>
+methods <code>featureIdType&lt;-</code>, <code>geneSetURLfunction&lt;-</code>, etc.</p><pre><span class='va'>gdb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='getMSigCollection.html'>getMSigGeneSetDb</a></span><span class='op'>(</span><span class='st'>'H'</span><span class='op'>)</span>
 <span class='va'>gdb</span> <span class='op'>&lt;-</span> <span class='fu'>addCollectionMetadata</span><span class='op'>(</span><span class='va'>gdb</span>, <span class='st'>'H'</span>, <span class='st'>'foo'</span>, <span class='st'>'bar'</span><span class='op'>)</span>
 </pre>
 
