@@ -48,14 +48,20 @@ corplot <- function(E, title, cluster = FALSE, col.point = '#00000066',
     E <- E[, idxs]
   }
 
-  suppressWarnings({
-    pairs(E, ..., col.point=col.point,
+  # create a copy of panel.spoints function
+  # and update the default values with the ones provided in `corplot`
+  # workaround to avoid running `pairs` with `col.point` and `smooth.scatter` params
+  # as this resulted in multiple warnings
+  c.panel.spoints <- panel.spoints
+  formals(c.panel.spoints)$col.point <- col.point
+  formals(c.panel.spoints)$smooth.scatter <- smooth.scatter
+  
+    pairs(E, ..., 
           lower.panel=panel.cor,
-          upper.panel=panel.spoints,
+          upper.panel=c.panel.spoints,
           diag.panel=if (diag.distro) panel.hist else NULL,
           gap=0.2, pch=16,
-          main=title, smooth.scatter = smooth.scatter)
-  })
+          main=title)
 
   invisible(E)
 }
