@@ -2,6 +2,7 @@ babelgene
 BiocCheck
 BiocGenerics
 BiocParallel
+BiocSet
 checkmate
 circlize
 ComplexHeatmap
