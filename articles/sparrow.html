@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sparrow</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.5</span>
       </span>
     </div>
 
@@ -89,16 +89,16 @@
     
         <div class="abstract">
       <p class="abstract">Abstract</p>
-      <p>The sparrow package facilitates the use of gene sets in the analysis of high throughput genomics data. It provides simple execution and comparison of several GSEA approaches through a unified interface within the user’s workspace or interactively via a shiny application provided by the sparrow.shiny package. This package also provides an easy wrapper to single sample gene set scoring and geneset-centric heatmaps for visualization. sparrow package version: 0.99.4</p>
+      <p>The sparrow package facilitates the use of gene sets in the analysis of high throughput genomics data. It provides simple execution and comparison of several GSEA approaches through a unified interface within the user’s workspace or interactively via a shiny application provided by the sparrow.shiny package. This package also provides an easy wrapper to single sample gene set scoring and geneset-centric heatmaps for visualization. sparrow package version: 0.99.5</p>
     </div>
     
 <div id="overview" class="section level1">
 <h1 class="hasAnchor">
 <a href="#overview" class="anchor"></a>Overview</h1>
-<p>The <code>sparrow</code> package was built to facilitate the use of gene sets in the analysis of high throughput genomics data (primarily RNA-seq). It does so by providing these top-line functionalities:</p>
+<p>The <code>{sparrow}</code> package was built to facilitate the use of gene sets in the analysis of high throughput genomics data (primarily RNA-seq). It does so by providing these top-line functionalities:</p>
 <ul>
 <li>The <code>seas</code> function is a wrapper that orchestrates the execution of any number of user-specified gene set enrichment analyses (GSEA) over a particular experimental contrast of interest. This will create a <code>SparrowResult</code> object which stores the results of each GSEA method internally, allowing for easy query and retrieval.</li>
-<li>A sister <code>sparrow.shiny</code> package provides an <code>explore</code> function, which is invoked on <code>SparrowResult</code> objects returned from a call to <code>seas</code>. The shiny application facilitates interactive exploration of these GSEA results. This application can also be deployed to a shiny server and can be initialized by uploading a serialized <code>SparrowResult</code> <code>*.rds</code> file.</li>
+<li>A sister <a href="https://github.com/lianos/sparrow.shiny"><code>{sparrow.shiny}</code></a> package provides an <code>explore</code> function, which is invoked on <code>SparrowResult</code> objects returned from a call to <code>seas</code>. The shiny application facilitates interactive exploration of these GSEA results. This application can also be deployed to a shiny server and can be initialized by uploading a serialized <code>SparrowResult</code> <code>*.rds</code> file.</li>
 <li>An “over representation analysis” method <code><a href="../reference/ora.html">ora()</a></code> which wraps the biased enrichment functionality found within <code><a href="https://rdrr.io/pkg/limma/man/goana.html">limma::kegga</a></code> and generalizes it to work against data.frame inputs with arbitrary genesets.</li>
 <li>The <code>scoreSingleSamples</code> function is a wrapper that enables the user to generate single sample gene set scores using a variety of different single sample gene set scoring methods.</li>
 <li>Convenience gene set collection retrieval functions that return <code>BiocSet</code>s from widely used databases, like <code><a href="../reference/getMSigCollection.html">getMSigCollection()</a></code> (<a href="http://software.broadinstitute.org/gsea/msigdb/">MSigDB</a>), <code><a href="../reference/getKeggCollection.html">getKeggCollection()</a></code> (<a href="https://www.genome.jp/kegg/">KEGG</a>), <code><a href="../reference/getPantherCollection.html">getPantherCollection()</a></code> (<a href="pantherdb">PANTHER database</a>), and <code><a href="../reference/getReactomeCollection.html">getReactomeCollection()</a></code> (<a href="https://reactome.org/">Reactome</a>) with support for different organisms and identifier types (partially).</li>
@@ -359,7 +359,7 @@
 <div id="plotting" class="section level2">
 <h2 class="hasAnchor">
 <a href="#plotting" class="anchor"></a>Plotting</h2>
-<p><em>sparrow</em> provides a number of interactive plotting facilities to explore the enrichment of a single geneset under the given contrast. In the boxplots and density plots shown below, the log fold changes (logFCs) (or t-statistics) for all genes under the contrast are visualized in the “background” set, and these same values are shown for the desired geneset under the “geneset” group.</p>
+<p><code>{sparrow}</code> provides a number of interactive plotting facilities to explore the enrichment of a single geneset under the given contrast. In the boxplots and density plots shown below, the log fold changes (logFCs) (or t-statistics) for all genes under the contrast are visualized in the “background” set, and these same values are shown for the desired geneset under the “geneset” group.</p>
 <p>The logFC (or t-statistics) of the genes in the gene set are plotted as points, which allow you to hover to identify the identity of the genes that land in the regions of the distributions you care about.</p>
 <div class="note">
 <p>Including interactive plots increases the size of the vignette’s by <em>a lot</em> and will be rejected by the bioconductor build servers, so all plots included in this vignette are static snapshots of the javascript enabled plots you would normally get from <code><a href="../reference/iplot.html">iplot()</a></code>.</p>
@@ -388,13 +388,16 @@
 <div id="interactive-exploration" class="section level3">
 <h3 class="hasAnchor">
 <a href="#interactive-exploration" class="anchor"></a>Interactive Exploration</h3>
-<p>A sister <code>sparrow.shiny</code> package is available that can be used to interactively explore <code>SparrowResult</code> objects to help you try to make sense of the enrichment hits you get (or not!). The application can be invoked as follows:</p>
+<p>A sister <a href="https://github.com/lianos/sparrow.shiny"><code>{sparrow.shiny}</code></a> package is available that can be used to interactively explore <code>SparrowResult</code> objects to help you try to make sense of the enrichment hits you get (or not!). The application can be invoked as follows:</p>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">sparrow.shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/sparrow.shiny/man/explore.html">explore</a></span><span class="op">(</span><span class="va">mg</span><span class="op">)</span></code></pre></div>
 <div class="figure">
 <img src="images/sparrow-shiny.png" alt=""><p class="caption">Screen shot of interactive sparrow exploration</p>
 </div>
-<p>Please refer to the <code>"sparrow-shiny"</code> vignette in the <code>sparrow.shiny</code> package for documentation on the application’s use.</p>
+<p>Please refer to the <code>"sparrow-shiny"</code> vignette in the <a href="https://github.com/lianos/sparrow.shiny"><code>{sparrow.shiny}</code></a> package for documentation on the application’s use.</p>
+<div class="note">
+<p>The <code>{sparrow.shiny}</code> package is currently only available to install from GitHub, but will be available through Bioconductor soon.</p>
+</div>
 </div>
 </div>
 </div>
@@ -710,7 +713,7 @@ Session Information
 ## other attached packages:
 ##  [1] data.table_1.14.2    edgeR_3.35.1         limma_3.49.4        
 ##  [4] circlize_0.4.13      ComplexHeatmap_2.9.4 ggplot2_3.3.5       
-##  [7] dplyr_1.0.7          magrittr_2.0.1       sparrow_0.99.4      
+##  [7] dplyr_1.0.7          magrittr_2.0.1       sparrow_0.99.5      
 ## [10] BiocStyle_2.21.3    
 ## 
 ## loaded via a namespace (and not attached):
