@@ -79,7 +79,7 @@
       <h1 data-toc-skip>Performing gene set enrichment analyses with sparrow</h1>
                         <h4 class="author">Steve Lianoglou</h4>
             
-            <h4 class="date">12 October 2021</h4>
+            <h4 class="date">13 October 2021</h4>
       
       
       <div class="hidden name"><code>sparrow.Rmd</code></div>
@@ -390,7 +390,7 @@
 <a href="#interactive-exploration" class="anchor"></a>Interactive Exploration</h3>
 <p>A sister <code>sparrow.shiny</code> package is available that can be used to interactively explore <code>SparrowResult</code> objects to help you try to make sense of the enrichment hits you get (or not!). The application can be invoked as follows:</p>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">sparrow.shiny</span><span class="fu">::</span><span class="fu">explore</span><span class="op">(</span><span class="va">mg</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu">sparrow.shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/sparrow.shiny/man/explore.html">explore</a></span><span class="op">(</span><span class="va">mg</span><span class="op">)</span></code></pre></div>
 <div class="figure">
 <img src="images/sparrow-shiny.png" alt=""><p class="caption">Screen shot of interactive sparrow exploration</p>
 </div>
@@ -708,40 +708,40 @@ Session Information
 ## [8] base     
 ## 
 ## other attached packages:
-##  [1] data.table_1.14.2    edgeR_3.34.1         limma_3.49.4        
+##  [1] data.table_1.14.2    edgeR_3.35.1         limma_3.49.4        
 ##  [4] circlize_0.4.13      ComplexHeatmap_2.9.4 ggplot2_3.3.5       
 ##  [7] dplyr_1.0.7          magrittr_2.0.1       sparrow_0.99.4      
-## [10] BiocStyle_2.20.2    
+## [10] BiocStyle_2.21.3    
 ## 
 ## loaded via a namespace (and not attached):
 ##   [1] backports_1.2.1             systemfonts_1.0.2          
 ##   [3] plyr_1.8.6                  lazyeval_0.2.2             
-##   [5] GSEABase_1.54.0             BiocParallel_1.27.16       
+##   [5] GSEABase_1.55.1             BiocParallel_1.27.17       
 ##   [7] GenomeInfoDb_1.29.8         digest_0.6.28              
 ##   [9] foreach_1.5.1               htmltools_0.5.2            
 ##  [11] magick_2.7.3                viridis_0.6.1              
 ##  [13] fansi_0.5.0                 checkmate_2.0.0            
-##  [15] memoise_2.0.0               ScaledMatrix_1.0.0         
+##  [15] memoise_2.0.0               ScaledMatrix_1.1.0         
 ##  [17] cluster_2.1.2               doParallel_1.0.16          
-##  [19] Biostrings_2.60.2           annotate_1.70.0            
+##  [19] Biostrings_2.61.2           annotate_1.71.0            
 ##  [21] matrixStats_0.61.0          pkgdown_1.6.1              
 ##  [23] colorspace_2.0-2            blob_1.2.2                 
 ##  [25] BiasedUrn_1.07              textshaping_0.3.5          
-##  [27] xfun_0.26                   BiocSet_1.6.1              
+##  [27] xfun_0.26                   BiocSet_1.7.1              
 ##  [29] crayon_1.4.1                RCurl_1.98-1.5             
 ##  [31] jsonlite_1.7.2              graph_1.71.2               
 ##  [33] iterators_1.0.13            glue_1.4.2                 
 ##  [35] gtable_0.3.0                zlibbioc_1.39.0            
 ##  [37] XVector_0.33.0              GetoptLong_1.0.5           
-##  [39] DelayedArray_0.19.4         BiocSingular_1.8.1         
-##  [41] Rhdf5lib_1.14.2             shape_1.4.6                
-##  [43] SingleCellExperiment_1.14.1 BiocGenerics_0.39.2        
-##  [45] HDF5Array_1.20.0            scales_1.1.1               
+##  [39] DelayedArray_0.19.4         BiocSingular_1.9.1         
+##  [41] Rhdf5lib_1.15.2             shape_1.4.6                
+##  [43] SingleCellExperiment_1.15.2 BiocGenerics_0.39.2        
+##  [45] HDF5Array_1.21.0            scales_1.1.1               
 ##  [47] msigdbr_7.4.1               DBI_1.1.1                  
 ##  [49] Rcpp_1.0.7                  viridisLite_0.4.0          
-##  [51] xtable_1.8-4                clue_0.3-59                
+##  [51] xtable_1.8-4                clue_0.3-60                
 ##  [53] rsvd_1.0.5                  bit_4.0.4                  
-##  [55] stats4_4.1.1                GSVA_1.40.1                
+##  [55] stats4_4.1.1                GSVA_1.41.3                
 ##  [57] htmlwidgets_1.5.4           httr_1.4.2                 
 ##  [59] ontologyIndex_2.7           RColorBrewer_1.1-2         
 ##  [61] ellipsis_0.3.2              farver_2.1.0               
@@ -749,7 +749,7 @@ Session Information
 ##  [65] sass_0.4.0                  locfit_1.5-9.4             
 ##  [67] utf8_1.2.2                  labeling_0.4.2             
 ##  [69] tidyselect_1.1.1            rlang_0.4.11               
-##  [71] AnnotationDbi_1.54.1        munsell_0.5.0              
+##  [71] AnnotationDbi_1.55.1        munsell_0.5.0              
 ##  [73] tools_4.1.1                 cachem_1.0.6               
 ##  [75] generics_0.1.0              RSQLite_2.2.8              
 ##  [77] evaluate_0.14               stringr_1.4.0              
@@ -757,14 +757,14 @@ Session Information
 ##  [81] ragg_1.1.3                  babelgene_21.4             
 ##  [83] knitr_1.36                  bit64_4.0.5                
 ##  [85] fs_1.5.0                    purrr_0.3.4                
-##  [87] KEGGREST_1.32.0             sparseMatrixStats_1.5.3    
+##  [87] KEGGREST_1.33.0             sparseMatrixStats_1.5.3    
 ##  [89] compiler_4.1.1              plotly_4.10.0              
 ##  [91] png_0.1-7                   tibble_3.1.5               
 ##  [93] statmod_1.4.36              bslib_0.3.1                
 ##  [95] stringi_1.7.5               highr_0.9                  
 ##  [97] desc_1.4.0                  lattice_0.20-45            
 ##  [99] Matrix_1.3-4                vctrs_0.3.8                
-## [101] rhdf5filters_1.4.0          pillar_1.6.3               
+## [101] rhdf5filters_1.5.0          pillar_1.6.3               
 ## [103] lifecycle_1.0.1             BiocManager_1.30.16        
 ## [105] jquerylib_0.1.4             GlobalOptions_0.1.2        
 ## [107] bitops_1.0-7                irlba_2.3.3                
@@ -772,12 +772,12 @@ Session Information
 ## [111] BiocIO_1.3.0                bookdown_0.24              
 ## [113] gridExtra_2.3               IRanges_2.27.2             
 ## [115] codetools_0.2-18            assertthat_0.2.1           
-## [117] rhdf5_2.36.0                SummarizedExperiment_1.23.5
+## [117] rhdf5_2.37.4                SummarizedExperiment_1.23.5
 ## [119] rprojroot_2.0.2             rjson_0.2.20               
 ## [121] withr_2.4.2                 S4Vectors_0.31.5           
 ## [123] GenomeInfoDbData_1.2.7      parallel_4.1.1             
-## [125] beachmat_2.8.1              tidyr_1.1.4                
-## [127] rmarkdown_2.11              DelayedMatrixStats_1.14.3  
+## [125] beachmat_2.9.1              tidyr_1.1.4                
+## [127] rmarkdown_2.11              DelayedMatrixStats_1.15.4  
 ## [129] MatrixGenerics_1.5.4        Biobase_2.53.0</code></pre>
 </details>
 </div>
