@@ -37,7 +37,7 @@ knitr::opts_chunk$set(
 
 # Overview
 
-The `sparrow` package was built to facilitate the use of gene sets in the
+The `{sparrow}` package was built to facilitate the use of gene sets in the
 analysis of high throughput genomics data (primarily RNA-seq). It does so
 by providing these top-line functionalities:
 
@@ -46,11 +46,11 @@ by providing these top-line functionalities:
   experimental contrast of interest. This will create a `SparrowResult`
   object which stores the results of each GSEA method internally, allowing
   for easy query and retrieval.
-* A sister `sparrow.shiny` package provides an `explore` function, which is
-  invoked on `SparrowResult` objects returned from a call to `seas`.
-  The shiny application facilitates interactive exploration of these GSEA
-  results. This application can also be deployed to a shiny server and can be
-  initialized by uploading a serialized `SparrowResult` `*.rds` file.
+* A sister [`{sparrow.shiny}`][sparrowshiny] package provides an `explore`
+  function, which is invoked on `SparrowResult` objects returned from a call to
+  `seas`. The shiny application facilitates interactive exploration of these
+  GSEA results. This application can also be deployed to a shiny server and can
+  be initialized by uploading a serialized `SparrowResult` `*.rds` file.
 * An "over representation analysis" method `ora()` which wraps the biased
   enrichment functionality found within `limma::kegga` and generalizes it to
   work against data.frame inputs with arbitrary genesets.
@@ -370,7 +370,7 @@ are simply the ones generated from a differential expression analysis.
 
 ## Plotting
 
-*sparrow* provides a number of interactive plotting facilities to explore the
+`{sparrow}` provides a number of interactive plotting facilities to explore the
 enrichment of a single geneset under the given contrast. In the boxplots and
 density plots shown below, the log fold changes (logFCs) (or t-statistics) for
 all genes under the contrast are visualized in the "background" set, and these
@@ -415,8 +415,8 @@ iplot(mg, 'HALLMARK_WNT_BETA_CATENIN_SIGNALING',
 
 ### Interactive Exploration
 
-A sister `sparrow.shiny` package is available that can be used to
-interactively explore `SparrowResult` objects to help you try to make sense
+A sister [`{sparrow.shiny}`][sparrowshiny] package is available that can be used
+to interactively explore `SparrowResult` objects to help you try to make sense
 of the enrichment hits you get (or not!). The application can be invoked as
 follows:
 
@@ -426,8 +426,14 @@ sparrow.shiny::explore(mg)
 
 ![Screen shot of interactive sparrow exploration](images/sparrow-shiny.png)
 
-Please refer to the `"sparrow-shiny"` vignette in the `sparrow.shiny`
-package for documentation on the application's use.
+Please refer to the `"sparrow-shiny"` vignette in the 
+[`{sparrow.shiny}`][sparrowshiny] package for documentation on the application's
+use.
+
+:::note
+The `{sparrow.shiny}` package is currently only available to install from
+GitHub, but will be available through Bioconductor soon.
+:::
 
 # Singe Sample Gene Set Scoring
 
@@ -889,3 +895,5 @@ sessionInfo()
 [pantherdb]: http://pantherdb.org
 [reactome]: https://reactome.org/
 [pgoslim]: http://www.pantherdb.org/panther/ontologies.jsp
+[sparrowshiny]: https://github.com/lianos/sparrow.shiny
+
