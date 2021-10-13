@@ -8,7 +8,10 @@ Authors@R: c(
         email = "slianoglou@gmail.com",
         comment = c(ORCID = "0000-0002-0924-1754")),
     person("Denali Therapeutics", role = c("fnd"), comment = "2018+"),
-    person("Genentech", role = c("fnd"), comment = "2014 - 2017"))
+    person("Genentech", role = c("fnd"), comment = "2014 - 2017"),
+    person(
+        "Arkadiusz", "Gladki", role = c("ctb"),
+        email = "gladki.arkadiusz@gmail.com"))
 Description: Provides a unified interface to a variety of GSEA techniques from
     different bioconductor packages. Results are harmonized into a single object
     and can be interrogated uniformly for quick exploration and interpretation
