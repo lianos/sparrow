@@ -17,6 +17,7 @@ Description: Provides a unified interface to a variety of GSEA techniques from
     and can be interrogated uniformly for quick exploration and interpretation
     of results. Interactive exploration of GSEA results is enabled through
     a shiny app provided by a sparrow.shiny sibling package.
+URL: https://github.com/lianos/sparrow
 Depends:
     R (>= 4.0)
 Imports:

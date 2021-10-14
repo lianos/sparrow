@@ -251,7 +251,7 @@ volcanoStatsTable <- function(x, stats='dge', xaxis='logFC', yaxis='pval',
   stopifnot(is.function(xtfrm), is.function(ytfrm))
   type <- .volcano_source_type(x)
   if (is(x, 'SparrowResultContainer')) {
-    x <- x$mg
+    x <- x$sr
   }
   if (is(x, 'SparrowResult')) {
     stats <- match.arg(stats, c('dge', resultNames(x)))
