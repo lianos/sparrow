@@ -27,13 +27,15 @@ col.pairs <- circlize::colorRamp2(c(-1, 0, 1), c('blue', 'white', 'red'), 0.5)
 #' @param smooth.scatter boolean to indicate wether to use a normal scatter, or
 #'   a [graphics::smoothScatter()]. Defaults to `TRUE` if `nrow(E) > 400`
 #' @param ... pass through arguments to internal panel functions
+#' @param max.cex.cor the numeric value defining the maximum text size (cor) in the correlation panel
 #' @return nothing, just creates the plot
 #'
 #' @examples
 #' x <- matrix(rnorm(1000), ncol=5)
 #' corplot(x)
 corplot <- function(E, title, cluster = FALSE, col.point = '#00000066',
-                    diag.distro = TRUE, smooth.scatter = nrow(E) > 400, ...) {
+                    diag.distro = TRUE, smooth.scatter = nrow(E) > 400, 
+                    max.cex.cor, ...) {
   E <- as_matrix(E, ...)
   if (missing(title)) {
     title <- 'Pairs Plot'
@@ -55,9 +57,16 @@ corplot <- function(E, title, cluster = FALSE, col.point = '#00000066',
   c.panel.spoints <- panel.spoints
   formals(c.panel.spoints)$col.point <- col.point
   formals(c.panel.spoints)$smooth.scatter <- smooth.scatter
+
+  # same for the panel.cor
+  c.panel.cor <- panel.cor
+  if (!missing(max.cex.cor)) { 
+  formals(c.panel.cor)$max.cex.cor <- max.cex.cor
+  }
+  
   
     pairs(E, ..., 
-          lower.panel=panel.cor,
+          lower.panel=c.panel.cor,
           upper.panel=c.panel.spoints,
           diag.panel=if (diag.distro) panel.hist else NULL,
           gap=0.2, pch=16,
@@ -75,7 +84,7 @@ corplot <- function(E, title, cluster = FALSE, col.point = '#00000066',
 #' to the strength and direction of the correlation.
 #'
 #' @noRd
-panel.cor <- function(x, y, digits = 2, prefix = "", cex.cor, ...) {
+panel.cor <- function(x, y, cex.cor, digits = 2, prefix = "", max.cex.cor = NULL, ...) {
   usr <- par(c("usr"))
   on.exit(par(usr))
   par(usr = c(0, 1, 0, 1))
@@ -83,7 +92,11 @@ panel.cor <- function(x, y, digits = 2, prefix = "", cex.cor, ...) {
   txt <- format(c(r, 0.123456789), digits = digits)[1]
   txt <- paste0(prefix, txt)
   if (missing(cex.cor)) {
-    cex.cor <- 0.8/strwidth(txt)
+    cex.cor <- if (is.null(max.cex.cor)) {
+      0.8 / strwidth(txt)
+    } else {
+      min(0.8 / strwidth(txt), max.cex.cor)
+    }
   }
 
   if (!is.na(r)) {
