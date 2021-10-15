@@ -63,7 +63,14 @@
   </ul>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+  <a href="https://github.com/lianos/sparrow/">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -79,9 +86,9 @@
       <h1 data-toc-skip>Performing gene set enrichment analyses with sparrow</h1>
                         <h4 class="author">Steve Lianoglou</h4>
             
-            <h4 class="date">14 October 2021</h4>
+            <h4 class="date">15 October 2021</h4>
       
-      
+      <small class="dont-index">Source: <a href="https://github.com/lianos/sparrow/blob/master/vignettes/sparrow.Rmd"><code>vignettes/sparrow.Rmd</code></a></small>
       <div class="hidden name"><code>sparrow.Rmd</code></div>
 
     </div>
@@ -95,7 +102,7 @@
 <div id="overview" class="section level1">
 <h1 class="hasAnchor">
 <a href="#overview" class="anchor"></a>Overview</h1>
-<p>The <code>{sparrow}</code> package was built to facilitate the use of gene sets in the analysis of high throughput genomics data (primarily RNA-seq). It does so by providing these top-line functionalities:</p>
+<p>The <a href="https://github.com/lianos/sparrow">sparrow</a> package was built to facilitate the use of gene sets in the analysis of high throughput genomics data (primarily RNA-seq). It does so by providing these top-line functionalities:</p>
 <ul>
 <li>The <code>seas</code> function is a wrapper that orchestrates the execution of any number of user-specified gene set enrichment analyses (GSEA) over a particular experimental contrast of interest. This will create a <code>SparrowResult</code> object which stores the results of each GSEA method internally, allowing for easy query and retrieval.</li>
 <li>A sister <a href="https://github.com/lianos/sparrow.shiny"><code>{sparrow.shiny}</code></a> package provides an <code>explore</code> function, which is invoked on <code>SparrowResult</code> objects returned from a call to <code>seas</code>. The shiny application facilitates interactive exploration of these GSEA results. This application can also be deployed to a shiny server and can be initialized by uploading a serialized <code>SparrowResult</code> <code>*.rds</code> file.</li>
@@ -132,7 +139,7 @@
 <a href="#standard-workflow" class="anchor"></a>Standard Workflow</h1>
 <p>Let’s begin by setting up our work environment for exploratory analysis using the sparrow package.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">sparrow</span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/lianos/sparrow">sparrow</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org">magrittr</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
@@ -142,7 +149,7 @@
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-datatable.com">data.table</a></span><span class="op">)</span>
 <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme_get.html">theme_set</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="note">
-<p>Internally, sparrow leverages the <a href="https://CRAN.R-project.org/package=data.table">data.table</a> package for fast indexing and manipulation over data.frames. All functions that return data.frame looking objects back have converted it from an data.table prior to return. All such functions take an <code>as.dt</code> argument, which is set to <code>FALSE</code> by default that controls this behavior. If you want <code>{sparrow}</code> to return a data.table back to you from some function, try adding an <code>as.dt = TRUE</code> argument to the end of the function call.</p>
+<p>Internally, sparrow leverages the <a href="https://CRAN.R-project.org/package=data.table">data.table</a> package for fast indexing and manipulation over data.frames. All functions that return data.frame looking objects back have converted it from an data.table prior to return. All such functions take an <code>as.dt</code> argument, which is set to <code>FALSE</code> by default that controls this behavior. If you want <a href="https://github.com/lianos/sparrow">sparrow</a> to return a data.table back to you from some function, try adding an <code>as.dt = TRUE</code> argument to the end of the function call.</p>
 </div>
 <div id="data-setup" class="section level2">
 <h2 class="hasAnchor">
@@ -225,7 +232,7 @@
 <div id="gene-sets-to-test" class="section level3">
 <h3 class="hasAnchor">
 <a href="#gene-sets-to-test" class="anchor"></a>Gene Sets to Test</h3>
-<p>The <em>sparrow</em> package provides a <code>GeneSetDb</code> class to store collections of gene sets. The <code>GeneSetDb</code> object is used heavily for the internal functionality of <code>{sparrow}</code>, however you can provide sparrow with collections of gene sets using other containers from the bioconductor universe, like a <code><a href="https://rdrr.io/pkg/BiocSet/man/BiocSet-class.html">BiocSet::BiocSet</a></code> or a <code><a href="https://rdrr.io/pkg/GSEABase/man/GeneSetCollection-methods.html">GSEABase::GeneSetCollection</a></code>. This package provides convenience methods to convert between these different types of gene set containers. Please refer to <em><a href="#the-genesetdb-class">The GeneSetDb Class</a></em> section for more details.</p>
+<p>The <em>sparrow</em> package provides a <code>GeneSetDb</code> class to store collections of gene sets. The <code>GeneSetDb</code> object is used heavily for the internal functionality of <a href="https://github.com/lianos/sparrow">sparrow</a>, however you can provide sparrow with collections of gene sets using other containers from the bioconductor universe, like a <code><a href="https://rdrr.io/pkg/BiocSet/man/BiocSet-class.html">BiocSet::BiocSet</a></code> or a <code><a href="https://rdrr.io/pkg/GSEABase/man/GeneSetCollection-methods.html">GSEABase::GeneSetCollection</a></code>. This package provides convenience methods to convert between these different types of gene set containers. Please refer to <em><a href="#the-genesetdb-class">The GeneSetDb Class</a></em> section for more details.</p>
 <p>The {sparrow} package also provides convenience methods to retrieve gene set collections from different sourckes, like <a href="http://software.broadinstitute.org/gsea/msigdb/">MSigDB</a>, <a href="http://pantherdb.org">PANTHER</a>, <a href="https://www.genome.jp/kegg/">KEGG</a>, etc. These methods are named using the following pattern: <code>get&lt;CollectionName&gt;Collection()</code> to return a <code>BiocSet</code> with the gene sets from the collection, or <code>get&lt;CollectionName&gt;GeneSetDb()</code> to get a <code>GeneSetDb</code> of the same.</p>
 <p>We’ll use the <code>getMSigGeneSetDb</code> convenience function provided by the <em>sparrow</em> package to load the <a href="http://www.cell.com/cell-systems/abstract/S2405-4712(15)00218-5">hallmark</a> (<code>"h"</code>) and <a href="http://software.broadinstitute.org/gsea/msigdb/collections.jsp#C2">c2 (curated)</a> (<code>"c2"</code>) gene set collections from <a href="http://software.broadinstitute.org/gsea/msigdb/">MSigDB</a>.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
@@ -359,7 +366,7 @@
 <div id="plotting" class="section level2">
 <h2 class="hasAnchor">
 <a href="#plotting" class="anchor"></a>Plotting</h2>
-<p><code>{sparrow}</code> provides a number of interactive plotting facilities to explore the enrichment of a single geneset under the given contrast. In the boxplots and density plots shown below, the log fold changes (logFCs) (or t-statistics) for all genes under the contrast are visualized in the “background” set, and these same values are shown for the desired geneset under the “geneset” group.</p>
+<p><a href="https://github.com/lianos/sparrow">sparrow</a> provides a number of interactive plotting facilities to explore the enrichment of a single geneset under the given contrast. In the boxplots and density plots shown below, the log fold changes (logFCs) (or t-statistics) for all genes under the contrast are visualized in the “background” set, and these same values are shown for the desired geneset under the “geneset” group.</p>
 <p>The logFC (or t-statistics) of the genes in the gene set are plotted as points, which allow you to hover to identify the identity of the genes that land in the regions of the distributions you care about.</p>
 <div class="note">
 <p>Including interactive plots increases the size of the vignette’s by <em>a lot</em> and will be rejected by the bioconductor build servers, so all plots included in this vignette are static snapshots of the javascript enabled plots you would normally get from <code><a href="../reference/iplot.html">iplot()</a></code>.</p>
