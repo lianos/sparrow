@@ -7,7 +7,7 @@ Authors@R: c(
         "Steve", "Lianoglou", role = c("aut", "cre"),
         email = "slianoglou@gmail.com",
         comment = c(ORCID = "0000-0002-0924-1754")),
-   person(
+    person(
         "Arkadiusz", "Gladki", role = c("ctb"),
         email = "gladki.arkadiusz@gmail.com"),
     person("Denali Therapeutics", role = c("fnd"), comment = "2018+"),
@@ -18,6 +18,7 @@ Description: Provides a unified interface to a variety of GSEA techniques from
     of results. Interactive exploration of GSEA results is enabled through
     a shiny app provided by a sparrow.shiny sibling package.
 URL: https://github.com/lianos/sparrow
+BugReports: https://github.com/lianos/sparrow/issues
 Depends:
     R (>= 4.0)
 Imports:
