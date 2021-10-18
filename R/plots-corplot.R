@@ -35,7 +35,7 @@ col.pairs <- circlize::colorRamp2(c(-1, 0, 1), c('blue', 'white', 'red'), 0.5)
 #' corplot(x)
 corplot <- function(E, title, cluster = FALSE, col.point = '#00000066',
                     diag.distro = TRUE, smooth.scatter = nrow(E) > 400, 
-                    max.cex.cor, ...) {
+                    max.cex.cor = NULL, ...) {
   E <- as_matrix(E, ...)
   if (missing(title)) {
     title <- 'Pairs Plot'
@@ -60,7 +60,7 @@ corplot <- function(E, title, cluster = FALSE, col.point = '#00000066',
 
   # same for the panel.cor
   c.panel.cor <- panel.cor
-  if (!missing(max.cex.cor)) { 
+  if (!is.null(max.cex.cor)) { 
   formals(c.panel.cor)$max.cex.cor <- max.cex.cor
   }
   
