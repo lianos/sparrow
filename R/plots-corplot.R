@@ -62,8 +62,8 @@ corplot <- function(E, title, cluster = FALSE, col.point = '#00000066',
 
   # same for the panel.cor
   c.panel.cor <- panel.cor
-  if (!is.null(max.cex.cor)) { 
-  formals(c.panel.cor)$max.cex.cor <- max.cex.cor
+  if (!is.null(max.cex.cor)) {
+    formals(c.panel.cor)$max.cex.cor <- max.cex.cor
   }
   
   
