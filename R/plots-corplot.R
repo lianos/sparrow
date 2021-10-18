@@ -27,7 +27,9 @@ col.pairs <- circlize::colorRamp2(c(-1, 0, 1), c('blue', 'white', 'red'), 0.5)
 #' @param smooth.scatter boolean to indicate wether to use a normal scatter, or
 #'   a [graphics::smoothScatter()]. Defaults to `TRUE` if `nrow(E) > 400`
 #' @param ... pass through arguments to internal panel functions
-#' @param max.cex.cor the numeric value defining the maximum text size (cor) in the correlation panel
+#' @param max.cex.cor the numeric value defining the maximum text size (cor) in the correlation panel.
+#'   By default there is no limit on the maximum text size and the text size is calculated with `0.8 / strwidth(text)`.
+#'   With `max.cex.cor` defined the text size is calculated as `min(0.8 / strwidth(text), max.cex.cor)`.
 #' @return nothing, just creates the plot
 #'
 #' @examples

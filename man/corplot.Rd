@@ -11,7 +11,7 @@ corplot(
   col.point = "#00000066",
   diag.distro = TRUE,
   smooth.scatter = nrow(E) > 400,
-  max.cex.cor,
+  max.cex.cor = NULL,
   ...
 )
 }
@@ -32,7 +32,9 @@ around into some clustering.}
 \item{smooth.scatter}{boolean to indicate wether to use a normal scatter, or
 a \code{\link[graphics:smoothScatter]{graphics::smoothScatter()}}. Defaults to \code{TRUE} if \code{nrow(E) > 400}}
 
-\item{max.cex.cor}{the numeric value defining the maximum text size (cor) in the correlation panel}
+\item{max.cex.cor}{the numeric value defining the maximum text size (cor) in the correlation panel.
+By default there is no limit on the maximum text size and the text size is calculated with \code{0.8 / strwidth(text)}.
+With \code{max.cex.cor} defined the text size is calculated as \code{min(0.8 / strwidth(text), max.cex.cor)}.}
 
 \item{...}{pass through arguments to internal panel functions}
 }
