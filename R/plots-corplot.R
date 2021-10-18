@@ -94,13 +94,13 @@ panel.cor <- function(x, y, cex.cor, digits = 2, prefix = "", max.cex.cor = NULL
   txt <- format(c(r, 0.123456789), digits = digits)[1]
   txt <- paste0(prefix, txt)
   if (missing(cex.cor)) {
-    cex.cor <- if (is.null(max.cex.cor)) {
-      0.8 / strwidth(txt)
+    if (is.null(max.cex.cor)) {
+      cex.cor <- 0.8 / strwidth(txt)
     } else {
-      min(0.8 / strwidth(txt), max.cex.cor)
+      cex.cor <- min(0.8 / strwidth(txt), max.cex.cor)
     }
   }
-
+  
   if (!is.na(r)) {
     bg.col <- col.pairs(r)
   } else {
