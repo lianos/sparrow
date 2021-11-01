@@ -168,21 +168,25 @@ collection,name gene set doesn't exist, this throws an error.</p>
 any requested geneset does not exist in <code>x</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>dge.stats</span> <span class='op'>&lt;-</span> <span class='fu'><a href='exampleExpressionSet.html'>exampleDgeResult</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='va'>y</span> <span class='op'>&lt;-</span> <span class='fu'><a href='exampleExpressionSet.html'>exampleExpressionSet</a></span><span class='op'>(</span>do.voom <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-<span class='va'>gdb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='conform.html'>conform</a></span><span class='op'>(</span><span class='fu'><a href='exampleExpressionSet.html'>exampleGeneSetDb</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='va'>y</span>, min.gs.size <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: Deactivating 5 gene sets because conformation of GeneSetDb to the target creates gene sets smaller than 10 or greater than Inf</span></div><div class='input'><span class='co'># size 9 geneset:</span>
-<span class='fu'><a href='geneSet.html'>geneSet</a></span><span class='op'>(</span><span class='va'>gdb</span>, <span class='st'>"c2"</span>, <span class='st'>"BYSTRYKH_HEMATOPOIESIS_STEM_CELL_IL3RA"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;   collection                                   name active N n feature_id
-#&gt; 1         c2 BYSTRYKH_HEMATOPOIESIS_STEM_CELL_IL3RA  FALSE 9 6      10134
-#&gt; 2         c2 BYSTRYKH_HEMATOPOIESIS_STEM_CELL_IL3RA  FALSE 9 6      29950
-#&gt; 3         c2 BYSTRYKH_HEMATOPOIESIS_STEM_CELL_IL3RA  FALSE 9 6       4297
-#&gt; 4         c2 BYSTRYKH_HEMATOPOIESIS_STEM_CELL_IL3RA  FALSE 9 6       5879
-#&gt; 5         c2 BYSTRYKH_HEMATOPOIESIS_STEM_CELL_IL3RA  FALSE 9 6       7423
-#&gt; 6         c2 BYSTRYKH_HEMATOPOIESIS_STEM_CELL_IL3RA  FALSE 9 6        896</div><div class='input'><span class='fu'>is.active</span><span class='op'>(</span><span class='va'>gdb</span>, <span class='st'>"c2"</span>, <span class='st'>"BYSTRYKH_HEMATOPOIESIS_STEM_CELL_IL3RA"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] FALSE</div><div class='input'><span class='co'># geneset with &gt;100 genes</span>
-<span class='fu'>is.active</span><span class='op'>(</span><span class='va'>gdb</span>, <span class='st'>"c7"</span>, <span class='st'>"GSE3982_MAC_VS_NEUTROPHIL_LPS_STIM_DN"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] TRUE</div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>dge.stats</span> <span class='op'>&lt;-</span> <span class='fu'><a href='exampleExpressionSet.html'>exampleDgeResult</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>y</span> <span class='op'>&lt;-</span> <span class='fu'><a href='exampleExpressionSet.html'>exampleExpressionSet</a></span><span class='op'>(</span>do.voom <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>gdb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='conform.html'>conform</a></span><span class='op'>(</span><span class='fu'><a href='exampleExpressionSet.html'>exampleGeneSetDb</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='va'>y</span>, min.gs.size <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span></span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>Deactivating 5 gene sets because conformation of GeneSetDb to the target creates gene sets smaller than 10 or greater than Inf</span>
+<span class='r-in'><span class='co'># size 9 geneset:</span></span>
+<span class='r-in'><span class='fu'><a href='geneSet.html'>geneSet</a></span><span class='op'>(</span><span class='va'>gdb</span>, <span class='st'>"c2"</span>, <span class='st'>"BYSTRYKH_HEMATOPOIESIS_STEM_CELL_IL3RA"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   collection                                   name active N n feature_id</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1         c2 BYSTRYKH_HEMATOPOIESIS_STEM_CELL_IL3RA  FALSE 9 6      10134</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2         c2 BYSTRYKH_HEMATOPOIESIS_STEM_CELL_IL3RA  FALSE 9 6      29950</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3         c2 BYSTRYKH_HEMATOPOIESIS_STEM_CELL_IL3RA  FALSE 9 6       4297</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4         c2 BYSTRYKH_HEMATOPOIESIS_STEM_CELL_IL3RA  FALSE 9 6       5879</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5         c2 BYSTRYKH_HEMATOPOIESIS_STEM_CELL_IL3RA  FALSE 9 6       7423</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6         c2 BYSTRYKH_HEMATOPOIESIS_STEM_CELL_IL3RA  FALSE 9 6        896</span>
+<span class='r-in'><span class='fu'>is.active</span><span class='op'>(</span><span class='va'>gdb</span>, <span class='st'>"c2"</span>, <span class='st'>"BYSTRYKH_HEMATOPOIESIS_STEM_CELL_IL3RA"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] FALSE</span>
+<span class='r-in'><span class='co'># geneset with &gt;100 genes</span></span>
+<span class='r-in'><span class='fu'>is.active</span><span class='op'>(</span><span class='va'>gdb</span>, <span class='st'>"c7"</span>, <span class='st'>"GSE3982_MAC_VS_NEUTROPHIL_LPS_STIM_DN"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] TRUE</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

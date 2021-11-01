@@ -202,13 +202,13 @@ call, and not the original values for these objects themselves</p>
 here. I will (perhaps) clean that up some day.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>dge.stats</span> <span class='op'>&lt;-</span> <span class='fu'><a href='exampleExpressionSet.html'>exampleDgeResult</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='va'>ranks</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/setNames.html'>setNames</a></span><span class='op'>(</span><span class='va'>dge.stats</span><span class='op'>$</span><span class='va'>t</span>, <span class='va'>dge.stats</span><span class='op'>$</span><span class='va'>feature_id</span><span class='op'>)</span>
-<span class='va'>gdb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='exampleExpressionSet.html'>exampleGeneSetDb</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='va'>ok</span> <span class='op'>&lt;-</span> <span class='fu'>validateInputs</span><span class='op'>(</span><span class='va'>ranks</span>, <span class='va'>gdb</span>, methods <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"cameraPR"</span>, <span class='st'>"fgsea"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='co'># need full expressionset &amp; design for romer</span>
-<span class='va'>null</span> <span class='op'>&lt;-</span> <span class='fu'><a href='failWith.html'>failWith</a></span><span class='op'>(</span><span class='cn'>NULL</span>, <span class='fu'>validateInputs</span><span class='op'>(</span><span class='va'>ranks</span>, <span class='va'>gdb</span>, methods <span class='op'>=</span> <span class='st'>"romer"</span><span class='op'>)</span><span class='op'>)</span>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>dge.stats</span> <span class='op'>&lt;-</span> <span class='fu'><a href='exampleExpressionSet.html'>exampleDgeResult</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>ranks</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/setNames.html'>setNames</a></span><span class='op'>(</span><span class='va'>dge.stats</span><span class='op'>$</span><span class='va'>t</span>, <span class='va'>dge.stats</span><span class='op'>$</span><span class='va'>feature_id</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>gdb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='exampleExpressionSet.html'>exampleGeneSetDb</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>ok</span> <span class='op'>&lt;-</span> <span class='fu'>validateInputs</span><span class='op'>(</span><span class='va'>ranks</span>, <span class='va'>gdb</span>, methods <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"cameraPR"</span>, <span class='st'>"fgsea"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'># need full expressionset &amp; design for romer</span></span>
+<span class='r-in'><span class='va'>null</span> <span class='op'>&lt;-</span> <span class='fu'><a href='failWith.html'>failWith</a></span><span class='op'>(</span><span class='cn'>NULL</span>, <span class='fu'>validateInputs</span><span class='op'>(</span><span class='va'>ranks</span>, <span class='va'>gdb</span>, methods <span class='op'>=</span> <span class='st'>"romer"</span><span class='op'>)</span><span class='op'>)</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

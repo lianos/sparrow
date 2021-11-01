@@ -234,38 +234,41 @@ to keep this object as a <code>data.table</code></p></td>
 are added as columns to this result.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>gdb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='exampleExpressionSet.html'>exampleGeneSetDb</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='fu'>geneSet</span><span class='op'>(</span><span class='va'>gdb</span>, <span class='st'>"c2"</span>, <span class='st'>"KOMMAGANI_TP63_GAMMA_TARGETS"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;   collection                         name active N  n feature_id
-#&gt; 1         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       1026
-#&gt; 2         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA      10971
-#&gt; 3         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       3486
-#&gt; 4         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       3714
-#&gt; 5         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       4193
-#&gt; 6         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       4854
-#&gt; 7         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       6604
-#&gt; 8         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       7421
-#&gt; 9         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       9540</div><div class='input'><span class='fu'>geneSet</span><span class='op'>(</span><span class='va'>gdb</span>, collection <span class='op'>=</span> <span class='st'>"c2"</span>, name <span class='op'>=</span> <span class='st'>"KOMMAGANI_TP63_GAMMA_TARGETS"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;   collection                         name active N  n feature_id
-#&gt; 1         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       1026
-#&gt; 2         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA      10971
-#&gt; 3         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       3486
-#&gt; 4         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       3714
-#&gt; 5         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       4193
-#&gt; 6         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       4854
-#&gt; 7         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       6604
-#&gt; 8         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       7421
-#&gt; 9         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       9540</div><div class='input'><span class='fu'>geneSet</span><span class='op'>(</span><span class='va'>gdb</span>, name <span class='op'>=</span> <span class='st'>"KOMMAGANI_TP63_GAMMA_TARGETS"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;   collection                         name active N  n feature_id
-#&gt; 1         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       1026
-#&gt; 2         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA      10971
-#&gt; 3         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       3486
-#&gt; 4         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       3714
-#&gt; 5         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       4193
-#&gt; 6         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       4854
-#&gt; 7         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       6604
-#&gt; 8         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       7421
-#&gt; 9         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       9540</div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>gdb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='exampleExpressionSet.html'>exampleGeneSetDb</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>geneSet</span><span class='op'>(</span><span class='va'>gdb</span>, <span class='st'>"c2"</span>, <span class='st'>"KOMMAGANI_TP63_GAMMA_TARGETS"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   collection                         name active N  n feature_id</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       1026</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA      10971</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       3486</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       3714</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       4193</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       4854</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 7         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       6604</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 8         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       7421</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 9         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       9540</span>
+<span class='r-in'><span class='fu'>geneSet</span><span class='op'>(</span><span class='va'>gdb</span>, collection <span class='op'>=</span> <span class='st'>"c2"</span>, name <span class='op'>=</span> <span class='st'>"KOMMAGANI_TP63_GAMMA_TARGETS"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   collection                         name active N  n feature_id</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       1026</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA      10971</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       3486</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       3714</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       4193</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       4854</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 7         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       6604</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 8         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       7421</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 9         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       9540</span>
+<span class='r-in'><span class='fu'>geneSet</span><span class='op'>(</span><span class='va'>gdb</span>, name <span class='op'>=</span> <span class='st'>"KOMMAGANI_TP63_GAMMA_TARGETS"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   collection                         name active N  n feature_id</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       1026</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA      10971</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       3486</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       3714</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       4193</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       4854</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 7         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       6604</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 8         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       7421</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 9         c2 KOMMAGANI_TP63_GAMMA_TARGETS  FALSE 9 NA       9540</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

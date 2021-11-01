@@ -192,15 +192,16 @@ function for a <code>GeneSetDb : Collection</code> combination.</p></li>
 </ul>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>gdb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='exampleExpressionSet.html'>exampleGeneSetDb</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='fu'>geneSetCollectionURLfunction</span><span class='op'>(</span><span class='va'>gdb</span>, <span class='st'>"c2"</span>, <span class='st'>"BIOCARTA_AGPCR_PATHWAY"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; function (collection, name, ...) 
-#&gt; {
-#&gt;     url &lt;- "http://www.broadinstitute.org/gsea/msigdb/cards/%s.html"
-#&gt;     sprintf(url, name)
-#&gt; }
-#&gt; &lt;bytecode: 0x55e925626068&gt;
-#&gt; &lt;environment: namespace:sparrow&gt;</div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>gdb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='exampleExpressionSet.html'>exampleGeneSetDb</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>geneSetCollectionURLfunction</span><span class='op'>(</span><span class='va'>gdb</span>, <span class='st'>"c2"</span>, <span class='st'>"BIOCARTA_AGPCR_PATHWAY"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> function (collection, name, ...) </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> {</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     url &lt;- "http://www.broadinstitute.org/gsea/msigdb/cards/%s.html"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     sprintf(url, name)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> }</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;bytecode: 0x560aa8843da8&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;environment: namespace:sparrow&gt;</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

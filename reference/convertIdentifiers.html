@@ -279,47 +279,48 @@ to make identifier conversion a easier through this function. You can track
 this in <a href='https://github.com/lianos/sparrow/issues/2'>sparrow issue #2</a>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># You can convert the identifiers within a GeneSetDb to some other type</span>
-<span class='co'># by providing a "translation" table. Check out the unit tests for more</span>
-<span class='co'># examples.</span>
-<span class='va'>gdb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='exampleExpressionSet.html'>exampleGeneSetDb</a></span><span class='op'>(</span><span class='op'>)</span> <span class='co'># this has no symbols in it</span>
-
-<span class='co'># Define a silly conversion table.</span>
-<span class='va'>xref</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>
-  current_id <span class='op'>=</span> <span class='fu'><a href='featureIds.html'>featureIds</a></span><span class='op'>(</span><span class='va'>gdb</span><span class='op'>)</span>,
-  new_id <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='fu'><a href='featureIds.html'>featureIds</a></span><span class='op'>(</span><span class='va'>gdb</span><span class='op'>)</span>, <span class='st'>"_symbol"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>gdb2</span> <span class='op'>&lt;-</span> <span class='fu'>convertIdentifiers</span><span class='op'>(</span><span class='va'>gdb</span>, from <span class='op'>=</span> <span class='st'>"current_id"</span>, to <span class='op'>=</span> <span class='st'>"new_id"</span>,
-                           xref <span class='op'>=</span> <span class='va'>xref</span>, extra.cols <span class='op'>=</span> <span class='st'>"original_id"</span><span class='op'>)</span>
-<span class='fu'><a href='geneSet.html'>geneSet</a></span><span class='op'>(</span><span class='va'>gdb2</span>, name <span class='op'>=</span> <span class='st'>"BIOCARTA_AGPCR_PATHWAY"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;    collection                   name active  N  n  feature_id original_id
-#&gt; 1          c2 BIOCARTA_AGPCR_PATHWAY  FALSE 13 NA 2778_symbol        2778
-#&gt; 2          c2 BIOCARTA_AGPCR_PATHWAY  FALSE 13 NA 2782_symbol        2782
-#&gt; 3          c2 BIOCARTA_AGPCR_PATHWAY  FALSE 13 NA 2792_symbol        2792
-#&gt; 4          c2 BIOCARTA_AGPCR_PATHWAY  FALSE 13 NA 2868_symbol        2868
-#&gt; 5          c2 BIOCARTA_AGPCR_PATHWAY  FALSE 13 NA  408_symbol         408
-#&gt; 6          c2 BIOCARTA_AGPCR_PATHWAY  FALSE 13 NA 5567_symbol        5567
-#&gt; 7          c2 BIOCARTA_AGPCR_PATHWAY  FALSE 13 NA 5568_symbol        5568
-#&gt; 8          c2 BIOCARTA_AGPCR_PATHWAY  FALSE 13 NA 5573_symbol        5573
-#&gt; 9          c2 BIOCARTA_AGPCR_PATHWAY  FALSE 13 NA 5575_symbol        5575
-#&gt; 10         c2 BIOCARTA_AGPCR_PATHWAY  FALSE 13 NA 5576_symbol        5576
-#&gt; 11         c2 BIOCARTA_AGPCR_PATHWAY  FALSE 13 NA 5577_symbol        5577
-#&gt; 12         c2 BIOCARTA_AGPCR_PATHWAY  FALSE 13 NA 5578_symbol        5578
-#&gt; 13         c2 BIOCARTA_AGPCR_PATHWAY  FALSE 13 NA 5579_symbol        5579</div><div class='input'>
-<span class='co'># Convert entrez to ensembl id's using babelgene</span>
-<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='co'># The conversion functionality via babelgene isn't yet implemented, but</span>
-<span class='co'># will look like this.</span>
-
-<span class='co'># 1. convert the human entrez identifiers to ensembl</span>
-<span class='va'>gdb.ens</span> <span class='op'>&lt;-</span> <span class='fu'>convertIdentifiers</span><span class='op'>(</span><span class='va'>gdb</span>, <span class='st'>"human"</span>, id.type <span class='op'>=</span> <span class='st'>"ensembl"</span><span class='op'>)</span>
-
-<span class='co'># 2. convert the human entrez to mouse entrez</span>
-<span class='va'>gdb.entm</span> <span class='op'>&lt;-</span> <span class='fu'>convertIdentifiers</span><span class='op'>(</span><span class='va'>gdb</span>, <span class='st'>"human"</span>, <span class='st'>"mouse"</span>, id.type <span class='op'>=</span> <span class='st'>"entrez"</span><span class='op'>)</span>
-
-<span class='co'># 3. convert the human entrez to mouse ensembl</span>
-<span class='va'>gdb.ensm</span> <span class='op'>&lt;-</span> <span class='fu'>convertIdentifiers</span><span class='op'>(</span><span class='va'>gdb</span>, <span class='st'>"human"</span>, <span class='st'>"mouse"</span>, id.type <span class='op'>=</span> <span class='st'>"ensembl"</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># You can convert the identifiers within a GeneSetDb to some other type</span></span>
+<span class='r-in'><span class='co'># by providing a "translation" table. Check out the unit tests for more</span></span>
+<span class='r-in'><span class='co'># examples.</span></span>
+<span class='r-in'><span class='va'>gdb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='exampleExpressionSet.html'>exampleGeneSetDb</a></span><span class='op'>(</span><span class='op'>)</span> <span class='co'># this has no symbols in it</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Define a silly conversion table.</span></span>
+<span class='r-in'><span class='va'>xref</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span></span>
+<span class='r-in'>  current_id <span class='op'>=</span> <span class='fu'><a href='featureIds.html'>featureIds</a></span><span class='op'>(</span><span class='va'>gdb</span><span class='op'>)</span>,</span>
+<span class='r-in'>  new_id <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='fu'><a href='featureIds.html'>featureIds</a></span><span class='op'>(</span><span class='va'>gdb</span><span class='op'>)</span>, <span class='st'>"_symbol"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>gdb2</span> <span class='op'>&lt;-</span> <span class='fu'>convertIdentifiers</span><span class='op'>(</span><span class='va'>gdb</span>, from <span class='op'>=</span> <span class='st'>"current_id"</span>, to <span class='op'>=</span> <span class='st'>"new_id"</span>,</span>
+<span class='r-in'>                           xref <span class='op'>=</span> <span class='va'>xref</span>, extra.cols <span class='op'>=</span> <span class='st'>"original_id"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='geneSet.html'>geneSet</a></span><span class='op'>(</span><span class='va'>gdb2</span>, name <span class='op'>=</span> <span class='st'>"BIOCARTA_AGPCR_PATHWAY"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    collection                   name active  N  n  feature_id original_id</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1          c2 BIOCARTA_AGPCR_PATHWAY  FALSE 13 NA 2778_symbol        2778</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2          c2 BIOCARTA_AGPCR_PATHWAY  FALSE 13 NA 2782_symbol        2782</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3          c2 BIOCARTA_AGPCR_PATHWAY  FALSE 13 NA 2792_symbol        2792</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4          c2 BIOCARTA_AGPCR_PATHWAY  FALSE 13 NA 2868_symbol        2868</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5          c2 BIOCARTA_AGPCR_PATHWAY  FALSE 13 NA  408_symbol         408</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6          c2 BIOCARTA_AGPCR_PATHWAY  FALSE 13 NA 5567_symbol        5567</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 7          c2 BIOCARTA_AGPCR_PATHWAY  FALSE 13 NA 5568_symbol        5568</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 8          c2 BIOCARTA_AGPCR_PATHWAY  FALSE 13 NA 5573_symbol        5573</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 9          c2 BIOCARTA_AGPCR_PATHWAY  FALSE 13 NA 5575_symbol        5575</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 10         c2 BIOCARTA_AGPCR_PATHWAY  FALSE 13 NA 5576_symbol        5576</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 11         c2 BIOCARTA_AGPCR_PATHWAY  FALSE 13 NA 5577_symbol        5577</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 12         c2 BIOCARTA_AGPCR_PATHWAY  FALSE 13 NA 5578_symbol        5578</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 13         c2 BIOCARTA_AGPCR_PATHWAY  FALSE 13 NA 5579_symbol        5579</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Convert entrez to ensembl id's using babelgene</span></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='co'># The conversion functionality via babelgene isn't yet implemented, but</span></span>
+<span class='r-in'><span class='co'># will look like this.</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># 1. convert the human entrez identifiers to ensembl</span></span>
+<span class='r-in'><span class='va'>gdb.ens</span> <span class='op'>&lt;-</span> <span class='fu'>convertIdentifiers</span><span class='op'>(</span><span class='va'>gdb</span>, <span class='st'>"human"</span>, id.type <span class='op'>=</span> <span class='st'>"ensembl"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># 2. convert the human entrez to mouse entrez</span></span>
+<span class='r-in'><span class='va'>gdb.entm</span> <span class='op'>&lt;-</span> <span class='fu'>convertIdentifiers</span><span class='op'>(</span><span class='va'>gdb</span>, <span class='st'>"human"</span>, <span class='st'>"mouse"</span>, id.type <span class='op'>=</span> <span class='st'>"entrez"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># 3. convert the human entrez to mouse ensembl</span></span>
+<span class='r-in'><span class='va'>gdb.ensm</span> <span class='op'>&lt;-</span> <span class='fu'>convertIdentifiers</span><span class='op'>(</span><span class='va'>gdb</span>, <span class='st'>"human"</span>, <span class='st'>"mouse"</span>, id.type <span class='op'>=</span> <span class='st'>"ensembl"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

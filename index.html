@@ -113,9 +113,9 @@
 <span class="va">mg</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/seas.html">seas</a></span><span class="op">(</span><span class="va">vm</span>, <span class="va">bsc</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"cameraPR"</span>, <span class="st">"fry"</span><span class="op">)</span>, design <span class="op">=</span> <span class="va">vm</span><span class="op">$</span><span class="va">design</span>, contrast <span class="op">=</span> <span class="st">"tumor"</span><span class="op">)</span></code></pre></div>
 <p>We can view the top “camera” results with the smallest pvalues like so:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/resultNames.html">results</a></span><span class="op">(</span><span class="va">mg</span>, <span class="st">"cameraPR"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">pval</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">padj</span><span class="op">)</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="fu"><a href="reference/resultNames.html">results</a></span><span class="op">(</span><span class="va">mg</span>, <span class="st">"cameraPR"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">pval</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">padj</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="va">head</span>
 <span class="co">#&gt;                        name         padj</span>
 <span class="co">#&gt; 1      HALLMARK_E2F_TARGETS 4.303158e-21</span>
@@ -132,7 +132,7 @@
 <code class="sourceCode R"><span class="fu"><a href="reference/iplot.html">iplot</a></span><span class="op">(</span><span class="va">mg</span>, <span class="st">'HALLMARK_MYC_TARGETS_V1'</span>, type <span class="op">=</span> <span class="st">"gsea"</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README_iplot_gsea.png"></p>
 <p>When these plots are rendered in your workspace or an Rmarkdown document, the user can hover of the genes (dots) to see their name and differential expression statistics.</p>
-<p>For an immersive, interactive way to explore the GSEA results, use the <code><a href="https://rdrr.io/pkg/sparrow.shiny/man/explore.html">sparrow.shiny::explore(mg)</a></code> method!</p>
+<p>For an immersive, interactive way to explore the GSEA results, use the <code>sparrow.shiny::explore(mg)</code> method!</p>
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">

@@ -89,7 +89,7 @@
       <h1 data-toc-skip>Performing gene set enrichment analyses with sparrow</h1>
                         <h4 class="author">Steve Lianoglou</h4>
             
-            <h4 class="date">31 October 2021</h4>
+            <h4 class="date">1 November 2021</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/lianos/sparrow/blob/master/vignettes/sparrow.Rmd"><code>vignettes/sparrow.Rmd</code></a></small>
       <div class="hidden name"><code>sparrow.Rmd</code></div>
@@ -163,7 +163,7 @@
 <code class="sourceCode R"><span class="va">vm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/exampleExpressionSet.html">exampleExpressionSet</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="st">"tumor-subtype"</span>, do.voom <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p>Below you’ll find the <code>$targets</code> data.frame of the voomed <code>EList</code></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">vm</span><span class="op">$</span><span class="va">targets</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">vm</span><span class="op">$</span><span class="va">targets</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">Patient_ID</span>, <span class="va">Cancer_Status</span>, <span class="va">PAM50subtype</span><span class="op">)</span></code></pre></div>
 <pre><code>##                                Patient_ID Cancer_Status PAM50subtype
 ## TCGA-A2-A0CM-01A-31R-A034-07 TCGA-A2-A0CM         tumor        Basal
@@ -210,7 +210,7 @@
 ## [1] "contr.treatment"</code></pre>
 <p>We can test for differences between basla and her2 subtypes using the following contrast:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="op">(</span><span class="va">cm</span> <span class="op">&lt;-</span> <span class="fu">makeContrasts</span><span class="op">(</span>BvH<span class="op">=</span><span class="va">Basal</span> <span class="op">-</span> <span class="va">Her2</span>, levels<span class="op">=</span><span class="va">vm</span><span class="op">$</span><span class="va">design</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="op">(</span><span class="va">cm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/limma/man/makeContrasts.html">makeContrasts</a></span><span class="op">(</span>BvH<span class="op">=</span><span class="va">Basal</span> <span class="op">-</span> <span class="va">Her2</span>, levels<span class="op">=</span><span class="va">vm</span><span class="op">$</span><span class="va">design</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>##        Contrasts
 ## Levels  BvH
 ##   Basal   1
@@ -222,10 +222,10 @@
 <p>In this section, we first show you the straightforward analysis you would do if you were only testing for differential gene expression.</p>
 <p>With the data we have at hand, you would simply do the following:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu">lmFit</span><span class="op">(</span><span class="va">vm</span>, <span class="va">vm</span><span class="op">$</span><span class="va">design</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">contrasts.fit</span><span class="op">(</span><span class="va">cm</span><span class="op">)</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/limma/man/lmFit.html">lmFit</a></span><span class="op">(</span><span class="va">vm</span>, <span class="va">vm</span><span class="op">$</span><span class="va">design</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/limma/man/contrasts.fit.html">contrasts.fit</a></span><span class="op">(</span><span class="va">cm</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="va">eBayes</span>
-<span class="va">tt</span> <span class="op">&lt;-</span> <span class="fu">topTable</span><span class="op">(</span><span class="va">fit</span>, <span class="st">'BvH'</span>, n<span class="op">=</span><span class="cn">Inf</span>, sort.by<span class="op">=</span><span class="st">'none'</span><span class="op">)</span></code></pre></div>
+<span class="va">tt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/limma/man/toptable.html">topTable</a></span><span class="op">(</span><span class="va">fit</span>, <span class="st">'BvH'</span>, n<span class="op">=</span><span class="cn">Inf</span>, sort.by<span class="op">=</span><span class="st">'none'</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="gene-set-enrichment-analysis" class="section level3">
 <h3 class="hasAnchor">
@@ -245,10 +245,10 @@
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">bsc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/getMSigCollection.html">getMSigCollection</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"h"</span>, <span class="st">"c2"</span><span class="op">)</span>, <span class="st">"human"</span>, id.type <span class="op">=</span> <span class="st">"entrez"</span><span class="op">)</span></code></pre></div>
 </div>
-<p>You can view a table of the gene sets defined inside a <code>GeneSetDb</code> (<code>gdb</code>)object via its <code><a href="../reference/geneSets.html">geneSets(gdb)</a></code> accessor:</p>
+<p>You can view a table of the gene sets defined inside a <code>GeneSetDb</code> (<code>gdb</code>)object via its <code>geneSets(gdb)</code> accessor:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/geneSets.html">geneSets</a></span><span class="op">(</span><span class="va">gdb</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="va">head</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="fu"><a href="../reference/geneSets.html">geneSets</a></span><span class="op">(</span><span class="va">gdb</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="va">head</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span></code></pre></div>
 <pre><code>##   collection                             name active  N
 ## 1         C2         ABBUD_LIF_SIGNALING_1_DN  FALSE 28
@@ -285,8 +285,8 @@
 <p>The result of the internally run differential expression analysis is accessible via a call to <code>logFC</code> function on the <code>SparrowResult</code> object:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">lfc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/logFC.html">logFC</a></span><span class="op">(</span><span class="va">mg</span><span class="op">)</span>
-<span class="va">lfc</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">symbol</span>, <span class="va">entrez_id</span>, <span class="va">logFC</span>, <span class="va">t</span>, <span class="va">pval</span>, <span class="va">padj</span><span class="op">)</span> <span class="op">%&gt;%</span>
+<span class="va">lfc</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">symbol</span>, <span class="va">entrez_id</span>, <span class="va">logFC</span>, <span class="va">t</span>, <span class="va">pval</span>, <span class="va">padj</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="va">head</span></code></pre></div>
 <pre><code>##         symbol entrez_id       logFC           t      pval      padj
 ## 1         A1BG         1  0.67012895  1.07951394 0.2982819 0.6858344
@@ -297,8 +297,8 @@
 ## 6         MED6     10001  0.04505155  0.15082239 0.8822288 0.9701384</code></pre>
 <p>We can confirm that the statistics generated internally in <code><a href="../reference/seas.html">seas()</a></code> mimic our explicit analysis above by verifying that the t-statistics generated by both approaches are identical.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">comp</span> <span class="op">&lt;-</span> <span class="va">tt</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">entrez_id</span>, <span class="va">logFC</span>, <span class="va">t</span>, pval<span class="op">=</span><span class="va">P.Value</span>, padj<span class="op">=</span><span class="va">adj.P.Val</span><span class="op">)</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">comp</span> <span class="op">&lt;-</span> <span class="va">tt</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">entrez_id</span>, <span class="va">logFC</span>, <span class="va">t</span>, pval<span class="op">=</span><span class="va">P.Value</span>, padj<span class="op">=</span><span class="va">adj.P.Val</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">inner_join</a></span><span class="op">(</span><span class="va">lfc</span>, by<span class="op">=</span><span class="st">'entrez_id'</span>, suffix<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'.tt'</span>, <span class="st">'.mg'</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/all.equal.data.table.html">all.equal</a></span><span class="op">(</span><span class="va">comp</span><span class="op">$</span><span class="va">t.tt</span>, <span class="va">comp</span><span class="op">$</span><span class="va">t.mg</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
@@ -340,10 +340,10 @@
 <span class="va">cam.go.res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/resultNames.html">results</a></span><span class="op">(</span><span class="va">mg</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'camera'</span>, <span class="st">'ora.up'</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>You can identify genesets with the strongest enrichment by filtering and sorting against the appropriate columns. We can, for instance, identify which hallmark gene sets show the strongest enrichment as follows:</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">cam.res</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">padj</span> <span class="op">&lt;</span> <span class="fl">0.1</span>, <span class="va">collection</span> <span class="op">==</span> <span class="st">'H'</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html">desc</a></span><span class="op">(</span><span class="va">mean.logFC</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">n</span>, <span class="va">mean.logFC</span>, <span class="va">padj</span><span class="op">)</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">cam.res</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">padj</span> <span class="op">&lt;</span> <span class="fl">0.1</span>, <span class="va">collection</span> <span class="op">==</span> <span class="st">'H'</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html">desc</a></span><span class="op">(</span><span class="va">mean.logFC</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">n</span>, <span class="va">mean.logFC</span>, <span class="va">padj</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="va">head</span></code></pre></div>
 <pre><code>##                                 name   n mean.logFC         padj
 ## 1            HALLMARK_MYC_TARGETS_V2  58  0.4461105 0.0002580762
@@ -352,8 +352,8 @@
 ## 4            HALLMARK_MYC_TARGETS_V1 200  0.2092836 0.0237159669</code></pre>
 <p>You can also list the members of a geneset and their individual differential expression statistics for the contrast under test using the <code>geneSet</code> function.</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/geneSet.html">geneSet</a></span><span class="op">(</span><span class="va">mg</span>, name <span class="op">=</span> <span class="st">'HALLMARK_WNT_BETA_CATENIN_SIGNALING'</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">symbol</span>, <span class="va">entrez_id</span>, <span class="va">logFC</span>, <span class="va">pval</span>, <span class="va">padj</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="fu"><a href="../reference/geneSet.html">geneSet</a></span><span class="op">(</span><span class="va">mg</span>, name <span class="op">=</span> <span class="st">'HALLMARK_WNT_BETA_CATENIN_SIGNALING'</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">symbol</span>, <span class="va">entrez_id</span>, <span class="va">logFC</span>, <span class="va">pval</span>, <span class="va">padj</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
   <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <pre><code>##   symbol entrez_id      logFC       pval      padj
 ## 1  HDAC5     10014  0.8984691 0.02253974 0.2522754
@@ -418,15 +418,15 @@
 <p>We can generate single sample gene set scores using the gene sets defined in a <code>GeneSetDb</code> using the <code>scoreSingleSamples</code> function. This function takes a <code>GeneSetDb</code>, an expression container, and a <code>methods</code> argument, which is analagous to the <code>methods</code> argument in the <code><a href="../reference/seas.html">seas()</a></code> call: it defines all of the scoring methos the user wants to apply to each sample.</p>
 <p>Let’s pick a few gene sets to score our samples with for this exercise. We’ll take the significant hallmark gene sets, or any other significant gene set that has a large (on average) log fold change between conditions.</p>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">sig.res</span> <span class="op">&lt;-</span> <span class="va">cam.res</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">sig.res</span> <span class="op">&lt;-</span> <span class="va">cam.res</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">padj</span> <span class="op">&lt;</span> <span class="fl">0.05</span> <span class="op">&amp;</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span><span class="op">(</span><span class="st">"HALLMARK"</span>, <span class="va">name</span><span class="op">)</span> <span class="op">|</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="va">mean.logFC</span><span class="op">)</span> <span class="op">&gt;=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span>
-<span class="va">gdb.sub</span> <span class="op">&lt;-</span> <span class="va">gdb</span><span class="op">[</span><span class="fu"><a href="../reference/geneSets.html">geneSets</a></span><span class="op">(</span><span class="va">gdb</span><span class="op">)</span><span class="op">$</span><span class="va">name</span> <span class="op">%in%</span> <span class="va">sig.res</span><span class="op">$</span><span class="va">name</span><span class="op">]</span></code></pre></div>
+<span class="va">gdb.sub</span> <span class="op">&lt;-</span> <span class="va">gdb</span><span class="op">[</span><span class="fu"><a href="../reference/geneSets.html">geneSets</a></span><span class="op">(</span><span class="va">gdb</span><span class="op">)</span><span class="op">$</span><span class="va">name</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="va">sig.res</span><span class="op">$</span><span class="va">name</span><span class="op">]</span></code></pre></div>
 <div class="note">
 <p>Refer to the <a href="#subsetting-a-genesetdb">Subsetting a GeneSetDb</a> section to learn how to subset a <code>GeneSetDb</code> object to create a derivative object with fewer gene sets.</p>
 </div>
 <p>Recall that the GSEA analysis we performed was perfomed between the Basal and Her2 subtypes, so we will use an expression matrix that only has the samples from those two groups.</p>
 <div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">vm.bh</span> <span class="op">&lt;-</span> <span class="va">vm</span><span class="op">[</span>, <span class="va">vm</span><span class="op">$</span><span class="va">targets</span><span class="op">$</span><span class="va">PAM50subtype</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Basal"</span>, <span class="st">"Her2"</span><span class="op">)</span><span class="op">]</span></code></pre></div>
+<code class="sourceCode R"><span class="va">vm.bh</span> <span class="op">&lt;-</span> <span class="va">vm</span><span class="op">[</span>, <span class="va">vm</span><span class="op">$</span><span class="va">targets</span><span class="op">$</span><span class="va">PAM50subtype</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Basal"</span>, <span class="st">"Her2"</span><span class="op">)</span><span class="op">]</span></code></pre></div>
 <div id="generating-single-sample-gene-set-scores" class="section level2">
 <h2 class="hasAnchor">
 <a href="#generating-single-sample-gene-set-scores" class="anchor"></a>Generating Single Sample Gene Set Scores</h2>
@@ -460,12 +460,12 @@
 <p>The “long” data.frame nature of the results produced by <code>scoreSingleSamples</code> makes it convenient to use with graphing libraries like ggplot2 so that we can create arbitrary visualizations. Creating boxplots for gene sets per subtype is an easy way to explore these results.</p>
 <p>Let’s annotate each row in <code>scores.all</code> with the subtype annotation and observe how these methods score each sample for a few gene sets.</p>
 <div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">all.scores</span> <span class="op">&lt;-</span> <span class="va">scores.all</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">all.scores</span> <span class="op">&lt;-</span> <span class="va">scores.all</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">inner_join</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">vm.bh</span><span class="op">$</span><span class="va">targets</span>, sample_id<span class="op">=</span><span class="va">Sample_ID</span>, subtype<span class="op">=</span><span class="va">PAM50subtype</span><span class="op">)</span>,
              by <span class="op">=</span> <span class="st">"sample_id"</span><span class="op">)</span>
 
-<span class="va">some.scores</span> <span class="op">&lt;-</span> <span class="va">all.scores</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">name</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/duplicated.html">unique</a></span><span class="op">(</span><span class="va">all.scores</span><span class="op">$</span><span class="va">name</span><span class="op">)</span>, <span class="fl">5</span><span class="op">)</span><span class="op">)</span>
+<span class="va">some.scores</span> <span class="op">&lt;-</span> <span class="va">all.scores</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">name</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/duplicated.html">unique</a></span><span class="op">(</span><span class="va">all.scores</span><span class="op">$</span><span class="va">name</span><span class="op">)</span>, <span class="fl">5</span><span class="op">)</span><span class="op">)</span>
 
 <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">some.scores</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">subtype</span>, <span class="va">score</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span><span class="op">(</span>outlier.shape<span class="op">=</span><span class="cn">NA</span><span class="op">)</span> <span class="op">+</span>
@@ -490,7 +490,7 @@
 <p>We’ll create a new <code>GeneSetDb</code> object using the first two gene sets in <code>gdb.sub</code> and draw a heatmap of their expression.</p>
 <div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">gs.sub</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/geneSets.html">geneSets</a></span><span class="op">(</span><span class="va">gdb.sub</span><span class="op">)</span>
-<span class="va">gdb.2</span> <span class="op">&lt;-</span> <span class="va">gdb.sub</span><span class="op">[</span><span class="fu"><a href="../reference/geneSets.html">geneSets</a></span><span class="op">(</span><span class="va">gdb.sub</span><span class="op">)</span><span class="op">$</span><span class="va">name</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">gs.sub</span><span class="op">$</span><span class="va">name</span>, <span class="fl">2</span><span class="op">)</span><span class="op">]</span>
+<span class="va">gdb.2</span> <span class="op">&lt;-</span> <span class="va">gdb.sub</span><span class="op">[</span><span class="fu"><a href="../reference/geneSets.html">geneSets</a></span><span class="op">(</span><span class="va">gdb.sub</span><span class="op">)</span><span class="op">$</span><span class="va">name</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">gs.sub</span><span class="op">$</span><span class="va">name</span>, <span class="fl">2</span><span class="op">)</span><span class="op">]</span>
 
 <span class="va">col.anno</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ComplexHeatmap/man/HeatmapAnnotation.html">HeatmapAnnotation</a></span><span class="op">(</span>
   df <span class="op">=</span> <span class="va">vm.bh</span><span class="op">$</span><span class="va">targets</span><span class="op">[</span>, <span class="st">'PAM50subtype'</span>, drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span>,
@@ -554,22 +554,22 @@
 <p>The sparrow package provides convenience functions to fetch genesets from many sources and convert them into a GeneSetDb object. The two most useful sources may be:</p>
 <ul>
 <li>
-<a href="http://software.broadinstitute.org/gsea/msigdb/">MSigDB</a> via <code><a href="../reference/getMSigCollection.html">getMSigGeneSetDb(...)</a></code>. Although the core <code>sparrow</code> package provides the getter function for these genesets, the main data retrieval functionality is provided through the <a href="https://cran.r-project.org/package=msigdbr">msigdbr</a> package.</li>
+<a href="http://software.broadinstitute.org/gsea/msigdb/">MSigDB</a> via <code>getMSigGeneSetDb(...)</code>. Although the core <code>sparrow</code> package provides the getter function for these genesets, the main data retrieval functionality is provided through the <a href="https://cran.r-project.org/package=msigdbr">msigdbr</a> package.</li>
 <li>
 <a href="http://pantherdb.org">PANTHER</a> (pathways and GOSLIM) via <code><a href="../reference/getPantherCollection.html">getPantherGeneSetDb()</a></code>
 </li>
 <li>
-<a href="https://www.genome.jp/kegg/">KEGG</a> via <code><a href="../reference/getKeggCollection.html">getKeggGeneSetDb(...)</a></code>
+<a href="https://www.genome.jp/kegg/">KEGG</a> via <code>getKeggGeneSetDb(...)</code>
 </li>
 </ul>
-<p>We also provide similarly named methos to retrieve these gene set collections as a <code>BiocSet</code>, just substitute <code>"Collection"</code> for <code>"GeneSetDb"</code>, ie. <code>getMsigCollection(...)</code>, <code><a href="../reference/getPantherCollection.html">getPantherCollection(...)</a></code>, and <code><a href="../reference/getKeggCollection.html">getKeggCollection(...)</a></code>.</p>
+<p>We also provide similarly named methos to retrieve these gene set collections as a <code>BiocSet</code>, just substitute <code>"Collection"</code> for <code>"GeneSetDb"</code>, ie. <code>getMsigCollection(...)</code>, <code>getPantherCollection(...)</code>, and <code>getKeggCollection(...)</code>.</p>
 <p>You can create a custom <code>GeneSetDb</code> via the <code><a href="../reference/GeneSetDb-class.html">GeneSetDb()</a></code> constructor, which accepts the following types of inputs.</p>
 <ol style="list-style-type: decimal">
 <li>A <code>BiocSet</code>
 </li>
 <li>A <code>GeneSetCollection</code>
 </li>
-<li>A data.frame of geneset membership. This requires <code>collection</code>, <code>name</code>, and <code>feature_id</code> columns. Reference the output of <code><a href="../reference/conversion.html">as.data.frame(gdb)</a></code> shown above.</li>
+<li>A data.frame of geneset membership. This requires <code>collection</code>, <code>name</code>, and <code>feature_id</code> columns. Reference the output of <code>as.data.frame(gdb)</code> shown above.</li>
 <li>A named list of gene identifier vectors that represent genesets for a single collection</li>
 <li>A named list of (2)-like lists. The top level names are the names of the different collections, and each sublist represents the genesets in that collection.</li>
 </ol>
@@ -580,7 +580,7 @@
 <span class="va">gdb.uber</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/combine.html">combine</a></span><span class="op">(</span><span class="va">msigdb</span>, <span class="va">goslimdb</span><span class="op">)</span></code></pre></div>
 <p>See the help and examples in <code><a href="../reference/GeneSetDb-class.html">?GeneSetDb</a></code> for more information.</p>
 <div class="warning">
-<p>For some reason the <code>PANTHER.db</code> package needs to be installed in a user-writable package location for this to work properly. If you see an error that speaks to using “rsqlite to write to a readonly database”, you will have to re-install <code>PANTHER.db</code> in a user-writable directory using <code><a href="https://rdrr.io/pkg/BiocManager/man/install.html">BiocManager::install("PANTHER.db")</a></code></p>
+<p>For some reason the <code>PANTHER.db</code> package needs to be installed in a user-writable package location for this to work properly. If you see an error that speaks to using “rsqlite to write to a readonly database”, you will have to re-install <code>PANTHER.db</code> in a user-writable directory using <code>BiocManager::install("PANTHER.db")</code></p>
 </div>
 </div>
 <div id="subsetting-a-genesetdb" class="section level2">
@@ -588,11 +588,11 @@
 <a href="#subsetting-a-genesetdb" class="anchor"></a>Subsetting a GeneSetDb</h2>
 <p>The subsetting functionality for a <code>GeneSetDb</code> is a bit clunky. We assume you want to subset a GeneSetDb to include a subset of, well, gene sets.</p>
 <p>One way you can do that is to provide a logical vector that is as long as there are gene sets in the GeneSetDb as an index.</p>
-<p>For instance, if we want to include only the genesets in <a href="https://www.gsea-msigdb.org/gsea/msigdb/genesets.jsp?collection=CP:PID">CP:PID</a>, you can do that. This subcatory information is stored in the <code>"subcategory"</code> column from <code><a href="../reference/geneSets.html">geneSets(gdb)</a></code></p>
+<p>For instance, if we want to include only the genesets in <a href="https://www.gsea-msigdb.org/gsea/msigdb/genesets.jsp?collection=CP:PID">CP:PID</a>, you can do that. This subcatory information is stored in the <code>"subcategory"</code> column from <code>geneSets(gdb)</code></p>
 <div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">keep</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/geneSets.html">geneSets</a></span><span class="op">(</span><span class="va">gdb</span><span class="op">)</span><span class="op">$</span><span class="va">subcategory</span> <span class="op">==</span> <span class="st">"CP:PID"</span>
 <span class="va">gdb.sub</span> <span class="op">&lt;-</span> <span class="va">gdb</span><span class="op">[</span><span class="va">keep</span><span class="op">]</span>
-<span class="fu"><a href="../reference/geneSets.html">geneSets</a></span><span class="op">(</span><span class="va">gdb.sub</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="../reference/geneSets.html">geneSets</a></span><span class="op">(</span><span class="va">gdb.sub</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <pre><code>##   collection                           name active  N  n subcategory gs_id
 ## 1         C2 PID_A6B1_A6B4_INTEGRIN_PATHWAY  FALSE 46 NA      CP:PID  M239
 ## 2         C2            PID_AJDISS_2PATHWAY  FALSE 48 NA      CP:PID  M142
@@ -637,9 +637,9 @@
 <pre><code>## [1] "1644" "1943" "3170"</code></pre>
 <p>or we can use the <code>geneSet</code> function to return a <code>data.frame</code> of these results:</p>
 <div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">gdbc</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/geneSet.html">geneSet</a></span><span class="op">(</span><span class="st">'C2'</span>, <span class="st">'ABBUD_LIF_SIGNALING_1_DN'</span>, active.only <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/subset.data.table.html">subset</a></span><span class="op">(</span><span class="va">feature_id</span> <span class="op">%in%</span> <span class="va">missed</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="va">gdbc</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="../reference/geneSet.html">geneSet</a></span><span class="op">(</span><span class="st">'C2'</span>, <span class="st">'ABBUD_LIF_SIGNALING_1_DN'</span>, active.only <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/subset.data.table.html">subset</a></span><span class="op">(</span><span class="va">feature_id</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="va">missed</span><span class="op">)</span></code></pre></div>
 <pre><code>##    collection                     name active  N  n feature_id symbol
 ## 4          C2 ABBUD_LIF_SIGNALING_1_DN   TRUE 28 25       1644    DDC
 ## 5          C2 ABBUD_LIF_SIGNALING_1_DN   TRUE 28 25       1943  EFNA2
@@ -687,7 +687,7 @@
 <h2 class="hasAnchor">
 <a href="#custom-gsea" class="anchor"></a>Custom GSEA</h2>
 <p>The GSEA methods that are wrapped by <code><a href="../reference/seas.html">seas()</a></code> all take the same parameters that are defined by their implementation. Simply pass these parameters down via the <code>...</code> in the <code><a href="../reference/seas.html">seas()</a></code> call.</p>
-<p>For instance, you can read <code>?camera</code> to find that the <code>camera</code> method accepts an <code>inter.gene.cor</code> parameter, and <code>?roast</code> will tell you that you can specify the number of rotations used via the <code>nrot</code> parameter.</p>
+<p>For instance, you can read <code><a href="https://rdrr.io/pkg/limma/man/camera.html">?camera</a></code> to find that the <code>camera</code> method accepts an <code>inter.gene.cor</code> parameter, and <code><a href="https://rdrr.io/pkg/limma/man/roast.html">?roast</a></code> will tell you that you can specify the number of rotations used via the <code>nrot</code> parameter.</p>
 <div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mgx</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/seas.html">seas</a></span><span class="op">(</span><span class="va">vm</span>, <span class="va">gdb</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'camera'</span>, <span class="st">'roast'</span><span class="op">)</span>, 
             design <span class="op">=</span> <span class="va">vm</span><span class="op">$</span><span class="va">design</span>, contrast <span class="op">=</span> <span class="va">cm</span><span class="op">[</span>, <span class="st">'BvH'</span><span class="op">]</span>,
@@ -701,7 +701,7 @@
 Session Information
 </summary><div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code>## R version 4.1.1 (2021-08-10)
+<pre><code>## R Under development (unstable) (2021-10-28 r81109)
 ## Platform: x86_64-pc-linux-gnu (64-bit)
 ## Running under: Ubuntu 20.04.3 LTS
 ## 
@@ -721,40 +721,40 @@ Session Information
 ## [8] base     
 ## 
 ## other attached packages:
-##  [1] data.table_1.14.2     edgeR_3.36.0          limma_3.50.0         
-##  [4] circlize_0.4.13       ComplexHeatmap_2.10.0 ggplot2_3.3.5        
+##  [1] data.table_1.14.2     edgeR_3.37.0          limma_3.51.0         
+##  [4] circlize_0.4.13       ComplexHeatmap_2.11.0 ggplot2_3.3.5        
 ##  [7] dplyr_1.0.7           magrittr_2.0.1        sparrow_0.99.6       
-## [10] BiocStyle_2.22.0     
+## [10] BiocStyle_2.23.0     
 ## 
 ## loaded via a namespace (and not attached):
 ##   [1] backports_1.3.0             systemfonts_1.0.3          
 ##   [3] plyr_1.8.6                  lazyeval_0.2.2             
-##   [5] GSEABase_1.56.0             BiocParallel_1.28.0        
-##   [7] GenomeInfoDb_1.30.0         digest_0.6.28              
+##   [5] GSEABase_1.57.0             BiocParallel_1.29.0        
+##   [7] GenomeInfoDb_1.31.1         digest_0.6.28              
 ##   [9] foreach_1.5.1               htmltools_0.5.2            
 ##  [11] magick_2.7.3                viridis_0.6.2              
 ##  [13] fansi_0.5.0                 checkmate_2.0.0            
-##  [15] memoise_2.0.0               ScaledMatrix_1.2.0         
+##  [15] memoise_2.0.0               ScaledMatrix_1.3.0         
 ##  [17] cluster_2.1.2               doParallel_1.0.16          
-##  [19] Biostrings_2.62.0           annotate_1.72.0            
+##  [19] Biostrings_2.63.0           annotate_1.73.0            
 ##  [21] matrixStats_0.61.0          pkgdown_1.6.1              
 ##  [23] colorspace_2.0-2            blob_1.2.2                 
 ##  [25] BiasedUrn_1.07              textshaping_0.3.6          
-##  [27] xfun_0.27                   BiocSet_1.8.0              
-##  [29] crayon_1.4.1                RCurl_1.98-1.5             
-##  [31] jsonlite_1.7.2              graph_1.72.0               
+##  [27] xfun_0.27                   BiocSet_1.9.0              
+##  [29] crayon_1.4.2                RCurl_1.98-1.5             
+##  [31] jsonlite_1.7.2              graph_1.73.0               
 ##  [33] iterators_1.0.13            glue_1.4.2                 
-##  [35] gtable_0.3.0                zlibbioc_1.40.0            
-##  [37] XVector_0.34.0              GetoptLong_1.0.5           
-##  [39] DelayedArray_0.20.0         BiocSingular_1.10.0        
-##  [41] Rhdf5lib_1.16.0             shape_1.4.6                
-##  [43] SingleCellExperiment_1.16.0 BiocGenerics_0.40.0        
-##  [45] HDF5Array_1.22.0            scales_1.1.1               
+##  [35] gtable_0.3.0                zlibbioc_1.41.0            
+##  [37] XVector_0.35.0              GetoptLong_1.0.5           
+##  [39] DelayedArray_0.21.0         BiocSingular_1.11.0        
+##  [41] Rhdf5lib_1.17.0             shape_1.4.6                
+##  [43] SingleCellExperiment_1.17.0 BiocGenerics_0.41.1        
+##  [45] HDF5Array_1.23.0            scales_1.1.1               
 ##  [47] msigdbr_7.4.1               DBI_1.1.1                  
 ##  [49] Rcpp_1.0.7                  viridisLite_0.4.0          
 ##  [51] xtable_1.8-4                clue_0.3-60                
 ##  [53] rsvd_1.0.5                  bit_4.0.4                  
-##  [55] stats4_4.1.1                GSVA_1.42.0                
+##  [55] stats4_4.2.0                GSVA_1.43.0                
 ##  [57] htmlwidgets_1.5.4           httr_1.4.2                 
 ##  [59] ontologyIndex_2.7           RColorBrewer_1.1-2         
 ##  [61] ellipsis_0.3.2              farver_2.1.0               
@@ -762,36 +762,36 @@ Session Information
 ##  [65] sass_0.4.0                  locfit_1.5-9.4             
 ##  [67] utf8_1.2.2                  labeling_0.4.2             
 ##  [69] tidyselect_1.1.1            rlang_0.4.12               
-##  [71] AnnotationDbi_1.56.0        munsell_0.5.0              
-##  [73] tools_4.1.1                 cachem_1.0.6               
+##  [71] AnnotationDbi_1.57.1        munsell_0.5.0              
+##  [73] tools_4.2.0                 cachem_1.0.6               
 ##  [75] generics_0.1.1              RSQLite_2.2.8              
 ##  [77] evaluate_0.14               stringr_1.4.0              
 ##  [79] fastmap_1.1.0               yaml_2.2.1                 
-##  [81] ragg_1.1.3                  babelgene_21.4             
+##  [81] ragg_1.2.0                  babelgene_21.4             
 ##  [83] knitr_1.36                  bit64_4.0.5                
 ##  [85] fs_1.5.0                    purrr_0.3.4                
-##  [87] KEGGREST_1.34.0             sparseMatrixStats_1.6.0    
-##  [89] compiler_4.1.1              plotly_4.10.0              
+##  [87] KEGGREST_1.35.0             sparseMatrixStats_1.7.0    
+##  [89] compiler_4.2.0              plotly_4.10.0              
 ##  [91] png_0.1-7                   tibble_3.1.5               
 ##  [93] statmod_1.4.36              bslib_0.3.1                
 ##  [95] stringi_1.7.5               highr_0.9                  
 ##  [97] desc_1.4.0                  lattice_0.20-45            
 ##  [99] Matrix_1.3-4                vctrs_0.3.8                
-## [101] rhdf5filters_1.6.0          pillar_1.6.4               
+## [101] rhdf5filters_1.7.0          pillar_1.6.4               
 ## [103] lifecycle_1.0.1             BiocManager_1.30.16        
 ## [105] jquerylib_0.1.4             GlobalOptions_0.1.2        
 ## [107] bitops_1.0-7                irlba_2.3.3                
-## [109] GenomicRanges_1.46.0        R6_2.5.1                   
-## [111] BiocIO_1.4.0                bookdown_0.24              
-## [113] gridExtra_2.3               IRanges_2.28.0             
+## [109] GenomicRanges_1.47.2        R6_2.5.1                   
+## [111] BiocIO_1.5.0                bookdown_0.24              
+## [113] gridExtra_2.3               IRanges_2.29.0             
 ## [115] codetools_0.2-18            assertthat_0.2.1           
-## [117] rhdf5_2.38.0                SummarizedExperiment_1.24.0
+## [117] rhdf5_2.39.0                SummarizedExperiment_1.25.0
 ## [119] rprojroot_2.0.2             rjson_0.2.20               
-## [121] withr_2.4.2                 S4Vectors_0.32.0           
-## [123] GenomeInfoDbData_1.2.7      parallel_4.1.1             
-## [125] beachmat_2.10.0             tidyr_1.1.4                
-## [127] rmarkdown_2.11              DelayedMatrixStats_1.16.0  
-## [129] MatrixGenerics_1.6.0        Biobase_2.54.0</code></pre>
+## [121] withr_2.4.2                 S4Vectors_0.33.0           
+## [123] GenomeInfoDbData_1.2.7      parallel_4.2.0             
+## [125] beachmat_2.11.0             tidyr_1.1.4                
+## [127] rmarkdown_2.11              DelayedMatrixStats_1.17.0  
+## [129] MatrixGenerics_1.7.0        Biobase_2.55.0</code></pre>
 </details>
 </div>
   </div>

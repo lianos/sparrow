@@ -172,7 +172,7 @@ running any analysis, and this function essentially is just a
       <td><p>The contrast you want to test and provide stats for. By
 default this tests the last column of the <code>design</code> matrix. If you
 want to test a custom contrast, this can be a contrast vector, which
-means that it should be as long as <code><a href='https://rdrr.io/r/base/nrow.html'>ncol(design)</a></code> and it most-often sum to
+means that it should be as long as <code>ncol(design)</code> and it most-often sum to
 one. In the future, the user will be able to specify a range of
 coefficients over <code>design</code> to perform an ANOVA analysis, cf.
 Issue #11 (https://github.com/lianos/multiGSEA/issues/11).</p></td>
@@ -264,9 +264,9 @@ a logFC-like data.frame is constructed with these statistics in the
 <code>logFC</code> and <code>t</code> columns.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>vm</span> <span class='op'>&lt;-</span> <span class='fu'><a href='exampleExpressionSet.html'>exampleExpressionSet</a></span><span class='op'>(</span>do.voom <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-<span class='va'>lfc</span> <span class='op'>&lt;-</span> <span class='fu'>calculateIndividualLogFC</span><span class='op'>(</span><span class='va'>vm</span>, <span class='va'>vm</span><span class='op'>$</span><span class='va'>design</span>, <span class='st'>"tumor"</span><span class='op'>)</span>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>vm</span> <span class='op'>&lt;-</span> <span class='fu'><a href='exampleExpressionSet.html'>exampleExpressionSet</a></span><span class='op'>(</span>do.voom <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>lfc</span> <span class='op'>&lt;-</span> <span class='fu'>calculateIndividualLogFC</span><span class='op'>(</span><span class='va'>vm</span>, <span class='va'>vm</span><span class='op'>$</span><span class='va'>design</span>, <span class='st'>"tumor"</span><span class='op'>)</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

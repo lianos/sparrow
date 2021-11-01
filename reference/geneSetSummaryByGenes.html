@@ -196,7 +196,7 @@ the feature if present in the gene set, otherwise its <code>NA</code>.</p></td>
       <td><p>if <code>NULL</code>, the feature columns are prefixed with
 <code>featureId_</code>, if <code>FALSE</code>, no renaming is done. If <code>x</code> is
 a <code>SparrowResult</code>, then this can be the column name found in
-<code><a href='logFC.html'>logFC(x)</a></code>, in which case the value for the feature from the given
+<code>logFC(x)</code>, in which case the value for the feature from the given
 column name would be used (setting this to <code>"symbol"</code>) would be a
 common thing to do, for instance.</p></td>
     </tr>
@@ -239,14 +239,14 @@ a given gsea <code>method</code></p></li>
 </ul>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>vm</span> <span class='op'>&lt;-</span> <span class='fu'><a href='exampleExpressionSet.html'>exampleExpressionSet</a></span><span class='op'>(</span>do.voom<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
-<span class='va'>gdb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='conform.html'>conform</a></span><span class='op'>(</span><span class='fu'><a href='exampleExpressionSet.html'>exampleGeneSetDb</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='va'>vm</span><span class='op'>)</span>
-<span class='va'>mg</span> <span class='op'>&lt;-</span> <span class='fu'><a href='seas.html'>seas</a></span><span class='op'>(</span><span class='va'>vm</span>, <span class='va'>gdb</span>, design <span class='op'>=</span> <span class='va'>vm</span><span class='op'>$</span><span class='va'>design</span>, contrast <span class='op'>=</span> <span class='st'>'tumor'</span><span class='op'>)</span>
-<span class='va'>features</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"55839"</span>, <span class='st'>"8522"</span>, <span class='st'>"29087"</span><span class='op'>)</span>
-<span class='va'>gsm.hit</span> <span class='op'>&lt;-</span> <span class='fu'>geneSetSummaryByGenes</span><span class='op'>(</span><span class='va'>gdb</span>, <span class='va'>features</span><span class='op'>)</span>
-<span class='va'>gsm.fid</span> <span class='op'>&lt;-</span> <span class='fu'>geneSetSummaryByGenes</span><span class='op'>(</span><span class='va'>mg</span>, <span class='va'>features</span>, feature.rename<span class='op'>=</span><span class='cn'>NULL</span><span class='op'>)</span>
-<span class='va'>gsm.sym</span> <span class='op'>&lt;-</span> <span class='fu'>geneSetSummaryByGenes</span><span class='op'>(</span><span class='va'>mg</span>, <span class='va'>features</span>, feature.rename<span class='op'>=</span><span class='st'>'symbol'</span><span class='op'>)</span>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>vm</span> <span class='op'>&lt;-</span> <span class='fu'><a href='exampleExpressionSet.html'>exampleExpressionSet</a></span><span class='op'>(</span>do.voom<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>gdb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='conform.html'>conform</a></span><span class='op'>(</span><span class='fu'><a href='exampleExpressionSet.html'>exampleGeneSetDb</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='va'>vm</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>mg</span> <span class='op'>&lt;-</span> <span class='fu'><a href='seas.html'>seas</a></span><span class='op'>(</span><span class='va'>vm</span>, <span class='va'>gdb</span>, design <span class='op'>=</span> <span class='va'>vm</span><span class='op'>$</span><span class='va'>design</span>, contrast <span class='op'>=</span> <span class='st'>'tumor'</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>features</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"55839"</span>, <span class='st'>"8522"</span>, <span class='st'>"29087"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>gsm.hit</span> <span class='op'>&lt;-</span> <span class='fu'>geneSetSummaryByGenes</span><span class='op'>(</span><span class='va'>gdb</span>, <span class='va'>features</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>gsm.fid</span> <span class='op'>&lt;-</span> <span class='fu'>geneSetSummaryByGenes</span><span class='op'>(</span><span class='va'>mg</span>, <span class='va'>features</span>, feature.rename<span class='op'>=</span><span class='cn'>NULL</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>gsm.sym</span> <span class='op'>&lt;-</span> <span class='fu'>geneSetSummaryByGenes</span><span class='op'>(</span><span class='va'>mg</span>, <span class='va'>features</span>, feature.rename<span class='op'>=</span><span class='st'>'symbol'</span><span class='op'>)</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

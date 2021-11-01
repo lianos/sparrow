@@ -198,7 +198,7 @@ prescribed contrast run on <code>x</code>. These statistics are independent
 of any particular GSEA method, but rather summarize aggregate shifts
 of the gene sets individual features. The columns included in the output
 are summarized below:</p><ul>
-<li><p><code>n.sig</code>: The number of individual features whose <code><a href='https://rdrr.io/r/base/MathFun.html'>abs(logFC)</a></code> and padj
+<li><p><code>n.sig</code>: The number of individual features whose <code>abs(logFC)</code> and padj
 thersholds satisfy the criteria of the <code>feature.min.logFC</code> and
 <code>feature.max.padj</code> parameters of the original <code><a href='seas.html'>seas()</a></code> call</p></li>
 <li><p><code>n.neutral</code>: The number of individual features whose abs(logFC) and padj
@@ -218,24 +218,25 @@ expression object was a <code>DGEList</code>.</p></li>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>vm</span> <span class='op'>&lt;-</span> <span class='fu'><a href='exampleExpressionSet.html'>exampleExpressionSet</a></span><span class='op'>(</span>do.voom<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
-<span class='va'>gdb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='exampleExpressionSet.html'>exampleGeneSetDb</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='va'>mg</span> <span class='op'>&lt;-</span> <span class='fu'><a href='seas.html'>seas</a></span><span class='op'>(</span><span class='va'>vm</span>, <span class='va'>gdb</span>, design <span class='op'>=</span> <span class='va'>vm</span><span class='op'>$</span><span class='va'>design</span>, contrast <span class='op'>=</span> <span class='st'>'tumor'</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'>geneSetsStats</span><span class='op'>(</span><span class='va'>mg</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;   collection                                          name n.sig n.neutral n.up
-#&gt; 1         c2                        BIOCARTA_AGPCR_PATHWAY     1        10    3
-#&gt; 2         c2         BOYAULT_LIVER_CANCER_SUBCLASS_G123_DN     9        32   11
-#&gt; 3         c2               BURTON_ADIPOGENESIS_PEAK_AT_2HR     9        41   14
-#&gt; 4         c2        BYSTRYKH_HEMATOPOIESIS_STEM_CELL_IL3RA     0         6    1
-#&gt; 5         c2             CAIRO_PML_TARGETS_BOUND_BY_MYC_UP     2        21   14
-#&gt; 6         c2 CHARAFE_BREAST_CANCER_BASAL_VS_MESENCHYMAL_DN     7        38   13
-#&gt;   n.down n.sig.up n.sig.down mean.logFC mean.logFC.trim     mean.t mean.t.trim
-#&gt; 1      8        0          1 -0.4953724      -0.5044566 -1.3726441  -1.3765614
-#&gt; 2     30        0          9 -0.7685127      -0.6500474 -1.5021451  -1.5212565
-#&gt; 3     36        1          8 -0.7654912      -0.7382118 -1.0964370  -1.1564061
-#&gt; 4      5        0          0 -0.2319652      -0.2319652 -0.5767635  -0.5767635
-#&gt; 5      9        2          0  0.3419176       0.2139964  0.6136099   0.4334291
-#&gt; 6     32        0          7 -0.4568979      -0.4711493 -1.1350462  -1.0681036</div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>vm</span> <span class='op'>&lt;-</span> <span class='fu'><a href='exampleExpressionSet.html'>exampleExpressionSet</a></span><span class='op'>(</span>do.voom<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>gdb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='exampleExpressionSet.html'>exampleGeneSetDb</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>mg</span> <span class='op'>&lt;-</span> <span class='fu'><a href='seas.html'>seas</a></span><span class='op'>(</span><span class='va'>vm</span>, <span class='va'>gdb</span>, design <span class='op'>=</span> <span class='va'>vm</span><span class='op'>$</span><span class='va'>design</span>, contrast <span class='op'>=</span> <span class='st'>'tumor'</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'>geneSetsStats</span><span class='op'>(</span><span class='va'>mg</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   collection                                          name n.sig n.neutral n.up</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1         c2                        BIOCARTA_AGPCR_PATHWAY     1        10    3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2         c2         BOYAULT_LIVER_CANCER_SUBCLASS_G123_DN     9        32   11</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3         c2               BURTON_ADIPOGENESIS_PEAK_AT_2HR     9        41   14</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4         c2        BYSTRYKH_HEMATOPOIESIS_STEM_CELL_IL3RA     0         6    1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5         c2             CAIRO_PML_TARGETS_BOUND_BY_MYC_UP     2        21   14</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6         c2 CHARAFE_BREAST_CANCER_BASAL_VS_MESENCHYMAL_DN     7        38   13</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   n.down n.sig.up n.sig.down mean.logFC mean.logFC.trim     mean.t mean.t.trim</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1      8        0          1 -0.4953724      -0.5044566 -1.3726441  -1.3765614</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2     30        0          9 -0.7685127      -0.6500474 -1.5021451  -1.5212565</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3     36        1          8 -0.7654912      -0.7382118 -1.0964370  -1.1564061</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4      5        0          0 -0.2319652      -0.2319652 -0.5767635  -0.5767635</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5      9        2          0  0.3419176       0.2139964  0.6136099   0.4334291</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6     32        0          7 -0.4568979      -0.4711493 -1.1350462  -1.0681036</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

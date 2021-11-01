@@ -169,7 +169,7 @@ this package. This is mostly used by <code>{sparrow.shiny}</code>.</p>
     </tr>
     <tr>
       <th>stats</th>
-      <td><p>One of <code>"dge"</code> or <code><a href='resultNames.html'>resultNames(x)</a></code></p></td>
+      <td><p>One of <code>"dge"</code> or <code>resultNames(x)</code></p></td>
     </tr>
     <tr>
       <th>xaxis</th>
@@ -214,13 +214,13 @@ where a line should be drawn across the volcano plot. This is usually done
 to signify statistical significance. When the number is "named", this
 indicates that you want to find an approximation of the values plotted
 on y based on some transformation of the values that is the named column
-of x (like "padj"). The default value <code><a href='https://rdrr.io/r/base/c.html'>c(padj = 0.10)</a></code> indicates you
+of x (like "padj"). The default value <code>c(padj = 0.10)</code> indicates you
 want to draw a line at approximately where the adjust pvalue of 0.10 is
 on the y-axis, which is the <em>nominal</em> pvalues.</p></td>
     </tr>
     <tr>
       <th>xhex</th>
-      <td><p>The raw <code>.xv</code> (not <code><a href='https://rdrr.io/r/base/xtfrm.html'>xtfrm(.xv)</a></code>) value that acts
+      <td><p>The raw <code>.xv</code> (not <code>xtfrm(.xv)</code>) value that acts
 as a threshold such that values less than this will be hexbinned.</p></td>
     </tr>
     <tr>
@@ -257,10 +257,10 @@ Defaults to <code>"mggenes"</code>.</p></td>
     <p>a ploty plot object</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>mg</span> <span class='op'>&lt;-</span> <span class='fu'><a href='exampleExpressionSet.html'>exampleSparrowResult</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='fu'>volcanoPlot</span><span class='op'>(</span><span class='va'>mg</span><span class='op'>)</span>
-<span class='fu'>volcanoPlot</span><span class='op'>(</span><span class='va'>mg</span>, xhex<span class='op'>=</span><span class='fl'>1</span>, yhex<span class='op'>=</span><span class='fl'>0.05</span><span class='op'>)</span>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>mg</span> <span class='op'>&lt;-</span> <span class='fu'><a href='exampleExpressionSet.html'>exampleSparrowResult</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>volcanoPlot</span><span class='op'>(</span><span class='va'>mg</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>volcanoPlot</span><span class='op'>(</span><span class='va'>mg</span>, xhex<span class='op'>=</span><span class='fl'>1</span>, yhex<span class='op'>=</span><span class='fl'>0.05</span><span class='op'>)</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -321,25 +321,28 @@ methods <code>featureIdType&lt;-</code>, <code>geneSetURLfunction&lt;-</code>, e
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>gdb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='exampleExpressionSet.html'>exampleGeneSetDb</a></span><span class='op'>(</span><span class='op'>)</span>
-
-<span class='co'># Gene Set URLs</span>
-<span class='fu'>geneSetURL</span><span class='op'>(</span><span class='va'>gdb</span>, <span class='st'>'c2'</span>, <span class='st'>'BIOCARTA_AGPCR_PATHWAY'</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;                                                                            c2 
-#&gt; "http://www.broadinstitute.org/gsea/msigdb/cards/BIOCARTA_AGPCR_PATHWAY.html" </div><div class='input'><span class='fu'>geneSetURL</span><span class='op'>(</span><span class='va'>gdb</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'c2'</span>, <span class='st'>'c7'</span><span class='op'>)</span>,
-           <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'BIOCARTA_AGPCR_PATHWAY'</span>, <span class='st'>'GSE14308_TH2_VS_TH1_UP'</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;                                                                            c2 
-#&gt; "http://www.broadinstitute.org/gsea/msigdb/cards/BIOCARTA_AGPCR_PATHWAY.html" 
-#&gt;                                                                            c7 
-#&gt; "http://www.broadinstitute.org/gsea/msigdb/cards/GSE14308_TH2_VS_TH1_UP.html" </div><div class='input'>
-<span class='co'># feature id types</span>
-<span class='fu'>featureIdType</span><span class='op'>(</span><span class='va'>gdb</span>, <span class='st'>"c2"</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'>GSEABase</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/GSEABase/man/GeneIdentifierType-constructors.html'>EntrezIdentifier</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='fu'>featureIdType</span><span class='op'>(</span><span class='va'>gdb</span>, <span class='st'>"c2"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; geneIdType: EntrezId</div><div class='input'>
-<span class='co'>## Arbitrary metadata</span>
-<span class='va'>gdb</span> <span class='op'>&lt;-</span> <span class='fu'>addCollectionMetadata</span><span class='op'>(</span><span class='va'>gdb</span>, <span class='st'>'c2'</span>, <span class='st'>'foo'</span>, <span class='st'>'bar'</span><span class='op'>)</span>
-<span class='va'>cmh</span> <span class='op'>&lt;-</span> <span class='fu'>collectionMetadata</span><span class='op'>(</span><span class='va'>gdb</span>, <span class='st'>'c2'</span>, as.dt <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span> <span class='co'>## print this to see</span>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>gdb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='exampleExpressionSet.html'>exampleGeneSetDb</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Gene Set URLs</span></span>
+<span class='r-in'><span class='fu'>geneSetURL</span><span class='op'>(</span><span class='va'>gdb</span>, <span class='st'>'c2'</span>, <span class='st'>'BIOCARTA_AGPCR_PATHWAY'</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                                                            c2 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> "http://www.broadinstitute.org/gsea/msigdb/cards/BIOCARTA_AGPCR_PATHWAY.html" </span>
+<span class='r-in'><span class='fu'>geneSetURL</span><span class='op'>(</span><span class='va'>gdb</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'c2'</span>, <span class='st'>'c7'</span><span class='op'>)</span>,</span>
+<span class='r-in'>           <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'BIOCARTA_AGPCR_PATHWAY'</span>, <span class='st'>'GSE14308_TH2_VS_TH1_UP'</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                                                            c2 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> "http://www.broadinstitute.org/gsea/msigdb/cards/BIOCARTA_AGPCR_PATHWAY.html" </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                                                            c7 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> "http://www.broadinstitute.org/gsea/msigdb/cards/GSE14308_TH2_VS_TH1_UP.html" </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># feature id types</span></span>
+<span class='r-in'><span class='fu'>featureIdType</span><span class='op'>(</span><span class='va'>gdb</span>, <span class='st'>"c2"</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'>GSEABase</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/GSEABase/man/GeneIdentifierType-constructors.html'>EntrezIdentifier</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>featureIdType</span><span class='op'>(</span><span class='va'>gdb</span>, <span class='st'>"c2"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> geneIdType: EntrezId</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Arbitrary metadata</span></span>
+<span class='r-in'><span class='va'>gdb</span> <span class='op'>&lt;-</span> <span class='fu'>addCollectionMetadata</span><span class='op'>(</span><span class='va'>gdb</span>, <span class='st'>'c2'</span>, <span class='st'>'foo'</span>, <span class='st'>'bar'</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>cmh</span> <span class='op'>&lt;-</span> <span class='fu'>collectionMetadata</span><span class='op'>(</span><span class='va'>gdb</span>, <span class='st'>'c2'</span>, as.dt <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span> <span class='co'>## print this to see</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
