@@ -239,7 +239,7 @@ mgheatmap2 <- function(x, gdb = NULL, col = NULL,
   if (is.null(col)) {
     # Is 0 close to the center of the score distribution?
     qtile.X <- quantile(X, c(0.25, 0.75))
-    zero.center <- qtile.X[1L] < 0 && qtile.X[2L] > 0
+    zero.center <- (qtile.X[1L] < 0 && qtile.X[2L] > 0) || any(recenter)
     if (zero.center) {
       if (missing(zlim)) {
         fpost <- quantile(abs(X), 0.975)
