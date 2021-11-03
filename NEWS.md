@@ -1,3 +1,10 @@
+# sparrow 1.2
+
+## Enhancements
+
+* The default "zero-centering" logic is updated in mgheatmap2 when `col` isn't
+  specified, but `recenter` is (backported to release 3.14)
+
 # sparrow 1.0 (2021-10-XX)
 
 ## Enhancements
