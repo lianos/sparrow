@@ -162,3 +162,24 @@ test_that("use explicit observation weights", {
   expect_equal(x.res[["logFC"]], ex.res[["logFC"]])
   expect_equal(x.res[["pval"]], ex.res[["P.Value"]])
 })
+
+test_that("collision of feature column names with expected output columns handled gracefully", {
+  vm <- exampleExpressionSet(do.voom = TRUE)
+  vm.rename <- c("pval", "padj")
+  for (name in vm.rename) vm$genes[[name]] <- rep("haha", nrow(vm))
+  tt <- calculateIndividualLogFC(vm, vm$design, "tumor")
+  for (name in vm.rename) {
+    checkmate::expect_numeric(tt[[name]], info = paste("limma:", name))
+    checkmate::expect_character(tt[[paste0(name, ".feature")]])
+  }
+
+  y <- exampleExpressionSet(do.voom = FALSE)
+  y <- edgeR::estimateDisp(y, y$design)
+  y.rename <- c("pval", "padj", "AveExpr")
+  for (name in y.rename) y$genes[[name]] <- rep("haha", nrow(y))
+  tt <- calculateIndividualLogFC(y, y$design, "tumor")
+  for (name in y.rename) {
+    checkmate::expect_numeric(tt[[name]], info = paste("edgeR:", name))
+    checkmate::expect_character(tt[[paste0(name, ".feature")]])
+  }
+})

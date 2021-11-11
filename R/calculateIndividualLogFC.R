@@ -103,6 +103,7 @@ calculateIndividualLogFC <- function(x, design, contrast = ncol(design),
                       feature_id=rownames(x))
     fit <- NULL
     test_type <- "preranked"
+    rename <- NULL
   } else if (do.contrast) {
     test_type <- "ttest"
     assert_matrix(design, nrows = ncol(x))
@@ -149,7 +150,10 @@ calculateIndividualLogFC <- function(x, design, contrast = ncol(design),
     }
     tt <- as.data.frame(topTags(tt, Inf, sort.by='none'))
     tt <- transform(setDT(tt), t=NA_real_, feature_id=rownames(x))
-    setnames(tt, c('logCPM', 'PValue', 'FDR'), c('AveExpr', 'pval', 'padj'))
+
+    # if the feature metadata already has a column named pval or padj, this
+    # will cause problems, so we will change those if they are there already
+    rename <- c("AveExpr" = "logCPM", "pval" = "PValue", "padj" = "FDR")
     out <- tt
   } else if (ncol(x) > 1L) {
     # If x is matrix-like but not a DGEList, we assume you are OK to run the
@@ -186,8 +190,18 @@ calculateIndividualLogFC <- function(x, design, contrast = ncol(design),
                      confint = confint)
     }
     tt <- transform(setDT(tt), feature_id = rownames(x))
-    setnames(tt, c("P.Value", "adj.P.Val"), c("pval", "padj"))
+    # if the feature metadata already has a column named pval or padj, this
+    # will cause problems, so we will change those if they are there already
+    rename <- c("pval" = "P.Value", "padj" = "adj.P.Val")
     out <- tt
+  }
+
+  if (!is.null(rename)) {
+    rename.me <- rename[names(rename) %in% colnames(out)]
+    if (length(rename.me)) {
+      setnames(out, names(rename.me), paste0(names(rename.me), ".feature"))
+    }
+    setnames(out, unname(rename), names(rename))
   }
 
   out[, x.idx := seq_len(nrow(x))]

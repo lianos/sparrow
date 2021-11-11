@@ -197,18 +197,17 @@ geneSetsStats <- function(x, feature.min.logFC=1, feature.max.padj=0.10,
 
   is.ttest <- "logFC" %in% names(lfc)
   if (annotate.lfc) {
-    lfc <- within(lfc, {
-      if (is.ttest) {
-        significant <- abs(logFC) >= feature.min.logFC &
+    if (is.ttest) {
+      lfc[, significant := {
+        abs(logFC) >= feature.min.logFC &
           !is.na(padj) &
           padj <= feature.max.padj
-        direction <- ifelse(logFC > 0, 'up', 'down')
-      } else {
-        # This is an ANOVA
-        significant <- !is.na(padj) & padj <= feature.max.padj
-        direction <- rep("ambiguous", length(padj))
-      }
-    })
+        }]
+      lfc[, direction := ifelse(logFC > 0, "up", "down")]
+    } else {
+      lfc[, significant := !is.na(padj) & padj <= feature.max.padj]
+      lfc[, direction := rep("ambiguous", length(padj))]
+    }
   }
 
   gs <- geneSets(x, as.dt=TRUE)
