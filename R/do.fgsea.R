@@ -27,14 +27,13 @@ do.fgsea <- function(gsd, x, design, contrast = ncol(design),
                      sampleSize = 101, eps = 1e-50,
                      scoreType = c("std", "pos", "neg"),
                      nproc = 0, gseaParam = 1, nPermSimple = 1000,
-                     absEps = NULL, use.fgsea.simple = FALSE,
+                     # absEps = NULL,
+                     use.fgsea.simple = FALSE,
                      score.by = c('t', 'logFC', 'pval'), logFC = NULL, ...) {
 
+  reqpkg("fgsea")
   scoreType <- match.arg(scoreType)
   score.by <- match.arg(score.by)
-  if (!requireNamespace('fgsea', quietly=TRUE)) {
-    stop("The Bioconductor fgsea package is required for this functionality")
-  }
   stopifnot(is.conformed(gsd, x))
 
   stats <- extract_preranked_stats(x, design, contrast, score.by=score.by,
@@ -65,8 +64,8 @@ do.fgsea <- function(gsd, x, design, contrast = ncol(design),
       minSize = gs.size[1L], maxSize = gs.size[2L],
       eps = eps, scoreType = scoreType, nproc = nproc,
       gseaParam = gseaParam,
-      nPermSimple = nPermSimple,
-      absEps = absEps)
+      nPermSimple = nPermSimple)
+      # absEps = absEps)
   }
   setattr(res, 'rawresult', TRUE)
 }

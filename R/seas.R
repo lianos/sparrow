@@ -142,9 +142,14 @@
 #' @param verbose make some noise during execution?
 #' @param ... The arguments are passed down into
 #'   [calculateIndividualLogFC()] and the various geneset analysis functions.
+#' @param score.by this was the original `rank_by`. We need to reconcile the
+#'   two. `score.by` is a parameter that is passed down into the do.* functions,
+#'   and `rank_by` and other `underscored_variables` tend to be ones that are
+#'   consumed by high-level/front facing function, like the difference between
+#'   `do.ora()` and `ora()`.
 #' @param rank_by the name of a column that should be used to rank the features
 #'   in `x` for pre-ranked gsea tests like cameraPR or fgsea. Only works when
-#'   `x` is a data.frame-like input.
+#'   `x` is a data.frame-like input. `rank_by` overrides `score.by`
 #' @param rank_order specify how the features in `x` should be used to rank
 #'   the features in `x` using the `rank_by` column. Accepted values are:
 #'   `"ordered"` (default) means that the rows in `x` are pre-ranked already.
@@ -153,7 +158,7 @@
 #' @param select_by The name of a logical vector in `x` which is used to select
 #'   the features tested for over representation analysis tests, like [ora()]
 #'   or other similar tests. Entries that are `TRUE` indicate the feature should
-#'   be selected for enrichment (ie. statistically significant differntially
+#'   be selected for enrichment (ie. statistically significant differentially
 #'   expressed genes would have `TRUE` values). Only used when `x` is a
 #'   data.frame-like input.
 #' @param group_by A name of character vector in `x` which is used to split up
@@ -164,17 +169,10 @@
 #'   expression, etc.). Only used when `x` is a data.frame-like input.
 #' @param xmeta. A hack to support data.frame inputs for `x`. End users should
 #'   not use this.
-#' @param .parallel by default, `.parallel=FALSE` runs each GSEA in a
-#'   serial manner. If `.parallel=TRUE`, the GSEA execution loop is
-#'   parallelized using the *BiocParallel* package. Note that you might want to
-#'   remove unnecessary large objects from your workspace when this is `TRUE`
-#'   because R will likely want to copy them down into your worker threads.
 #' @param BPPARAM a *BiocParallel* parameter definition, like one generated from
 #'   [BiocParallel::MulticoreParam()], or [BiocParallel::BatchtoolsParam()],
 #'   for instance, which is passed down to [BiocParallel]::bplapply()]. If not
-#'   specified and `.parallel = TRUE`, then the [BiocParallel::bpparam()] object
-#'   will be used. If `.parallel = FALSE`, this parameter is explicitly ignored
-#'   and replaced with a [BiocParallel]::SerialParam()] object.
+#'   specified, then the [BiocParallel::bpparam()] object will be used.
 #' @return A [SparrowResult()] which holds the results of all the analyses
 #'   specified in the `methods` parameter.
 #'
@@ -193,10 +191,12 @@ seas <- function(x, gsd, methods = NULL,
                  design = NULL, contrast = NULL, use.treat = FALSE,
                  feature.min.logFC = if (use.treat) log2(1.25) else 1,
                  feature.max.padj = 0.10, trim = 0.10, verbose = FALSE, ...,
+                 score.by = c('t', 'logFC', 'pval'),
                  rank_by = NULL,
                  rank_order = c("ordered", "descending", "ascending"),
                  select_by = NULL, group_by = NULL, bias_by = NULL,
-                 xmeta. = NULL, .parallel = FALSE, BPPARAM = bpparam()) {
+                 xmeta. = NULL, BPPARAM = bpparam()) {
+  stopifnot(is(BPPARAM, 'BiocParallelParam'))
   if (!is(gsd, "GeneSetDb")) {
     gsd <- GeneSetDb(gsd, ...)
   }
@@ -204,12 +204,28 @@ seas <- function(x, gsd, methods = NULL,
     methods <- "logFC"
   }
 
+  # score.by was the original parameter used, and rank_by was introduced later
+  # when we wanted to support data.frame inputs. This makes life difficult.
+  score.by <- match.arg(score.by)
+  if (!is.null(rank_by)) {
+    score.by <- rank_by
+  }
+  if (missing(rank_by) || is.null(rank_by)) {
+    rank_by <- score.by
+  }
+  assert_string(score.by)
+  assert_string(rank_by)
+  if (score.by != rank_by) {
+    stop("score.by and rank_by need to be reconsiled into one variable, but ",
+         "for now their values must be the same")
+  }
+
   # Supporting for data.frames is painful right now, and will be refactored
   # during a future release cycle.
   if (is.data.frame(x)) {
     rank_order <- match.arg(rank_order)
     assert_character(x[["feature_id"]])
-    if (!test_string(rank_by) || ! test_numeric(x[[rank_by]])) {
+    if (rank_order != "ordered" && (!test_string(rank_by) || ! test_numeric(x[[rank_by]]))) {
       msg <- paste(
         "data.frame inputs for `x` require that the `rank_by` parameter is the",
         "names a numeric colum in `x` that can be used to rank its rows.\n",
@@ -296,10 +312,6 @@ seas <- function(x, gsd, methods = NULL,
     ## here and pass it along
     gs.idxs <- as.list(gsd, active.only = TRUE, value = "x.idx")
 
-    if (!.parallel) {
-      BPPARAM <- SerialParam(stop.on.error=FALSE)
-    }
-    stopifnot(is(BPPARAM, 'BiocParallelParam'))
     if (verbose) message("methods: ", paste(methods, collapse = ","))
     if (is(BPPARAM, "SerialParam")) {
       # Running on bioc_3.14_devel, running through bplapply, the set.seed calls
@@ -312,7 +324,7 @@ seas <- function(x, gsd, methods = NULL,
         if (verbose) message("... ", method.)
         tryCatch(mg.run(method., gsd, x, design, contrast, logFC, use.treat,
                         feature.min.logFC, feature.max.padj, verbose=verbose,
-                        gs.idxs=gs.idxs, ...),
+                        gs.idxs=gs.idxs, score.by = score.by, ...),
                  error=function(e) list(NULL))
       })
     } else {
@@ -320,7 +332,7 @@ seas <- function(x, gsd, methods = NULL,
         if (verbose) message("... ", method.)
         tryCatch(mg.run(method., gsd, x, design, contrast, logFC, use.treat,
                         feature.min.logFC, feature.max.padj, verbose=verbose,
-                        gs.idxs=gs.idxs, ...),
+                        gs.idxs=gs.idxs,  score.by = score.by, ...),
                  error=function(e) list(NULL))
       }, BPPARAM=BPPARAM)
     }

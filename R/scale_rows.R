@@ -75,10 +75,6 @@ scale_rows.matrix <- function(x, center = TRUE, scale = TRUE, ...) {
       } else {
         scale <- center.idx
       }
-    } else {
-      if (!isFALSE(scale) && !isTRUE(setequal(center.idx, scale))) {
-        stop("Don't scale on different columns used for centering")
-      }
     }
     assert_numeric(center., len = nrow(x))
     x <- x - center.

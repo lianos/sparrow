@@ -22,7 +22,6 @@ seas(
   group_by = NULL,
   bias_by = NULL,
   xmeta. = NULL,
-  .parallel = FALSE,
   BPPARAM = bpparam()
 )
 }
@@ -98,18 +97,10 @@ expression, etc.). Only used when \code{x} is a data.frame-like input.}
 \item{xmeta.}{A hack to support data.frame inputs for \code{x}. End users should
 not use this.}
 
-\item{.parallel}{by default, \code{.parallel=FALSE} runs each GSEA in a
-serial manner. If \code{.parallel=TRUE}, the GSEA execution loop is
-parallelized using the \emph{BiocParallel} package. Note that you might want to
-remove unnecessary large objects from your workspace when this is \code{TRUE}
-because R will likely want to copy them down into your worker threads.}
-
 \item{BPPARAM}{a \emph{BiocParallel} parameter definition, like one generated from
 \code{\link[BiocParallel:MulticoreParam-class]{BiocParallel::MulticoreParam()}}, or \code{\link[BiocParallel:BatchtoolsParam-class]{BiocParallel::BatchtoolsParam()}},
 for instance, which is passed down to \link{BiocParallel}::bplapply()]. If not
-specified and \code{.parallel = TRUE}, then the \code{\link[BiocParallel:register]{BiocParallel::bpparam()}} object
-will be used. If \code{.parallel = FALSE}, this parameter is explicitly ignored
-and replaced with a \link{BiocParallel}::SerialParam()] object.}
+specified, then the \code{\link[BiocParallel:register]{BiocParallel::bpparam()}} object will be used.}
 }
 \value{
 A \code{\link[=SparrowResult]{SparrowResult()}} which holds the results of all the analyses

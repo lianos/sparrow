@@ -56,7 +56,8 @@ validate.inputs.ora <- function(x, design, contrast, feature.bias,
 #'   what-have-you
 do.ora <- function(gsd, x, design, contrast = ncol(design),
                    feature.bias = "AveExpr",
-                   restrict.universe = FALSE, groups = "direction",
+                   restrict.universe = FALSE,
+                   selected = "significant", groups = "direction",
                    use.treat = FALSE,
                    feature.min.logFC = if (use.treat) log2(1.25) else 1,
                    feature.max.padj = 0.10, logFC = NULL, ...) {
@@ -78,17 +79,22 @@ do.ora <- function(gsd, x, design, contrast = ncol(design),
     treat.lfc <- if (use.treat) feature.min.logFC else NULL
     logFC <- calculateIndividualLogFC(x, design, contrast, treat.lfc=treat.lfc,
                                       ..., as.dt=TRUE)
-    if (use.treat) {
-      logFC[, significant := padj <= feature.max.padj]
-    }
+    logFC[[selected]] <-
+      logFC[["padj"]] <= feature.max.padj &
+      abs(logFC[["logFC"]]) >= feature.min.logFC
   }
   is.logFC.like(logFC, x, as.error=TRUE)
   logFC <- setDT(copy(logFC))
-  if (is.null(logFC[["significant"]])) {
-    logFC[, significant := {
-      padj <= feature.max.padj & abs(logFC) >= feature.min.logFC
-    }]
+  if (!is.logical(logFC[[selected]])) {
+    warning("logical column to identify enriched genes not found: ", selected,
+            "setting `significant` column manually")
+
   }
+  # if (is.null(logFC[["significant"]])) {
+  #   logFC[, significant := {
+  #     padj <= feature.max.padj & abs(logFC) >= feature.min.logFC
+  #   }]
+  # }
 
   ttype <- attr(logFC, "test_type")
   add.dir <- isTRUE(groups == "direction") &&
@@ -107,7 +113,7 @@ do.ora <- function(gsd, x, design, contrast = ncol(design),
     groups <- NULL
   }
 
-  res <- ora(logFC, gsd, selected = "significant",
+  res <- ora(logFC, gsd, selected = selected,
              groups = groups,
              feature.bias = feature.bias,
              restrict.universe = restrict.universe,

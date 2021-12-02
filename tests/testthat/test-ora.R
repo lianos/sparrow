@@ -10,11 +10,16 @@ gdb. <- local({
 test_that("'naked' ora call vs seas pipeline are equivalent", {
   dfinput <- exampleDgeResult("human", "ensembl",
                               induce.bias = "effective_length")
-  nres <- ora(dfinput, gdb., selected = "selected", groups = "direction",
+  select.cname <- "pickme"
+  dfinput[[select.cname]] <- dfinput$selected
+  nres <- ora(dfinput, gdb., selected = select.cname, groups = "direction",
               feature.bias = "effective_length")
   mres <- seas(setNames(dfinput$t, dfinput$feature_id), gdb., "ora",
-               feature.bias = "effective_length",
-               xmeta. = dfinput)
+               feature.bias = "effective_length", selected = select.cname,
+               groups = "direction", xmeta. = dfinput)
+  dres <- seas(dfinput, gdb., "ora", selected = select.cname,
+               score.by = "t", groups = "direction",
+               feature.bias = "effective_length")
 
   groups <- c(all = "ora", up = "ora.up", down = "ora.down")
   expect_setequal(resultNames(mres), groups)
@@ -27,8 +32,13 @@ test_that("'naked' ora call vs seas pipeline are equivalent", {
 
     # Pull out of SparrowResult object
     mname <- groups[i]
+    # vector seas result
     mg <- result(mres, mname)
     mg <- mg[, c("collection", "name", "N", "n", "n.drawn", "pval")]
+
+    # data.frame seas result
+    dg <- result(dres, mname)[, names(mg)]
+    expect_equal(mg, dg, info = paste0(ename, ": seas(vector) vs seas(df)"))
 
     expect_equal(mg$name, sub(".*;;", "", nres$Pathway), info = ename)
     expect_equal(mg$n, cmp$N, info = ename)
