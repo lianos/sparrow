@@ -18,6 +18,7 @@ irlba
 limma
 Matrix
 matrixStats
+pkgdown
 plotly
 viridis
 AnnotationDbi
