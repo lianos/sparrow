@@ -155,18 +155,6 @@
 #'   `"ordered"` (default) means that the rows in `x` are pre-ranked already.
 #'   `"descendeing"`, and `"ascending"`. Only used when `x` is a
 #'   data.frame-like input.
-#' @param select_by The name of a logical vector in `x` which is used to select
-#'   the features tested for over representation analysis tests, like [ora()]
-#'   or other similar tests. Entries that are `TRUE` indicate the feature should
-#'   be selected for enrichment (ie. statistically significant differentially
-#'   expressed genes would have `TRUE` values). Only used when `x` is a
-#'   data.frame-like input.
-#' @param group_by A name of character vector in `x` which is used to split up
-#'   features into groups for testing batches. Only used when `x` is a
-#'   data.frame-like input for methods like [ora()].
-#' @param bias_by The name of a numeric colum in `x` that can be used in [ora()]
-#'   to adjust for bias in enrichment tests (like gene legnth, average
-#'   expression, etc.). Only used when `x` is a data.frame-like input.
 #' @param xmeta. A hack to support data.frame inputs for `x`. End users should
 #'   not use this.
 #' @param BPPARAM a *BiocParallel* parameter definition, like one generated from
@@ -194,7 +182,6 @@ seas <- function(x, gsd, methods = NULL,
                  score.by = c('t', 'logFC', 'pval'),
                  rank_by = NULL,
                  rank_order = c("ordered", "descending", "ascending"),
-                 select_by = NULL, group_by = NULL, bias_by = NULL,
                  xmeta. = NULL, BPPARAM = bpparam()) {
   stopifnot(is(BPPARAM, 'BiocParallelParam'))
   if (!is(gsd, "GeneSetDb")) {
