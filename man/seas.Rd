@@ -16,11 +16,9 @@ seas(
   trim = 0.1,
   verbose = FALSE,
   ...,
+  score.by = c("t", "logFC", "pval"),
   rank_by = NULL,
   rank_order = c("ordered", "descending", "ascending"),
-  select_by = NULL,
-  group_by = NULL,
-  bias_by = NULL,
   xmeta. = NULL,
   BPPARAM = bpparam()
 )
@@ -69,30 +67,21 @@ conjunction with \code{feature.min.logFC}.}
 \item{...}{The arguments are passed down into
 \code{\link[=calculateIndividualLogFC]{calculateIndividualLogFC()}} and the various geneset analysis functions.}
 
+\item{score.by}{this was the original \code{rank_by}. We need to reconcile the
+two. \code{score.by} is a parameter that is passed down into the do.* functions,
+and \code{rank_by} and other \code{underscored_variables} tend to be ones that are
+consumed by high-level/front facing function, like the difference between
+\code{do.ora()} and \code{ora()}.}
+
 \item{rank_by}{the name of a column that should be used to rank the features
 in \code{x} for pre-ranked gsea tests like cameraPR or fgsea. Only works when
-\code{x} is a data.frame-like input.}
+\code{x} is a data.frame-like input. \code{rank_by} overrides \code{score.by}}
 
 \item{rank_order}{specify how the features in \code{x} should be used to rank
 the features in \code{x} using the \code{rank_by} column. Accepted values are:
 \code{"ordered"} (default) means that the rows in \code{x} are pre-ranked already.
 \code{"descendeing"}, and \code{"ascending"}. Only used when \code{x} is a
 data.frame-like input.}
-
-\item{select_by}{The name of a logical vector in \code{x} which is used to select
-the features tested for over representation analysis tests, like \code{\link[=ora]{ora()}}
-or other similar tests. Entries that are \code{TRUE} indicate the feature should
-be selected for enrichment (ie. statistically significant differntially
-expressed genes would have \code{TRUE} values). Only used when \code{x} is a
-data.frame-like input.}
-
-\item{group_by}{A name of character vector in \code{x} which is used to split up
-features into groups for testing batches. Only used when \code{x} is a
-data.frame-like input for methods like \code{\link[=ora]{ora()}}.}
-
-\item{bias_by}{The name of a numeric colum in \code{x} that can be used in \code{\link[=ora]{ora()}}
-to adjust for bias in enrichment tests (like gene legnth, average
-expression, etc.). Only used when \code{x} is a data.frame-like input.}
 
 \item{xmeta.}{A hack to support data.frame inputs for \code{x}. End users should
 not use this.}
