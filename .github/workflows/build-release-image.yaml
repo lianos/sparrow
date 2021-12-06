@@ -28,4 +28,4 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           workdir: docker/release
-          tags: release
+          tags: latest
