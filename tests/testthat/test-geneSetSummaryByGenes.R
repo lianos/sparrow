@@ -50,7 +50,6 @@ test_that("geneSetSummaryByGenes,SparrowResult returns a legit result", {
     setDF() %>%
     dplyr::rename(feature_id = variable, logFC = value) %>%
     dplyr::filter(logFC != 0) %>%
-    setDT() %>%
     unique(by = "feature_id") %>%
     dplyr::arrange(feature_id)
 
