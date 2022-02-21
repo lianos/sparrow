@@ -64,12 +64,18 @@
 <h2 class="page-header" data-toc-text="1.2" id="sparrow-12-devel">sparrow 1.2 (devel)<a class="anchor" aria-label="anchor" href="#sparrow-12-devel"></a></h2>
 <div class="section level3">
 <h3 id="enhancements-1-2">Enhancements<a class="anchor" aria-label="anchor" href="#enhancements-1-2"></a></h3>
-<ul><li>The default “zero-centering” logic is updated in mgheatmap2 when <code>col</code> isn’t specified, but <code>recenter</code> is (backported to release 3.14)</li>
+<ul><li>The default “zero-centering” logic is updated in mgheatmap2 when
+<code>col</code> isn’t specified, but <code>recenter</code> is
+(backported to release 3.14)</li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-1-2">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-2"></a></h3>
 <ul><li>
-<code>calculateIndividualLogFC</code> is updated to handle situations when <code>$genes</code> data.frame has column names that collide with statistics generated from differential expression, like <code>pval</code>, <code>padg</code>, and <code>AveExpr</code>. Thanks to <a href="https://github.com/sandersen12" class="external-link">@sandersen12</a> for the bug report.</li>
+<code>calculateIndividualLogFC</code> is updated to handle
+situations when <code>$genes</code> data.frame has column names that
+collide with statistics generated from differential expression, like
+<code>pval</code>, <code>padg</code>, and <code>AveExpr</code>. Thanks
+to <a href="https://github.com/sandersen12" class="external-link">@sandersen12</a> for the bug report.</li>
 </ul></div>
 </div>
     <div class="section level2">
@@ -77,13 +83,25 @@
 <div class="section level3">
 <h3 id="enhancements-1-0">Enhancements<a class="anchor" aria-label="anchor" href="#enhancements-1-0"></a></h3>
 <ul><li>Released to Bioconductor</li>
-<li>Adds support for use of BiocSet as a means by which users can bring their genesets to – or take them from – sparrow.</li>
-<li>Improvements to the corplot() functionality contributed by by Arkadiusz Gladki (<a href="https://github.com/gladki" class="external-link">@gladki</a>). Users can specify the size of the text reported in the bottom half of the pair plot, and spurious/annoying warnings that were produced after a a totally valid call are no longer produced.</li>
+<li>Adds support for use of BiocSet as a means by which users can bring
+their genesets to – or take them from – sparrow.</li>
+<li>Improvements to the corplot() functionality contributed by by
+Arkadiusz Gladki (<a href="https://github.com/gladki" class="external-link">@gladki</a>). Users can specify the size of the text
+reported in the bottom half of the pair plot, and spurious/annoying
+warnings that were produced after a a totally valid call are no longer
+produced.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="breaking-changes-from-pre-release-1-0">Breaking Changes from Pre-release<a class="anchor" aria-label="anchor" href="#breaking-changes-from-pre-release-1-0"></a></h3>
-<ul><li>First two parameters in ora() function have been swapped so that the first parameter (<code>x</code>) is the object (data.frame) to run an over representation analysis against, and the second parameter is the GeneSetDb.</li>
-<li>scoreSingleSamples no longer drops features in <code>y</code> that are not found in the GeneSetDb used for scoring. This was changed so that gsva and ssGSEA scores match the scores produced by a normal GSVA::gsva call. You can set the <code>drop.unconformed = TRUE</code> to retain the older behavior.</li>
+<ul><li>First two parameters in ora() function have been swapped so that the
+first parameter (<code>x</code>) is the object (data.frame) to run an
+over representation analysis against, and the second parameter is the
+GeneSetDb.</li>
+<li>scoreSingleSamples no longer drops features in <code>y</code> that
+are not found in the GeneSetDb used for scoring. This was changed so
+that gsva and ssGSEA scores match the scores produced by a normal
+GSVA::gsva call. You can set the <code>drop.unconformed = TRUE</code> to
+retain the older behavior.</li>
 </ul></div>
 </div>
   </div>
@@ -100,7 +118,8 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
+2.0.2.</p>
 </div>
 
       </footer></div>
