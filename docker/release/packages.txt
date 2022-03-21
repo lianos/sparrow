@@ -1,4 +1,5 @@
 babelgene
+BiasedUrn
 BiocCheck
 BiocGenerics
 BiocParallel
@@ -37,6 +38,7 @@ magrittr
 msigdbr
 KernSmooth
 knitr
+locfit
 PANTHER.db
 pkgdown
 R.utils
