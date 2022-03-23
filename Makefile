@@ -3,7 +3,7 @@
 # Working with additional variables: https://stackoverflow.com/a/2826178/83761
 # We can launch the devel version of the images like so:
 # $ make run version=devel
-version?=latest# `devel` or `latest`
+version?=release# `devel` or `latest`
 rport?=8888# rstudio port
 sport?=8080# shiny port
 
