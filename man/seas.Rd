@@ -20,7 +20,7 @@ seas(
   rank_by = NULL,
   rank_order = c("ordered", "descending", "ascending"),
   xmeta. = NULL,
-  BPPARAM = bpparam()
+  BPPARAM = BiocParallel::SerialParam()
 )
 }
 \arguments{
@@ -88,8 +88,8 @@ not use this.}
 
 \item{BPPARAM}{a \emph{BiocParallel} parameter definition, like one generated from
 \code{\link[BiocParallel:MulticoreParam-class]{BiocParallel::MulticoreParam()}}, or \code{\link[BiocParallel:BatchtoolsParam-class]{BiocParallel::BatchtoolsParam()}},
-for instance, which is passed down to \link{BiocParallel}::bplapply()]. If not
-specified, then the \code{\link[BiocParallel:register]{BiocParallel::bpparam()}} object will be used.}
+for instance, which is passed down to \link{BiocParallel}::bplapply()]. Default
+is set to \code{\link[BiocParallel:SerialParam-class]{BiocParallel::SerialParam()}}}
 }
 \value{
 A \code{\link[=SparrowResult]{SparrowResult()}} which holds the results of all the analyses
