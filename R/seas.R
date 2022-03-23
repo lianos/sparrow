@@ -159,8 +159,8 @@
 #'   not use this.
 #' @param BPPARAM a *BiocParallel* parameter definition, like one generated from
 #'   [BiocParallel::MulticoreParam()], or [BiocParallel::BatchtoolsParam()],
-#'   for instance, which is passed down to [BiocParallel]::bplapply()]. If not
-#'   specified, then the [BiocParallel::bpparam()] object will be used.
+#'   for instance, which is passed down to [BiocParallel]::bplapply()]. Default
+#'   is set to [BiocParallel::SerialParam()]
 #' @return A [SparrowResult()] which holds the results of all the analyses
 #'   specified in the `methods` parameter.
 #'
@@ -182,7 +182,7 @@ seas <- function(x, gsd, methods = NULL,
                  score.by = c('t', 'logFC', 'pval'),
                  rank_by = NULL,
                  rank_order = c("ordered", "descending", "ascending"),
-                 xmeta. = NULL, BPPARAM = bpparam()) {
+                 xmeta. = NULL, BPPARAM = BiocParallel::SerialParam()) {
   stopifnot(is(BPPARAM, 'BiocParallelParam'))
   if (!is(gsd, "GeneSetDb")) {
     gsd <- GeneSetDb(gsd, ...)

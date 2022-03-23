@@ -30,7 +30,6 @@ do.fgsea <- function(gsd, x, design, contrast = ncol(design),
                      # absEps = NULL,
                      use.fgsea.simple = FALSE,
                      score.by = c('t', 'logFC', 'pval'), logFC = NULL, ...) {
-
   reqpkg("fgsea")
   scoreType <- match.arg(scoreType)
   score.by <- match.arg(score.by)

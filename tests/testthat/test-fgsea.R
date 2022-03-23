@@ -12,11 +12,11 @@ test_that("seas calculate t and preranked t match fgsea results", {
   # Since Bioc 3.5, running fgsea warns about ties in preranked stats
 
   # Run fgsea through seas -----------------------------------------------------
-  set.seed(123)
   expect_warning({
+    set.seed(123)
     mgt <- seas(vm, gdb, 'fgsea', design = vm$design, contrast = 'tumor',
                 score.by = 't', nPermSimple = nperm, gseaParam = gseaParam)
-  }, "ties")
+  }, "better estimation")
   mgres <- mgt %>%
     result("fgsea") %>%
     transform(pathway = encode_gskey(collection, name))
@@ -28,7 +28,7 @@ test_that("seas calculate t and preranked t match fgsea results", {
                        score.by = "t", nPermSimple = nperm,
                        gseaParam = gseaParam,
                        logFC = logFC(mgt, as.dt = TRUE))
-  }, "ties")
+  }, "better estimation")
 
   # Run fgsea directly ---------------------------------------------------------
   gs.idxs <- as.list(gdb, active.only=TRUE, value='x.id')
@@ -45,7 +45,7 @@ test_that("seas calculate t and preranked t match fgsea results", {
       minSize = min.max[1], maxSize = min.max[2],
       nPermSimple = nperm,
       gseaParam = gseaParam)
-  }, "ties")
+  }, "better estimation")
 
   # compare results ------------------------------------------------------------
   # compare do.fgsea with fgsea
@@ -68,7 +68,7 @@ test_that("seas calculate t and preranked t match fgsea results", {
     set.seed(123)
     mgpre <- seas(ranks.t, gdb, "fgsea", nperm = nperm,
                   gseaParam = gseaParam, score.by = "t")
-  }, "ties")
+  }, "better estimation")
 
   rpre <- result(mgpre, 'fgsea')
   comp.cols <- c('collection', 'name', 'N', 'n', 'size', 'pval', 'ES')
@@ -80,7 +80,7 @@ test_that("seas calculate t and preranked t match fgsea results", {
     mgdf <- seas(lfc, gdb, "fgsea", nperm = nperm,
                  rank_by = "t", rank_order = "descending",
                  gseaParam = gseaParam)
-  }, "ties")
+  }, "better estimation")
   res.df <- result(mgdf)
   expect_equal(res.df[, comp.cols], mgres[, comp.cols])
 })
