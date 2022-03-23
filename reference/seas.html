@@ -21,7 +21,7 @@ arguments down through the ... of this wrapper function.'><!-- mathjax --><scrip
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sparrow</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.4</span>
       </span>
     </div>
 
@@ -90,7 +90,7 @@ arguments down through the <code>...</code> of this wrapper function.</p>
   rank_by <span class="op">=</span> <span class="cn">NULL</span>,
   rank_order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ordered"</span>, <span class="st">"descending"</span>, <span class="st">"ascending"</span><span class="op">)</span>,
   xmeta. <span class="op">=</span> <span class="cn">NULL</span>,
-  BPPARAM <span class="op">=</span> <span class="fu">bpparam</span><span class="op">(</span><span class="op">)</span>
+  BPPARAM <span class="op">=</span> <span class="fu">BiocParallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocParallel/man/SerialParam-class.html" class="external-link">SerialParam</a></span><span class="op">(</span><span class="op">)</span>
 <span class="op">)</span></code></pre></div>
     </div>
 
@@ -161,8 +161,8 @@ not use this.</p></dd>
 <dt>BPPARAM</dt>
 <dd><p>a <em>BiocParallel</em> parameter definition, like one generated from
 <code><a href="https://rdrr.io/pkg/BiocParallel/man/MulticoreParam-class.html" class="external-link">BiocParallel::MulticoreParam()</a></code>, or <code><a href="https://rdrr.io/pkg/BiocParallel/man/BatchtoolsParam-class.html" class="external-link">BiocParallel::BatchtoolsParam()</a></code>,
-for instance, which is passed down to BiocParallel::bplapply()]. If not
-specified, then the <code><a href="https://rdrr.io/pkg/BiocParallel/man/register.html" class="external-link">BiocParallel::bpparam()</a></code> object will be used.</p></dd>
+for instance, which is passed down to BiocParallel::bplapply()]. Default
+is set to <code><a href="https://rdrr.io/pkg/BiocParallel/man/SerialParam-class.html" class="external-link">BiocParallel::SerialParam()</a></code></p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
