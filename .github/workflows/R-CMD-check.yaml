@@ -55,9 +55,9 @@ jobs:
           install-r: false
 
       # I guess I didn't want to install this into the base
-      - name: Install dependencies
-        run: remotes::install_deps(dependencies = TRUE, upgrade = FALSE)
-        shell: Rscript {0}
+      # - name: Install dependencies
+      #   run: remotes::install_deps(dependencies = TRUE, upgrade = FALSE)
+      #   shell: Rscript {0}
 
       - name: Check
         env:
