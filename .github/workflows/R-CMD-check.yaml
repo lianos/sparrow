@@ -35,8 +35,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        # image: ['lianos/sparrow:release', 'lianos/sparrow:devel']
-        image: ['lianos/sparrow:release']
+        image: ['lianos/sparrow:release', 'lianos/sparrow:devel']
     container: ${{ matrix.image }}
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true

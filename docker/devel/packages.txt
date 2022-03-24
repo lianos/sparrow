@@ -1,4 +1,5 @@
 babelgene
+BiasedUrn
 BiocCheck
 BiocGenerics
 BiocParallel
@@ -11,6 +12,7 @@ data.table
 DelayedMatrixStats
 edgeR
 ggplot2
+goseq
 GSEABase
 GSVA
 hexbin
@@ -36,6 +38,7 @@ magrittr
 msigdbr
 KernSmooth
 knitr
+locfit
 PANTHER.db
 pkgdown
 R.utils
