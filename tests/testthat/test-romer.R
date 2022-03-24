@@ -9,22 +9,23 @@ test_that('romer runs equivalently from do.romer vs direct call', {
   gdb <- GeneSetDb(exampleGeneSets())
   gdb <- conform(gdb, y)
 
-  seed <- 123
+  bpparam <- BiocParallel::SerialParam(RNGseed = 123)
   nrot <- 250
 
   # run limma::romer -----------------------------------------------------------
-  set.seed(seed)
-  expected <- limma::romer(y, as.list(gdb, value = "x.idx"),
-                           y$design, ncol(y$design), nrot = nrot)
+  expected <- BiocParallel::bplapply(1, function(i) {
+    limma::romer(y, as.list(gdb, value = "x.idx"),
+                 y$design, ncol(y$design), nrot = nrot)
+  }, BPPARAM = bpparam)[[1L]]
 
   # run do.romer ---------------------------------------------------------------
-  set.seed(seed)
-  do <- sparrow:::do.romer(gdb, y, y$design, ncol(y$design), nrot = nrot)
+  do <- expected <- BiocParallel::bplapply(1, function(i) {
+    sparrow:::do.romer(gdb, y, y$design, ncol(y$design), nrot = nrot)
+  }, BPPARAM = bpparam)[[1L]]
 
   # run romer through seas() ---------------------------------------------------
-  set.seed(seed)
   mg <- seas(y, gdb, "romer", design = y$design, contrast = ncol(y$design),
-             nrot = nrot)
+             nrot = nrot, BPPARAM = bpparam)
   res <- result(mg, "romer")
   res$key <- encode_gskey(res)
 
