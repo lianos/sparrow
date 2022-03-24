@@ -300,29 +300,13 @@ seas <- function(x, gsd, methods = NULL,
     gs.idxs <- as.list(gsd, active.only = TRUE, value = "x.idx")
 
     if (verbose) message("methods: ", paste(methods, collapse = ","))
-    if (is(BPPARAM, "SerialParam")) {
-      # Running on bioc_3.14_devel, running through bplapply, the set.seed calls
-      # that are required for unit testing don't work as expected. It doesn't
-      # matter if I run set.seed() before seed, or use the .random.seed `...`
-      # do set.seed WITHIN the do.* functions (like do.romer, do.fgsea), it
-      # doesn't set the seed as it should!
-      # See BiocParallel NEWS: CHANGES IN VERSION 1.28
-      res1 <- lapply(methods, function(method.) {
-        if (verbose) message("... ", method.)
-        tryCatch(mg.run(method., gsd, x, design, contrast, logFC, use.treat,
-                        feature.min.logFC, feature.max.padj, verbose=verbose,
-                        gs.idxs=gs.idxs, score.by = score.by, ...),
-                 error=function(e) list(NULL))
-      })
-    } else {
-      res1 <- bplapply(methods, function(method.) {
-        if (verbose) message("... ", method.)
-        tryCatch(mg.run(method., gsd, x, design, contrast, logFC, use.treat,
-                        feature.min.logFC, feature.max.padj, verbose=verbose,
-                        gs.idxs=gs.idxs,  score.by = score.by, ...),
-                 error=function(e) list(NULL))
-      }, BPPARAM=BPPARAM)
-    }
+    res1 <- bplapply(methods, function(method.) {
+      if (verbose) message("... ", method.)
+      tryCatch(mg.run(method., gsd, x, design, contrast, logFC, use.treat,
+                      feature.min.logFC, feature.max.padj, verbose=verbose,
+                      gs.idxs=gs.idxs,  score.by = score.by, ...),
+               error=function(e) list(NULL))
+    }, BPPARAM=BPPARAM)
     names(res1) <- methods
 
     failed <- sapply(res1, function(res) is.null(res[[1L]]))

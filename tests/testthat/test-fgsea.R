@@ -9,13 +9,17 @@ test_that("seas calculate t and preranked t match fgsea results", {
   nperm <- 1000
 
 
-  # Since Bioc 3.5, running fgsea warns about ties in preranked stats
-
+  # Somewhere around Bioc 3.14, the RNG used with BiocParallel::SerialParam
+  # is divorced from whatever happens with set.seed(), so if we want the ooutput
+  # of direct alls to the fgsea functions (ie, outside of `seas`), we have to
+  # wrap those calls in bplapply() so everyone uses the same random seeds.
+  bpparam <- BiocParallel::SerialParam(RNGseed = 123)
+  
   # Run fgsea through seas -----------------------------------------------------
   expect_warning({
-    set.seed(123)
     mgt <- seas(vm, gdb, 'fgsea', design = vm$design, contrast = 'tumor',
-                score.by = 't', nPermSimple = nperm, gseaParam = gseaParam)
+                score.by = 't', nPermSimple = nperm, gseaParam = gseaParam,
+                BPPARAM = bpparam)
   }, "better estimation")
   mgres <- mgt %>%
     result("fgsea") %>%
@@ -23,11 +27,12 @@ test_that("seas calculate t and preranked t match fgsea results", {
 
   # Run fgsea through do.fgsea -------------------------------------------------
   expect_warning({
-    set.seed(123)
-    res.do <- do.fgsea(gdb, vm, vm$design, "tumor",
-                       score.by = "t", nPermSimple = nperm,
-                       gseaParam = gseaParam,
-                       logFC = logFC(mgt, as.dt = TRUE))
+    res.do <- BiocParallel::bplapply(1, function(i) {
+      do.fgsea(gdb, vm, vm$design, "tumor",
+               score.by = "t", nPermSimple = nperm,
+               gseaParam = gseaParam,
+               logFC = logFC(mgt, as.dt = TRUE))
+    }, BPPARAM = bpparam)[[1]]
   }, "better estimation")
 
   # Run fgsea directly ---------------------------------------------------------
@@ -39,12 +44,13 @@ test_that("seas calculate t and preranked t match fgsea results", {
   ranks.t <- setNames(lfc[['t']], lfc[['feature_id']])
 
   expect_warning({
-    set.seed(123)
-    rest <- fgsea::fgsea(
-      gs.idxs, ranks.t,
-      minSize = min.max[1], maxSize = min.max[2],
-      nPermSimple = nperm,
-      gseaParam = gseaParam)
+    rest <- BiocParallel::bplapply(1, function(i) {
+      fgsea::fgsea(
+        gs.idxs, ranks.t,
+        minSize = min.max[1], maxSize = min.max[2],
+        nPermSimple = nperm,
+        gseaParam = gseaParam)
+    }, BPPARAM = bpparam)[[1]]
   }, "better estimation")
 
   # compare results ------------------------------------------------------------
@@ -67,7 +73,7 @@ test_that("seas calculate t and preranked t match fgsea results", {
   expect_warning({
     set.seed(123)
     mgpre <- seas(ranks.t, gdb, "fgsea", nperm = nperm,
-                  gseaParam = gseaParam, score.by = "t")
+                  gseaParam = gseaParam, score.by = "t", BPPARAM = bpparam)
   }, "better estimation")
 
   rpre <- result(mgpre, 'fgsea')
@@ -76,10 +82,9 @@ test_that("seas calculate t and preranked t match fgsea results", {
 
   # Passing in data.frame works, too -------------------------------------------
   expect_warning({
-    set.seed(123)
     mgdf <- seas(lfc, gdb, "fgsea", nperm = nperm,
                  rank_by = "t", rank_order = "descending",
-                 gseaParam = gseaParam)
+                 gseaParam = gseaParam, BPPARAM = bpparam)
   }, "better estimation")
   res.df <- result(mgdf)
   expect_equal(res.df[, comp.cols], mgres[, comp.cols])
