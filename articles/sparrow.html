@@ -87,7 +87,7 @@ sparrow</h1>
                         <h4 data-toc-skip class="author">Steve
 Lianoglou</h4>
             
-            <h4 data-toc-skip class="date">30 March 2022</h4>
+            <h4 data-toc-skip class="date">31 March 2022</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/lianos/sparrow/blob/HEAD/vignettes/sparrow.Rmd" class="external-link"><code>vignettes/sparrow.Rmd</code></a></small>
       <div class="hidden name"><code>sparrow.Rmd</code></div>
@@ -346,8 +346,8 @@ could do:</p>
 <pre><code><span class="co">##   collection                             name active  N</span>
 <span class="co">## 1         C2         ABBUD_LIF_SIGNALING_1_DN  FALSE 28</span>
 <span class="co">## 2         C2         ABBUD_LIF_SIGNALING_1_UP  FALSE 43</span>
-<span class="co">## 3         C2         ABBUD_LIF_SIGNALING_2_DN  FALSE  6</span>
-<span class="co">## 4         C2         ABBUD_LIF_SIGNALING_2_UP  FALSE 12</span>
+<span class="co">## 3         C2         ABBUD_LIF_SIGNALING_2_DN  FALSE  7</span>
+<span class="co">## 4         C2         ABBUD_LIF_SIGNALING_2_UP  FALSE 13</span>
 <span class="co">## 5         C2       ABDELMOHSEN_ELAVL4_TARGETS  FALSE 16</span>
 <span class="co">## 6         C2 ABDULRAHMAN_KIDNEY_CANCER_VHL_DN  FALSE 13</span></code></pre>
 </div>
@@ -436,15 +436,15 @@ parameter.</p>
 <pre><code><span class="co">## SparrowResult (max FDR by collection set to 0.20%)</span>
 <span class="co">## --------------------------------------------------- </span>
 <span class="co">##    collection   method geneset_count sig_count sig_up sig_down</span>
-<span class="co">## 1          C2   camera          6074       349    207      142</span>
+<span class="co">## 1          C2   camera          6150       349    206      143</span>
 <span class="co">## 2           H   camera            50         6      5        1</span>
-<span class="co">## 3          C2      fry          6074       101     37       64</span>
+<span class="co">## 3          C2      fry          6150        95     33       62</span>
 <span class="co">## 4           H      fry            50         0      0        0</span>
-<span class="co">## 5          C2      ora          6074        91     32       59</span>
+<span class="co">## 5          C2      ora          6150        96     33       63</span>
 <span class="co">## 6           H      ora            50         3      1        2</span>
-<span class="co">## 7          C2 ora.down          6074        70      6       64</span>
+<span class="co">## 7          C2 ora.down          6150        73      6       67</span>
 <span class="co">## 8           H ora.down            50         2      0        2</span>
-<span class="co">## 9          C2   ora.up          6074        20     17        3</span>
+<span class="co">## 9          C2   ora.up          6150        24     21        3</span>
 <span class="co">## 10          H   ora.up            50         0      0        0</span></code></pre>
 <p>The table above enumerates the different GSEA methods run over each
 geneset collection in the rows. The columns enumerate the number of
@@ -489,10 +489,10 @@ follows:</p>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">n</span>, <span class="va">mean.logFC</span>, <span class="va">padj</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="va">head</span></code></pre></div>
 <pre><code><span class="co">##                                 name   n mean.logFC         padj</span>
-<span class="co">## 1            HALLMARK_MYC_TARGETS_V2  58  0.4461105 0.0002580762</span>
-<span class="co">## 2 HALLMARK_INTERFERON_ALPHA_RESPONSE  96  0.3916716 0.0863986770</span>
-<span class="co">## 3               HALLMARK_E2F_TARGETS 200  0.3465703 0.0001868957</span>
-<span class="co">## 4            HALLMARK_MYC_TARGETS_V1 200  0.2092836 0.0237159669</span></code></pre>
+<span class="co">## 1            HALLMARK_MYC_TARGETS_V2  58  0.4461105 0.0002612790</span>
+<span class="co">## 2 HALLMARK_INTERFERON_ALPHA_RESPONSE  96  0.3916716 0.0874709010</span>
+<span class="co">## 3               HALLMARK_E2F_TARGETS 200  0.3465703 0.0001892151</span>
+<span class="co">## 4            HALLMARK_MYC_TARGETS_V1 200  0.2092836 0.0234431144</span></code></pre>
 <p>You can also list the members of a geneset and their individual
 differential expression statistics for the contrast under test using the
 <code>geneSet</code> function.</p>
@@ -791,11 +791,11 @@ object:</p>
 <span class="co">## 3           C2 ABBUD_LIF_SIGNALING_1_DN     146556 C16orf89</span>
 <span class="co">## 4           C2 ABBUD_LIF_SIGNALING_1_DN       1644      DDC</span>
 <span class="co">## 5           C2 ABBUD_LIF_SIGNALING_1_DN       1943    EFNA2</span>
-<span class="co">## 201         C2    ABE_VEGFA_TARGETS_2HR       5055 SERPINB2</span>
-<span class="co">## 202         C2    ABE_VEGFA_TARGETS_2HR       5133    PDCD1</span>
-<span class="co">## 203         C2    ABE_VEGFA_TARGETS_2HR       5493      PPL</span>
-<span class="co">## 204         C2    ABE_VEGFA_TARGETS_2HR       5539      PPY</span>
-<span class="co">## 205         C2    ABE_VEGFA_TARGETS_2HR       5580    PRKCD</span></code></pre>
+<span class="co">## 201         C2    ABE_VEGFA_TARGETS_2HR       3949     LDLR</span>
+<span class="co">## 202         C2    ABE_VEGFA_TARGETS_2HR       4171     MCM2</span>
+<span class="co">## 203         C2    ABE_VEGFA_TARGETS_2HR       5055 SERPINB2</span>
+<span class="co">## 204         C2    ABE_VEGFA_TARGETS_2HR       5133    PDCD1</span>
+<span class="co">## 205         C2    ABE_VEGFA_TARGETS_2HR       5493      PPL</span></code></pre>
 <p>The <code>(collection,name)</code> tuple is the primary key of a gene
 set. The <code>feature_id</code> column stores gene identifiers. For the
 time being, it will be most natural for these IDs to simply be ensembl
@@ -898,8 +898,8 @@ sets that contain certain features:</p>
 <div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">gdb.sub2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/subsetByFeatures.html">subsetByFeatures</a></span><span class="op">(</span><span class="va">gdb</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'10014'</span>, <span class="st">'1454'</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">gdb</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">gdb.sub2</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## [1] 6154</span></code></pre>
-<pre><code><span class="co">## [1] 117</span></code></pre>
+<pre><code><span class="co">## [1] 6230</span></code></pre>
+<pre><code><span class="co">## [1] 120</span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="active-vs-inactive-gene-sets">Active vs Inactive Gene Sets<a class="anchor" aria-label="anchor" href="#active-vs-inactive-gene-sets"></a>
@@ -926,8 +926,8 @@ found in <code>vm</code>:</p>
 <pre><code><span class="co">##   collection                             name active  N  n subcategory gs_id</span>
 <span class="co">## 1         C2         ABBUD_LIF_SIGNALING_1_DN   TRUE 28 25         CGP M1423</span>
 <span class="co">## 2         C2         ABBUD_LIF_SIGNALING_1_UP   TRUE 43 37         CGP M1458</span>
-<span class="co">## 3         C2         ABBUD_LIF_SIGNALING_2_DN  FALSE  6  4         CGP M1481</span>
-<span class="co">## 4         C2         ABBUD_LIF_SIGNALING_2_UP   TRUE 12 11         CGP M1439</span>
+<span class="co">## 3         C2         ABBUD_LIF_SIGNALING_2_DN  FALSE  7  5         CGP M1481</span>
+<span class="co">## 4         C2         ABBUD_LIF_SIGNALING_2_UP   TRUE 13 12         CGP M1439</span>
 <span class="co">## 5         C2       ABDELMOHSEN_ELAVL4_TARGETS   TRUE 16 15         CGP M2509</span>
 <span class="co">## 6         C2 ABDULRAHMAN_KIDNEY_CANCER_VHL_DN   TRUE 13 12         CGP M2096</span></code></pre>
 <p>We can see that, only 23 of the 26 genes in the
@@ -1088,7 +1088,7 @@ Session Information
 <span class="co">## other attached packages:</span>
 <span class="co">##  [1] data.table_1.14.2     edgeR_3.37.1          limma_3.51.5         </span>
 <span class="co">##  [4] circlize_0.4.14       ComplexHeatmap_2.11.0 ggplot2_3.3.5        </span>
-<span class="co">##  [7] dplyr_1.0.8           magrittr_2.0.2        sparrow_1.1.4        </span>
+<span class="co">##  [7] dplyr_1.0.8           magrittr_2.0.3        sparrow_1.1.4        </span>
 <span class="co">## [10] BiocStyle_2.23.1     </span>
 <span class="co">## </span>
 <span class="co">## loaded via a namespace (and not attached):</span>
@@ -1100,8 +1100,8 @@ Session Information
 <span class="co">##  [11] magick_2.7.3                viridis_0.6.2              </span>
 <span class="co">##  [13] fansi_1.0.3                 checkmate_2.0.0            </span>
 <span class="co">##  [15] memoise_2.0.1               ScaledMatrix_1.3.0         </span>
-<span class="co">##  [17] cluster_2.1.2               doParallel_1.0.17          </span>
-<span class="co">##  [19] Biostrings_2.63.2           annotate_1.73.0            </span>
+<span class="co">##  [17] cluster_2.1.3               doParallel_1.0.17          </span>
+<span class="co">##  [19] Biostrings_2.63.3           annotate_1.73.0            </span>
 <span class="co">##  [21] matrixStats_0.61.0          pkgdown_2.0.2              </span>
 <span class="co">##  [23] colorspace_2.0-3            blob_1.2.2                 </span>
 <span class="co">##  [25] BiasedUrn_1.07              textshaping_0.3.6          </span>
@@ -1115,7 +1115,7 @@ Session Information
 <span class="co">##  [41] Rhdf5lib_1.17.3             shape_1.4.6                </span>
 <span class="co">##  [43] SingleCellExperiment_1.17.2 BiocGenerics_0.41.2        </span>
 <span class="co">##  [45] HDF5Array_1.23.2            scales_1.1.1               </span>
-<span class="co">##  [47] msigdbr_7.4.1               DBI_1.1.2                  </span>
+<span class="co">##  [47] msigdbr_7.5.1               DBI_1.1.2                  </span>
 <span class="co">##  [49] Rcpp_1.0.8.3                viridisLite_0.4.0          </span>
 <span class="co">##  [51] xtable_1.8-4                clue_0.3-60                </span>
 <span class="co">##  [53] rsvd_1.0.5                  bit_4.0.4                  </span>
@@ -1133,7 +1133,7 @@ Session Information
 <span class="co">##  [77] RSQLite_2.2.11              evaluate_0.15              </span>
 <span class="co">##  [79] stringr_1.4.0               fastmap_1.1.0              </span>
 <span class="co">##  [81] yaml_2.3.5                  ragg_1.2.2                 </span>
-<span class="co">##  [83] babelgene_21.4              knitr_1.38                 </span>
+<span class="co">##  [83] babelgene_22.3              knitr_1.38                 </span>
 <span class="co">##  [85] bit64_4.0.5                 fs_1.5.2                   </span>
 <span class="co">##  [87] purrr_0.3.4                 KEGGREST_1.35.0            </span>
 <span class="co">##  [89] sparseMatrixStats_1.7.0     compiler_4.2.0             </span>
@@ -1142,7 +1142,7 @@ Session Information
 <span class="co">##  [95] bslib_0.3.1                 stringi_1.7.6              </span>
 <span class="co">##  [97] highr_0.9                   desc_1.4.1                 </span>
 <span class="co">##  [99] lattice_0.20-45             Matrix_1.4-1               </span>
-<span class="co">## [101] vctrs_0.3.8                 rhdf5filters_1.7.0         </span>
+<span class="co">## [101] vctrs_0.4.0                 rhdf5filters_1.7.0         </span>
 <span class="co">## [103] pillar_1.7.0                lifecycle_1.0.1            </span>
 <span class="co">## [105] BiocManager_1.30.16         jquerylib_0.1.4            </span>
 <span class="co">## [107] GlobalOptions_0.1.2         bitops_1.0-7               </span>
@@ -1153,7 +1153,7 @@ Session Information
 <span class="co">## [117] assertthat_0.2.1            rhdf5_2.39.6               </span>
 <span class="co">## [119] SummarizedExperiment_1.25.3 rprojroot_2.0.2            </span>
 <span class="co">## [121] rjson_0.2.21                withr_2.5.0                </span>
-<span class="co">## [123] S4Vectors_0.33.11           GenomeInfoDbData_1.2.7     </span>
+<span class="co">## [123] S4Vectors_0.33.15           GenomeInfoDbData_1.2.7     </span>
 <span class="co">## [125] parallel_4.2.0              beachmat_2.11.0            </span>
 <span class="co">## [127] tidyr_1.2.0                 rmarkdown_2.13             </span>
 <span class="co">## [129] DelayedMatrixStats_1.17.0   MatrixGenerics_1.7.0       </span>
