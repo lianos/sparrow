@@ -142,19 +142,18 @@
 #' @param verbose make some noise during execution?
 #' @param ... The arguments are passed down into
 #'   [calculateIndividualLogFC()] and the various geneset analysis functions.
-#' @param score.by this was the original `rank_by`. We need to reconcile the
-#'   two. `score.by` is a parameter that is passed down into the do.* functions,
-#'   and `rank_by` and other `underscored_variables` tend to be ones that are
-#'   consumed by high-level/front facing function, like the difference between
-#'   `do.ora()` and `ora()`.
-#' @param rank_by the name of a column that should be used to rank the features
-#'   in `x` for pre-ranked gsea tests like cameraPR or fgsea. Only works when
-#'   `x` is a data.frame-like input. `rank_by` overrides `score.by`
-#' @param rank_order specify how the features in `x` should be used to rank
-#'   the features in `x` using the `rank_by` column. Accepted values are:
+#' @param score.by This tells us how to rank the features after differential
+#'   expression analysis when `x` is an expression container. It specifies the
+#'   name of the column to use downstream of a differential expression analysis
+#'   over `x`. If `x` is a data.frame that needs to be ranked, see `rank_by`.
+#' @param rank_by Only works when `x` is a data.frame-like input. The name of a 
+#'   column that should be used to rank the features in `x` for pre-ranked gsea
+#'   tests like cameraPR or fgsea.  `rank_by` overrides `score.by`
+#' @param rank_order Only used when `x` is a data.frame-like input. Specifies 
+#'   how the features in `x` should be used to rank the features in `x` using 
+#'   the `rank_by` column. Accepted values are:
 #'   `"ordered"` (default) means that the rows in `x` are pre-ranked already.
-#'   `"descendeing"`, and `"ascending"`. Only used when `x` is a
-#'   data.frame-like input.
+#'   `"descendeing"`, and `"ascending"`. 
 #' @param xmeta. A hack to support data.frame inputs for `x`. End users should
 #'   not use this.
 #' @param BPPARAM a *BiocParallel* parameter definition, like one generated from
@@ -194,7 +193,7 @@ seas <- function(x, gsd, methods = NULL,
   # score.by was the original parameter used, and rank_by was introduced later
   # when we wanted to support data.frame inputs. This makes life difficult.
   score.by <- match.arg(score.by)
-  if (!is.null(rank_by)) {
+  if (test_string(rank_by)) {
     score.by <- rank_by
   }
   if (missing(rank_by) || is.null(rank_by)) {
@@ -224,12 +223,12 @@ seas <- function(x, gsd, methods = NULL,
     }
 
     if (rank_order != "ordered") {
+      assert_numeric(x[[rank_by]])
       xo <- order(x[[rank_by]], decreasing = rank_order == "descending")
       x <- x[xo,,drop = FALSE]
     }
     xmeta. <- x
     x <- setNames(x[[rank_by]], x[["feature_id"]])
-    # xmeta.[[rank_by]] <- NULL
   }
 
   stopifnot(

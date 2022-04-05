@@ -95,11 +95,18 @@ get_function <- function(name, ...) {
 }
 
 #' A utility function to extract preranked statistics from different inputs.
+#' 
+#' This function will calculate the logFC of a "fully defined experimental
+#' design", and ensures that the `score.by` value makes sense to use as a
+#' ranking statistic.
+#' 
 #' @noRd
+#' @return a named (unsorted) numeric vector of ranking statistics
 extract_preranked_stats <- function(x, design, contrast, robust.fit=FALSE,
                                     robust.eBayes=FALSE, logFC=NULL,
-                                    score.by=c('t', 'logFC', 'pval'), ...) {
-  score.by <- match.arg(score.by)
+                                    score.by = NULL, ...) {
+  assert_string(score.by)
+
   if (ncol(x) > 1) {
     if (is.null(logFC)) {
       logFC <- calculateIndividualLogFC(x, design, contrast, robust.fit,
@@ -107,21 +114,20 @@ extract_preranked_stats <- function(x, design, contrast, robust.fit=FALSE,
     } else {
       is.logFC.like(logFC, x, as.error=TRUE)
     }
-    ## t will be NA if statistics were computed using edgeR from a DGEList
-    if (score.by == 't' && any(is.na(logFC[['t']]))) {
-      warning("t statistics not found in dge results, switching to logFC",
-              immediate.=TRUE)
-      score.by <- 'logFC'
+    stats <- assert_numeric(logFC[[score.by]])
+    # t will be NA if statistics were computed using edgeR from a DGEList
+    if (any(is.na(stats))) {
+      stop("NA values found in ranking statistics")
     }
-    stats <- setNames(logFC[[score.by]], logFC$feature_id)
+    names(stats) <- logFC[["feature_id"]]
   } else {
-    ## This is already a column matrix of precomputed things (logFC, perhaps)
-    ## to rank
+    # This is already a column matrix of precomputed things (logFC, perhaps)
+    # to rank
     stats <- setNames(x[, 1L], rownames(x))
   }
 
   if (any(is.na(stats))) {
-    stop("NA values are found in the stats vector for geneSetTest")
+    stop("NA values found in ranking statistics")
   }
 
   if (!setequal(rownames(x), names(stats))) {

@@ -29,21 +29,20 @@ do.fgsea <- function(gsd, x, design, contrast = ncol(design),
                      nproc = 0, gseaParam = 1, nPermSimple = 1000,
                      # absEps = NULL,
                      use.fgsea.simple = FALSE,
-                     score.by = c('t', 'logFC', 'pval'), logFC = NULL, ...) {
+                     score.by = NULL, logFC = NULL, ...) {
   reqpkg("fgsea")
   scoreType <- match.arg(scoreType)
-  score.by <- match.arg(score.by)
-  stopifnot(is.conformed(gsd, x))
-
-  stats <- extract_preranked_stats(x, design, contrast, score.by=score.by,
-                                   logFC=logFC, ...)
-
-  ## fgsea call needs minSize and maxSize params, we set this to whatever
-  ## the min/max active geneset sizes are, since this was already specified
-  ## in the internally called conform(gsd, x, min.gs.size, max.gs.size) call
+  
+  stats <- extract_preranked_stats(x, design, contrast, score.by = score.by,
+                                   logFC = logFC, ...)
+  stopifnot(is.conformed(gsd, stats))
+  
+  # fgsea call needs minSize and maxSize params, we set this to whatever
+  # the min/max active geneset sizes are, since this was already specified
+  # in the internally called conform(gsd, x, min.gs.size, max.gs.size) call
   gs.size <- range(subset(geneSets(gsd), active)$n)
 
-  ## fgsea function wants a list of gene identifiers for pathway definition
+  # fgsea function wants a list of gene identifiers for pathway definition
   pathways <- as.list(gsd, active.only = TRUE, value = "x.id")
 
   if (isTRUE(use.fgsea.simple)) {
