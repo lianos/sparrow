@@ -104,6 +104,13 @@ names.</p></dd>
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># \donttest{</span></span>
 <span class="r-in">  <span class="va">bsc.h</span> <span class="op">&lt;-</span> <span class="fu">getReactomeCollection</span><span class="op">(</span><span class="st">"human"</span><span class="op">)</span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Item 2 has 0 rows but longest item has 1; filled with NA</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Item 3 has 0 rows but longest item has 1; filled with NA</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Item 4 has 0 rows but longest item has 1; filled with NA</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Removing NA feature_id's from input</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Item 1 has 0 rows but longest item has 1; filled with NA</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Item 2 has 0 rows but longest item has 1; filled with NA</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in addCollectionMetadata(x, i, "url_function", value, valid):</span> GeneSetDb does not have collection: Reactome</span>
 <span class="r-in">  <span class="va">gdb.h</span> <span class="op">&lt;-</span> <span class="fu">getReactomeGeneSetDb</span><span class="op">(</span><span class="st">"human"</span><span class="op">)</span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in getReactomeGeneSetDb("human"):</span> could not find function "getReactomeGeneSetDb"</span>
 <span class="r-in"><span class="co"># }</span></span>
