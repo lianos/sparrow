@@ -52,6 +52,9 @@ jobs:
       - name: Install package
         run: R CMD INSTALL .
 
+      - name: work around permission issue
+        run: git config --global --add safe.directory /__w/sparrow/sparrow
+
       - name: Deploy package
         run: pkgdown::deploy_to_branch(new_process = FALSE)
         shell: Rscript {0}
