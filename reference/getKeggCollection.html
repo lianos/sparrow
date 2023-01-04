@@ -68,9 +68,9 @@ internally.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">getKeggCollection</span><span class="op">(</span>species <span class="op">=</span> <span class="st">"human"</span>, id.type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ensembl"</span>, <span class="st">"entrez"</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="fu">getKeggGeneSetDb</span><span class="op">(</span>species <span class="op">=</span> <span class="st">"human"</span>, id.type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ensembl"</span>, <span class="st">"entrez"</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">getKeggCollection</span><span class="op">(</span>species <span class="op">=</span> <span class="st">"human"</span>, id.type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ensembl"</span>, <span class="st">"entrez"</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">getKeggGeneSetDb</span><span class="op">(</span>species <span class="op">=</span> <span class="st">"human"</span>, id.type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ensembl"</span>, <span class="st">"entrez"</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -78,17 +78,24 @@ internally.</p>
     <dl><dt>species</dt>
 <dd><p><code>"human"</code>, <code>"mouse"</code> or any of the bioconductor or kegg-style
 abbreviations.</p></dd>
+
+
 <dt>id.type</dt>
 <dd><p>Gene identifiers are returned by the REST service as
 entrez identifiers. Set this to <code>"ensembl"</code> to translate them internally
 using <code><a href="convertIdentifiers.html">convertIdentifiers()</a></code>. If <code>species</code>is not <code>"human"</code> or <code>"mouse"</code>,
 you need to provide an idxref table that works with <code><a href="convertIdentifiers.html">convertIdentifiers()</a></code>.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>pass through arguments</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A BiocSet of the kegg stuffs</p>
+    
+
+<p>A BiocSet of the kegg stuffs</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -104,11 +111,11 @@ database according to their licensing requirements.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># \donttest{</span></span>
-<span class="r-in"><span class="co"># connects to the internet and takes a while</span></span>
-<span class="r-in"><span class="va">mouse.entrez</span> <span class="op">&lt;-</span> <span class="fu">getKeggCollection</span><span class="op">(</span><span class="st">"mouse"</span>, id.type <span class="op">=</span> <span class="st">"entrez"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">human.enrez</span> <span class="op">&lt;-</span> <span class="fu">getKeggCollection</span><span class="op">(</span><span class="st">"human"</span>, id.type <span class="op">=</span> <span class="st">"entrez"</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># }</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="co"># connects to the internet and takes a while</span></span></span>
+<span class="r-in"><span><span class="va">mouse.entrez</span> <span class="op">&lt;-</span> <span class="fu">getKeggCollection</span><span class="op">(</span><span class="st">"mouse"</span>, id.type <span class="op">=</span> <span class="st">"entrez"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">human.enrez</span> <span class="op">&lt;-</span> <span class="fu">getKeggCollection</span><span class="op">(</span><span class="st">"human"</span>, id.type <span class="op">=</span> <span class="st">"entrez"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -123,7 +130,7 @@ database according to their licensing requirements.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

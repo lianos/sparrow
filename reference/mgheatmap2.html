@@ -80,53 +80,65 @@ you must reorder the rows of the annotation data.frame, ie.
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">mgheatmap2</span><span class="op">(</span>
-  <span class="va">x</span>,
-  gdb <span class="op">=</span> <span class="cn">NULL</span>,
-  col <span class="op">=</span> <span class="cn">NULL</span>,
-  aggregate.by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"none"</span>, <span class="st">"ewm"</span>, <span class="st">"ewz"</span>, <span class="st">"zscore"</span><span class="op">)</span>,
-  split <span class="op">=</span> <span class="cn">TRUE</span>,
-  scores <span class="op">=</span> <span class="cn">NULL</span>,
-  gs.order <span class="op">=</span> <span class="cn">NULL</span>,
-  name <span class="op">=</span> <span class="cn">NULL</span>,
-  rm.collection.prefix <span class="op">=</span> <span class="cn">TRUE</span>,
-  rm.dups <span class="op">=</span> <span class="cn">FALSE</span>,
-  recenter <span class="op">=</span> <span class="cn">FALSE</span>,
-  rescale <span class="op">=</span> <span class="cn">FALSE</span>,
-  center <span class="op">=</span> <span class="cn">FALSE</span>,
-  scale <span class="op">=</span> <span class="cn">FALSE</span>,
-  uncenter <span class="op">=</span> <span class="cn">FALSE</span>,
-  unscale <span class="op">=</span> <span class="cn">FALSE</span>,
-  rename.rows <span class="op">=</span> <span class="cn">NULL</span>,
-  zlim <span class="op">=</span> <span class="cn">NULL</span>,
-  transpose <span class="op">=</span> <span class="cn">FALSE</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">mgheatmap2</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  gdb <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  col <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  aggregate.by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"none"</span>, <span class="st">"ewm"</span>, <span class="st">"ewz"</span>, <span class="st">"zscore"</span><span class="op">)</span>,</span>
+<span>  split <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  scores <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  gs.order <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  name <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  rm.collection.prefix <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  rm.dups <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  recenter <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  rescale <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  center <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  scale <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  uncenter <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  unscale <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  rename.rows <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  zlim <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  transpose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>the data matrix</p></dd>
+
+
 <dt>gdb</dt>
 <dd><p><code>GeneSetDb</code> object that holds the genesets to plot. Defaults to
 <code>NULL</code>, which will plot all rows in <code>x</code>.</p></dd>
+
+
 <dt>col</dt>
 <dd><p>a colorRamp(2) function</p></dd>
+
+
 <dt>aggregate.by</dt>
 <dd><p>the method used to generate single-sample geneset
 scores. Default is <code>none</code> which plots heatmap at the gene level</p></dd>
+
+
 <dt>split</dt>
 <dd><p>introduce row-segmentation based on genesets or collections?
 Defaults is <code>TRUE</code> which will create split heatmaps based on
 collection if <code>aggregate.by != 'none'</code>, or based on gene sets
 if <code>aggregate.by == "none"</code>.</p></dd>
+
+
 <dt>scores</dt>
 <dd><p>If <code>aggregate.by != "none"</code> you can pass in a precomupted
 <code><a href="scoreSingleSamples.html">scoreSingleSamples()</a></code> result, otherwise one will be
 computed internally. Note that if this is a <code>data.frame</code> of
 pre-computed scores, the <code>gdb</code> is largely irrelevant (but still
 required).</p></dd>
+
+
 <dt>gs.order</dt>
 <dd><p>This is experimental, and is here to help order the order
 of the genesets (or genesets collection) in a different way than the
@@ -138,45 +150,68 @@ works when <code>split = TRUE</code>. We will support <code>colleciton,name</cod
 This can be a superset of the names found in <code>gdb</code>. As of ComplexHeatmap
 v2 (maybe earlier versions), this doesn't really work when
 <code>cluster_rows = TRUE</code>.</p></dd>
+
+
 <dt>name</dt>
 <dd><p>passed down to <code><a href="https://rdrr.io/pkg/ComplexHeatmap/man/Heatmap.html" class="external-link">ComplexHeatmap::Heatmap()</a></code></p></dd>
+
+
 <dt>rm.collection.prefix</dt>
 <dd><p>When <code>TRUE</code> (default), removes the collection
 name from the genesets annotated on the heatmap.</p></dd>
+
+
 <dt>rm.dups</dt>
 <dd><p>if <code>aggregate.by == 'none'</code>, do we remove genes that
 appear in more than one geneset? Defaults to <code>FALSE</code></p></dd>
+
+
 <dt>recenter</dt>
 <dd><p>do you want to mean center the rows of the heatmap matrix
 prior to calling <code><a href="https://rdrr.io/pkg/ComplexHeatmap/man/Heatmap.html" class="external-link">ComplexHeatmap::Heatmap()</a></code>? This is passed down to
 <code><a href="scale_rows.html">scale_rows()</a></code>. Look there for more mojo.</p></dd>
+
+
 <dt>rescale</dt>
 <dd><p>do you want to standardize the row variance to one on the
 values of the heatmap matrix prior to calling
 <code><a href="https://rdrr.io/pkg/ComplexHeatmap/man/Heatmap.html" class="external-link">ComplexHeatmap::Heatmap()</a></code>? This is passed down to
 <code><a href="scale_rows.html">scale_rows()</a></code>. Look there for more mojo.</p></dd>
+
+
 <dt>center, scale, uncenter, unscale</dt>
 <dd><p>boolean parameters passed down into the
 the single sample gene set scoring methods defined by <code>aggregate.by</code></p></dd>
+
+
 <dt>rename.rows</dt>
 <dd><p>defaults to <code>NULL</code>, which induces no action. Specifying
 a paramter here assumes you want to rename the rows of the heatmap.
 Please refer to the "Renaming Rows" section for details.</p></dd>
+
+
 <dt>zlim</dt>
 <dd><p>A <code>length(zlim) == 2</code> numeric vector that defines the min and max
 values from <code>x</code> for the <code>colorRamp2</code> call. If the heatmap that is being
 drawn is "0-centered"-ish, then this defines the real values of the
 fenceposts. If not, then these define the quantiles to trim off the top
 or bottom.</p></dd>
+
+
 <dt>transpose</dt>
 <dd><p>Flip display so that rows are columns. Default is <code>FALSE</code>.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>parameters to send down to <code><a href="scoreSingleSamples.html">scoreSingleSamples()</a></code>,
 <code><a href="https://rdrr.io/pkg/ComplexHeatmap/man/Heatmap.html" class="external-link">ComplexHeatmap::Heatmap()</a></code>, <code><a href="renameRows.html">renameRows()</a></code> internal <code>as_matrix()</code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A <code>Heatmap</code> object.</p>
+    
+
+<p>A <code>Heatmap</code> object.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -214,35 +249,35 @@ the "Examples" section here.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># \donttest{</span></span>
-<span class="r-in"><span class="va">vm</span> <span class="op">&lt;-</span> <span class="fu"><a href="examples.html">exampleExpressionSet</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="examples.html">exampleGeneSetDb</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">col.anno</span> <span class="op">&lt;-</span> <span class="fu">ComplexHeatmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ComplexHeatmap/man/HeatmapAnnotation.html" class="external-link">HeatmapAnnotation</a></span><span class="op">(</span></span>
-<span class="r-in">  df <span class="op">=</span> <span class="va">vm</span><span class="op">$</span><span class="va">targets</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Cancer_Status"</span>, <span class="st">"PAM50subtype"</span><span class="op">)</span><span class="op">]</span>,</span>
-<span class="r-in">  col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span class="r-in">    Cancer_Status <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>normal <span class="op">=</span> <span class="st">"grey"</span>, tumor <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span>,</span>
-<span class="r-in">    PAM50subtype <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>Basal <span class="op">=</span> <span class="st">"purple"</span>, Her2 <span class="op">=</span> <span class="st">"green"</span>, LumA <span class="op">=</span> <span class="st">"orange"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">mgh</span> <span class="op">&lt;-</span> <span class="fu">mgheatmap2</span><span class="op">(</span><span class="va">vm</span>, <span class="va">gdb</span>, aggregate.by <span class="op">=</span> <span class="st">"ewm"</span>, split <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span class="r-in">                  top_annotation <span class="op">=</span> <span class="va">col.anno</span>, show_column_names <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span class="r-in">                  column_title <span class="op">=</span> <span class="st">"Gene Set Activity in BRCA subset"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">ComplexHeatmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ComplexHeatmap/man/draw-dispatch.html" class="external-link">draw</a></span><span class="op">(</span><span class="va">mgh</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="va">vm</span> <span class="op">&lt;-</span> <span class="fu"><a href="examples.html">exampleExpressionSet</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="examples.html">exampleGeneSetDb</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">col.anno</span> <span class="op">&lt;-</span> <span class="fu">ComplexHeatmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ComplexHeatmap/man/HeatmapAnnotation.html" class="external-link">HeatmapAnnotation</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  df <span class="op">=</span> <span class="va">vm</span><span class="op">$</span><span class="va">targets</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Cancer_Status"</span>, <span class="st">"PAM50subtype"</span><span class="op">)</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span>  col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    Cancer_Status <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>normal <span class="op">=</span> <span class="st">"grey"</span>, tumor <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    PAM50subtype <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>Basal <span class="op">=</span> <span class="st">"purple"</span>, Her2 <span class="op">=</span> <span class="st">"green"</span>, LumA <span class="op">=</span> <span class="st">"orange"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">mgh</span> <span class="op">&lt;-</span> <span class="fu">mgheatmap2</span><span class="op">(</span><span class="va">vm</span>, <span class="va">gdb</span>, aggregate.by <span class="op">=</span> <span class="st">"ewm"</span>, split <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>                  top_annotation <span class="op">=</span> <span class="va">col.anno</span>, show_column_names <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>                  column_title <span class="op">=</span> <span class="st">"Gene Set Activity in BRCA subset"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">ComplexHeatmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ComplexHeatmap/man/draw-dispatch.html" class="external-link">draw</a></span><span class="op">(</span><span class="va">mgh</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="mgheatmap2-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Center to "normal" group</span></span>
-<span class="r-in"><span class="va">mgc</span> <span class="op">&lt;-</span> <span class="fu">mgheatmap2</span><span class="op">(</span><span class="va">vm</span>, <span class="va">gdb</span>, aggregate.by <span class="op">=</span> <span class="st">"ewm"</span>, split <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span class="r-in">                  top_annotation <span class="op">=</span> <span class="va">col.anno</span>, show_column_names <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span class="r-in">                  recenter <span class="op">=</span> <span class="va">vm</span><span class="op">$</span><span class="va">targets</span><span class="op">$</span><span class="va">Cancer_Status</span> <span class="op">==</span> <span class="st">"normal"</span>,</span>
-<span class="r-in">                  column_title <span class="op">=</span> <span class="st">"Gene Set Activity in BRCA subset"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">ComplexHeatmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ComplexHeatmap/man/draw-dispatch.html" class="external-link">draw</a></span><span class="op">(</span><span class="va">mgc</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Center to "normal" group</span></span></span>
+<span class="r-in"><span><span class="va">mgc</span> <span class="op">&lt;-</span> <span class="fu">mgheatmap2</span><span class="op">(</span><span class="va">vm</span>, <span class="va">gdb</span>, aggregate.by <span class="op">=</span> <span class="st">"ewm"</span>, split <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>                  top_annotation <span class="op">=</span> <span class="va">col.anno</span>, show_column_names <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>                  recenter <span class="op">=</span> <span class="va">vm</span><span class="op">$</span><span class="va">targets</span><span class="op">$</span><span class="va">Cancer_Status</span> <span class="op">==</span> <span class="st">"normal"</span>,</span></span>
+<span class="r-in"><span>                  column_title <span class="op">=</span> <span class="st">"Gene Set Activity in BRCA subset"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">ComplexHeatmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ComplexHeatmap/man/draw-dispatch.html" class="external-link">draw</a></span><span class="op">(</span><span class="va">mgc</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="mgheatmap2-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="co"># Maybe you want the rownames of the matrix to use spaces instead of "_"</span></span>
-<span class="r-in"><span class="va">rr</span> <span class="op">&lt;-</span> <span class="fu"><a href="geneSets.html">geneSets</a></span><span class="op">(</span><span class="va">gdb</span><span class="op">)</span><span class="op">[</span>, <span class="st">"name"</span>, drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span></span>
-<span class="r-in"><span class="va">rr</span><span class="op">$</span><span class="va">newname</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"_"</span>, <span class="st">" "</span>, <span class="va">rr</span><span class="op">$</span><span class="va">name</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">mg2</span> <span class="op">&lt;-</span> <span class="fu">mgheatmap2</span><span class="op">(</span><span class="va">vm</span>, <span class="va">gdb</span>, aggregate.by<span class="op">=</span><span class="st">'ewm'</span>, split<span class="op">=</span><span class="cn">TRUE</span>,</span>
-<span class="r-in">                  top_annotation <span class="op">=</span> <span class="va">col.anno</span>, show_column_names <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span class="r-in">                  column_title <span class="op">=</span> <span class="st">"Gene Set Activity in BRCA subset"</span>,</span>
-<span class="r-in">                  rename.rows <span class="op">=</span> <span class="va">rr</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># }</span></span>
+<span class="r-in"><span><span class="co"># Maybe you want the rownames of the matrix to use spaces instead of "_"</span></span></span>
+<span class="r-in"><span><span class="va">rr</span> <span class="op">&lt;-</span> <span class="fu"><a href="geneSets.html">geneSets</a></span><span class="op">(</span><span class="va">gdb</span><span class="op">)</span><span class="op">[</span>, <span class="st">"name"</span>, drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">rr</span><span class="op">$</span><span class="va">newname</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"_"</span>, <span class="st">" "</span>, <span class="va">rr</span><span class="op">$</span><span class="va">name</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">mg2</span> <span class="op">&lt;-</span> <span class="fu">mgheatmap2</span><span class="op">(</span><span class="va">vm</span>, <span class="va">gdb</span>, aggregate.by<span class="op">=</span><span class="st">'ewm'</span>, split<span class="op">=</span><span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>                  top_annotation <span class="op">=</span> <span class="va">col.anno</span>, show_column_names <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>                  column_title <span class="op">=</span> <span class="st">"Gene Set Activity in BRCA subset"</span>,</span></span>
+<span class="r-in"><span>                  rename.rows <span class="op">=</span> <span class="va">rr</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -257,7 +292,7 @@ the "Examples" section here.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

@@ -74,42 +74,55 @@ of the analysis.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">geneSetsStats</span><span class="op">(</span>
-  <span class="va">x</span>,
-  feature.min.logFC <span class="op">=</span> <span class="fl">1</span>,
-  feature.max.padj <span class="op">=</span> <span class="fl">0.1</span>,
-  trim <span class="op">=</span> <span class="fl">0.1</span>,
-  reannotate.significance <span class="op">=</span> <span class="cn">FALSE</span>,
-  as.dt <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">geneSetsStats</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  feature.min.logFC <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  feature.max.padj <span class="op">=</span> <span class="fl">0.1</span>,</span>
+<span>  trim <span class="op">=</span> <span class="fl">0.1</span>,</span>
+<span>  reannotate.significance <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  as.dt <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>A <code>SparrowResult</code> object</p></dd>
+
+
 <dt>feature.min.logFC</dt>
 <dd><p>used with <code>feature.max.padj</code> to identify
 the individual features that are to be considered differentially
 expressed.</p></dd>
+
+
 <dt>feature.max.padj</dt>
 <dd><p>used with <code>feature.min.logFC</code> to identify
 the individual features that are to be considered differentially
 expressed.</p></dd>
+
+
 <dt>trim</dt>
 <dd><p>The amount to trim when calculated trimmed <code>t</code> and
 <code>logFC</code> statistics for each geneset.</p></dd>
+
+
 <dt>reannotate.significance</dt>
 <dd><p>this is internally by the package, and should
 left as <code>FALSE</code> when used by the user.</p></dd>
+
+
 <dt>as.dt</dt>
 <dd><p>If <code>FALSE</code> (default), the data.frame like thing that
 this funciton returns will be set to a data.frame. Set this to <code>TRUE</code>
 to keep this object as a <code>data.table</code></p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A data.table with statistics at the gene set level across the
+    
+
+<p>A data.table with statistics at the gene set level across the
 prescribed contrast run on <code>x</code>. These statistics are independent
 of any particular GSEA method, but rather summarize aggregate shifts
 of the gene sets individual features. The columns included in the output
@@ -133,10 +146,10 @@ expression object was a <code>DGEList</code>.</p></li>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">vm</span> <span class="op">&lt;-</span> <span class="fu"><a href="examples.html">exampleExpressionSet</a></span><span class="op">(</span>do.voom<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="examples.html">exampleGeneSetDb</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">mg</span> <span class="op">&lt;-</span> <span class="fu"><a href="seas.html">seas</a></span><span class="op">(</span><span class="va">vm</span>, <span class="va">gdb</span>, design <span class="op">=</span> <span class="va">vm</span><span class="op">$</span><span class="va">design</span>, contrast <span class="op">=</span> <span class="st">'tumor'</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu">geneSetsStats</span><span class="op">(</span><span class="va">mg</span><span class="op">)</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">vm</span> <span class="op">&lt;-</span> <span class="fu"><a href="examples.html">exampleExpressionSet</a></span><span class="op">(</span>do.voom<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="examples.html">exampleGeneSetDb</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">mg</span> <span class="op">&lt;-</span> <span class="fu"><a href="seas.html">seas</a></span><span class="op">(</span><span class="va">vm</span>, <span class="va">gdb</span>, design <span class="op">=</span> <span class="va">vm</span><span class="op">$</span><span class="va">design</span>, contrast <span class="op">=</span> <span class="st">'tumor'</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu">geneSetsStats</span><span class="op">(</span><span class="va">mg</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   collection                                          name n.sig n.neutral n.up</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1         c2                        BIOCARTA_AGPCR_PATHWAY     1        10    3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2         c2         BOYAULT_LIVER_CANCER_SUBCLASS_G123_DN     9        32   11</span>
@@ -165,7 +178,7 @@ expression object was a <code>DGEList</code>.</p></li>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

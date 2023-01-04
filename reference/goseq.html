@@ -76,29 +76,35 @@ is loaded within this function when necessary.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">goseq</span><span class="op">(</span>
-  <span class="va">gsd</span>,
-  <span class="va">selected</span>,
-  <span class="va">universe</span>,
-  <span class="va">feature.bias</span>,
-  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Wallenius"</span>, <span class="st">"Sampling"</span>, <span class="st">"Hypergeometric"</span><span class="op">)</span>,
-  repcnt <span class="op">=</span> <span class="fl">2000</span>,
-  use_genes_without_cat <span class="op">=</span> <span class="cn">TRUE</span>,
-  plot.fit <span class="op">=</span> <span class="cn">FALSE</span>,
-  do.conform <span class="op">=</span> <span class="cn">TRUE</span>,
-  as.dt <span class="op">=</span> <span class="cn">FALSE</span>,
-  .pipelined <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">goseq</span><span class="op">(</span></span>
+<span>  <span class="va">gsd</span>,</span>
+<span>  <span class="va">selected</span>,</span>
+<span>  <span class="va">universe</span>,</span>
+<span>  <span class="va">feature.bias</span>,</span>
+<span>  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Wallenius"</span>, <span class="st">"Sampling"</span>, <span class="st">"Hypergeometric"</span><span class="op">)</span>,</span>
+<span>  repcnt <span class="op">=</span> <span class="fl">2000</span>,</span>
+<span>  use_genes_without_cat <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  plot.fit <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  do.conform <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  as.dt <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  .pipelined <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>gsd</dt>
 <dd><p>The <code>GeneSetDb</code> object to run tests against</p></dd>
+
+
 <dt>selected</dt>
 <dd><p>The ids of the selected features</p></dd>
+
+
 <dt>universe</dt>
 <dd><p>The ids of the universe</p></dd>
+
+
 <dt>feature.bias</dt>
 <dd><p>a named vector as long as <code>nrow(x)</code> that has the
 "bias" information for the features/genes tested (ie. vector of gene
@@ -107,12 +113,18 @@ If this is not provided, all feature lengths are set to 1 (no bias).
 The goseq package provides a <code><a href="https://rdrr.io/pkg/goseq/man/getlength.html" class="external-link">getlength</a></code> function which
 facilitates getting default values for these if you do not have the
 correct values used in your analysis.</p></dd>
+
+
 <dt>method</dt>
 <dd><p>The method to use to calculate the unbiased category
 enrichment scores</p></dd>
+
+
 <dt>repcnt</dt>
 <dd><p>Number of random samples to be calculated when random sampling
 is used. Ignored unless <code>method="Sampling"</code>.</p></dd>
+
+
 <dt>use_genes_without_cat</dt>
 <dd><p>A boolean to indicate whether genes without a
 categorie should still be used. For example, a large number of gene may
@@ -120,27 +132,38 @@ have no GO term annotated. If this option is set to FALSE, those genes
 will be ignored in the calculation of p-values (default behaviour). If
 this option is set to TRUE, then these genes will count towards the total
 number of genes outside the category being tested.</p></dd>
+
+
 <dt>plot.fit</dt>
 <dd><p>parameter to pass to <code><a href="https://rdrr.io/pkg/goseq/man/nullp.html" class="external-link">goseq::nullp()</a></code>.</p></dd>
+
+
 <dt>do.conform</dt>
 <dd><p>By default <code>TRUE</code>: does some gymnastics to conform
 the <code>gsd</code> to the <code>universe</code> vector. This should neber be set
 to <code>FALSE</code>, but this parameter is here so that when this function
 is called from the <code><a href="seas.html">seas()</a></code> codepath, we do not have to
 reconform the <code>GeneSetDb</code> object, because it has already been done.</p></dd>
+
+
 <dt>as.dt</dt>
 <dd><p>If <code>FALSE</code> (default), the data.frame like thing that
 this funciton returns will be set to a data.frame. Set this to <code>TRUE</code>
 to keep this object as a <code>data.table</code></p></dd>
+
+
 <dt>.pipelined</dt>
 <dd><p>If this is being called external to a seas pipeline, then
 some additional cleanup of columns name output will be done when
 <code>FALSE</code> (default). Otherwise the column renaming and post processing is
 left to the do.goseq caller.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A <code>data.table</code> of results, similar to goseq output. The output
+    
+
+<p>A <code>data.table</code> of results, similar to goseq output. The output
 from <code><a href="https://rdrr.io/pkg/goseq/man/nullp.html" class="external-link">nullp</a></code> is added to the outgoing data.table as
 an attribue named <code>"pwf"</code>.</p>
     </div>
@@ -153,23 +176,23 @@ Gene ontology analysis for RNA-seq: accounting for selection bias.
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">vm</span> <span class="op">&lt;-</span> <span class="fu"><a href="examples.html">exampleExpressionSet</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="conform.html">conform</a></span><span class="op">(</span><span class="fu"><a href="examples.html">exampleGeneSetDb</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">vm</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Identify DGE genes</span></span>
-<span class="r-in"><span class="va">mg</span> <span class="op">&lt;-</span> <span class="fu"><a href="seas.html">seas</a></span><span class="op">(</span><span class="va">vm</span>, <span class="va">gdb</span>, design <span class="op">=</span> <span class="va">vm</span><span class="op">$</span><span class="va">design</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">lfc</span> <span class="op">&lt;-</span> <span class="fu"><a href="logFC.html">logFC</a></span><span class="op">(</span><span class="va">mg</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># wire up params</span></span>
-<span class="r-in"><span class="va">selected</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">lfc</span>, <span class="va">significant</span><span class="op">)</span><span class="op">$</span><span class="va">feature_id</span></span>
-<span class="r-in"><span class="va">universe</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">vm</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">mylens</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/setNames.html" class="external-link">setNames</a></span><span class="op">(</span><span class="va">vm</span><span class="op">$</span><span class="va">genes</span><span class="op">$</span><span class="va">size</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">vm</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">degenes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/setNames.html" class="external-link">setNames</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">universe</span><span class="op">)</span><span class="op">)</span>, <span class="va">universe</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">degenes</span><span class="op">[</span><span class="va">selected</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">1L</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">gostats</span> <span class="op">&lt;-</span> <span class="fu">sparrow</span><span class="fu">::</span><span class="fu">goseq</span><span class="op">(</span></span>
-<span class="r-in">  <span class="va">gdb</span>, <span class="va">selected</span>, <span class="va">universe</span>, <span class="va">mylens</span>,</span>
-<span class="r-in">  method <span class="op">=</span> <span class="st">"Wallenius"</span>, use_genes_without_cat <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">vm</span> <span class="op">&lt;-</span> <span class="fu"><a href="examples.html">exampleExpressionSet</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="conform.html">conform</a></span><span class="op">(</span><span class="fu"><a href="examples.html">exampleGeneSetDb</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">vm</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Identify DGE genes</span></span></span>
+<span class="r-in"><span><span class="va">mg</span> <span class="op">&lt;-</span> <span class="fu"><a href="seas.html">seas</a></span><span class="op">(</span><span class="va">vm</span>, <span class="va">gdb</span>, design <span class="op">=</span> <span class="va">vm</span><span class="op">$</span><span class="va">design</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">lfc</span> <span class="op">&lt;-</span> <span class="fu"><a href="logFC.html">logFC</a></span><span class="op">(</span><span class="va">mg</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># wire up params</span></span></span>
+<span class="r-in"><span><span class="va">selected</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">lfc</span>, <span class="va">significant</span><span class="op">)</span><span class="op">$</span><span class="va">feature_id</span></span></span>
+<span class="r-in"><span><span class="va">universe</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">vm</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">mylens</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/setNames.html" class="external-link">setNames</a></span><span class="op">(</span><span class="va">vm</span><span class="op">$</span><span class="va">genes</span><span class="op">$</span><span class="va">size</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">vm</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">degenes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/setNames.html" class="external-link">setNames</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">universe</span><span class="op">)</span><span class="op">)</span>, <span class="va">universe</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">degenes</span><span class="op">[</span><span class="va">selected</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">1L</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">gostats</span> <span class="op">&lt;-</span> <span class="fu">sparrow</span><span class="fu">::</span><span class="fu">goseq</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">gdb</span>, <span class="va">selected</span>, <span class="va">universe</span>, <span class="va">mylens</span>,</span></span>
+<span class="r-in"><span>  method <span class="op">=</span> <span class="st">"Wallenius"</span>, use_genes_without_cat <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>initial point very close to some inequality constraints</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Using manually entered categories.</span>
@@ -188,7 +211,7 @@ Gene ontology analysis for RNA-seq: accounting for selection bias.
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

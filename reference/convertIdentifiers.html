@@ -70,52 +70,54 @@ identifiers to whichever type you like.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">convertIdentifiers</span><span class="op">(</span>
-  <span class="va">x</span>,
-  from <span class="op">=</span> <span class="cn">NULL</span>,
-  to <span class="op">=</span> <span class="cn">NULL</span>,
-  id.type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ensembl"</span>, <span class="st">"entrez"</span>, <span class="st">"symbol"</span><span class="op">)</span>,
-  xref <span class="op">=</span> <span class="cn">NULL</span>,
-  extra.cols <span class="op">=</span> <span class="cn">NULL</span>,
-  allow.cartesian <span class="op">=</span> <span class="cn">FALSE</span>,
-  min_support <span class="op">=</span> <span class="fl">3</span>,
-  top <span class="op">=</span> <span class="cn">TRUE</span>,
-  <span class="va">...</span>
-<span class="op">)</span>
-
-<span class="co"># S4 method for BiocSet</span>
-<span class="fu">convertIdentifiers</span><span class="op">(</span>
-  <span class="va">x</span>,
-  from <span class="op">=</span> <span class="cn">NULL</span>,
-  to <span class="op">=</span> <span class="cn">NULL</span>,
-  id.type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ensembl"</span>, <span class="st">"entrez"</span>, <span class="st">"symbol"</span><span class="op">)</span>,
-  xref <span class="op">=</span> <span class="cn">NULL</span>,
-  extra.cols <span class="op">=</span> <span class="cn">NULL</span>,
-  allow.cartesian <span class="op">=</span> <span class="cn">FALSE</span>,
-  min_support <span class="op">=</span> <span class="fl">3</span>,
-  top <span class="op">=</span> <span class="cn">TRUE</span>,
-  <span class="va">...</span>
-<span class="op">)</span>
-
-<span class="co"># S4 method for GeneSetDb</span>
-<span class="fu">convertIdentifiers</span><span class="op">(</span>
-  <span class="va">x</span>,
-  from <span class="op">=</span> <span class="cn">NULL</span>,
-  to <span class="op">=</span> <span class="cn">NULL</span>,
-  id.type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ensembl"</span>, <span class="st">"entrez"</span>, <span class="st">"symbol"</span><span class="op">)</span>,
-  xref <span class="op">=</span> <span class="cn">NULL</span>,
-  extra.cols <span class="op">=</span> <span class="cn">NULL</span>,
-  allow.cartesian <span class="op">=</span> <span class="cn">FALSE</span>,
-  min_support <span class="op">=</span> <span class="fl">3</span>,
-  top <span class="op">=</span> <span class="cn">TRUE</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">convertIdentifiers</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  from <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  to <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  id.type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ensembl"</span>, <span class="st">"entrez"</span>, <span class="st">"symbol"</span><span class="op">)</span>,</span>
+<span>  xref <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  extra.cols <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  allow.cartesian <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  min_support <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  top <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S4 method for BiocSet</span></span>
+<span><span class="fu">convertIdentifiers</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  from <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  to <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  id.type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ensembl"</span>, <span class="st">"entrez"</span>, <span class="st">"symbol"</span><span class="op">)</span>,</span>
+<span>  xref <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  extra.cols <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  allow.cartesian <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  min_support <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  top <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S4 method for GeneSetDb</span></span>
+<span><span class="fu">convertIdentifiers</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  from <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  to <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  id.type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ensembl"</span>, <span class="st">"entrez"</span>, <span class="st">"symbol"</span><span class="op">)</span>,</span>
+<span>  xref <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  extra.cols <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  allow.cartesian <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  min_support <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  top <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>The GeneSetDb with identifiers to convert</p></dd>
+
+
 <dt>from, to</dt>
 <dd><p>If you are doing identifier and/orspecies conversion using
 babelgene, <code>to</code> is the species you want to convert to, and <code>from</code> is the
@@ -124,32 +126,47 @@ species, specify the current species in <code>from</code>.
 If you are providing a data.frame map of identifiers in <code>xref</code>, <code>to</code> is
 the name of the column that holds the new identifiers, and <code>from</code> is the
 name of the column that holds the current identifiers.</p></dd>
+
+
 <dt>id.type</dt>
 <dd><p>If you are using babelgene conversion, this specifies the
 type of identifier you want to convert to. It can be any of <code>"ensembl"</code>,
 <code>"entrez"</code>, or <code>"symbol"</code>.</p></dd>
+
+
 <dt>xref</dt>
 <dd><p>a data.frame used to map current identifiers to target ones.</p></dd>
+
+
 <dt>extra.cols</dt>
 <dd><p>a character vector of columns from <code>to</code> to add to the
 features of the new GeneSetDb. If you want to keep the original identifiers
 of the remapped features, include <code>"original_id"</code> as one of the values
 here.</p></dd>
+
+
 <dt>allow.cartesian</dt>
 <dd><p>a boolean used to temporarily set the
 <code>datatable.allow.cartesian</code> global option. If you are doing a 1:many
 map of your identifiers, you may trigger this error. You can temporarily
 turn this option/error off by setting <code>allow.cartesian = TRUE</code>. The
 option will be restored to its "pre-function call" value <code>on.exit</code>.</p></dd>
+
+
 <dt>min_support, top</dt>
 <dd><p>Parameters used in the internal call to
 <code><a href="https://igordot.github.io/babelgene/reference/orthologs.html" class="external-link">babelgene::orthologs()</a></code></p></dd>
+
+
 <dt>...</dt>
 <dd><p>pass through args (not used)</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A new GeneSetDb object with converted identifiers. We try to retain
+    
+
+<p>A new GeneSetDb object with converted identifiers. We try to retain
 any metadata in the original object, but no guarantees are given. If
 <code>id_type</code> was stored previously in the collectionMetadata, that will be
 dropped.</p>
@@ -196,18 +213,18 @@ this in <a href="https://github.com/lianos/sparrow/issues/2" class="external-lin
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># You can convert the identifiers within a GeneSetDb to some other type</span></span>
-<span class="r-in"><span class="co"># by providing a "translation" table. Check out the unit tests for more</span></span>
-<span class="r-in"><span class="co"># examples.</span></span>
-<span class="r-in"><span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="examples.html">exampleGeneSetDb</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># this has no symbols in it</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Define a silly conversion table.</span></span>
-<span class="r-in"><span class="va">xref</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
-<span class="r-in">  current_id <span class="op">=</span> <span class="fu"><a href="featureIds.html">featureIds</a></span><span class="op">(</span><span class="va">gdb</span><span class="op">)</span>,</span>
-<span class="r-in">  new_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu"><a href="featureIds.html">featureIds</a></span><span class="op">(</span><span class="va">gdb</span><span class="op">)</span>, <span class="st">"_symbol"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">gdb2</span> <span class="op">&lt;-</span> <span class="fu">convertIdentifiers</span><span class="op">(</span><span class="va">gdb</span>, from <span class="op">=</span> <span class="st">"current_id"</span>, to <span class="op">=</span> <span class="st">"new_id"</span>,</span>
-<span class="r-in">                           xref <span class="op">=</span> <span class="va">xref</span>, extra.cols <span class="op">=</span> <span class="st">"original_id"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="geneSet.html">geneSet</a></span><span class="op">(</span><span class="va">gdb2</span>, name <span class="op">=</span> <span class="st">"BIOCARTA_AGPCR_PATHWAY"</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># You can convert the identifiers within a GeneSetDb to some other type</span></span></span>
+<span class="r-in"><span><span class="co"># by providing a "translation" table. Check out the unit tests for more</span></span></span>
+<span class="r-in"><span><span class="co"># examples.</span></span></span>
+<span class="r-in"><span><span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="examples.html">exampleGeneSetDb</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># this has no symbols in it</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Define a silly conversion table.</span></span></span>
+<span class="r-in"><span><span class="va">xref</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  current_id <span class="op">=</span> <span class="fu"><a href="featureIds.html">featureIds</a></span><span class="op">(</span><span class="va">gdb</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  new_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu"><a href="featureIds.html">featureIds</a></span><span class="op">(</span><span class="va">gdb</span><span class="op">)</span>, <span class="st">"_symbol"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">gdb2</span> <span class="op">&lt;-</span> <span class="fu">convertIdentifiers</span><span class="op">(</span><span class="va">gdb</span>, from <span class="op">=</span> <span class="st">"current_id"</span>, to <span class="op">=</span> <span class="st">"new_id"</span>,</span></span>
+<span class="r-in"><span>                           xref <span class="op">=</span> <span class="va">xref</span>, extra.cols <span class="op">=</span> <span class="st">"original_id"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="geneSet.html">geneSet</a></span><span class="op">(</span><span class="va">gdb2</span>, name <span class="op">=</span> <span class="st">"BIOCARTA_AGPCR_PATHWAY"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    collection                   name active  N  n  feature_id original_id</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1          c2 BIOCARTA_AGPCR_PATHWAY  FALSE 13 NA 2778_symbol        2778</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2          c2 BIOCARTA_AGPCR_PATHWAY  FALSE 13 NA 2782_symbol        2782</span>
@@ -222,21 +239,21 @@ this in <a href="https://github.com/lianos/sparrow/issues/2" class="external-lin
 <span class="r-out co"><span class="r-pr">#&gt;</span> 11         c2 BIOCARTA_AGPCR_PATHWAY  FALSE 13 NA 5577_symbol        5577</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 12         c2 BIOCARTA_AGPCR_PATHWAY  FALSE 13 NA 5578_symbol        5578</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 13         c2 BIOCARTA_AGPCR_PATHWAY  FALSE 13 NA 5579_symbol        5579</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Convert entrez to ensembl id's using babelgene</span></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="co"># The conversion functionality via babelgene isn't yet implemented, but</span></span>
-<span class="r-in"><span class="co"># will look like this.</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># 1. convert the human entrez identifiers to ensembl</span></span>
-<span class="r-in"><span class="va">gdb.ens</span> <span class="op">&lt;-</span> <span class="fu">convertIdentifiers</span><span class="op">(</span><span class="va">gdb</span>, <span class="st">"human"</span>, id.type <span class="op">=</span> <span class="st">"ensembl"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># 2. convert the human entrez to mouse entrez</span></span>
-<span class="r-in"><span class="va">gdb.entm</span> <span class="op">&lt;-</span> <span class="fu">convertIdentifiers</span><span class="op">(</span><span class="va">gdb</span>, <span class="st">"human"</span>, <span class="st">"mouse"</span>, id.type <span class="op">=</span> <span class="st">"entrez"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># 3. convert the human entrez to mouse ensembl</span></span>
-<span class="r-in"><span class="va">gdb.ensm</span> <span class="op">&lt;-</span> <span class="fu">convertIdentifiers</span><span class="op">(</span><span class="va">gdb</span>, <span class="st">"human"</span>, <span class="st">"mouse"</span>, id.type <span class="op">=</span> <span class="st">"ensembl"</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Convert entrez to ensembl id's using babelgene</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="co"># The conversion functionality via babelgene isn't yet implemented, but</span></span></span>
+<span class="r-in"><span><span class="co"># will look like this.</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># 1. convert the human entrez identifiers to ensembl</span></span></span>
+<span class="r-in"><span><span class="va">gdb.ens</span> <span class="op">&lt;-</span> <span class="fu">convertIdentifiers</span><span class="op">(</span><span class="va">gdb</span>, <span class="st">"human"</span>, id.type <span class="op">=</span> <span class="st">"ensembl"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># 2. convert the human entrez to mouse entrez</span></span></span>
+<span class="r-in"><span><span class="va">gdb.entm</span> <span class="op">&lt;-</span> <span class="fu">convertIdentifiers</span><span class="op">(</span><span class="va">gdb</span>, <span class="st">"human"</span>, <span class="st">"mouse"</span>, id.type <span class="op">=</span> <span class="st">"entrez"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># 3. convert the human entrez to mouse ensembl</span></span></span>
+<span class="r-in"><span><span class="va">gdb.ensm</span> <span class="op">&lt;-</span> <span class="fu">convertIdentifiers</span><span class="op">(</span><span class="va">gdb</span>, <span class="st">"human"</span>, <span class="st">"mouse"</span>, id.type <span class="op">=</span> <span class="st">"ensembl"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -251,7 +268,7 @@ this in <a href="https://github.com/lianos/sparrow/issues/2" class="external-lin
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

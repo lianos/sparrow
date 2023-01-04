@@ -82,78 +82,101 @@ generated <code>x</code>.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">resultNames</span><span class="op">(</span><span class="va">x</span><span class="op">)</span>
-
-<span class="fu">result</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S3 method for SparrowResult</span>
-<span class="fu">result</span><span class="op">(</span>
-  <span class="va">x</span>,
-  name <span class="op">=</span> <span class="cn">NULL</span>,
-  stats.only <span class="op">=</span> <span class="cn">FALSE</span>,
-  rank.by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pval"</span>, <span class="st">"t"</span>, <span class="st">"logFC"</span><span class="op">)</span>,
-  add.suffix <span class="op">=</span> <span class="cn">FALSE</span>,
-  as.dt <span class="op">=</span> <span class="cn">FALSE</span>,
-  <span class="va">...</span>
-<span class="op">)</span>
-
-<span class="fu">results</span><span class="op">(</span>
-  <span class="va">x</span>,
-  names <span class="op">=</span> <span class="fu">resultNames</span><span class="op">(</span><span class="va">x</span><span class="op">)</span>,
-  stats.only <span class="op">=</span> <span class="cn">TRUE</span>,
-  rank.by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pval"</span>, <span class="st">"logFC"</span>, <span class="st">"t"</span><span class="op">)</span>,
-  add.suffix <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">names</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">1L</span>,
-  as.dt <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span>
-
-<span class="fu">tabulateResults</span><span class="op">(</span>
-  <span class="va">x</span>,
-  names <span class="op">=</span> <span class="fu">resultNames</span><span class="op">(</span><span class="va">x</span><span class="op">)</span>,
-  max.p <span class="op">=</span> <span class="fl">0.2</span>,
-  p.col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"padj"</span>, <span class="st">"padj.by.collection"</span>, <span class="st">"pval"</span><span class="op">)</span>,
-  as.dt <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">resultNames</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">result</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for SparrowResult</span></span>
+<span><span class="fu">result</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  name <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  stats.only <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  rank.by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pval"</span>, <span class="st">"t"</span>, <span class="st">"logFC"</span><span class="op">)</span>,</span>
+<span>  add.suffix <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  as.dt <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">results</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  names <span class="op">=</span> <span class="fu">resultNames</span><span class="op">(</span><span class="va">x</span><span class="op">)</span>,</span>
+<span>  stats.only <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  rank.by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pval"</span>, <span class="st">"logFC"</span>, <span class="st">"t"</span><span class="op">)</span>,</span>
+<span>  add.suffix <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">names</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">1L</span>,</span>
+<span>  as.dt <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tabulateResults</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  names <span class="op">=</span> <span class="fu">resultNames</span><span class="op">(</span><span class="va">x</span><span class="op">)</span>,</span>
+<span>  max.p <span class="op">=</span> <span class="fl">0.2</span>,</span>
+<span>  p.col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"padj"</span>, <span class="st">"padj.by.collection"</span>, <span class="st">"pval"</span><span class="op">)</span>,</span>
+<span>  as.dt <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>A <code><a href="SparrowResult.html">SparrowResult()</a></code> object.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>pass through arguments</p></dd>
+
+
 <dt>name</dt>
 <dd><p>the names of the results desired</p></dd>
+
+
 <dt>stats.only</dt>
 <dd><p>logical, set to <code>FALSE</code> if you want to return all
 (column-wise) data for each result. By default only the pvalues,
 adjusted pvalues, and rank are returned.</p></dd>
+
+
 <dt>rank.by</dt>
 <dd><p>the statistic to use to append a <code>rank</code> column for the
 geneset result. By default we rank by pvalue calculated by the GSEA
 method. You can rank the results based on the trimmed mean of the logFC's
 calculated for all of the features in the geneset (<code>"logFC"</code>), or the
 trimmed t-statistics of the these features (<code>"t"</code>).</p></dd>
+
+
 <dt>add.suffix</dt>
 <dd><p>If <code>TRUE</code>, adds <code>.name</code> as a suffix to the
 columns of the <code>method</code>-specific statistics returned, ie. the
 <code>pval</code> column from the <code>"camera"</code> result will be turned to
 <code>pval.camera</code>.</p></dd>
+
+
 <dt>as.dt</dt>
 <dd><p>If <code>FALSE</code> (default), the data.frame like thing that
 this funciton returns will be set to a data.frame. Set this to <code>TRUE</code>
 to keep this object as a <code>data.table</code></p></dd>
+
+
 <dt>names</dt>
 <dd><p>the names of the GSEA methods to be reported. By default,
 this function will display results for all methods.</p></dd>
+
+
 <dt>max.p</dt>
 <dd><p>The maximum padj value to consider a result significant</p></dd>
+
+
 <dt>p.col</dt>
 <dd><p>use padj or padj.by.collection?</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>a data.table with the results from the requested method.
-a data.table that summarizes the significant results per method
+    
+
+<p>a data.table with the results from the requested method.</p>
+
+
+<p>a data.table that summarizes the significant results per method
 per collection for the GSEA that was run</p>
     </div>
     <div id="details">
@@ -173,10 +196,10 @@ the specified FDR thresholds.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="examples.html">exampleSparrowResult</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">resultNames</span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="examples.html">exampleSparrowResult</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">resultNames</span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "camera" "fry"   </span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu">result</span><span class="op">(</span><span class="va">res</span>, <span class="st">"camera"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu">result</span><span class="op">(</span><span class="va">res</span>, <span class="st">"camera"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   collection                                          name active  N  n</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1         c2                        BIOCARTA_AGPCR_PATHWAY   TRUE 13 11</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2         c2         BOYAULT_LIVER_CANCER_SUBCLASS_G123_DN   TRUE 51 41</span>
@@ -205,7 +228,7 @@ the specified FDR thresholds.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4      Down   63</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5        Up   35</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6      Down   11</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu">results</span><span class="op">(</span><span class="va">res</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu">results</span><span class="op">(</span><span class="va">res</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   collection                                          name active  N  n</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1         c2                        BIOCARTA_AGPCR_PATHWAY   TRUE 13 11</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2         c2         BOYAULT_LIVER_CANCER_SUBCLASS_G123_DN   TRUE 51 41</span>
@@ -255,7 +278,7 @@ the specified FDR thresholds.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

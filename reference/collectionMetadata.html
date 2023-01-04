@@ -66,82 +66,109 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">collectionMetadata</span><span class="op">(</span><span class="va">x</span>, <span class="va">collection</span>, <span class="va">name</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="fu">geneSetURL</span><span class="op">(</span><span class="va">x</span>, <span class="va">i</span>, <span class="va">j</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="fu">featureIdType</span><span class="op">(</span><span class="va">x</span>, <span class="va">i</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="fu">featureIdType</span><span class="op">(</span><span class="va">x</span>, <span class="va">i</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">value</span>
-
-<span class="co"># S4 method for GeneSetDb,missing,missing</span>
-<span class="fu">collectionMetadata</span><span class="op">(</span><span class="va">x</span>, <span class="va">collection</span>, <span class="va">name</span>, as.dt <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-
-<span class="co"># S4 method for GeneSetDb,character,missing</span>
-<span class="fu">collectionMetadata</span><span class="op">(</span><span class="va">x</span>, <span class="va">collection</span>, <span class="va">name</span>, as.dt <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-
-<span class="co"># S4 method for GeneSetDb,character,character</span>
-<span class="fu">collectionMetadata</span><span class="op">(</span><span class="va">x</span>, <span class="va">collection</span>, <span class="va">name</span>, as.dt <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-
-<span class="co"># S4 method for GeneSetDb</span>
-<span class="fu">geneSetURL</span><span class="op">(</span><span class="va">x</span>, <span class="va">i</span>, <span class="va">j</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S4 method for GeneSetDb</span>
-<span class="fu">featureIdType</span><span class="op">(</span><span class="va">x</span>, <span class="va">i</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">value</span>
-
-<span class="co"># S4 method for GeneSetDb</span>
-<span class="fu">featureIdType</span><span class="op">(</span><span class="va">x</span>, <span class="va">i</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="fu">addCollectionMetadata</span><span class="op">(</span>
-  <span class="va">x</span>,
-  <span class="va">xcoll</span>,
-  <span class="va">xname</span>,
-  <span class="va">value</span>,
-  validate.value.fn <span class="op">=</span> <span class="cn">NULL</span>,
-  allow.add <span class="op">=</span> <span class="cn">TRUE</span>
-<span class="op">)</span>
-
-<span class="co"># S4 method for SparrowResult</span>
-<span class="fu">geneSetURL</span><span class="op">(</span><span class="va">x</span>, <span class="va">i</span>, <span class="va">j</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">collectionMetadata</span><span class="op">(</span><span class="va">x</span>, <span class="va">collection</span>, <span class="va">name</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">geneSetURL</span><span class="op">(</span><span class="va">x</span>, <span class="va">i</span>, <span class="va">j</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">featureIdType</span><span class="op">(</span><span class="va">x</span>, <span class="va">i</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">featureIdType</span><span class="op">(</span><span class="va">x</span>, <span class="va">i</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">value</span></span>
+<span></span>
+<span><span class="co"># S4 method for GeneSetDb,missing,missing</span></span>
+<span><span class="fu">collectionMetadata</span><span class="op">(</span><span class="va">x</span>, <span class="va">collection</span>, <span class="va">name</span>, as.dt <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S4 method for GeneSetDb,character,missing</span></span>
+<span><span class="fu">collectionMetadata</span><span class="op">(</span><span class="va">x</span>, <span class="va">collection</span>, <span class="va">name</span>, as.dt <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S4 method for GeneSetDb,character,character</span></span>
+<span><span class="fu">collectionMetadata</span><span class="op">(</span><span class="va">x</span>, <span class="va">collection</span>, <span class="va">name</span>, as.dt <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S4 method for GeneSetDb</span></span>
+<span><span class="fu">geneSetURL</span><span class="op">(</span><span class="va">x</span>, <span class="va">i</span>, <span class="va">j</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S4 method for GeneSetDb</span></span>
+<span><span class="fu">featureIdType</span><span class="op">(</span><span class="va">x</span>, <span class="va">i</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">value</span></span>
+<span></span>
+<span><span class="co"># S4 method for GeneSetDb</span></span>
+<span><span class="fu">featureIdType</span><span class="op">(</span><span class="va">x</span>, <span class="va">i</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">addCollectionMetadata</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  <span class="va">xcoll</span>,</span>
+<span>  <span class="va">xname</span>,</span>
+<span>  <span class="va">value</span>,</span>
+<span>  validate.value.fn <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  allow.add <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S4 method for SparrowResult</span></span>
+<span><span class="fu">geneSetURL</span><span class="op">(</span><span class="va">x</span>, <span class="va">i</span>, <span class="va">j</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p><code><a href="GeneSetDb-class.html">GeneSetDb()</a></code></p></dd>
+
+
 <dt>collection</dt>
 <dd><p>The geneset collection to to query</p></dd>
+
+
 <dt>name</dt>
 <dd><p>The name of the metadata variable to get the value for</p></dd>
+
+
 <dt>...</dt>
 <dd><p>not used yet</p></dd>
+
+
 <dt>i</dt>
 <dd><p>The collection,name compound key identifier of the gene set</p></dd>
+
+
 <dt>j</dt>
 <dd><p>The collection,name compound key identifier of the gene set</p></dd>
+
+
 <dt>value</dt>
 <dd><p>The value of the metadata variable</p></dd>
+
+
 <dt>as.dt</dt>
 <dd><p>If <code>FALSE</code> (default), the data.frame like thing that
 this funciton returns will be set to a data.frame. Set this to <code>TRUE</code>
 to keep this object as a <code>data.table</code></p></dd>
+
+
 <dt>xcoll</dt>
 <dd><p>The collection name</p></dd>
+
+
 <dt>xname</dt>
 <dd><p>The name of the metadata variable</p></dd>
+
+
 <dt>validate.value.fn</dt>
 <dd><p>If a function is provided, it is run on
 <code>value</code> and msut return <code>TRUE</code> for addition to be made</p></dd>
+
+
 <dt>allow.add</dt>
 <dd><p>If <code>FALSE</code>, this xcoll,xname should be in the
 <code>GeneSetDb</code> already, and this will fail because something is
 deeply wrong with the world</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A character vector of URLs for each of the genesets identified by
-<code>i, j</code>. <code>NA</code> is returned for genesets <code>i,j</code> that are not found in <code>x</code>.
-The updated <code>GeneSetDb</code>.</p>
+    
+
+<p>A character vector of URLs for each of the genesets identified by
+<code>i, j</code>. <code>NA</code> is returned for genesets <code>i,j</code> that are not found in <code>x</code>.</p>
+
+
+<p>The updated <code>GeneSetDb</code>.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -183,12 +210,12 @@ SparrowResult object</p></li>
 compound key and generates a URL for the gene set that the user can browse
 to for futher information. For instance, the
 <code><a href="geneSetCollectionURLfunction.html">geneSetCollectionURLfunction()</a></code> for the MSigDB collections are defined
-like so:</p><div class="sourceCode"><pre><code><span class="va">url.fn</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">collection</span>, <span class="va">name</span><span class="op">)</span> <span class="op">{</span>
-  <span class="va">url</span> <span class="op">&lt;-</span> <span class="st">'http://www.broadinstitute.org/gsea/msigdb/cards/%s.html'</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span><span class="va">url</span>, <span class="va">name</span><span class="op">)</span>
-<span class="op">}</span>
-<span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/getMSigCollection.html">getMSigGeneSetDb</a></span><span class="op">(</span><span class="st">'H'</span><span class="op">)</span>
-<span class="fu"><a href="../reference/geneSetCollectionURLfunction.html">geneSetCollectionURLfunction</a></span><span class="op">(</span><span class="va">gdb</span>, <span class="st">'H'</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">url.fn</span></code></pre></div>
+like so:</p><div class="sourceCode"><pre><code><span><span class="va">url.fn</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">collection</span>, <span class="va">name</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">url</span> <span class="op">&lt;-</span> <span class="st">'http://www.broadinstitute.org/gsea/msigdb/cards/%s.html'</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span><span class="va">url</span>, <span class="va">name</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span><span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/getMSigCollection.html">getMSigGeneSetDb</a></span><span class="op">(</span><span class="st">'H'</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/geneSetCollectionURLfunction.html">geneSetCollectionURLfunction</a></span><span class="op">(</span><span class="va">gdb</span>, <span class="st">'H'</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">url.fn</span></span></code></pre></div>
 
 <p>In this way, a call to <code>geneSetURL(gdb, 'H', 'HALLMARK_ANGIOGENESIS')</code>
 will return
@@ -204,10 +231,10 @@ http://www.broadinstitute.org/gsea/msigdb/cards/HALLMARK_ANGIOGENESIS.html.</p>
 be of the same type. Most often you'll probably be working with Entrez
 identifiers, simply because that's what most of the annotations work with.</p>
 <p>As such, you'd define that your collection uses geneset identifiers like
-so:</p><div class="sourceCode"><pre><code><span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/getMSigCollection.html">getMSigGeneSetDb</a></span><span class="op">(</span><span class="st">'H'</span><span class="op">)</span>
-<span class="fu"><a href="../reference/collectionMetadata.html">featureIdType</a></span><span class="op">(</span><span class="va">gdb</span>, <span class="st">'H'</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu">GSEABase</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/GSEABase/man/GeneIdentifierType-constructors.html" class="external-link">ENSEMBLIdentifier</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">## or, equivalently (but you don't want to use this)</span>
-<span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/collectionMetadata.html">addCollectionMetadata</a></span><span class="op">(</span><span class="va">gdb</span>, <span class="st">'H'</span>, <span class="st">'id_type'</span>, <span class="fu">GSEABase</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/GSEABase/man/GeneIdentifierType-constructors.html" class="external-link">ENSEMBLIdentifier</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+so:</p><div class="sourceCode"><pre><code><span><span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/getMSigCollection.html">getMSigGeneSetDb</a></span><span class="op">(</span><span class="st">'H'</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/collectionMetadata.html">featureIdType</a></span><span class="op">(</span><span class="va">gdb</span>, <span class="st">'H'</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu">GSEABase</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/GSEABase/man/GeneIdentifierType-constructors.html" class="external-link">ENSEMBLIdentifier</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">## or, equivalently (but you don't want to use this)</span></span>
+<span><span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/collectionMetadata.html">addCollectionMetadata</a></span><span class="op">(</span><span class="va">gdb</span>, <span class="st">'H'</span>, <span class="st">'id_type'</span>, <span class="fu">GSEABase</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/GSEABase/man/GeneIdentifierType-constructors.html" class="external-link">ENSEMBLIdentifier</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 
     </div>
     <div id="adding-arbitrary-collectionmetadata">
@@ -220,34 +247,34 @@ so:</p><div class="sourceCode"><pre><code><span class="va">gdb</span> <span clas
 object to keep the one with the updated <code>collectionMetadata</code>. Although this
 function is exported, I imagine this being used mostly through predefined
 replace methods that use this as a utility function, such as the replacement
-methods <code>featureIdType&lt;-</code>, <code>geneSetURLfunction&lt;-</code>, etc.</p><div class="sourceCode"><pre><code><span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/getMSigCollection.html">getMSigGeneSetDb</a></span><span class="op">(</span><span class="st">'H'</span><span class="op">)</span>
-<span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/collectionMetadata.html">addCollectionMetadata</a></span><span class="op">(</span><span class="va">gdb</span>, <span class="st">'H'</span>, <span class="st">'foo'</span>, <span class="st">'bar'</span><span class="op">)</span></code></pre></div>
+methods <code>featureIdType&lt;-</code>, <code>geneSetURLfunction&lt;-</code>, etc.</p><div class="sourceCode"><pre><code><span><span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/getMSigCollection.html">getMSigGeneSetDb</a></span><span class="op">(</span><span class="st">'H'</span><span class="op">)</span></span>
+<span><span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/collectionMetadata.html">addCollectionMetadata</a></span><span class="op">(</span><span class="va">gdb</span>, <span class="st">'H'</span>, <span class="st">'foo'</span>, <span class="st">'bar'</span><span class="op">)</span></span></code></pre></div>
 
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="examples.html">exampleGeneSetDb</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Gene Set URLs</span></span>
-<span class="r-in"><span class="fu">geneSetURL</span><span class="op">(</span><span class="va">gdb</span>, <span class="st">'c2'</span>, <span class="st">'BIOCARTA_AGPCR_PATHWAY'</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="examples.html">exampleGeneSetDb</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Gene Set URLs</span></span></span>
+<span class="r-in"><span><span class="fu">geneSetURL</span><span class="op">(</span><span class="va">gdb</span>, <span class="st">'c2'</span>, <span class="st">'BIOCARTA_AGPCR_PATHWAY'</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                            c2 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> "http://www.broadinstitute.org/gsea/msigdb/cards/BIOCARTA_AGPCR_PATHWAY.html" </span>
-<span class="r-in"><span class="fu">geneSetURL</span><span class="op">(</span><span class="va">gdb</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'c2'</span>, <span class="st">'c7'</span><span class="op">)</span>,</span>
-<span class="r-in">           <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'BIOCARTA_AGPCR_PATHWAY'</span>, <span class="st">'GSE14308_TH2_VS_TH1_UP'</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">geneSetURL</span><span class="op">(</span><span class="va">gdb</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'c2'</span>, <span class="st">'c7'</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>           <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'BIOCARTA_AGPCR_PATHWAY'</span>, <span class="st">'GSE14308_TH2_VS_TH1_UP'</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                            c2 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> "http://www.broadinstitute.org/gsea/msigdb/cards/BIOCARTA_AGPCR_PATHWAY.html" </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                            c7 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> "http://www.broadinstitute.org/gsea/msigdb/cards/GSE14308_TH2_VS_TH1_UP.html" </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># feature id types</span></span>
-<span class="r-in"><span class="fu">featureIdType</span><span class="op">(</span><span class="va">gdb</span>, <span class="st">"c2"</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu">GSEABase</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/GSEABase/man/GeneIdentifierType-constructors.html" class="external-link">EntrezIdentifier</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">featureIdType</span><span class="op">(</span><span class="va">gdb</span>, <span class="st">"c2"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># feature id types</span></span></span>
+<span class="r-in"><span><span class="fu">featureIdType</span><span class="op">(</span><span class="va">gdb</span>, <span class="st">"c2"</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu">GSEABase</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/GSEABase/man/GeneIdentifierType-constructors.html" class="external-link">EntrezIdentifier</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">featureIdType</span><span class="op">(</span><span class="va">gdb</span>, <span class="st">"c2"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> geneIdType: EntrezId</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## Arbitrary metadata</span></span>
-<span class="r-in"><span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu">addCollectionMetadata</span><span class="op">(</span><span class="va">gdb</span>, <span class="st">'c2'</span>, <span class="st">'foo'</span>, <span class="st">'bar'</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">cmh</span> <span class="op">&lt;-</span> <span class="fu">collectionMetadata</span><span class="op">(</span><span class="va">gdb</span>, <span class="st">'c2'</span>, as.dt <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co">## print this to see</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Arbitrary metadata</span></span></span>
+<span class="r-in"><span><span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu">addCollectionMetadata</span><span class="op">(</span><span class="va">gdb</span>, <span class="st">'c2'</span>, <span class="st">'foo'</span>, <span class="st">'bar'</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">cmh</span> <span class="op">&lt;-</span> <span class="fu">collectionMetadata</span><span class="op">(</span><span class="va">gdb</span>, <span class="st">'c2'</span>, as.dt <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co">## print this to see</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -262,7 +289,7 @@ methods <code>featureIdType&lt;-</code>, <code>geneSetURLfunction&lt;-</code>, e
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

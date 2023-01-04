@@ -70,32 +70,39 @@ across the entire feature-space of <code>y</code>.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">incidenceMatrix</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">incidenceMatrix</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>A <code><a href="GeneSetDb-class.html">GeneSetDb()</a></code></p></dd>
+
+
 <dt>y</dt>
 <dd><p>(optional) A target (expression) object <code>x</code> is (or can be)
 conformed to</p></dd>
+
+
 <dt>...</dt>
 <dd><p>parameters passed down into <code><a href="conform.html">conform()</a></code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>incidence matrix with nrows = number of genesets and columns are
+    
+
+<p>incidence matrix with nrows = number of genesets and columns are
 featureIDs. If <code>y</code> is passed in, the columns of the returned value
 match the rows of <code>y</code>.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">vm</span> <span class="op">&lt;-</span> <span class="fu"><a href="examples.html">exampleExpressionSet</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="examples.html">exampleGeneSetDb</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">im</span> <span class="op">&lt;-</span> <span class="fu">incidenceMatrix</span><span class="op">(</span><span class="va">gdb</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">imv</span> <span class="op">&lt;-</span> <span class="fu">incidenceMatrix</span><span class="op">(</span><span class="va">gdb</span>, <span class="va">vm</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">vm</span> <span class="op">&lt;-</span> <span class="fu"><a href="examples.html">exampleExpressionSet</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="examples.html">exampleGeneSetDb</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">im</span> <span class="op">&lt;-</span> <span class="fu">incidenceMatrix</span><span class="op">(</span><span class="va">gdb</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">imv</span> <span class="op">&lt;-</span> <span class="fu">incidenceMatrix</span><span class="op">(</span><span class="va">gdb</span>, <span class="va">vm</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -110,7 +117,7 @@ match the rows of <code>y</code>.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

@@ -82,18 +82,18 @@ drive this function via specifying <code>"svd"</code> as one of the
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">gsdScore</span><span class="op">(</span>
-  <span class="va">x</span>,
-  eigengene <span class="op">=</span> <span class="fl">1L</span>,
-  center <span class="op">=</span> <span class="cn">TRUE</span>,
-  scale <span class="op">=</span> <span class="cn">TRUE</span>,
-  uncenter <span class="op">=</span> <span class="va">center</span>,
-  unscale <span class="op">=</span> <span class="va">scale</span>,
-  retx <span class="op">=</span> <span class="cn">FALSE</span>,
-  <span class="va">...</span>,
-  .use_irlba <span class="op">=</span> <span class="cn">FALSE</span>,
-  .drop.sd <span class="op">=</span> <span class="fl">1e-04</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">gsdScore</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  eigengene <span class="op">=</span> <span class="fl">1L</span>,</span>
+<span>  center <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  scale <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  uncenter <span class="op">=</span> <span class="va">center</span>,</span>
+<span>  unscale <span class="op">=</span> <span class="va">scale</span>,</span>
+<span>  retx <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">...</span>,</span>
+<span>  .use_irlba <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  .drop.sd <span class="op">=</span> <span class="fl">1e-04</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -102,31 +102,48 @@ drive this function via specifying <code>"svd"</code> as one of the
 <dd><p>An expression matrix of genes x samples. When using this to score
 geneset activity, you want to reduce the rows of <code>x</code> to be only the
 genes from the given gene set.</p></dd>
+
+
 <dt>eigengene</dt>
 <dd><p>the "eigengene" you want to get the score for. only accepts
 a single value for now.</p></dd>
+
+
 <dt>center, scale</dt>
 <dd><p>center and/or scale data before scoring?</p></dd>
+
+
 <dt>uncenter, unscale</dt>
 <dd><p>uncenter and unscale the data data on the way out?
 Defaults to the respective values of <code>center</code> and <code>scale</code></p></dd>
+
+
 <dt>retx</dt>
 <dd><p>Works the same as <code>retx</code> from <code><a href="https://rdrr.io/r/stats/prcomp.html" class="external-link">prcomp</a></code>. If
 <code>TRUE</code>, will return a <code>ret$pca$x</code> matrix that has the rotated
 variables.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>these aren't used in here</p></dd>
+
+
 <dt>.use_irlba</dt>
 <dd><p>when <code>TRUE</code>, used <code><a href="https://rdrr.io/pkg/irlba/man/svdr.html" class="external-link">irlba::svdr()</a></code> instead of <code><a href="https://rdrr.io/r/base/svd.html" class="external-link">base::svd()</a></code>.
 Default: <code>FALSE</code>.</p></dd>
+
+
 <dt>.drop.sd</dt>
 <dd><p>When zero-sd (non varying) features are scaled, their values
 are <code>NaN</code>. When the Features with rowSds &lt; this threshold (default 1e-4) are
 identified, and their scaled values are set to 0.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A list of useful transformation information. The caller is likely
+    
+
+<p>A list of useful transformation information. The caller is likely
 most interested in the <code>$score</code> vector, but other bits related to
 the SVD/PCA decomposition are included for the ride.</p>
     </div>
@@ -149,16 +166,16 @@ released GSDecon package by Jason Hackney</em></p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">vm</span> <span class="op">&lt;-</span> <span class="fu"><a href="examples.html">exampleExpressionSet</a></span><span class="op">(</span>do.voom<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="conform.html">conform</a></span><span class="op">(</span><span class="fu"><a href="examples.html">exampleGeneSetDb</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">vm</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">features</span> <span class="op">&lt;-</span> <span class="fu"><a href="featureIds.html">featureIds</a></span><span class="op">(</span><span class="va">gdb</span>, <span class="st">"c2"</span>, <span class="st">"BURTON_ADIPOGENESIS_PEAK_AT_2HR"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">scores</span> <span class="op">&lt;-</span> <span class="fu">gsdScore</span><span class="op">(</span><span class="va">vm</span><span class="op">[</span><span class="va">features</span>,<span class="op">]</span><span class="op">)</span><span class="op">$</span><span class="va">score</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## Use scoreSingleSamples to facilitate scoring of all gene sets</span></span>
-<span class="r-in"><span class="va">scores.all</span> <span class="op">&lt;-</span> <span class="fu"><a href="scoreSingleSamples.html">scoreSingleSamples</a></span><span class="op">(</span><span class="va">gdb</span>, <span class="va">vm</span>, <span class="st">'gsd'</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">s2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/with.html" class="external-link">with</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">scores.all</span>, <span class="va">name</span> <span class="op">==</span> <span class="st">'BURTON_ADIPOGENESIS_PEAK_AT_2HR'</span><span class="op">)</span>,</span>
-<span class="r-in">           <span class="fu"><a href="https://rdrr.io/r/stats/setNames.html" class="external-link">setNames</a></span><span class="op">(</span><span class="va">score</span>, <span class="va">sample_id</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">s2</span>, <span class="va">scores</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">vm</span> <span class="op">&lt;-</span> <span class="fu"><a href="examples.html">exampleExpressionSet</a></span><span class="op">(</span>do.voom<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="conform.html">conform</a></span><span class="op">(</span><span class="fu"><a href="examples.html">exampleGeneSetDb</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">vm</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">features</span> <span class="op">&lt;-</span> <span class="fu"><a href="featureIds.html">featureIds</a></span><span class="op">(</span><span class="va">gdb</span>, <span class="st">"c2"</span>, <span class="st">"BURTON_ADIPOGENESIS_PEAK_AT_2HR"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">scores</span> <span class="op">&lt;-</span> <span class="fu">gsdScore</span><span class="op">(</span><span class="va">vm</span><span class="op">[</span><span class="va">features</span>,<span class="op">]</span><span class="op">)</span><span class="op">$</span><span class="va">score</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Use scoreSingleSamples to facilitate scoring of all gene sets</span></span></span>
+<span class="r-in"><span><span class="va">scores.all</span> <span class="op">&lt;-</span> <span class="fu"><a href="scoreSingleSamples.html">scoreSingleSamples</a></span><span class="op">(</span><span class="va">gdb</span>, <span class="va">vm</span>, <span class="st">'gsd'</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">s2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/with.html" class="external-link">with</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">scores.all</span>, <span class="va">name</span> <span class="op">==</span> <span class="st">'BURTON_ADIPOGENESIS_PEAK_AT_2HR'</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>           <span class="fu"><a href="https://rdrr.io/r/stats/setNames.html" class="external-link">setNames</a></span><span class="op">(</span><span class="va">score</span>, <span class="va">sample_id</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">s2</span>, <span class="va">scores</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 </code></pre></div>
     </div>
@@ -174,7 +191,7 @@ released GSDecon package by Jason Hackney</em></p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

@@ -72,39 +72,57 @@ otheerwise an error is thrown.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">validateInputs</span><span class="op">(</span>
-  <span class="va">x</span>,
-  design <span class="op">=</span> <span class="cn">NULL</span>,
-  contrast <span class="op">=</span> <span class="cn">NULL</span>,
-  methods <span class="op">=</span> <span class="cn">NULL</span>,
-  xmeta. <span class="op">=</span> <span class="cn">NULL</span>,
-  require.x.rownames <span class="op">=</span> <span class="cn">TRUE</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">validateInputs</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  design <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  contrast <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  methods <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  xmeta. <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  require.x.rownames <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>The expression object to use</p></dd>
+
+
 <dt>design</dt>
 <dd><p>A design matrix, if the GSEA method(s) require it</p></dd>
+
+
 <dt>contrast</dt>
 <dd><p>A contrast vector (if the GSEA method(s) require it)</p></dd>
+
+
 <dt>methods</dt>
 <dd><p>A character vector of the GSEA methods that these inputs will
 be used for.</p></dd>
+
+
 <dt>xmeta.</dt>
 <dd><p>hack for supportin data.frame inputs.</p></dd>
+
+
 <dt>require.x.rownames</dt>
 <dd><p>Leave this alone, should always be <code>TRUE</code> but
 have it in this package for dev/testing purposes.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>other variables that called methods can check if they want</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A list with "normalized" versions of <code>$x</code>, <code>$design</code>, and <code>$contrast</code>for downstream use.</p>
+    
+
+<p>A list with "normalized" versions of <code>$x</code>, <code>$design</code>, and <code>$contrast</code></p>
+
+
+<p>for downstream use.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -118,12 +136,12 @@ here. I will (perhaps) clean that up some day.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">dge.stats</span> <span class="op">&lt;-</span> <span class="fu"><a href="examples.html">exampleDgeResult</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">ranks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/setNames.html" class="external-link">setNames</a></span><span class="op">(</span><span class="va">dge.stats</span><span class="op">$</span><span class="va">t</span>, <span class="va">dge.stats</span><span class="op">$</span><span class="va">feature_id</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="examples.html">exampleGeneSetDb</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">ok</span> <span class="op">&lt;-</span> <span class="fu">validateInputs</span><span class="op">(</span><span class="va">ranks</span>, <span class="va">gdb</span>, methods <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cameraPR"</span>, <span class="st">"fgsea"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># need full expressionset &amp; design for romer</span></span>
-<span class="r-in"><span class="va">null</span> <span class="op">&lt;-</span> <span class="fu"><a href="failWith.html">failWith</a></span><span class="op">(</span><span class="cn">NULL</span>, <span class="fu">validateInputs</span><span class="op">(</span><span class="va">ranks</span>, <span class="va">gdb</span>, methods <span class="op">=</span> <span class="st">"romer"</span><span class="op">)</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">dge.stats</span> <span class="op">&lt;-</span> <span class="fu"><a href="examples.html">exampleDgeResult</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">ranks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/setNames.html" class="external-link">setNames</a></span><span class="op">(</span><span class="va">dge.stats</span><span class="op">$</span><span class="va">t</span>, <span class="va">dge.stats</span><span class="op">$</span><span class="va">feature_id</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="examples.html">exampleGeneSetDb</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">ok</span> <span class="op">&lt;-</span> <span class="fu">validateInputs</span><span class="op">(</span><span class="va">ranks</span>, <span class="va">gdb</span>, methods <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cameraPR"</span>, <span class="st">"fgsea"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># need full expressionset &amp; design for romer</span></span></span>
+<span class="r-in"><span><span class="va">null</span> <span class="op">&lt;-</span> <span class="fu"><a href="failWith.html">failWith</a></span><span class="op">(</span><span class="cn">NULL</span>, <span class="fu">validateInputs</span><span class="op">(</span><span class="va">ranks</span>, <span class="va">gdb</span>, methods <span class="op">=</span> <span class="st">"romer"</span><span class="op">)</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -138,7 +156,7 @@ here. I will (perhaps) clean that up some day.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

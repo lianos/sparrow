@@ -76,41 +76,54 @@ would extract the pvalues from the method you like in the
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">volcanoStatsTable</span><span class="op">(</span>
-  <span class="va">x</span>,
-  stats <span class="op">=</span> <span class="st">"dge"</span>,
-  xaxis <span class="op">=</span> <span class="st">"logFC"</span>,
-  yaxis <span class="op">=</span> <span class="st">"pval"</span>,
-  idx <span class="op">=</span> <span class="st">"idx"</span>,
-  xtfrm <span class="op">=</span> <span class="va">identity</span>,
-  ytfrm <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">vals</span><span class="op">)</span> <span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log10</a></span><span class="op">(</span><span class="va">vals</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">volcanoStatsTable</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  stats <span class="op">=</span> <span class="st">"dge"</span>,</span>
+<span>  xaxis <span class="op">=</span> <span class="st">"logFC"</span>,</span>
+<span>  yaxis <span class="op">=</span> <span class="st">"pval"</span>,</span>
+<span>  idx <span class="op">=</span> <span class="st">"idx"</span>,</span>
+<span>  xtfrm <span class="op">=</span> <span class="va">identity</span>,</span>
+<span>  ytfrm <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">vals</span><span class="op">)</span> <span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log10</a></span><span class="op">(</span><span class="va">vals</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>A <code>SparrowResult</code> object, or a <code>data.frame</code></p></dd>
+
+
 <dt>stats</dt>
 <dd><p>One of <code>"dge"</code> or <code>resultNames(x)</code></p></dd>
+
+
 <dt>xaxis, yaxis</dt>
 <dd><p>the column of the the provided (or extracted)
 <code>data.frame</code> to use for the xaxis and yaxis of the volcano</p></dd>
+
+
 <dt>idx</dt>
 <dd><p>The column of the <code>data.frame</code> to use as the identifier
 for the element in the row. You probably don't want to mess with this</p></dd>
+
+
 <dt>xtfrm</dt>
 <dd><p>A function that transforms the <code>xaxis</code> column to an
 appropriate scale for the x-axis. This is the <code>identity</code> function
 by default, because most often the logFC is plotted as is.</p></dd>
+
+
 <dt>ytfrm</dt>
 <dd><p>A function that transforms the <code>yaxis</code> column to an
 appropriate scale for the y-axis. This is the <code>-log10(yval)</code> function
 by default, because this is how we most often plot the y-axis.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>a <code>data.frame</code> with <code>.xv</code>, <code>.xy</code>, <code>.xvt</code> and
+    
+
+<p>a <code>data.frame</code> with <code>.xv</code>, <code>.xy</code>, <code>.xvt</code> and
 <code>.xvy</code> columns that represent the xvalues, yvalues, transformed
 xvalues, and transformed yvalues, respectively</p>
     </div>
@@ -122,9 +135,9 @@ xvalues, and transformed yvalues, respectively</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">mg</span> <span class="op">&lt;-</span> <span class="fu"><a href="examples.html">exampleSparrowResult</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">v.dge</span> <span class="op">&lt;-</span> <span class="fu">volcanoStatsTable</span><span class="op">(</span><span class="va">mg</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">v.camera</span> <span class="op">&lt;-</span> <span class="fu">volcanoStatsTable</span><span class="op">(</span><span class="va">mg</span>, <span class="st">'camera'</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">mg</span> <span class="op">&lt;-</span> <span class="fu"><a href="examples.html">exampleSparrowResult</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">v.dge</span> <span class="op">&lt;-</span> <span class="fu">volcanoStatsTable</span><span class="op">(</span><span class="va">mg</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">v.camera</span> <span class="op">&lt;-</span> <span class="fu">volcanoStatsTable</span><span class="op">(</span><span class="va">mg</span>, <span class="st">'camera'</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -139,7 +152,7 @@ xvalues, and transformed yvalues, respectively</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

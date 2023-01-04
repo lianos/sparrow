@@ -74,62 +74,88 @@ using a <code><a href="GeneSetDb-class.html">GeneSetDb()</a></code> object.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">scoreSingleSamples</span><span class="op">(</span>
-  <span class="va">gdb</span>,
-  <span class="va">y</span>,
-  methods <span class="op">=</span> <span class="st">"ewm"</span>,
-  as.matrix <span class="op">=</span> <span class="cn">FALSE</span>,
-  drop.sd <span class="op">=</span> <span class="fl">1e-04</span>,
-  drop.unconformed <span class="op">=</span> <span class="cn">FALSE</span>,
-  verbose <span class="op">=</span> <span class="cn">FALSE</span>,
-  recenter <span class="op">=</span> <span class="cn">FALSE</span>,
-  rescale <span class="op">=</span> <span class="cn">FALSE</span>,
-  <span class="va">...</span>,
-  as.dt <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">scoreSingleSamples</span><span class="op">(</span></span>
+<span>  <span class="va">gdb</span>,</span>
+<span>  <span class="va">y</span>,</span>
+<span>  methods <span class="op">=</span> <span class="st">"ewm"</span>,</span>
+<span>  as.matrix <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  drop.sd <span class="op">=</span> <span class="fl">1e-04</span>,</span>
+<span>  drop.unconformed <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  recenter <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  rescale <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">...</span>,</span>
+<span>  as.dt <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>gdb</dt>
 <dd><p>A GeneSetDb</p></dd>
+
+
 <dt>y</dt>
 <dd><p>An expression matrix to score genesets against</p></dd>
+
+
 <dt>methods</dt>
 <dd><p>A character vector that enumerates the scoring methods you
 want to run over the samples. Please reference the "Single Sample Scoring
 Methods" section for more information.</p></dd>
+
+
 <dt>as.matrix</dt>
 <dd><p>Return results as a list of matrices instead of a melted
 data.frame? Defaults to <code>FALSE</code>.</p></dd>
+
+
 <dt>drop.sd</dt>
 <dd><p>Genes with a standard deviation across columns in <code>y</code>
 that is less than this value will be dropped.</p></dd>
+
+
 <dt>drop.unconformed</dt>
 <dd><p>When <code>TRUE</code>, genes in <code>y</code> that are not found in
 <code>gdb</code> are removed from the expression container. You may want to set this
 to <code>TRUE</code> when <code>y</code> is very large until better sparse matrix support is
 injected. This will change the scores for gsva and ssGSEA, though.
 Default is <code>FALSE</code>.</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>make some noise? Defaults to <code>FALSE</code>.</p></dd>
+
+
 <dt>recenter, rescale</dt>
 <dd><p>If <code>TRUE</code>, the scores computed by each method
 are centered and scaled using the <code>scale</code> function. These variables
 correspond to the <code>center</code> and <code>scale</code> parameters in the
 <code>scale</code> function. Defaults to <code>FALSE</code>.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>these parameters are passed down into the the individual single
 sample scoring funcitons to customize them further.</p></dd>
+
+
 <dt>as.dt</dt>
 <dd><p>If <code>FALSE</code> (default), the data.frame like thing that
 this funciton returns will be set to a data.frame. Set this to <code>TRUE</code>
 to keep this object as a <code>data.table</code></p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A long data.frame with sample_id,method,score values per row. If
-<code>as.matrix=TRUE</code>, a matrix with as many rows as <code>geneSets(gdb)</code>and as many columns as <code>ncol(x)</code></p>
+    
+
+<p>A long data.frame with sample_id,method,score values per row. If
+<code>as.matrix=TRUE</code>, a matrix with as many rows as <code>geneSets(gdb)</code></p>
+
+
+<p>and as many columns as <code>ncol(x)</code></p>
+
+
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -162,18 +188,18 @@ without transforming the data.</p></li>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="examples.html">exampleGeneSetDb</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">vm</span> <span class="op">&lt;-</span> <span class="fu"><a href="examples.html">exampleExpressionSet</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">scores</span> <span class="op">&lt;-</span> <span class="fu">scoreSingleSamples</span><span class="op">(</span></span>
-<span class="r-in">  <span class="va">gdb</span>, <span class="va">vm</span>, methods <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ewm"</span>, <span class="st">"gsva"</span>, <span class="st">"zscore"</span><span class="op">)</span>,</span>
-<span class="r-in">  center <span class="op">=</span> <span class="cn">TRUE</span>, scale <span class="op">=</span> <span class="cn">TRUE</span>, ssgsea.norm <span class="op">=</span> <span class="cn">TRUE</span>, as.dt <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">sw</span> <span class="op">&lt;-</span> <span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/dcast.data.table.html" class="external-link">dcast</a></span><span class="op">(</span><span class="va">scores</span>, <span class="va">name</span> <span class="op">+</span> <span class="va">sample_id</span> <span class="op">~</span> <span class="va">method</span>, value.var<span class="op">=</span><span class="st">'score'</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># \donttest{</span></span>
-<span class="r-in"><span class="fu"><a href="corplot.html">corplot</a></span><span class="op">(</span></span>
-<span class="r-in">  <span class="va">sw</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ewm"</span>, <span class="st">"gsva"</span>, <span class="st">"zscore"</span><span class="op">)</span><span class="op">]</span>,</span>
-<span class="r-in">  title <span class="op">=</span> <span class="st">"Single Sample Score Comparison"</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="examples.html">exampleGeneSetDb</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">vm</span> <span class="op">&lt;-</span> <span class="fu"><a href="examples.html">exampleExpressionSet</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">scores</span> <span class="op">&lt;-</span> <span class="fu">scoreSingleSamples</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">gdb</span>, <span class="va">vm</span>, methods <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ewm"</span>, <span class="st">"gsva"</span>, <span class="st">"zscore"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  center <span class="op">=</span> <span class="cn">TRUE</span>, scale <span class="op">=</span> <span class="cn">TRUE</span>, ssgsea.norm <span class="op">=</span> <span class="cn">TRUE</span>, as.dt <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">sw</span> <span class="op">&lt;-</span> <span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/dcast.data.table.html" class="external-link">dcast</a></span><span class="op">(</span><span class="va">scores</span>, <span class="va">name</span> <span class="op">+</span> <span class="va">sample_id</span> <span class="op">~</span> <span class="va">method</span>, value.var<span class="op">=</span><span class="st">'score'</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="corplot.html">corplot</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">sw</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ewm"</span>, <span class="st">"gsva"</span>, <span class="st">"zscore"</span><span class="op">)</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span>  title <span class="op">=</span> <span class="st">"Single Sample Score Comparison"</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>argument 1 does not name a graphical parameter</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>argument 1 does not name a graphical parameter</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>argument 1 does not name a graphical parameter</span>
@@ -181,16 +207,16 @@ without transforming the data.</p></li>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>argument 1 does not name a graphical parameter</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>argument 1 does not name a graphical parameter</span>
 <span class="r-plt img"><img src="scoreSingleSamples-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="co"># }</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">zs</span> <span class="op">&lt;-</span> <span class="fu">scoreSingleSamples</span><span class="op">(</span></span>
-<span class="r-in">  <span class="va">gdb</span>, <span class="va">vm</span>, methods <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'ewm'</span>, <span class="st">'ewz'</span>, <span class="st">'zscore'</span><span class="op">)</span>, summary <span class="op">=</span> <span class="st">"mean"</span>,</span>
-<span class="r-in">  center <span class="op">=</span> <span class="cn">TRUE</span>, scale <span class="op">=</span> <span class="cn">TRUE</span>, uncenter <span class="op">=</span> <span class="cn">FALSE</span>, unscale <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span class="r-in">  as.dt <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">zw</span> <span class="op">&lt;-</span> <span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/dcast.data.table.html" class="external-link">dcast</a></span><span class="op">(</span><span class="va">zs</span>, <span class="va">name</span> <span class="op">+</span> <span class="va">sample_id</span> <span class="op">~</span> <span class="va">method</span>, value.var<span class="op">=</span><span class="st">'score'</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># \donttest{</span></span>
-<span class="r-in">  <span class="fu"><a href="corplot.html">corplot</a></span><span class="op">(</span><span class="va">zw</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ewm"</span>, <span class="st">"ewz"</span>, <span class="st">"zscore"</span><span class="op">)</span><span class="op">]</span>, title <span class="op">=</span> <span class="st">"EW zscores"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">zs</span> <span class="op">&lt;-</span> <span class="fu">scoreSingleSamples</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">gdb</span>, <span class="va">vm</span>, methods <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'ewm'</span>, <span class="st">'ewz'</span>, <span class="st">'zscore'</span><span class="op">)</span>, summary <span class="op">=</span> <span class="st">"mean"</span>,</span></span>
+<span class="r-in"><span>  center <span class="op">=</span> <span class="cn">TRUE</span>, scale <span class="op">=</span> <span class="cn">TRUE</span>, uncenter <span class="op">=</span> <span class="cn">FALSE</span>, unscale <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>  as.dt <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">zw</span> <span class="op">&lt;-</span> <span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/dcast.data.table.html" class="external-link">dcast</a></span><span class="op">(</span><span class="va">zs</span>, <span class="va">name</span> <span class="op">+</span> <span class="va">sample_id</span> <span class="op">~</span> <span class="va">method</span>, value.var<span class="op">=</span><span class="st">'score'</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="corplot.html">corplot</a></span><span class="op">(</span><span class="va">zw</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ewm"</span>, <span class="st">"ewz"</span>, <span class="st">"zscore"</span><span class="op">)</span><span class="op">]</span>, title <span class="op">=</span> <span class="st">"EW zscores"</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>argument 1 does not name a graphical parameter</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>argument 1 does not name a graphical parameter</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>argument 1 does not name a graphical parameter</span>
@@ -198,7 +224,7 @@ without transforming the data.</p></li>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>argument 1 does not name a graphical parameter</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>argument 1 does not name a graphical parameter</span>
 <span class="r-plt img"><img src="scoreSingleSamples-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="co"># }</span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -213,7 +239,7 @@ without transforming the data.</p></li>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

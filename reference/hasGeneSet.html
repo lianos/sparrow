@@ -66,30 +66,39 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">hasGeneSet</span><span class="op">(</span><span class="va">x</span>, <span class="va">collection</span>, <span class="va">name</span>, as.error <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">hasGeneSet</span><span class="op">(</span><span class="va">x</span>, <span class="va">collection</span>, <span class="va">name</span>, as.error <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>GeneSetDb</p></dd>
+
+
 <dt>collection</dt>
 <dd><p>character indicating the collection</p></dd>
+
+
 <dt>name</dt>
 <dd><p>character indicating the name of the geneset</p></dd>
+
+
 <dt>as.error</dt>
 <dd><p>If <code>TRUE</code>, a test for the existance of the geneset will throw
 an error if the geneset does not exist</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>logical indicating whether or not the geneset is defined.</p>
+    
+
+<p>logical indicating whether or not the geneset is defined.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="examples.html">exampleGeneSetDb</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">hasGeneSet</span><span class="op">(</span><span class="va">gdb</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'c2'</span>, <span class="st">'c7'</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'BIOCARTA_AGPCR_PATHWAY'</span>, <span class="st">'something'</span><span class="op">)</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="examples.html">exampleGeneSetDb</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">hasGeneSet</span><span class="op">(</span><span class="va">gdb</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'c2'</span>, <span class="st">'c7'</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'BIOCARTA_AGPCR_PATHWAY'</span>, <span class="st">'something'</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1]  TRUE FALSE</span>
 </code></pre></div>
     </div>
@@ -105,7 +114,7 @@ an error if the geneset does not exist</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

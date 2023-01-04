@@ -66,38 +66,47 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">geneSetCollectionURLfunction</span><span class="op">(</span><span class="va">x</span>, <span class="va">i</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="fu">geneSetCollectionURLfunction</span><span class="op">(</span><span class="va">x</span>, <span class="va">i</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">value</span>
-
-<span class="co"># S4 method for GeneSetDb</span>
-<span class="fu">geneSetCollectionURLfunction</span><span class="op">(</span><span class="va">x</span>, <span class="va">i</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S4 method for GeneSetDb</span>
-<span class="fu">geneSetCollectionURLfunction</span><span class="op">(</span><span class="va">x</span>, <span class="va">i</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">value</span>
-
-<span class="co"># S4 method for SparrowResult</span>
-<span class="fu">geneSetCollectionURLfunction</span><span class="op">(</span><span class="va">x</span>, <span class="va">i</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">geneSetCollectionURLfunction</span><span class="op">(</span><span class="va">x</span>, <span class="va">i</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">geneSetCollectionURLfunction</span><span class="op">(</span><span class="va">x</span>, <span class="va">i</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">value</span></span>
+<span></span>
+<span><span class="co"># S4 method for GeneSetDb</span></span>
+<span><span class="fu">geneSetCollectionURLfunction</span><span class="op">(</span><span class="va">x</span>, <span class="va">i</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S4 method for GeneSetDb</span></span>
+<span><span class="fu">geneSetCollectionURLfunction</span><span class="op">(</span><span class="va">x</span>, <span class="va">i</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">value</span></span>
+<span></span>
+<span><span class="co"># S4 method for SparrowResult</span></span>
+<span><span class="fu">geneSetCollectionURLfunction</span><span class="op">(</span><span class="va">x</span>, <span class="va">i</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>The GeneSetDb</p></dd>
+
+
 <dt>i</dt>
 <dd><p>The collection to get the url function from</p></dd>
+
+
 <dt>...</dt>
 <dd><p>pass through arguments (not used)</p></dd>
+
+
 <dt>value</dt>
 <dd><p>the function to set as the geneset url function for the given
 collection <code>i</code>. This can be an actual function object, or the (string)
 name of the function to pull out of "the ether"
 (<code>"pkgname::functionname"</code> can work, too). The latter is preferred as
 it results in smaller serialized GeneSetDb objects.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>the function that maps collection,name combinations to an
+    
+
+<p>the function that maps collection,name combinations to an
 informational URL.</p>
     </div>
     <div id="methods-by-class-">
@@ -113,14 +122,14 @@ function for a <code>GeneSetDb : Collection</code> combination.</p></li>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="examples.html">exampleGeneSetDb</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">geneSetCollectionURLfunction</span><span class="op">(</span><span class="va">gdb</span>, <span class="st">"c2"</span>, <span class="st">"BIOCARTA_AGPCR_PATHWAY"</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="examples.html">exampleGeneSetDb</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">geneSetCollectionURLfunction</span><span class="op">(</span><span class="va">gdb</span>, <span class="st">"c2"</span>, <span class="st">"BIOCARTA_AGPCR_PATHWAY"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> function (collection, name, ...) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     url &lt;- "http://www.broadinstitute.org/gsea/msigdb/cards/%s.html"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     sprintf(url, name)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55be4c3a1b50&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55bed14d2850&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:sparrow&gt;</span>
 </code></pre></div>
     </div>
@@ -136,7 +145,7 @@ function for a <code>GeneSetDb : Collection</code> combination.</p></li>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

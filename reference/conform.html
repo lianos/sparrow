@@ -88,55 +88,72 @@ downstream gene set operations.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">conform</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="fu">unconform</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S4 method for GeneSetDb</span>
-<span class="fu">conform</span><span class="op">(</span>
-  <span class="va">x</span>,
-  <span class="va">target</span>,
-  unique.by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"none"</span>, <span class="st">"mean"</span>, <span class="st">"var"</span><span class="op">)</span>,
-  min.gs.size <span class="op">=</span> <span class="fl">2L</span>,
-  max.gs.size <span class="op">=</span> <span class="cn">Inf</span>,
-  match.tolerance <span class="op">=</span> <span class="fl">0.25</span>,
-  <span class="va">...</span>
-<span class="op">)</span>
-
-<span class="co"># S4 method for GeneSetDb</span>
-<span class="fu">unconform</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="fu">is.conformed</span><span class="op">(</span><span class="va">x</span>, <span class="va">to</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">conform</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">unconform</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S4 method for GeneSetDb</span></span>
+<span><span class="fu">conform</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  <span class="va">target</span>,</span>
+<span>  unique.by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"none"</span>, <span class="st">"mean"</span>, <span class="st">"var"</span><span class="op">)</span>,</span>
+<span>  min.gs.size <span class="op">=</span> <span class="fl">2L</span>,</span>
+<span>  max.gs.size <span class="op">=</span> <span class="cn">Inf</span>,</span>
+<span>  match.tolerance <span class="op">=</span> <span class="fl">0.25</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S4 method for GeneSetDb</span></span>
+<span><span class="fu">unconform</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">is.conformed</span><span class="op">(</span><span class="va">x</span>, <span class="va">to</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>The GeneSetDb</p></dd>
+
+
 <dt>...</dt>
 <dd><p>moar args</p></dd>
+
+
 <dt>target</dt>
 <dd><p>The expression object/matrix to conform to. This could also
 just be a character vector of IDs.</p></dd>
+
+
 <dt>unique.by</dt>
 <dd><p>If there are multiple rows that map to the identifiers used
 in the genesets, this is a means to pick the single row for that ID</p></dd>
+
+
 <dt>min.gs.size</dt>
 <dd><p>Ensure that the genesets that make their way to the
 <code>GeneSetDb@table</code> are of a minimum size</p></dd>
+
+
 <dt>max.gs.size</dt>
 <dd><p>Ensure that the genesets that make their way to the
 <code>GeneSetDb@table</code> are smaller than this size</p></dd>
+
+
 <dt>match.tolerance</dt>
 <dd><p>Numeric value between [0,1]. If the fraction of
 <code>feature_id</code>s used in <code>x</code> that match <code>rownames(y)</code> is below
 this number, a warning will be fired.</p></dd>
+
+
 <dt>to</dt>
 <dd><p>the object to test conformation to</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A  <code><a href="GeneSetDb-class.html">GeneSetDb()</a></code> that has been matched/conformed to an expression
+    
+
+<p>A  <code><a href="GeneSetDb-class.html">GeneSetDb()</a></code> that has been matched/conformed to an expression
 object target <code>y</code>.</p>
     </div>
     <div id="functions">
@@ -157,9 +174,9 @@ been called (at all) on <code>x</code>. If <code>to</code> is provided, specific
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">es</span> <span class="op">&lt;-</span> <span class="fu"><a href="examples.html">exampleExpressionSet</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="examples.html">exampleGeneSetDb</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="geneSets.html">geneSets</a></span><span class="op">(</span><span class="va">gdb</span><span class="op">)</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">es</span> <span class="op">&lt;-</span> <span class="fu"><a href="examples.html">exampleExpressionSet</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="examples.html">exampleGeneSetDb</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="geneSets.html">geneSets</a></span><span class="op">(</span><span class="va">gdb</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   collection                                          name active  N  n</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1         c2                        BIOCARTA_AGPCR_PATHWAY  FALSE 13 NA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2         c2         BOYAULT_LIVER_CANCER_SUBCLASS_G123_DN  FALSE 51 NA</span>
@@ -167,10 +184,10 @@ been called (at all) on <code>x</code>. If <code>to</code> is provided, specific
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4         c2        BYSTRYKH_HEMATOPOIESIS_STEM_CELL_IL3RA  FALSE  9 NA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5         c2             CAIRO_PML_TARGETS_BOUND_BY_MYC_UP  FALSE 23 NA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6         c2 CHARAFE_BREAST_CANCER_BASAL_VS_MESENCHYMAL_DN  FALSE 50 NA</span>
-<span class="r-in"><span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu">conform</span><span class="op">(</span><span class="va">gdb</span>, <span class="va">es</span><span class="op">)</span></span>
-<span class="r-in"><span class="co">## Note the updated values `active` flag, and n (the number of features</span></span>
-<span class="r-in"><span class="co">## mapped per gene set)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="geneSets.html">geneSets</a></span><span class="op">(</span><span class="va">gdb</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu">conform</span><span class="op">(</span><span class="va">gdb</span>, <span class="va">es</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co">## Note the updated values `active` flag, and n (the number of features</span></span></span>
+<span class="r-in"><span><span class="co">## mapped per gene set)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="geneSets.html">geneSets</a></span><span class="op">(</span><span class="va">gdb</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   collection                                          name active  N  n</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1         c2                        BIOCARTA_AGPCR_PATHWAY   TRUE 13 11</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2         c2         BOYAULT_LIVER_CANCER_SUBCLASS_G123_DN   TRUE 51 41</span>
@@ -192,7 +209,7 @@ been called (at all) on <code>x</code>. If <code>to</code> is provided, specific
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

@@ -68,20 +68,20 @@ they contribute to the principal component indicated by <code>eigengene</code>.<
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">eigenWeightedMean</span><span class="op">(</span>
-  <span class="va">x</span>,
-  eigengene <span class="op">=</span> <span class="fl">1L</span>,
-  center <span class="op">=</span> <span class="cn">TRUE</span>,
-  scale <span class="op">=</span> <span class="cn">TRUE</span>,
-  uncenter <span class="op">=</span> <span class="va">center</span>,
-  unscale <span class="op">=</span> <span class="va">scale</span>,
-  retx <span class="op">=</span> <span class="cn">FALSE</span>,
-  weights <span class="op">=</span> <span class="cn">NULL</span>,
-  normalize <span class="op">=</span> <span class="cn">FALSE</span>,
-  all.x <span class="op">=</span> <span class="cn">NULL</span>,
-  <span class="va">...</span>,
-  .drop.sd <span class="op">=</span> <span class="fl">1e-04</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">eigenWeightedMean</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  eigengene <span class="op">=</span> <span class="fl">1L</span>,</span>
+<span>  center <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  scale <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  uncenter <span class="op">=</span> <span class="va">center</span>,</span>
+<span>  unscale <span class="op">=</span> <span class="va">scale</span>,</span>
+<span>  retx <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  weights <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  normalize <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  all.x <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">...</span>,</span>
+<span>  .drop.sd <span class="op">=</span> <span class="fl">1e-04</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -90,26 +90,42 @@ they contribute to the principal component indicated by <code>eigengene</code>.<
 <dd><p>An expression matrix of genes x samples. When using this to score
 geneset activity, you want to reduce the rows of <code>x</code> to be only the
 genes from the given gene set.</p></dd>
+
+
 <dt>eigengene</dt>
 <dd><p>the PC used to extract the gene weights from</p></dd>
+
+
 <dt>center</dt>
 <dd><p>center and/or scale data before scoring?</p></dd>
+
+
 <dt>scale</dt>
 <dd><p>center and/or scale data before scoring?</p></dd>
+
+
 <dt>uncenter</dt>
 <dd><p>uncenter and unscale the data data on the way out?
 Defaults to the respective values of <code>center</code> and <code>scale</code></p></dd>
+
+
 <dt>unscale</dt>
 <dd><p>uncenter and unscale the data data on the way out?
 Defaults to the respective values of <code>center</code> and <code>scale</code></p></dd>
+
+
 <dt>retx</dt>
 <dd><p>Works the same as <code>retx</code> from <code><a href="https://rdrr.io/r/stats/prcomp.html" class="external-link">prcomp</a></code>. If
 <code>TRUE</code>, will return a <code>ret$pca$x</code> matrix that has the rotated
 variables.</p></dd>
+
+
 <dt>weights</dt>
 <dd><p>a user can pass in a prespecified set of waits using a named
 numeric vector. The names must be a superset of <code>rownames(x)</code>. If
 this is <code>NULL</code>, we calculate the "eigenweights".</p></dd>
+
+
 <dt>normalize</dt>
 <dd><p>If <code>TRUE</code>, each score is normalized to a randomly
 selected geneset score. The size of the randomly selected geneset is
@@ -119,20 +135,29 @@ set to <code>FALSE</code>, and normalization does not happen. Instead of
 passing in <code>TRUE</code>, the user can pass in a vector of gene names
 (identifiers) to be considered for random geneset creation. If no
 genes are provided, then all genes in <code>y</code> are fair game.</p></dd>
+
+
 <dt>all.x</dt>
 <dd><p>if the user is trying to normalize these scores, an expression
 matrix that has superset of the control genes needs to be provided, where
 the columns of <code>all.x</code> must correspond to this in <code>x</code>.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>these aren't used in here</p></dd>
+
+
 <dt>.drop.sd</dt>
 <dd><p>When zero-sd (non varying) features are scaled, their values
 are <code>NaN</code>. When the Features with rowSds &lt; this threshold (default 1e-4) are
 identified, and their scaled values are set to 0.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A list of useful transformation information. The caller is likely
+    
+
+<p>A list of useful transformation information. The caller is likely
 most interested in the <code>$score</code> vector, but other bits related to
 the SVD/PCA decomposition are included for the ride.</p>
     </div>
@@ -170,17 +195,17 @@ the <code>ctrl.score</code> normalization found in Seurat's <code>AddModuleScore
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">vm</span> <span class="op">&lt;-</span> <span class="fu"><a href="examples.html">exampleExpressionSet</a></span><span class="op">(</span>do.voom<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="conform.html">conform</a></span><span class="op">(</span><span class="fu"><a href="examples.html">exampleGeneSetDb</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">vm</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">features</span> <span class="op">&lt;-</span> <span class="fu"><a href="featureIds.html">featureIds</a></span><span class="op">(</span><span class="va">gdb</span>, <span class="st">'c2'</span>, <span class="st">'BURTON_ADIPOGENESIS_PEAK_AT_2HR'</span>,</span>
-<span class="r-in">                       value<span class="op">=</span><span class="st">'x.idx'</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">scores</span> <span class="op">&lt;-</span> <span class="fu">eigenWeightedMean</span><span class="op">(</span><span class="va">vm</span><span class="op">[</span><span class="va">features</span>,<span class="op">]</span><span class="op">)</span><span class="op">$</span><span class="va">score</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## Use scoreSingleSamples to facilitate scoring of all gene sets</span></span>
-<span class="r-in"><span class="va">scores.all</span> <span class="op">&lt;-</span> <span class="fu"><a href="scoreSingleSamples.html">scoreSingleSamples</a></span><span class="op">(</span><span class="va">gdb</span>, <span class="va">vm</span>, <span class="st">'ewm'</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">s2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/with.html" class="external-link">with</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">scores.all</span>, <span class="va">name</span> <span class="op">==</span> <span class="st">'BURTON_ADIPOGENESIS_PEAK_AT_2HR'</span><span class="op">)</span>,</span>
-<span class="r-in">           <span class="fu"><a href="https://rdrr.io/r/stats/setNames.html" class="external-link">setNames</a></span><span class="op">(</span><span class="va">score</span>, <span class="va">sample_id</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">s2</span>, <span class="va">scores</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">vm</span> <span class="op">&lt;-</span> <span class="fu"><a href="examples.html">exampleExpressionSet</a></span><span class="op">(</span>do.voom<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="conform.html">conform</a></span><span class="op">(</span><span class="fu"><a href="examples.html">exampleGeneSetDb</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">vm</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">features</span> <span class="op">&lt;-</span> <span class="fu"><a href="featureIds.html">featureIds</a></span><span class="op">(</span><span class="va">gdb</span>, <span class="st">'c2'</span>, <span class="st">'BURTON_ADIPOGENESIS_PEAK_AT_2HR'</span>,</span></span>
+<span class="r-in"><span>                       value<span class="op">=</span><span class="st">'x.idx'</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">scores</span> <span class="op">&lt;-</span> <span class="fu">eigenWeightedMean</span><span class="op">(</span><span class="va">vm</span><span class="op">[</span><span class="va">features</span>,<span class="op">]</span><span class="op">)</span><span class="op">$</span><span class="va">score</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Use scoreSingleSamples to facilitate scoring of all gene sets</span></span></span>
+<span class="r-in"><span><span class="va">scores.all</span> <span class="op">&lt;-</span> <span class="fu"><a href="scoreSingleSamples.html">scoreSingleSamples</a></span><span class="op">(</span><span class="va">gdb</span>, <span class="va">vm</span>, <span class="st">'ewm'</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">s2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/with.html" class="external-link">with</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">scores.all</span>, <span class="va">name</span> <span class="op">==</span> <span class="st">'BURTON_ADIPOGENESIS_PEAK_AT_2HR'</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>           <span class="fu"><a href="https://rdrr.io/r/stats/setNames.html" class="external-link">setNames</a></span><span class="op">(</span><span class="va">score</span>, <span class="va">sample_id</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">s2</span>, <span class="va">scores</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 </code></pre></div>
     </div>
@@ -196,7 +221,7 @@ the <code>ctrl.score</code> normalization found in Seurat's <code>AddModuleScore
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

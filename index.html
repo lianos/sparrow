@@ -101,30 +101,30 @@
 </h2>
 <p>A subset of the RNA-seq data tumor/normal samples in the BRCA indication from the TCGA are provided in this package. We will use that data to perform a “camera” and “fry” gene set enrichment analysis of tumor vs normal samples using the MSigDB hallmark gene set collection with <code><a href="reference/seas.html">sparrow::seas()</a></code>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/lianos/sparrow" class="external-link">sparrow</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span>
-<span class="va">bsc</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/getMSigCollection.html">getMSigCollection</a></span><span class="op">(</span><span class="st">'H'</span>, species <span class="op">=</span> <span class="st">'human'</span>, id.type <span class="op">=</span> <span class="st">"entrez"</span><span class="op">)</span>
-<span class="va">vm</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/examples.html">exampleExpressionSet</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="st">'tumor-vs-normal'</span>, do.voom <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="va">mg</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/seas.html">seas</a></span><span class="op">(</span><span class="va">vm</span>, <span class="va">bsc</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cameraPR"</span>, <span class="st">"fry"</span><span class="op">)</span>, design <span class="op">=</span> <span class="va">vm</span><span class="op">$</span><span class="va">design</span>, contrast <span class="op">=</span> <span class="st">"tumor"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/lianos/sparrow" class="external-link">sparrow</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="va">bsc</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/getMSigCollection.html">getMSigCollection</a></span><span class="op">(</span><span class="st">'H'</span>, species <span class="op">=</span> <span class="st">'human'</span>, id.type <span class="op">=</span> <span class="st">"entrez"</span><span class="op">)</span></span>
+<span><span class="va">vm</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/examples.html">exampleExpressionSet</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="st">'tumor-vs-normal'</span>, do.voom <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">mg</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/seas.html">seas</a></span><span class="op">(</span><span class="va">vm</span>, <span class="va">bsc</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cameraPR"</span>, <span class="st">"fry"</span><span class="op">)</span>, design <span class="op">=</span> <span class="va">vm</span><span class="op">$</span><span class="va">design</span>, contrast <span class="op">=</span> <span class="st">"tumor"</span><span class="op">)</span></span></code></pre></div>
 <p>We can view the top “camera” results with the smallest pvalues like so:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/results.html">results</a></span><span class="op">(</span><span class="va">mg</span>, <span class="st">"cameraPR"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">pval</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">padj</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="va">head</span>
-<span class="co">#&gt;                        name         padj</span>
-<span class="co">#&gt; 1      HALLMARK_E2F_TARGETS 4.303158e-21</span>
-<span class="co">#&gt; 2   HALLMARK_G2M_CHECKPOINT 5.412503e-16</span>
-<span class="co">#&gt; 3   HALLMARK_MYC_TARGETS_V1 8.642770e-10</span>
-<span class="co">#&gt; 4 HALLMARK_MTORC1_SIGNALING 3.170023e-07</span>
-<span class="co">#&gt; 5       HALLMARK_MYOGENESIS 3.402614e-06</span>
-<span class="co">#&gt; 6   HALLMARK_UV_RESPONSE_DN 6.624519e-06</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/results.html">results</a></span><span class="op">(</span><span class="va">mg</span>, <span class="st">"cameraPR"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">pval</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">padj</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="va">head</span></span>
+<span><span class="co">#&gt;                        name         padj</span></span>
+<span><span class="co">#&gt; 1      HALLMARK_E2F_TARGETS 4.303158e-21</span></span>
+<span><span class="co">#&gt; 2   HALLMARK_G2M_CHECKPOINT 5.412503e-16</span></span>
+<span><span class="co">#&gt; 3   HALLMARK_MYC_TARGETS_V1 8.642770e-10</span></span>
+<span><span class="co">#&gt; 4 HALLMARK_MTORC1_SIGNALING 3.170023e-07</span></span>
+<span><span class="co">#&gt; 5       HALLMARK_MYOGENESIS 3.402614e-06</span></span>
+<span><span class="co">#&gt; 6   HALLMARK_UV_RESPONSE_DN 6.624519e-06</span></span></code></pre></div>
 <p>The shift in expression of the genes within the top gene set can be visualized with the <code>iplot</code> function below. This plot produces interactive graphics, but rasterized versions are saved for use with this <code>README</code> file:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/iplot.html">iplot</a></span><span class="op">(</span><span class="va">mg</span>, <span class="st">'HALLMARK_MYC_TARGETS_V1'</span>, type <span class="op">=</span> <span class="st">"density"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/iplot.html">iplot</a></span><span class="op">(</span><span class="va">mg</span>, <span class="st">'HALLMARK_MYC_TARGETS_V1'</span>, type <span class="op">=</span> <span class="st">"density"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README_iplot_density.png"></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/iplot.html">iplot</a></span><span class="op">(</span><span class="va">mg</span>, <span class="st">'HALLMARK_MYC_TARGETS_V1'</span>, type <span class="op">=</span> <span class="st">"gsea"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/iplot.html">iplot</a></span><span class="op">(</span><span class="va">mg</span>, <span class="st">'HALLMARK_MYC_TARGETS_V1'</span>, type <span class="op">=</span> <span class="st">"gsea"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README_iplot_gsea.png"></p>
 <p>When these plots are rendered in your workspace or an Rmarkdown document, the user can hover of the genes (dots) to see their name and differential expression statistics.</p>
 <p>For an immersive, interactive way to explore the GSEA results, use the <code>sparrow.shiny::explore(mg)</code> method!</p>
@@ -135,10 +135,10 @@
 <p>This is the development version of the R/bioconductor package <a href="https://github.com/lianos/sparrow" class="external-link">sparrow</a>. It may contain unstable or untested new features. If you are looking for the release version of this package please go to its official Bioconductor landing page and follow the instructions there to install it.</p>
 <p>You can install this development version using the <code>{BiocManager}</code> CRAN package:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"sparrow"</span>, version <span class="op">=</span> <span class="st">"devel"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"sparrow"</span>, version <span class="op">=</span> <span class="st">"devel"</span><span class="op">)</span></span></code></pre></div>
 <p>Alternatively, you can install it from GitHub using the <a href="https://remotes.r-lib.org" class="external-link">remotes</a> package.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"lianos/sparrow"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"lianos/sparrow"</span><span class="op">)</span></span></code></pre></div>
 <p>To install the shiny bits for this package, you can install the <code>{sparrow.shiny}</code> in a similar way as described above.</p>
 </div>
 <div class="section level2">
@@ -207,7 +207,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>

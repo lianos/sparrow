@@ -66,22 +66,22 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">calculateIndividualLogFC</span><span class="op">(</span>
-  <span class="va">x</span>,
-  <span class="va">design</span>,
-  contrast <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">design</span><span class="op">)</span>,
-  robust.fit <span class="op">=</span> <span class="cn">FALSE</span>,
-  robust.eBayes <span class="op">=</span> <span class="cn">FALSE</span>,
-  trend.eBayes <span class="op">=</span> <span class="cn">FALSE</span>,
-  treat.lfc <span class="op">=</span> <span class="cn">NULL</span>,
-  weights <span class="op">=</span> <span class="cn">NULL</span>,
-  confint <span class="op">=</span> <span class="cn">TRUE</span>,
-  with.fit <span class="op">=</span> <span class="cn">FALSE</span>,
-  use.qlf <span class="op">=</span> <span class="cn">TRUE</span>,
-  <span class="va">...</span>,
-  xmeta. <span class="op">=</span> <span class="cn">NULL</span>,
-  as.dt <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">calculateIndividualLogFC</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  <span class="va">design</span>,</span>
+<span>  contrast <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">design</span><span class="op">)</span>,</span>
+<span>  robust.fit <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  robust.eBayes <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  trend.eBayes <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  treat.lfc <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  weights <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  confint <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  with.fit <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  use.qlf <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  <span class="va">...</span>,</span>
+<span>  xmeta. <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  as.dt <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -90,8 +90,12 @@
 <dd><p>The expression object. This can be 1 column matrix if you are not
 running any analysis, and this function essentially is just a
 "pass through"</p></dd>
+
+
 <dt>design</dt>
 <dd><p>The design matrix for the experiment</p></dd>
+
+
 <dt>contrast</dt>
 <dd><p>The contrast you want to test and provide stats for. By
 default this tests the last column of the <code>design</code> matrix. If you
@@ -100,47 +104,72 @@ means that it should be as long as <code>ncol(design)</code> and it most-often s
 one. In the future, the user will be able to specify a range of
 coefficients over <code>design</code> to perform an ANOVA analysis, cf.
 Issue #11 (https://github.com/lianos/multiGSEA/issues/11).</p></dd>
+
+
 <dt>robust.fit</dt>
 <dd><p>The value of the <code>robust</code> parameter to pass down to the
 <code><a href="https://rdrr.io/pkg/limma/man/lmFit.html" class="external-link">limma::lmFit()</a></code> function. Defaults to <code>FALSE</code>.</p></dd>
+
+
 <dt>robust.eBayes</dt>
 <dd><p>The value of the <code>robust</code> parameter to pass down to
 the limma::eBayes()] function.</p></dd>
+
+
 <dt>trend.eBayes</dt>
 <dd><p>The value of the <code>trend</code> parameter to pass down to the
 <code><a href="https://rdrr.io/pkg/limma/man/ebayes.html" class="external-link">limma::eBayes()</a></code> function.</p></dd>
+
+
 <dt>treat.lfc</dt>
 <dd><p>If this is numeric, this activates limma's "treat"
 functionality and tests for differential expression against this
 specified log fold change threshold. This defaults to <code>NULL</code>.</p></dd>
+
+
 <dt>weights</dt>
 <dd><p>an option matrix of weights to use in <code><a href="https://rdrr.io/pkg/limma/man/lmFit.html" class="external-link">limma::lmFit()</a></code>.
 If <code>x</code> is an EList already, and <code>x$weights</code> is already defined, this
 argument will be ignored.</p></dd>
+
+
 <dt>confint</dt>
 <dd><p>add confidence intervals to <code>topTable</code> output (default
 <code>TRUE</code>)? Ignored if <code>x</code> is a <code>DGEList</code>.</p></dd>
+
+
 <dt>with.fit</dt>
 <dd><p>If <code>TRUE</code>, this function returns a list object with
 both the fit and the table of logFC statistics, otherwise just the
 logFC statistics table is returned.</p></dd>
+
+
 <dt>use.qlf</dt>
 <dd><p>If <code>TRUE</code> (default), will use edgeR's quasilikelihood
 framework for analysis, otherwise uses glmFit/glmTest.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>parameters passed down into the relevant limma/edgeR based
 functions.</p></dd>
+
+
 <dt>xmeta.</dt>
 <dd><p>a data.frame to add meta data (symbol, primarly) to the outgoing
 logFC data.frame. This is used when <code>x</code> was a vector (pre-ranked).</p></dd>
+
+
 <dt>as.dt</dt>
 <dd><p>If <code>FALSE</code> (default), the data.frame like thing that
 this funciton returns will be set to a data.frame. Set this to <code>TRUE</code>
 to keep this object as a <code>data.table</code></p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>If <code>with.fit == FALSE</code> (the default) a <code>data.table</code> of
+    
+
+<p>If <code>with.fit == FALSE</code> (the default) a <code>data.table</code> of
 logFC statistics for the contrast under test. Otherwise, a list is
 returned with <code>$result</code> containing the logFC statistics, and
 <code>$fit</code> has the limma fit for the data/design/contrast under test.</p>
@@ -167,8 +196,8 @@ a logFC-like data.frame is constructed with these statistics in the
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">vm</span> <span class="op">&lt;-</span> <span class="fu"><a href="examples.html">exampleExpressionSet</a></span><span class="op">(</span>do.voom <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">lfc</span> <span class="op">&lt;-</span> <span class="fu">calculateIndividualLogFC</span><span class="op">(</span><span class="va">vm</span>, <span class="va">vm</span><span class="op">$</span><span class="va">design</span>, <span class="st">"tumor"</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">vm</span> <span class="op">&lt;-</span> <span class="fu"><a href="examples.html">exampleExpressionSet</a></span><span class="op">(</span>do.voom <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">lfc</span> <span class="op">&lt;-</span> <span class="fu">calculateIndividualLogFC</span><span class="op">(</span><span class="va">vm</span>, <span class="va">vm</span><span class="op">$</span><span class="va">design</span>, <span class="st">"tumor"</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -183,7 +212,7 @@ a logFC-like data.frame is constructed with these statistics in the
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

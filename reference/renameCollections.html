@@ -68,31 +68,38 @@ names to ones specified by the user.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">renameCollections</span><span class="op">(</span><span class="va">x</span>, rename <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">renameCollections</span><span class="op">(</span><span class="va">x</span>, rename <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>A GeneSetDb object</p></dd>
+
+
 <dt>rename</dt>
 <dd><p>a named character vector. <code>names(rename)</code> are the names of
 the collection you want to rename, and their values are the new names.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>pass it along</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>GeneSetDb <code>x</code> with renamed <code>geneSets(x)$collection</code> values.</p>
+    
+
+<p>GeneSetDb <code>x</code> with renamed <code>geneSets(x)$collection</code> values.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="examples.html">exampleGeneSetDb</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">ngdb</span> <span class="op">&lt;-</span> <span class="fu">renameCollections</span><span class="op">(</span><span class="va">gdb</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c2"</span> <span class="op">=</span> <span class="st">"MSigDB C2"</span>, <span class="st">"c7"</span> <span class="op">=</span> <span class="st">"ImmuneSigDb"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span></span>
-<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/base/unname.html" class="external-link">unname</a></span><span class="op">(</span><span class="fu"><a href="collectionMetadata.html">geneSetURL</a></span><span class="op">(</span><span class="va">gdb</span>, <span class="st">"c7"</span>, <span class="st">"GSE3982_BCELL_VS_TH2_DN"</span><span class="op">)</span><span class="op">)</span>,</span>
-<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/base/unname.html" class="external-link">unname</a></span><span class="op">(</span><span class="fu"><a href="collectionMetadata.html">geneSetURL</a></span><span class="op">(</span><span class="va">ngdb</span>, <span class="st">"ImmuneSigDb"</span>, <span class="st">"GSE3982_BCELL_VS_TH2_DN"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="examples.html">exampleGeneSetDb</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">ngdb</span> <span class="op">&lt;-</span> <span class="fu">renameCollections</span><span class="op">(</span><span class="va">gdb</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c2"</span> <span class="op">=</span> <span class="st">"MSigDB C2"</span>, <span class="st">"c7"</span> <span class="op">=</span> <span class="st">"ImmuneSigDb"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/unname.html" class="external-link">unname</a></span><span class="op">(</span><span class="fu"><a href="collectionMetadata.html">geneSetURL</a></span><span class="op">(</span><span class="va">gdb</span>, <span class="st">"c7"</span>, <span class="st">"GSE3982_BCELL_VS_TH2_DN"</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/unname.html" class="external-link">unname</a></span><span class="op">(</span><span class="fu"><a href="collectionMetadata.html">geneSetURL</a></span><span class="op">(</span><span class="va">ngdb</span>, <span class="st">"ImmuneSigDb"</span>, <span class="st">"GSE3982_BCELL_VS_TH2_DN"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 </code></pre></div>
     </div>
@@ -108,7 +115,7 @@ the collection you want to rename, and their values are the new names.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

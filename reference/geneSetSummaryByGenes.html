@@ -70,50 +70,56 @@ have any of the <code>features</code> are included in the table returned.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">geneSetSummaryByGenes</span><span class="op">(</span>
-  <span class="va">x</span>,
-  <span class="va">features</span>,
-  with.features <span class="op">=</span> <span class="cn">TRUE</span>,
-  feature.rename <span class="op">=</span> <span class="cn">NULL</span>,
-  <span class="va">...</span>,
-  as.dt <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span>
-
-<span class="co"># S4 method for GeneSetDb</span>
-<span class="fu">geneSetSummaryByGenes</span><span class="op">(</span>
-  <span class="va">x</span>,
-  <span class="va">features</span>,
-  with.features <span class="op">=</span> <span class="cn">TRUE</span>,
-  feature.rename <span class="op">=</span> <span class="cn">NULL</span>,
-  <span class="va">...</span>,
-  as.dt <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span>
-
-<span class="co"># S4 method for SparrowResult</span>
-<span class="fu">geneSetSummaryByGenes</span><span class="op">(</span>
-  <span class="va">x</span>,
-  <span class="va">features</span>,
-  with.features <span class="op">=</span> <span class="cn">TRUE</span>,
-  feature.rename <span class="op">=</span> <span class="cn">NULL</span>,
-  method <span class="op">=</span> <span class="cn">NULL</span>,
-  max.p <span class="op">=</span> <span class="fl">0.3</span>,
-  p.col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"padj"</span>, <span class="st">"padj.by.collection"</span>, <span class="st">"pval"</span><span class="op">)</span>,
-  <span class="va">...</span>,
-  as.dt <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">geneSetSummaryByGenes</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  <span class="va">features</span>,</span>
+<span>  with.features <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  feature.rename <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">...</span>,</span>
+<span>  as.dt <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S4 method for GeneSetDb</span></span>
+<span><span class="fu">geneSetSummaryByGenes</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  <span class="va">features</span>,</span>
+<span>  with.features <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  feature.rename <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">...</span>,</span>
+<span>  as.dt <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S4 method for SparrowResult</span></span>
+<span><span class="fu">geneSetSummaryByGenes</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  <span class="va">features</span>,</span>
+<span>  with.features <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  feature.rename <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  method <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  max.p <span class="op">=</span> <span class="fl">0.3</span>,</span>
+<span>  p.col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"padj"</span>, <span class="st">"padj.by.collection"</span>, <span class="st">"pval"</span><span class="op">)</span>,</span>
+<span>  <span class="va">...</span>,</span>
+<span>  as.dt <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p><code>GeneSetDb</code> or <code>SparrowResult</code></p></dd>
+
+
 <dt>features</dt>
 <dd><p>a character vector of featureIds</p></dd>
+
+
 <dt>with.features</dt>
 <dd><p>Include columns for <code>features</code>? If <code>x</code> is
 is a <code>GeneSetDb</code>, these columns are <code>TRUE</code>/<code>FALSE</code>. If
 <code>x</code> is a <code>SparrowResult</code> object, the values are the logFC of
 the feature if present in the gene set, otherwise its <code>NA</code>.</p></dd>
+
+
 <dt>feature.rename</dt>
 <dd><p>if <code>NULL</code>, the feature columns are prefixed with
 <code>featureId_</code>, if <code>FALSE</code>, no renaming is done. If <code>x</code> is
@@ -121,24 +127,37 @@ a <code>SparrowResult</code>, then this can be the column name found in
 <code>logFC(x)</code>, in which case the value for the feature from the given
 column name would be used (setting this to <code>"symbol"</code>) would be a
 common thing to do, for instance.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>pass through arguments</p></dd>
+
+
 <dt>as.dt</dt>
 <dd><p>If <code>FALSE</code> (default), the data.frame like thing that
 this funciton returns will be set to a data.frame. Set this to <code>TRUE</code>
 to keep this object as a <code>data.table</code></p></dd>
+
+
 <dt>method</dt>
 <dd><p>The GSEA method to pull statistics from</p></dd>
+
+
 <dt>max.p</dt>
 <dd><p>the maximum p-value from the analysis <code>method</code> to allow for the
 geneSets included in the returned table</p></dd>
+
+
 <dt>p.col</dt>
 <dd><p>which p-value column to select from: <code>'padj'</code>,
 <code>'padj.by.collection'</code>, or <code>'pval'</code></p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>a data.frame of geneset &lt;-&gt; feature incidence/feature matrix.</p>
+    
+
+<p>a data.frame of geneset &lt;-&gt; feature incidence/feature matrix.</p>
     </div>
     <div id="methods-by-class-">
     <h2>Methods (by class)</h2>
@@ -150,13 +169,13 @@ a given gsea <code>method</code></p></li>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">vm</span> <span class="op">&lt;-</span> <span class="fu"><a href="examples.html">exampleExpressionSet</a></span><span class="op">(</span>do.voom<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="conform.html">conform</a></span><span class="op">(</span><span class="fu"><a href="examples.html">exampleGeneSetDb</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">vm</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">mg</span> <span class="op">&lt;-</span> <span class="fu"><a href="seas.html">seas</a></span><span class="op">(</span><span class="va">vm</span>, <span class="va">gdb</span>, design <span class="op">=</span> <span class="va">vm</span><span class="op">$</span><span class="va">design</span>, contrast <span class="op">=</span> <span class="st">'tumor'</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">features</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"55839"</span>, <span class="st">"8522"</span>, <span class="st">"29087"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">gsm.hit</span> <span class="op">&lt;-</span> <span class="fu">geneSetSummaryByGenes</span><span class="op">(</span><span class="va">gdb</span>, <span class="va">features</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">gsm.fid</span> <span class="op">&lt;-</span> <span class="fu">geneSetSummaryByGenes</span><span class="op">(</span><span class="va">mg</span>, <span class="va">features</span>, feature.rename<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">gsm.sym</span> <span class="op">&lt;-</span> <span class="fu">geneSetSummaryByGenes</span><span class="op">(</span><span class="va">mg</span>, <span class="va">features</span>, feature.rename<span class="op">=</span><span class="st">'symbol'</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">vm</span> <span class="op">&lt;-</span> <span class="fu"><a href="examples.html">exampleExpressionSet</a></span><span class="op">(</span>do.voom<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="conform.html">conform</a></span><span class="op">(</span><span class="fu"><a href="examples.html">exampleGeneSetDb</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">vm</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">mg</span> <span class="op">&lt;-</span> <span class="fu"><a href="seas.html">seas</a></span><span class="op">(</span><span class="va">vm</span>, <span class="va">gdb</span>, design <span class="op">=</span> <span class="va">vm</span><span class="op">$</span><span class="va">design</span>, contrast <span class="op">=</span> <span class="st">'tumor'</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">features</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"55839"</span>, <span class="st">"8522"</span>, <span class="st">"29087"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">gsm.hit</span> <span class="op">&lt;-</span> <span class="fu">geneSetSummaryByGenes</span><span class="op">(</span><span class="va">gdb</span>, <span class="va">features</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">gsm.fid</span> <span class="op">&lt;-</span> <span class="fu">geneSetSummaryByGenes</span><span class="op">(</span><span class="va">mg</span>, <span class="va">features</span>, feature.rename<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">gsm.sym</span> <span class="op">&lt;-</span> <span class="fu">geneSetSummaryByGenes</span><span class="op">(</span><span class="va">mg</span>, <span class="va">features</span>, feature.rename<span class="op">=</span><span class="st">'symbol'</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -171,7 +190,7 @@ a given gsea <code>method</code></p></li>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>
