@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sparrow</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.6</span>
       </span>
     </div>
 
@@ -123,11 +123,7 @@
 <dd><p>not used yet</p></dd>
 
 
-<dt>i</dt>
-<dd><p>The collection,name compound key identifier of the gene set</p></dd>
-
-
-<dt>j</dt>
+<dt>i, j</dt>
 <dd><p>The collection,name compound key identifier of the gene set</p></dd>
 
 
@@ -191,14 +187,14 @@ below.</p>
     <div id="methods-by-class-">
     <h2>Methods (by class)</h2>
     
-<ul><li><p><code>x = GeneSetDb,collection = missing,name = missing</code>: Returns metadata for all collections</p></li>
-<li><p><code>x = GeneSetDb,collection = character,name = missing</code>: Returns all metadata for a specific collection</p></li>
-<li><p><code>x = GeneSetDb,collection = character,name = character</code>: Returns the <code>name</code> metadata value for a given
+<ul><li><p><code>collectionMetadata(x = GeneSetDb, collection = missing, name = missing)</code>: Returns metadata for all collections</p></li>
+<li><p><code>collectionMetadata(x = GeneSetDb, collection = character, name = missing)</code>: Returns all metadata for a specific collection</p></li>
+<li><p><code>collectionMetadata(x = GeneSetDb, collection = character, name = character)</code>: Returns the <code>name</code> metadata value for a given
 <code>collection</code>.</p></li>
-<li><p><code>GeneSetDb</code>: returns the URL for a geneset</p></li>
-<li><p><code>GeneSetDb</code>: sets the feature id type for a collection</p></li>
-<li><p><code>GeneSetDb</code>: retrieves the feature id type for a collection</p></li>
-<li><p><code>SparrowResult</code>: returns the URL for a geneset from a
+<li><p><code>geneSetURL(GeneSetDb)</code>: returns the URL for a geneset</p></li>
+<li><p><code>featureIdType(GeneSetDb) &lt;- value</code>: sets the feature id type for a collection</p></li>
+<li><p><code>featureIdType(GeneSetDb)</code>: retrieves the feature id type for a collection</p></li>
+<li><p><code>geneSetURL(SparrowResult)</code>: returns the URL for a geneset from a
 SparrowResult object</p></li>
 </ul></div>
     <div id="gene-set-urls">
@@ -210,13 +206,13 @@ SparrowResult object</p></li>
 compound key and generates a URL for the gene set that the user can browse
 to for futher information. For instance, the
 <code><a href="geneSetCollectionURLfunction.html">geneSetCollectionURLfunction()</a></code> for the MSigDB collections are defined
-like so:</p><div class="sourceCode"><pre><code><span><span class="va">url.fn</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">collection</span>, <span class="va">name</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">url</span> <span class="op">&lt;-</span> <span class="st">'http://www.broadinstitute.org/gsea/msigdb/cards/%s.html'</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span><span class="va">url</span>, <span class="va">name</span><span class="op">)</span></span>
-<span><span class="op">}</span></span>
-<span><span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/getMSigCollection.html">getMSigGeneSetDb</a></span><span class="op">(</span><span class="st">'H'</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/geneSetCollectionURLfunction.html">geneSetCollectionURLfunction</a></span><span class="op">(</span><span class="va">gdb</span>, <span class="st">'H'</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">url.fn</span></span></code></pre></div>
-
+like so:</p>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>url.fn <span class="ot">&lt;-</span> <span class="cf">function</span>(collection, name) {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  url <span class="ot">&lt;-</span> <span class="st">'http://www.broadinstitute.org/gsea/msigdb/cards/%s.html'</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sprintf</span>(url, name)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>gdb <span class="ot">&lt;-</span> <span class="fu">getMSigGeneSetDb</span>(<span class="st">'H'</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">geneSetCollectionURLfunction</span>(gdb, <span class="st">'H'</span>) <span class="ot">&lt;-</span> url.fn</span></code></pre><p></p></div>
 <p>In this way, a call to <code>geneSetURL(gdb, 'H', 'HALLMARK_ANGIOGENESIS')</code>
 will return
 http://www.broadinstitute.org/gsea/msigdb/cards/HALLMARK_ANGIOGENESIS.html.</p>
@@ -231,11 +227,11 @@ http://www.broadinstitute.org/gsea/msigdb/cards/HALLMARK_ANGIOGENESIS.html.</p>
 be of the same type. Most often you'll probably be working with Entrez
 identifiers, simply because that's what most of the annotations work with.</p>
 <p>As such, you'd define that your collection uses geneset identifiers like
-so:</p><div class="sourceCode"><pre><code><span><span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/getMSigCollection.html">getMSigGeneSetDb</a></span><span class="op">(</span><span class="st">'H'</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/collectionMetadata.html">featureIdType</a></span><span class="op">(</span><span class="va">gdb</span>, <span class="st">'H'</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu">GSEABase</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/GSEABase/man/GeneIdentifierType-constructors.html" class="external-link">ENSEMBLIdentifier</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">## or, equivalently (but you don't want to use this)</span></span>
-<span><span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/collectionMetadata.html">addCollectionMetadata</a></span><span class="op">(</span><span class="va">gdb</span>, <span class="st">'H'</span>, <span class="st">'id_type'</span>, <span class="fu">GSEABase</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/GSEABase/man/GeneIdentifierType-constructors.html" class="external-link">ENSEMBLIdentifier</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-
+so:</p>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>gdb <span class="ot">&lt;-</span> <span class="fu">getMSigGeneSetDb</span>(<span class="st">'H'</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">featureIdType</span>(gdb, <span class="st">'H'</span>) <span class="ot">&lt;-</span> GSEABase<span class="sc">::</span><span class="fu">ENSEMBLIdentifier</span>()</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="do">## or, equivalently (but you don't want to use this)</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>gdb <span class="ot">&lt;-</span> <span class="fu">addCollectionMetadata</span>(gdb, <span class="st">'H'</span>, <span class="st">'id_type'</span>, GSEABase<span class="sc">::</span><span class="fu">ENSEMBLIdentifier</span>())</span></code></pre><p></p></div>
     </div>
     <div id="adding-arbitrary-collectionmetadata">
     <h2>Adding arbitrary collectionMetadata</h2>
@@ -247,9 +243,9 @@ so:</p><div class="sourceCode"><pre><code><span><span class="va">gdb</span> <spa
 object to keep the one with the updated <code>collectionMetadata</code>. Although this
 function is exported, I imagine this being used mostly through predefined
 replace methods that use this as a utility function, such as the replacement
-methods <code>featureIdType&lt;-</code>, <code>geneSetURLfunction&lt;-</code>, etc.</p><div class="sourceCode"><pre><code><span><span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/getMSigCollection.html">getMSigGeneSetDb</a></span><span class="op">(</span><span class="st">'H'</span><span class="op">)</span></span>
-<span><span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/collectionMetadata.html">addCollectionMetadata</a></span><span class="op">(</span><span class="va">gdb</span>, <span class="st">'H'</span>, <span class="st">'foo'</span>, <span class="st">'bar'</span><span class="op">)</span></span></code></pre></div>
-
+methods <code>featureIdType&lt;-</code>, <code>geneSetURLfunction&lt;-</code>, etc.</p>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>gdb <span class="ot">&lt;-</span> <span class="fu">getMSigGeneSetDb</span>(<span class="st">'H'</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>gdb <span class="ot">&lt;-</span> <span class="fu">addCollectionMetadata</span>(gdb, <span class="st">'H'</span>, <span class="st">'foo'</span>, <span class="st">'bar'</span>)</span></code></pre><p></p></div>
     </div>
 
     <div id="ref-examples">
@@ -285,7 +281,7 @@ methods <code>featureIdType&lt;-</code>, <code>geneSetURLfunction&lt;-</code>, e
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by Steve Lianoglou, Denali Therapeutics, Genentech.</p>
+  <p></p><p>Developed by Steve Lianoglou, Aratus Informatics, LLC, Denali Therapeutics, Genentech.</p>
 </div>
 
 <div class="pkgdown">

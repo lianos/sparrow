@@ -21,7 +21,7 @@ arguments down through the ... of this wrapper function.'><!-- mathjax --><scrip
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sparrow</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.6</span>
       </span>
     </div>
 
@@ -162,25 +162,24 @@ conjunction with <code>feature.min.logFC</code>.</p></dd>
 
 
 <dt>score.by</dt>
-<dd><p>this was the original <code>rank_by</code>. We need to reconcile the
-two. <code>score.by</code> is a parameter that is passed down into the do.* functions,
-and <code>rank_by</code> and other <code>underscored_variables</code> tend to be ones that are
-consumed by high-level/front facing function, like the difference between
-<code>do.ora()</code> and <code><a href="ora.html">ora()</a></code>.</p></dd>
+<dd><p>This tells us how to rank the features after differential
+expression analysis when <code>x</code> is an expression container. It specifies the
+name of the column to use downstream of a differential expression analysis
+over <code>x</code>. If <code>x</code> is a data.frame that needs to be ranked, see <code>rank_by</code>.</p></dd>
 
 
 <dt>rank_by</dt>
-<dd><p>the name of a column that should be used to rank the features
-in <code>x</code> for pre-ranked gsea tests like cameraPR or fgsea. Only works when
-<code>x</code> is a data.frame-like input. <code>rank_by</code> overrides <code>score.by</code></p></dd>
+<dd><p>Only works when <code>x</code> is a data.frame-like input. The name of a
+column that should be used to rank the features in <code>x</code> for pre-ranked gsea
+tests like cameraPR or fgsea.  <code>rank_by</code> overrides <code>score.by</code></p></dd>
 
 
 <dt>rank_order</dt>
-<dd><p>specify how the features in <code>x</code> should be used to rank
-the features in <code>x</code> using the <code>rank_by</code> column. Accepted values are:
+<dd><p>Only used when <code>x</code> is a data.frame-like input. Specifies
+how the features in <code>x</code> should be used to rank the features in <code>x</code> using
+the <code>rank_by</code> column. Accepted values are:
 <code>"ordered"</code> (default) means that the rows in <code>x</code> are pre-ranked already.
-<code>"descendeing"</code>, and <code>"ascending"</code>. Only used when <code>x</code> is a
-data.frame-like input.</p></dd>
+<code>"descendeing"</code>, and <code>"ascending"</code>.</p></dd>
 
 
 <dt>xmeta.</dt>
@@ -325,7 +324,7 @@ passed down to that funciton.</p>
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by Steve Lianoglou, Denali Therapeutics, Genentech.</p>
+  <p></p><p>Developed by Steve Lianoglou, Aratus Informatics, LLC, Denali Therapeutics, Genentech.</p>
 </div>
 
 <div class="pkgdown">
