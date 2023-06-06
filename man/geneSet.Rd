@@ -37,9 +37,7 @@ geneSet(x, i, j, ...)
 \item{x}{Object to retrieve the gene set from, either a \code{GeneSetDb} or a
 \code{SparrowResult}.}
 
-\item{i}{The collection,name compound key identifier of the gene set}
-
-\item{j}{The collection,name compound key identifier of the gene set}
+\item{i, j}{The collection,name compound key identifier of the gene set}
 
 \item{...}{passed down to inner functinos}
 

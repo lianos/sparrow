@@ -67,21 +67,20 @@ conjunction with \code{feature.min.logFC}.}
 \item{...}{The arguments are passed down into
 \code{\link[=calculateIndividualLogFC]{calculateIndividualLogFC()}} and the various geneset analysis functions.}
 
-\item{score.by}{this was the original \code{rank_by}. We need to reconcile the
-two. \code{score.by} is a parameter that is passed down into the do.* functions,
-and \code{rank_by} and other \code{underscored_variables} tend to be ones that are
-consumed by high-level/front facing function, like the difference between
-\code{do.ora()} and \code{ora()}.}
+\item{score.by}{This tells us how to rank the features after differential
+expression analysis when \code{x} is an expression container. It specifies the
+name of the column to use downstream of a differential expression analysis
+over \code{x}. If \code{x} is a data.frame that needs to be ranked, see \code{rank_by}.}
 
-\item{rank_by}{the name of a column that should be used to rank the features
-in \code{x} for pre-ranked gsea tests like cameraPR or fgsea. Only works when
-\code{x} is a data.frame-like input. \code{rank_by} overrides \code{score.by}}
+\item{rank_by}{Only works when \code{x} is a data.frame-like input. The name of a
+column that should be used to rank the features in \code{x} for pre-ranked gsea
+tests like cameraPR or fgsea.  \code{rank_by} overrides \code{score.by}}
 
-\item{rank_order}{specify how the features in \code{x} should be used to rank
-the features in \code{x} using the \code{rank_by} column. Accepted values are:
+\item{rank_order}{Only used when \code{x} is a data.frame-like input. Specifies
+how the features in \code{x} should be used to rank the features in \code{x} using
+the \code{rank_by} column. Accepted values are:
 \code{"ordered"} (default) means that the rows in \code{x} are pre-ranked already.
-\code{"descendeing"}, and \code{"ascending"}. Only used when \code{x} is a
-data.frame-like input.}
+\code{"descendeing"}, and \code{"ascending"}.}
 
 \item{xmeta.}{A hack to support data.frame inputs for \code{x}. End users should
 not use this.}

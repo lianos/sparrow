@@ -31,9 +31,9 @@ Subset a GeneSetDb to only include geneSets with specified features.
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{GeneSetDb}: subset GeneSetDb by feature id's
-}}
+\item \code{subsetByFeatures(GeneSetDb)}: subset GeneSetDb by feature id's
 
+}}
 \examples{
 gdb <- exampleGeneSetDb()
 features <- c("55839", "8522", "29087")

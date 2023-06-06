@@ -85,10 +85,10 @@ enrichment testing
 }
 \section{Functions}{
 \itemize{
-\item \code{plot_ora_bias}: plots the bias of coviarate to DE / selected status. Code
+\item \code{plot_ora_bias()}: plots the bias of coviarate to DE / selected status. Code
 taken from \code{\link[limma:goana]{limma::kegga()}}
-}}
 
+}}
 \examples{
 dgestats <- exampleDgeResult()
 gdb <- randomGeneSetDb(dgestats)

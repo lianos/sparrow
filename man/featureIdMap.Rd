@@ -28,9 +28,9 @@ expression object that is used to run GSEA methods against.
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{GeneSetDb}: extract featureIdMap from a GeneSetDb
-}}
+\item \code{featureIdMap(GeneSetDb)}: extract featureIdMap from a GeneSetDb
 
+}}
 \examples{
 gdb <- exampleGeneSetDb()
 vm <- exampleExpressionSet()

@@ -41,16 +41,16 @@ Reference \code{\link[=collectionMetadata]{collectionMetadata()}} for more info.
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{GeneSetDb}: returns the gene set collection
+\item \code{geneSetCollectionURLfunction(GeneSetDb)}: returns the gene set collection
 url function from a GeneSetDb
 
-\item \code{GeneSetDb}: sets the gene set collection url
+\item \code{geneSetCollectionURLfunction(GeneSetDb) <- value}: sets the gene set collection url
 function for a \code{GeneSetDb : Collection} combination.
 
-\item \code{SparrowResult}: return the url function from a
+\item \code{geneSetCollectionURLfunction(SparrowResult)}: return the url function from a
 \code{SparrowResult} object.
-}}
 
+}}
 \examples{
 gdb <- exampleGeneSetDb()
 geneSetCollectionURLfunction(gdb, "c2", "BIOCARTA_AGPCR_PATHWAY")

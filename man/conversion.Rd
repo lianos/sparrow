@@ -79,9 +79,9 @@ this option, the features will be provided in the target space.
 }
 \section{Functions}{
 \itemize{
-\item \code{as.data.frame.GeneSetDb}: convert a GeneSetDb to data.frame
-}}
+\item \code{as.data.frame(GeneSetDb)}: convert a GeneSetDb to data.frame
 
+}}
 \examples{
 es <- exampleExpressionSet()
 gdb <- conform(exampleGeneSetDb(), es)

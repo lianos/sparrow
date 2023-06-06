@@ -100,11 +100,11 @@ will be axed.
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{BiocSet}: converts identifiers in a BiocSet
+\item \code{convertIdentifiers(BiocSet)}: converts identifiers in a BiocSet
 
-\item \code{GeneSetDb}: converts identifiers in a GeneSetDb
+\item \code{convertIdentifiers(GeneSetDb)}: converts identifiers in a GeneSetDb
+
 }}
-
 \section{Custom Mapping}{
 
 You need to provide a data.frame via the \code{xref} paramater that has a column

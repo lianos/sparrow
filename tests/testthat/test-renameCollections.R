@@ -5,7 +5,7 @@ test_that("Renaming collections maintains dataset integreity", {
     geneset = c("BIOCARTA_AGPCR_PATHWAY", "GSE3982_BCELL_VS_TH2_DN"))
   unchanged <- list(collection = "c6", geneset = "CAMP_UP.V1_DN")
 
-  rename <- setNames(check$new_collection, check$old_collection)
+  rename <- setNames(check$old_collection, check$new_collection)
 
   gdb <- exampleGeneSetDb()
   ngdb <- renameCollections(gdb, rename)

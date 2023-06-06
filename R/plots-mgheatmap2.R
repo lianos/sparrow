@@ -48,7 +48,6 @@
 #' the "Examples" section here.
 #'
 #' @export
-#' @importFrom circlize colorRamp2
 #' @importFrom ComplexHeatmap Heatmap
 #' @importFrom viridis viridis
 #'
@@ -95,8 +94,8 @@
 #'   a paramter here assumes you want to rename the rows of the heatmap.
 #'   Please refer to the "Renaming Rows" section for details.
 #' @param zlim A `length(zlim) == 2` numeric vector that defines the min and max
-#'   values from `x` for the `colorRamp2` call. If the heatmap that is being
-#'   drawn is "0-centered"-ish, then this defines the real values of the
+#'   values from `x` for the `circlize::colorRamp2` call. If the heatmap that is
+#'   being drawn is "0-centered"-ish, then this defines the real values of the
 #'   fenceposts. If not, then these define the quantiles to trim off the top
 #'   or bottom.
 #' @param transpose Flip display so that rows are columns. Default is `FALSE`.
@@ -249,7 +248,7 @@ mgheatmap2 <- function(x, gdb = NULL, col = NULL,
       } else {
         stopifnot(zlim[1L] < 0, zlim[2L] > 0)
       }
-      col <- colorRamp2(
+      col <- circlize::colorRamp2(
         c(zlim[1L], 0, zlim[2L]),
         # c('#1F294E', '#F7F7F7', '#6E0F11')
         c("navy", "white", "firebrick")
@@ -270,7 +269,7 @@ mgheatmap2 <- function(x, gdb = NULL, col = NULL,
       }
       breaks[1] <- fpost[1]
       breaks[21] <- fpost[2]
-      col <- colorRamp2(breaks, viridis::viridis(21))
+      col <- circlize::colorRamp2(breaks, viridis::viridis(21))
     }
   }
   stopifnot(is.function(col))

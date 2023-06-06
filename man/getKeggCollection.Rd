@@ -35,9 +35,9 @@ database according to their licensing requirements.
 }
 \section{Functions}{
 \itemize{
-\item \code{getKeggGeneSetDb}: method that returns a GeneSetDb
-}}
+\item \code{getKeggGeneSetDb()}: method that returns a GeneSetDb
 
+}}
 \examples{
 \donttest{
 # connects to the internet and takes a while

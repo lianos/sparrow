@@ -50,7 +50,6 @@
 #' the "Examples" section here.
 #'
 #' @export
-#' @importFrom circlize colorRamp2
 #' @importFrom ComplexHeatmap Heatmap
 #' @importFrom viridis viridis
 #' @seealso [mgheatmap2()]
@@ -300,7 +299,7 @@ mgheatmap <- function(x, gdb = NULL, col = NULL,
       } else {
         fpost <- zlim
       }
-      col <- colorRamp2(
+      col <- circlize::colorRamp2(
         c(fpost[1L], 0, fpost[2L]),
         c('#1F294E', '#F7F7F7', '#6E0F11'))
     } else {
@@ -317,7 +316,7 @@ mgheatmap <- function(x, gdb = NULL, col = NULL,
         fpost <- zlim
       }
       breaks <- seq(fpost[1], fpost[2], length.out = 21)
-      col <- colorRamp2(breaks, viridis::viridis(21))
+      col <- circlize::colorRamp2(breaks, viridis::viridis(21))
     }
   }
   stopifnot(is.function(col))

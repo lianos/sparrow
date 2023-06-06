@@ -56,9 +56,7 @@ addCollectionMetadata(
 
 \item{...}{not used yet}
 
-\item{i}{The collection,name compound key identifier of the gene set}
-
-\item{j}{The collection,name compound key identifier of the gene set}
+\item{i, j}{The collection,name compound key identifier of the gene set}
 
 \item{value}{The value of the metadata variable}
 
@@ -107,23 +105,23 @@ below.
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{x = GeneSetDb,collection = missing,name = missing}: Returns metadata for all collections
+\item \code{collectionMetadata(x = GeneSetDb, collection = missing, name = missing)}: Returns metadata for all collections
 
-\item \code{x = GeneSetDb,collection = character,name = missing}: Returns all metadata for a specific collection
+\item \code{collectionMetadata(x = GeneSetDb, collection = character, name = missing)}: Returns all metadata for a specific collection
 
-\item \code{x = GeneSetDb,collection = character,name = character}: Returns the \code{name} metadata value for a given
+\item \code{collectionMetadata(x = GeneSetDb, collection = character, name = character)}: Returns the \code{name} metadata value for a given
 \code{collection}.
 
-\item \code{GeneSetDb}: returns the URL for a geneset
+\item \code{geneSetURL(GeneSetDb)}: returns the URL for a geneset
 
-\item \code{GeneSetDb}: sets the feature id type for a collection
+\item \code{featureIdType(GeneSetDb) <- value}: sets the feature id type for a collection
 
-\item \code{GeneSetDb}: retrieves the feature id type for a collection
+\item \code{featureIdType(GeneSetDb)}: retrieves the feature id type for a collection
 
-\item \code{SparrowResult}: returns the URL for a geneset from a
+\item \code{geneSetURL(SparrowResult)}: returns the URL for a geneset from a
 SparrowResult object
-}}
 
+}}
 \section{Gene Set URLs}{
 
 
@@ -131,13 +129,15 @@ A URL function can be defined per collection that takes the collection,name
 compound key and generates a URL for the gene set that the user can browse
 to for futher information. For instance, the
 \code{geneSetCollectionURLfunction()} for the MSigDB collections are defined
-like so:\preformatted{url.fn <- function(collection, name) \{
+like so:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{url.fn <- function(collection, name) \{
   url <- 'http://www.broadinstitute.org/gsea/msigdb/cards/\%s.html'
   sprintf(url, name)
 \}
 gdb <- getMSigGeneSetDb('H')
 geneSetCollectionURLfunction(gdb, 'H') <- url.fn
-}
+}\if{html}{\out{</div>}}
 
 In this way, a call to \code{geneSetURL(gdb, 'H', 'HALLMARK_ANGIOGENESIS')}
 will return
@@ -154,11 +154,13 @@ be of the same type. Most often you'll probably be working with Entrez
 identifiers, simply because that's what most of the annotations work with.
 
 As such, you'd define that your collection uses geneset identifiers like
-so:\preformatted{gdb <- getMSigGeneSetDb('H')
+so:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{gdb <- getMSigGeneSetDb('H')
 featureIdType(gdb, 'H') <- GSEABase::ENSEMBLIdentifier()
 ## or, equivalently (but you don't want to use this)
 gdb <- addCollectionMetadata(gdb, 'H', 'id_type', GSEABase::ENSEMBLIdentifier())
-}
+}\if{html}{\out{</div>}}
 }
 
 \section{Adding arbitrary collectionMetadata}{
@@ -170,9 +172,11 @@ Note that this is not a replacement method! You must catch the returned
 object to keep the one with the updated \code{collectionMetadata}. Although this
 function is exported, I imagine this being used mostly through predefined
 replace methods that use this as a utility function, such as the replacement
-methods \verb{featureIdType<-}, \verb{geneSetURLfunction<-}, etc.\preformatted{gdb <- getMSigGeneSetDb('H')
+methods \verb{featureIdType<-}, \verb{geneSetURLfunction<-}, etc.
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{gdb <- getMSigGeneSetDb('H')
 gdb <- addCollectionMetadata(gdb, 'H', 'foo', 'bar')
-}
+}\if{html}{\out{</div>}}
 }
 
 \examples{

@@ -38,9 +38,9 @@ version of the \code{PANTHER.db} package in a user-writable directory using
 }
 \section{Functions}{
 \itemize{
-\item \code{getPantherGeneSetDb}: returns a GeneSetDb
-}}
+\item \code{getPantherGeneSetDb()}: returns a GeneSetDb
 
+}}
 \section{GOSLIM}{
 
 \href{http://geneontology.org/page/go-slim-and-subset-guide}{GO Slims} are

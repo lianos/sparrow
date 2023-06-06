@@ -1,7 +1,6 @@
 #' @import data.table
 #' @import methods
 #' @import checkmate
-#' @importFrom circlize colorRamp2
 #' @importFrom utils packageVersion getFromNamespace head tail write.csv
 #' @importFrom stats setNames p.adjust model.matrix density filter phyper quantile runif
 #' @importFrom stats as.dendrogram as.dist cor hclust order.dendrogram

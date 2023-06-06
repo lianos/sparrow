@@ -77,11 +77,11 @@ have any of the \code{features} are included in the table returned.
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{SparrowResult}: get geneset:feature incidence table from
+\item \code{geneSetSummaryByGenes(SparrowResult)}: get geneset:feature incidence table from
 a SparrowResult, optionally filtered by statistical significance from
 a given gsea \code{method}
-}}
 
+}}
 \examples{
 vm <- exampleExpressionSet(do.voom=TRUE)
 gdb <- conform(exampleGeneSetDb(), vm)

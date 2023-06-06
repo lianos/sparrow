@@ -30,10 +30,7 @@ volcanoPlot(
 
 \item{stats}{One of \code{"dge"} or \code{resultNames(x)}}
 
-\item{xaxis}{the column of the the provided (or extracted)
-\code{data.frame} to use for the xaxis and yaxis of the volcano}
-
-\item{yaxis}{the column of the the provided (or extracted)
+\item{xaxis, yaxis}{the column of the the provided (or extracted)
 \code{data.frame} to use for the xaxis and yaxis of the volcano}
 
 \item{idx}{The column of the \code{data.frame} to use as the identifier
@@ -67,9 +64,7 @@ as a threshold such that values less than this will be hexbinned.}
 \item{yhex}{the \code{.yvt} value threshold. Vaues less than this will
 be hexbinned.}
 
-\item{width}{the width and height of the output plotly plot}
-
-\item{height}{the width and height of the output plotly plot}
+\item{width, height}{the width and height of the output plotly plot}
 
 \item{shiny_source}{the name of this element that is used in shiny callbacks.
 Defaults to \code{"mggenes"}.}

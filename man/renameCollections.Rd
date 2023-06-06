@@ -19,12 +19,7 @@ GeneSetDb \code{x} with renamed \code{geneSets(x)$collection} values.
 }
 \description{
 This function remaps names of collections in the database from their current
-names to ones specified by the user.
-}
-\examples{
-gdb <- exampleGeneSetDb()
-ngdb <- renameCollections(gdb, c("c2" = "MSigDB C2", "c7" = "ImmuneSigDb"))
-all.equal(
-  unname(geneSetURL(gdb, "c7", "GSE3982_BCELL_VS_TH2_DN")),
-  unname(geneSetURL(ngdb, "ImmuneSigDb", "GSE3982_BCELL_VS_TH2_DN")))
+names to ones specified by the user, folows the \code{dplyr::rename} convenction
+where \code{names()} of the rename vector are the new names you want, and its
+values are the old names it came from.
 }

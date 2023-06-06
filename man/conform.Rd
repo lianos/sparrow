@@ -71,10 +71,10 @@ downstream gene set operations.
 }
 \section{Functions}{
 \itemize{
-\item \code{is.conformed}: Checks to see if GeneSetDb \code{x} is conformed to a target
+\item \code{is.conformed()}: Checks to see if GeneSetDb \code{x} is conformed to a target
 object \code{to}
-}}
 
+}}
 \section{Related Functions}{
 
 \itemize{

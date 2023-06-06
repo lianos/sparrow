@@ -1,7 +1,7 @@
 Package: sparrow
 Type: Package
 Title: Take command of set enrichment analyses through a unified interface
-Version: 1.1.5
+Version: 1.1.6
 Authors@R: c(
     person(
         "Steve", "Lianoglou", role = c("aut", "cre"),
@@ -121,5 +121,5 @@ Collate:
     'utilities.R'
     'volcano_plot.R'
     'zzz.R'
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.3
 Roxygen: list(markdown = TRUE)

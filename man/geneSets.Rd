@@ -41,15 +41,15 @@ Fetch the active (or all) gene sets from a GeneSetDb or SparrowResult
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{GeneSetDb}: Returns the number of genesets in a GeneSetDb
+\item \code{length(GeneSetDb)}: Returns the number of genesets in a GeneSetDb
 
-\item \code{GeneSetDb}: return all genesets from a GeneSetDb
+\item \code{geneSets(GeneSetDb)}: return all genesets from a GeneSetDb
 
-\item \code{GeneSetDb}: return number of genesets in GeneSetDb
+\item \code{nrow(GeneSetDb)}: return number of genesets in GeneSetDb
 
-\item \code{SparrowResult}: return the active genesets from a SparrowResult
+\item \code{geneSets(SparrowResult)}: return the active genesets from a SparrowResult
+
 }}
-
 \examples{
 gdb <- exampleGeneSetDb()
 gs <- geneSets(gdb)

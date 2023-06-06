@@ -85,8 +85,8 @@ a paramter here assumes you want to rename the rows of the heatmap.
 Please refer to the "Renaming Rows" section for details.}
 
 \item{zlim}{A \code{length(zlim) == 2} numeric vector that defines the min and max
-values from \code{x} for the \code{colorRamp2} call. If the heatmap that is being
-drawn is "0-centered"-ish, then this defines the real values of the
+values from \code{x} for the \code{circlize::colorRamp2} call. If the heatmap that is
+being drawn is "0-centered"-ish, then this defines the real values of the
 fenceposts. If not, then these define the quantiles to trim off the top
 or bottom.}
 

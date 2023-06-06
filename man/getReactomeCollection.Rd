@@ -34,9 +34,9 @@ Retrieve gene set collections from from reactome.db
 }
 \section{Functions}{
 \itemize{
-\item \code{getReactomeGeneSetDb}: returns a GeneSetDb object
-}}
+\item \code{getReactomeGeneSetDb()}: returns a GeneSetDb object
 
+}}
 \examples{
 \donttest{
   bsc.h <- getReactomeCollection("human")

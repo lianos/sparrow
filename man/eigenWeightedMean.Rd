@@ -26,14 +26,9 @@ genes from the given gene set.}
 
 \item{eigengene}{the PC used to extract the gene weights from}
 
-\item{center}{center and/or scale data before scoring?}
+\item{center, scale}{center and/or scale data before scoring?}
 
-\item{scale}{center and/or scale data before scoring?}
-
-\item{uncenter}{uncenter and unscale the data data on the way out?
-Defaults to the respective values of \code{center} and \code{scale}}
-
-\item{unscale}{uncenter and unscale the data data on the way out?
+\item{uncenter, unscale}{uncenter and unscale the data data on the way out?
 Defaults to the respective values of \code{center} and \code{scale}}
 
 \item{retx}{Works the same as \code{retx} from \code{\link[stats]{prcomp}}. If

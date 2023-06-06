@@ -67,9 +67,9 @@ be retrieved by their collection name, ie \code{c("H", "C2", "C7")}.
 }
 \section{Functions}{
 \itemize{
-\item \code{getMSigGeneSetDb}: retrieval method for a GeneSetDb container
-}}
+\item \code{getMSigGeneSetDb()}: retrieval method for a GeneSetDb container
 
+}}
 \section{Species and Identifier types}{
 
 This function utilizes the functionality from the \code{{msigdbr}} and
