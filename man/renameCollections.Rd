@@ -23,3 +23,10 @@ names to ones specified by the user, folows the \code{dplyr::rename} convenction
 where \code{names()} of the rename vector are the new names you want, and its
 values are the old names it came from.
 }
+\examples{
+gdb <- exampleGeneSetDb()
+ngdb <- renameCollections(gdb, c("MSigDB C2" = "c2", "ImmuneSigDb" = "c7"))
+all.equal(
+  unname(geneSetURL(gdb, "c7", "GSE3982_BCELL_VS_TH2_DN")),
+  unname(geneSetURL(ngdb, "ImmuneSigDb", "GSE3982_BCELL_VS_TH2_DN")))
+}
