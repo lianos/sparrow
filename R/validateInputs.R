@@ -34,7 +34,7 @@
 #' ok <- validateInputs(ranks, gdb, methods = c("cameraPR", "fgsea"))
 #' # need full expressionset & design for romer
 #' null <- failWith(NULL, validateInputs(ranks, gdb, methods = "romer"))
-validateInputs <- function(x, design=NULL, contrast=NULL, methods=NULL,
+validateInputs <- function(x, design = NULL, contrast = NULL, methods = NULL,
                            xmeta. = NULL, require.x.rownames=TRUE, ...) {
   if (is.character(methods)) {
     check.gsea.methods(methods)
@@ -46,9 +46,17 @@ validateInputs <- function(x, design=NULL, contrast=NULL, methods=NULL,
     stop("It does not look like estimateDisp has been run on DGEList")
   }
 
-  if ((is(x, "DGEList") || is(x, "EList")) && is.null(x$genes)) {
-    x$genes <- data.frame(feature_id = rownames(x), stringsAsFactors = FALSE)
-    rownames(x$genes) <- rownames(x)
+  if ((is(x, "DGEList") || is(x, "EList"))) {
+    if (is.null(x$genes)) {
+      x$genes <- data.frame(feature_id = rownames(x), stringsAsFactors = FALSE)
+      rownames(x$genes) <- rownames(x)
+    } else if (!is.data.frame(x$genes)) {
+      stop("Somehow your `$genes` object is not a data.frame, please fix your ",
+           class(x)[1], " object")
+    }
+    if (is.null(design)) {
+      design <- x$design
+    }
   }
 
   if (is.vector(x)) {
