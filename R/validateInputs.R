@@ -127,9 +127,15 @@ validateInputs <- function(x, design=NULL, contrast=NULL, methods=NULL,
 #' @noRd
 validate.xmeta <- function(xmeta. = NULL, ...) {
   if (is.null(xmeta.)) return(NULL)
-  if (!is.data.frame(xmeta.)) {
-    stop("If not NULL, xmeta. must be a data.frame")
+  xdim <- dim(xmeta.)
+  is.2d <- is.integer(xdim) && length(xdim) == 2
+  if (!is.2d) {
+    stop("xmeta. needs to be something that is data.frame-like")
   }
+  xmeta. <- as.data.frame(xmeta.)
+  # if (!is.data.frame(xmeta.)) {
+  #   stop("If not NULL, xmeta. must be a data.frame")
+  # }
   # xref.col <- match(c("featureId", "feature_id"), colnames(xmeta.))
   # xref.col <- match("feature_id", colnames(xmeta.))
   # if (all(is.na(xref.col))) {
