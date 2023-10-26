@@ -129,6 +129,14 @@ it's not clear how often these get updated.</p>
 <span class="r-in"><span><span class="co"># this requires you have the PANTHER.db package installed via BiocManager</span></span></span>
 <span class="r-in"><span><span class="va">bsc.panther</span> <span class="op">&lt;-</span> <span class="fu">getPantherCollection</span><span class="op">(</span>species <span class="op">=</span> <span class="st">"human"</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in getPantherGeneSetDb(type, species):</span> org.Hs.eg.db bioconductor package required for this species query</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>.onUnload failed in unloadNamespace() for 'PANTHER.db', details:</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span>   call: collect(., Inf)</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span>   error: Failed to collect lazy table.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Caused by error in `db_collect()`:</span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> Arguments in `...` must be used.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">✖</span> Problematic argument:</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> ..1 = Inf</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Did you misspell an argument name?</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
