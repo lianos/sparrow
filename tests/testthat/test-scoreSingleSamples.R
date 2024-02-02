@@ -15,9 +15,14 @@ test_that("do.scoreSingleSamples.gsva produces correct gsva,plage,ssGSEA scores"
   lol <- as.list(gdb)
 
   E <- vm$E
-
-  for (method in c("gsva", "plage", "ssgsea")) {
-    ex <- GSVA::gsva(vm$E, lol, method = method, parallel.sz = 1, verbose = FALSE)
+  
+  gparams <- list(
+    gsva = GSVA::gsvaParam(vm$E, lol),
+    plage = GSVA::plageParam(vm$E, lol),
+    ssgsea = GSVA::ssgseaParam(vm$E, lol))
+  
+  for (method in names(gparams)) {
+    ex <- GSVA::gsva(gparams[[method]])
     res <- scoreSingleSamples(gdb, vm, methods = method, as.matrix = TRUE)
     expect_equal(res, ex, info = paste0("GSVA::", method))
   }

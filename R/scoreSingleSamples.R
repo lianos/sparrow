@@ -267,17 +267,15 @@ do.scoreSingleSamples.mean <- function(gdb, y, gs.idxs=NULL, ...) {
 
 #' This can handle method = "gsva", "ssgsea", and "plage"
 #' @noRd
-do.scoreSingleSamples.gsva <- function(gdb, y, method,
-                                       kcdf = c("Gaussian", "Poisson", "none"),
-                                       abs.ranking = FALSE,
-                                       parallel.sz = 1, mx.diff = TRUE,
-                                       tau = NULL,
-                                       ssgsea.norm = TRUE,
-                                       gs.idxs=NULL, verbose = FALSE, ...) {
+do.scoreSingleSamples.gsva <- function(
+    gdb, y, method, kcdf = c("Gaussian", "Poisson", "none"),
+    abs.ranking = FALSE, mx.diff = TRUE, tau = 1, alpha = 0.25,
+    ssgsea.norm = TRUE, gs.idxs = NULL, verbose = FALSE, ...,
+    BPPARAM = BiocParallel::SerialParam(progressbar = verbose)) {
   reqpkg("GSVA")
   method <- match.arg(method, c("gsva", "ssgsea", "plage"))
   kcdf <- match.arg(kcdf)
-  if (is.null(tau)) tau <- switch(method, gsva=1, ssgsea=0.25, NA)
+  if (is.null(tau)) tau <- switch(method, gsva = 1, ssgsea = 0.25, NA)
 
   # gsva requires that the geneset list is defined using the rownames
   # of the expression matrix
@@ -285,10 +283,19 @@ do.scoreSingleSamples.gsva <- function(gdb, y, method,
     gs.idxs <- as.list(gdb, active.only = TRUE, value = "x.idx")
   }
   idxs <- lapply(gs.idxs, function(i) rownames(y)[i])
-  GSVA::gsva(y, idxs, method = method, kcdf = kcdf,
-             abs.ranking = abs.ranking, parallel.sz = parallel.sz,
-             mx.diff = mx.diff, tau = tau, ssgsea.norm = ssgsea.norm,
-             verbose = verbose)
+  
+  params <- switch(
+    method,
+    gsva = GSVA::gsvaParam(y, idxs, maxDiff = mx.diff, kcdf = kcdf,
+                           tau = tau, absRanking = abs.ranking),
+    ssgsea = GSVA::ssgseaParam(y, idxs, alpha = alpha, normalize = ssgsea.norm),
+    plage = GSVA::plageParam(y, idxs))
+
+  # GSVA::gsva(y, idxs, method = method, kcdf = kcdf,
+  #            abs.ranking = abs.ranking, parallel.sz = parallel.sz,
+  #            mx.diff = mx.diff, tau = tau, ssgsea.norm = ssgsea.norm,
+  #            verbose = verbose)
+  GSVA::gsva(params, verbose = verbose, BPPARAM = BPPARAM)
 }
 
 

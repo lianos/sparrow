@@ -1,7 +1,7 @@
 Package: sparrow
 Type: Package
 Title: Take command of set enrichment analyses through a unified interface
-Version: 1.9.0
+Version: 1.9.1
 Authors@R: c(
     person(
         "Steve", "Lianoglou", role = c("aut", "cre"),
