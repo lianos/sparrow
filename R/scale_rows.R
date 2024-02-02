@@ -60,7 +60,7 @@ scale_rows.matrix <- function(x, center = TRUE, scale = TRUE, ...) {
   center. <- .target_column_idxs(x, center)
   if (test_integerish(center., lower = 1, upper = ncol(x))) {
     center.idx <- center.
-    center. <- DelayedMatrixStats::rowMeans2(x, cols = center.)
+    center. <- DelayedMatrixStats::rowMeans2(x, cols = center., useNames = TRUE)
     names(center.) <- rownames(x)
     custom.center <- FALSE
   } else {
