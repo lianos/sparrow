@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Performing gene set enrichment analyses with sparrow • sparrow</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
@@ -87,7 +87,7 @@ sparrow</h1>
                         <h4 data-toc-skip class="author">Steve
 Lianoglou</h4>
             
-            <h4 data-toc-skip class="date">10 April 2024</h4>
+            <h4 data-toc-skip class="date">11 April 2024</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/lianos/sparrow/blob/HEAD/vignettes/sparrow.Rmd" class="external-link"><code>vignettes/sparrow.Rmd</code></a></small>
       <div class="hidden name"><code>sparrow.Rmd</code></div>
@@ -1091,7 +1091,7 @@ Session Information
 <span><span class="co">## [8] base     </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## other attached packages:</span></span>
-<span><span class="co">##  [1] data.table_1.15.4     edgeR_4.1.19          limma_3.59.6         </span></span>
+<span><span class="co">##  [1] data.table_1.15.4     edgeR_4.1.22          limma_3.59.8         </span></span>
 <span><span class="co">##  [4] circlize_0.4.16       ComplexHeatmap_2.19.0 ggplot2_3.5.0        </span></span>
 <span><span class="co">##  [7] dplyr_1.1.4           magrittr_2.0.3        sparrow_1.9.1        </span></span>
 <span><span class="co">## [10] BiocStyle_2.31.0     </span></span>
@@ -1105,8 +1105,8 @@ Session Information
 <span><span class="co">##  [11] zlibbioc_1.49.3             ragg_1.3.0                 </span></span>
 <span><span class="co">##  [13] vctrs_0.6.5                 memoise_2.0.1              </span></span>
 <span><span class="co">##  [15] DelayedMatrixStats_1.25.1   RCurl_1.98-1.14            </span></span>
-<span><span class="co">##  [17] htmltools_0.5.8.1           S4Arrays_1.3.6             </span></span>
-<span><span class="co">##  [19] Rhdf5lib_1.25.3             SparseArray_1.3.4          </span></span>
+<span><span class="co">##  [17] htmltools_0.5.8.1           S4Arrays_1.3.7             </span></span>
+<span><span class="co">##  [19] Rhdf5lib_1.25.3             SparseArray_1.3.5          </span></span>
 <span><span class="co">##  [21] rhdf5_2.47.6                sass_0.4.9                 </span></span>
 <span><span class="co">##  [23] bslib_0.7.0                 htmlwidgets_1.6.4          </span></span>
 <span><span class="co">##  [25] desc_1.4.3                  plyr_1.8.9                 </span></span>
@@ -1154,9 +1154,9 @@ Session Information
 <span><span class="co">## [109] ontologyIndex_2.12          xtable_1.8-4               </span></span>
 <span><span class="co">## [111] systemfonts_1.0.6           munsell_0.5.1              </span></span>
 <span><span class="co">## [113] jquerylib_0.1.4             Rcpp_1.0.12                </span></span>
-<span><span class="co">## [115] GenomeInfoDb_1.39.12        png_0.1-8                  </span></span>
+<span><span class="co">## [115] GenomeInfoDb_1.39.13        png_0.1-8                  </span></span>
 <span><span class="co">## [117] XML_3.99-0.16.1             parallel_4.5.0             </span></span>
-<span><span class="co">## [119] pkgdown_2.0.7               blob_1.2.4                 </span></span>
+<span><span class="co">## [119] pkgdown_2.0.8               blob_1.2.4                 </span></span>
 <span><span class="co">## [121] sparseMatrixStats_1.15.0    bitops_1.0-7               </span></span>
 <span><span class="co">## [123] SpatialExperiment_1.13.2    viridisLite_0.4.2          </span></span>
 <span><span class="co">## [125] GSEABase_1.65.1             scales_1.3.0               </span></span>
@@ -1184,7 +1184,7 @@ Session Information
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.8.</p>
 </div>
 
       </footer>
