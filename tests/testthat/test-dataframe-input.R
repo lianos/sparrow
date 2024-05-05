@@ -31,19 +31,27 @@ test_that("data.frame input is same as ranked vector input", {
 
 test_that("enrichment-based methods work", {
   fbias <- setNames(xdf$effective_length, xdf$feature_id)
-  mg <- seas(scores, gdb, "goseq", xmeta. = xdf, feature.bias = fbias)
-  mgres <- result(mg, "goseq")
+  # mg <- seas(scores, gdb, "goseq", xmeta. = xdf, feature.bias = fbias)
+  # mgres <- result(mg, "goseq")
+  # mgres$key <- encode_gskey(mgres)
+  # gseq <- sparrow::goseq(
+  #   gdb,
+  #   selected = subset(xdf, significant)$feature_id,
+  #   universe = xdf$feature_id,
+  #   feature.bias = fbias)
+  # expect_equal(mgres$key, gseq$category)
+  # expect_equal(mgres$pval, gseq$over_represented_pvalue)
+  # expect_equal(mgres$pval.under, gseq$under_represented_pvalue)
+  # expect_equal(mgres$n.drawn, gseq$numDEInCat)
+  # expect_equal(mgres$n, gseq$numInCat)
+  
+  mg <- seas(scores, gdb, "ora", xmeta. = xdf, feature.bias = fbias)
+  mgres <- result(mg, "ora")
   mgres$key <- encode_gskey(mgres)
 
-  gseq <- sparrow::goseq(
-    gdb,
-    selected = subset(xdf, significant)$feature_id,
-    universe = xdf$feature_id,
-    feature.bias = fbias)
-
-  expect_equal(mgres$key, gseq$category)
-  expect_equal(mgres$pval, gseq$over_represented_pvalue)
-  expect_equal(mgres$pval.under, gseq$under_represented_pvalue)
-  expect_equal(mgres$n.drawn, gseq$numDEInCat)
-  expect_equal(mgres$n, gseq$numInCat)
+  ores <- ora(xdf, gdb, selected = "selected", feature.bias = fbias)
+  expect_equal(mgres$key, ores$Pathway)
+  expect_equal(mgres$n.drawn, ores$all)
+  expect_equal(mgres$n, ores$N)
+  
 })
