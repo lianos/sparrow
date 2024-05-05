@@ -7,6 +7,8 @@ gdb. <- local({
   randomGeneSetDb(dge.res)
 })
 
+goseq.installed <- "goseq" %in% rownames(installed.packages())
+
 test_that("'naked' ora call vs seas pipeline are equivalent", {
   dfinput <- exampleDgeResult("human", "ensembl",
                               induce.bias = "effective_length")
@@ -105,6 +107,7 @@ test_that("ora,groups variable accepts column or list", {
 })
 
 test_that("ora and goseq give probably approximately correct answers", {
+  skip_if_not(goseq.installed, message = "goseq not installed")
   dfinput <- exampleDgeResult("human", "ensembl",
                               induce.bias = "effective_length")
 

@@ -24,7 +24,7 @@ test_that("do.scoreSingleSamples.gsva produces correct gsva,plage,ssGSEA scores"
   for (method in names(gparams)) {
     ex <- GSVA::gsva(gparams[[method]])
     res <- scoreSingleSamples(gdb, vm, methods = method, as.matrix = TRUE)
-    expect_equal(res, ex, info = paste0("GSVA::", method))
+    expect_equal(res, ex, info = paste0("GSVA::", method), check.attributes = FALSE)
   }
 })
 

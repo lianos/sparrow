@@ -1,6 +1,9 @@
 context("goseq")
 
+goseq.installed <- "goseq" %in% rownames(installed.packages())
+
 test_that("seas(method='goseq') requires valid feature.bias vector", {
+  skip_if_not(goseq.installed, message = "goseq not installed")
   vm <- exampleExpressionSet()
   gsl <- exampleGeneSets()
   gsd <- GeneSetDb(gsl)
@@ -20,6 +23,7 @@ test_that("seas(method='goseq') requires valid feature.bias vector", {
 
 
 test_that("internal goseq mimics goseq package", {
+  skip_if_not(goseq.installed, message = "goseq not installed")
   vm <- exampleExpressionSet()
   gsl <- exampleGeneSets()
   gsd <- GeneSetDb(gsl)
