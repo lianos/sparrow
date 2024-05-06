@@ -115,7 +115,7 @@ The columns are specified by the \code{from} and \code{to} paramters, respective
 \section{Convenience identifier and species mapping}{
 
 If you don't provide a data.frame, you can provide a species name. We will
-rely on the {babelgene} package for the conversion, so you will have to
+rely on the \code{{babelgene}} package for the conversion, so you will have to
 provide a species name that it recognizes.
 }
 
