@@ -1,8 +1,7 @@
 pandoc: '3.2'
-pkgdown: 2.0.9
+pkgdown: 2.1.0
 pkgdown_sha: ~
 articles:
-  adding-new-methods-to-sparrow: WIP/adding-new-methods-to-sparrow.html
+  WIP/adding-new-methods-to-sparrow: WIP/adding-new-methods-to-sparrow.html
   sparrow: sparrow.html
-last_built: 2024-07-07T11:06Z
-
+last_built: 2024-07-08T11:06Z

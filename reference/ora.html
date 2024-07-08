@@ -6,7 +6,7 @@ stored as columns of the input data.frame dat."><!-- mathjax --><script src="htt
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]--></head><body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-reference-topic">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -34,7 +34,7 @@ stored as columns of the input data.frame dat."><!-- mathjax --><script src="htt
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
@@ -47,20 +47,20 @@ stored as columns of the input data.frame dat."><!-- mathjax --><script src="htt
       </ul><ul class="nav navbar-nav navbar-right"><li>
   <a href="https://github.com/lianos/sparrow/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Performs an overrepresentation analysis, (optionally) accounting for bias.</h1>
-    <small class="dont-index">Source: <a href="https://github.com/lianos/sparrow/blob/HEAD/R/do.ora.R" class="external-link"><code>R/do.ora.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/lianos/sparrow/blob/devel/R/do.ora.R" class="external-link"><code>R/do.ora.R</code></a></small>
     <div class="hidden name"><code>ora.Rd</code></div>
     </div>
 
@@ -90,22 +90,24 @@ stored as columns of the input data.frame <code>dat</code>.</p>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>x</dt>
+
+
+<dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
 <dd><p>A data.frame with feature-level statistics. Minimally, this should
 have a <code>"feature_id"</code> (character) column, but read on ...</p></dd>
 
 
-<dt>gsd</dt>
+<dt id="arg-gsd">gsd<a class="anchor" aria-label="anchor" href="#arg-gsd"></a></dt>
 <dd><p>The GeneSetDb</p></dd>
 
 
-<dt>selected</dt>
+<dt id="arg-selected">selected<a class="anchor" aria-label="anchor" href="#arg-selected"></a></dt>
 <dd><p>Either the name of a logical column in <code>dat</code> used to subset
 out the features to run the enrichement over, or a character vector of
 <code>"feature_id"</code>s that are selected from <code>dat[["feature_id"]]</code>.</p></dd>
 
 
-<dt>groups</dt>
+<dt id="arg-groups">groups<a class="anchor" aria-label="anchor" href="#arg-groups"></a></dt>
 <dd><p>Encodes groups of features that we can use to test selected
 features individual, as well as "all" together. This can be specified by:
 (1) specifying a name of a column in <code>dat</code> to split the enriched features
@@ -114,7 +116,7 @@ By default this is <code>NULL</code>, so we only run enrichment over
 all elements in <code>selected</code>. See examples for details.</p></dd>
 
 
-<dt>feature.bias</dt>
+<dt id="arg-feature-bias">feature.bias<a class="anchor" aria-label="anchor" href="#arg-feature-bias"></a></dt>
 <dd><p>If <code>NULL</code> (default), no bias is used in enrichment
 analysis. Otherwise, can be the name of a column in <code>dat</code> to extract
 a numeric bias vector (gene length, GC content, average expression, etc.)
@@ -122,26 +124,26 @@ or a named (using featureIds) numeric vector of the same. The BiasedUrn
 CRAN package is required when this is not NULL.</p></dd>
 
 
-<dt>universe</dt>
+<dt id="arg-universe">universe<a class="anchor" aria-label="anchor" href="#arg-universe"></a></dt>
 <dd><p>Defaults to all elements in <code>dat[["feature_id"]]</code>.</p></dd>
 
 
-<dt>restrict.universe</dt>
+<dt id="arg-restrict-universe">restrict.universe<a class="anchor" aria-label="anchor" href="#arg-restrict-universe"></a></dt>
 <dd><p>See same parameter in <code><a href="https://rdrr.io/pkg/limma/man/goana.html" class="external-link">limma::kegga()</a></code></p></dd>
 
 
-<dt>plot.bias</dt>
+<dt id="arg-plot-bias">plot.bias<a class="anchor" aria-label="anchor" href="#arg-plot-bias"></a></dt>
 <dd><p>See <code>plot</code> parameter in <code><a href="https://rdrr.io/pkg/limma/man/goana.html" class="external-link">limma::kegga()</a></code>. You can generate
 this plot without running <code>ora</code> using the <code>plot_ora_bias()</code>,
 like so:
 <code>plot_ora_bias(dat, selected = selected, groups = groups, feature.bias = feature.bias)</code></p></dd>
 
 
-<dt>...</dt>
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>parameters passed to <code><a href="conform.html">conform()</a></code></p></dd>
 
 
-<dt>as.dt</dt>
+<dt id="arg-as-dt">as.dt<a class="anchor" aria-label="anchor" href="#arg-as-dt"></a></dt>
 <dd><p>If <code>FALSE</code> (default), the data.frame like thing that
 this funciton returns will be set to a data.frame. Set this to <code>TRUE</code>
 to keep this object as a <code>data.table</code></p></dd>
@@ -149,9 +151,7 @@ to keep this object as a <code>data.table</code></p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p>A data.frame of pathway enrichment. The last N colums are enrichment
+    <p>A data.frame of pathway enrichment. The last N colums are enrichment
 statistics per pathway, grouped by the <code>groups</code> parameter. <code>P.all</code> are the
 stats for all selected features, and the remaingin <code>P.*</code> columns are for
 the features specifed by <code>groups</code>.</p>
@@ -170,7 +170,7 @@ enrichment testing</p>
     </div>
     <div id="functions">
     <h2>Functions</h2>
-    
+
 <ul><li><p><code>plot_ora_bias()</code>: plots the bias of coviarate to DE / selected status. Code
 taken from <code><a href="https://rdrr.io/pkg/limma/man/goana.html" class="external-link">limma::kegga()</a></code></p></li>
 </ul></div>
@@ -220,15 +220,15 @@ Gene ontology analysis for RNA-seq: accounting for selection bias.
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
 </div>
 
       </footer></div>
 
-  
 
 
-  
+
+
 
   </body></html>
 

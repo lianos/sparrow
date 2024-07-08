@@ -5,7 +5,7 @@ identifiers to whichever type you like."><!-- mathjax --><script src="https://cd
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]--></head><body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-reference-topic">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -33,7 +33,7 @@ identifiers to whichever type you like."><!-- mathjax --><script src="https://cd
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
@@ -46,20 +46,20 @@ identifiers to whichever type you like."><!-- mathjax --><script src="https://cd
       </ul><ul class="nav navbar-nav navbar-right"><li>
   <a href="https://github.com/lianos/sparrow/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Converts internal feature identifiers in a GeneSetDb to a set of new ones.</h1>
-    <small class="dont-index">Source: <a href="https://github.com/lianos/sparrow/blob/HEAD/R/convertIdentifiers.R" class="external-link"><code>R/convertIdentifiers.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/lianos/sparrow/blob/devel/R/convertIdentifiers.R" class="external-link"><code>R/convertIdentifiers.R</code></a></small>
     <div class="hidden name"><code>convertIdentifiers.Rd</code></div>
     </div>
 
@@ -83,7 +83,7 @@ identifiers to whichever type you like.</p>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># S4 method for BiocSet</span></span>
+<span><span class="co"># S4 method for class 'BiocSet'</span></span>
 <span><span class="fu">convertIdentifiers</span><span class="op">(</span></span>
 <span>  <span class="va">x</span>,</span>
 <span>  from <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -97,7 +97,7 @@ identifiers to whichever type you like.</p>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># S4 method for GeneSetDb</span></span>
+<span><span class="co"># S4 method for class 'GeneSetDb'</span></span>
 <span><span class="fu">convertIdentifiers</span><span class="op">(</span></span>
 <span>  <span class="va">x</span>,</span>
 <span>  from <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -114,11 +114,13 @@ identifiers to whichever type you like.</p>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>x</dt>
+
+
+<dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
 <dd><p>The GeneSetDb with identifiers to convert</p></dd>
 
 
-<dt>from, to</dt>
+<dt id="arg-from-to">from, to<a class="anchor" aria-label="anchor" href="#arg-from-to"></a></dt>
 <dd><p>If you are doing identifier and/orspecies conversion using
 babelgene, <code>to</code> is the species you want to convert to, and <code>from</code> is the
 species of <code>x</code>. If you are only doing id type conversion within the same
@@ -128,24 +130,24 @@ the name of the column that holds the new identifiers, and <code>from</code> is 
 name of the column that holds the current identifiers.</p></dd>
 
 
-<dt>id.type</dt>
+<dt id="arg-id-type">id.type<a class="anchor" aria-label="anchor" href="#arg-id-type"></a></dt>
 <dd><p>If you are using babelgene conversion, this specifies the
 type of identifier you want to convert to. It can be any of <code>"ensembl"</code>,
 <code>"entrez"</code>, or <code>"symbol"</code>.</p></dd>
 
 
-<dt>xref</dt>
+<dt id="arg-xref">xref<a class="anchor" aria-label="anchor" href="#arg-xref"></a></dt>
 <dd><p>a data.frame used to map current identifiers to target ones.</p></dd>
 
 
-<dt>extra.cols</dt>
+<dt id="arg-extra-cols">extra.cols<a class="anchor" aria-label="anchor" href="#arg-extra-cols"></a></dt>
 <dd><p>a character vector of columns from <code>to</code> to add to the
 features of the new GeneSetDb. If you want to keep the original identifiers
 of the remapped features, include <code>"original_id"</code> as one of the values
 here.</p></dd>
 
 
-<dt>allow.cartesian</dt>
+<dt id="arg-allow-cartesian">allow.cartesian<a class="anchor" aria-label="anchor" href="#arg-allow-cartesian"></a></dt>
 <dd><p>a boolean used to temporarily set the
 <code>datatable.allow.cartesian</code> global option. If you are doing a 1:many
 map of your identifiers, you may trigger this error. You can temporarily
@@ -153,20 +155,18 @@ turn this option/error off by setting <code>allow.cartesian = TRUE</code>. The
 option will be restored to its "pre-function call" value <code>on.exit</code>.</p></dd>
 
 
-<dt>min_support, top</dt>
+<dt id="arg-min-support-top">min_support, top<a class="anchor" aria-label="anchor" href="#arg-min-support-top"></a></dt>
 <dd><p>Parameters used in the internal call to
 <code><a href="https://igordot.github.io/babelgene/reference/orthologs.html" class="external-link">babelgene::orthologs()</a></code></p></dd>
 
 
-<dt>...</dt>
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>pass through args (not used)</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p>A new GeneSetDb object with converted identifiers. We try to retain
+    <p>A new GeneSetDb object with converted identifiers. We try to retain
 any metadata in the original object, but no guarantees are given. If
 <code>id_type</code> was stored previously in the collectionMetadata, that will be
 dropped.</p>
@@ -182,13 +182,13 @@ will be axed.</p>
     </div>
     <div id="methods-by-class-">
     <h2>Methods (by class)</h2>
-    
+
 <ul><li><p><code>convertIdentifiers(BiocSet)</code>: converts identifiers in a BiocSet</p></li>
 <li><p><code>convertIdentifiers(GeneSetDb)</code>: converts identifiers in a GeneSetDb</p></li>
 </ul></div>
     <div id="custom-mapping">
     <h2>Custom Mapping</h2>
-    
+
 
 <p>You need to provide a data.frame via the <code>xref</code> paramater that has a column
 for the current identifiers and another column for the target identifiers.
@@ -196,7 +196,7 @@ The columns are specified by the <code>from</code> and <code>to</code> paramters
     </div>
     <div id="convenience-identifier-and-species-mapping">
     <h2>Convenience identifier and species mapping</h2>
-    
+
 
 <p>If you don't provide a data.frame, you can provide a species name. We will
 rely on the babelgene package for the conversion, so you will have to
@@ -204,7 +204,7 @@ provide a species name that it recognizes.</p>
     </div>
     <div id="species-and-identifier-conversion-via-babelgene">
     <h2>Species and Identifier Conversion via babelgene</h2>
-    
+
 
 <p>We plan to provide a quick wrapper to babelgene's ortholog mapping function
 to make identifier conversion a easier through this function. You can track
@@ -241,7 +241,7 @@ this in <a href="https://github.com/lianos/sparrow/issues/2" class="external-lin
 <span class="r-out co"><span class="r-pr">#&gt;</span> 13         c2 BIOCARTA_AGPCR_PATHWAY  FALSE 13 NA 5579_symbol        5579</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Convert entrez to ensembl id's using babelgene</span></span></span>
-<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
 <span class="r-in"><span><span class="co"># The conversion functionality via babelgene isn't yet implemented, but</span></span></span>
 <span class="r-in"><span><span class="co"># will look like this.</span></span></span>
 <span class="r-in"><span></span></span>
@@ -253,7 +253,7 @@ this in <a href="https://github.com/lianos/sparrow/issues/2" class="external-lin
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># 3. convert the human entrez to mouse ensembl</span></span></span>
 <span class="r-in"><span><span class="va">gdb.ensm</span> <span class="op">&lt;-</span> <span class="fu">convertIdentifiers</span><span class="op">(</span><span class="va">gdb</span>, <span class="st">"human"</span>, <span class="st">"mouse"</span>, id.type <span class="op">=</span> <span class="st">"ensembl"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -268,15 +268,15 @@ this in <a href="https://github.com/lianos/sparrow/issues/2" class="external-lin
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
 </div>
 
       </footer></div>
 
-  
 
 
-  
+
+
 
   </body></html>
 
