@@ -12,10 +12,9 @@ test_that("scoreSingleSamples can use genesets of size n = 1 and value is gene",
 test_that("do.scoreSingleSamples.gsva produces correct gsva,plage,ssGSEA scores", {
   vm <- exampleExpressionSet()
   gdb <- conform(exampleGeneSetDb(), vm)
-  lol <- as.list(gdb)
+  gs.idxs <- as.list(gdb, active.only = TRUE, value = "x.idx")
+  lol <- lapply(gs.idxs, function(i) rownames(vm$E)[i])
 
-  E <- vm$E
-  
   gparams <- list(
     gsva = GSVA::gsvaParam(vm$E, lol),
     plage = GSVA::plageParam(vm$E, lol),
