@@ -12,9 +12,8 @@ test_that("scoreSingleSamples can use genesets of size n = 1 and value is gene",
 test_that("do.scoreSingleSamples.gsva produces correct gsva,plage,ssGSEA scores", {
   vm <- exampleExpressionSet()
   gdb <- conform(exampleGeneSetDb(), vm)
-  lol <- as.list(gdb)
-
-  E <- vm$E
+  # lol <- as.list(gdb)
+  lol <- as.list(gdb, active.only = TRUE, value = "feature_id")
   
   gparams <- list(
     gsva = GSVA::gsvaParam(vm$E, lol),
@@ -22,7 +21,7 @@ test_that("do.scoreSingleSamples.gsva produces correct gsva,plage,ssGSEA scores"
     ssgsea = GSVA::ssgseaParam(vm$E, lol))
   
   for (method in names(gparams)) {
-    ex <- GSVA::gsva(gparams[[method]])
+    ex <- GSVA::gsva(gparams[[method]], verbose = FALSE)
     res <- scoreSingleSamples(gdb, vm, methods = method, as.matrix = TRUE)
     expect_equal(res, ex, info = paste0("GSVA::", method), check.attributes = FALSE)
   }
@@ -31,7 +30,8 @@ test_that("do.scoreSingleSamples.gsva produces correct gsva,plage,ssGSEA scores"
 test_that("multiple 'melted' scores are returned in a long data.frame", {
   vm <- exampleExpressionSet()
   gdb <- exampleGeneSetDb()
-  scores <- scoreSingleSamples(gdb, vm$E, methods=c('svd', 'ssgsea'))
+  scores <- scoreSingleSamples(gdb, vm$E, methods=c('svd', 'ssgsea'),
+                               verbose = FALSE)
   expect_is(scores, 'data.frame')
   expect_true(setequal(c('svd', 'ssgsea'), scores$method))
   n.samples <- ncol(vm)
