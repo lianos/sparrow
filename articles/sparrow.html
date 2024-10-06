@@ -86,7 +86,7 @@ sparrow</h1>
                         <h4 data-toc-skip class="author">Steve
 Lianoglou</h4>
             
-            <h4 data-toc-skip class="date">5 October 2024</h4>
+            <h4 data-toc-skip class="date">6 October 2024</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/lianos/sparrow/blob/devel/vignettes/sparrow.Rmd" class="external-link"><code>vignettes/sparrow.Rmd</code></a></small>
       <div class="hidden name"><code>sparrow.Rmd</code></div>
@@ -220,7 +220,7 @@ breast cancer.</p>
 <p>Below you’ll find the <code>$targets</code> data.frame of the voomed
 <code>EList</code></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">vm</span><span class="op">$</span><span class="va">targets</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html" class="external-link">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="va">vm</span><span class="op">$</span><span class="va">targets</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">Patient_ID</span>, <span class="va">Cancer_Status</span>, <span class="va">PAM50subtype</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##                                Patient_ID Cancer_Status PAM50subtype</span></span>
 <span><span class="co">## TCGA-A2-A0CM-01A-31R-A034-07 TCGA-A2-A0CM         tumor        Basal</span></span>
@@ -289,8 +289,8 @@ following contrast:</p>
 would do if you were only testing for differential gene expression.</p>
 <p>With the data we have at hand, you would simply do the following:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/limma/man/lmFit.html" class="external-link">lmFit</a></span><span class="op">(</span><span class="va">vm</span>, <span class="va">vm</span><span class="op">$</span><span class="va">design</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/limma/man/contrasts.fit.html" class="external-link">contrasts.fit</a></span><span class="op">(</span><span class="va">cm</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html" class="external-link">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/limma/man/lmFit.html" class="external-link">lmFit</a></span><span class="op">(</span><span class="va">vm</span>, <span class="va">vm</span><span class="op">$</span><span class="va">design</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/limma/man/contrasts.fit.html" class="external-link">contrasts.fit</a></span><span class="op">(</span><span class="va">cm</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="va">eBayes</span></span>
 <span><span class="va">tt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/limma/man/toptable.html" class="external-link">topTable</a></span><span class="op">(</span><span class="va">fit</span>, <span class="st">'BvH'</span>, n<span class="op">=</span><span class="cn">Inf</span>, sort.by<span class="op">=</span><span class="st">'none'</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -339,8 +339,8 @@ could do:</p>
 <code>GeneSetDb</code> (<code>gdb</code>)object via its
 <code>geneSets(gdb)</code> accessor:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/geneSets.html">geneSets</a></span><span class="op">(</span><span class="va">gdb</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="va">head</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html" class="external-link">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/geneSets.html">geneSets</a></span><span class="op">(</span><span class="va">gdb</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="va">head</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##   collection                             name active  N</span></span>
 <span><span class="co">## 1         C2         ABBUD_LIF_SIGNALING_1_DN  FALSE 28</span></span>
@@ -394,8 +394,8 @@ accessible via a call to <code>logFC</code> function on the
 <code>SparrowResult</code> object:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">lfc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/logFC.html">logFC</a></span><span class="op">(</span><span class="va">mg</span><span class="op">)</span></span>
-<span><span class="va">lfc</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">symbol</span>, <span class="va">entrez_id</span>, <span class="va">logFC</span>, <span class="va">t</span>, <span class="va">pval</span>, <span class="va">padj</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="va">lfc</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">symbol</span>, <span class="va">entrez_id</span>, <span class="va">logFC</span>, <span class="va">t</span>, <span class="va">pval</span>, <span class="va">padj</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="va">head</span></span></code></pre></div>
 <pre><code><span><span class="co">##         symbol entrez_id       logFC           t      pval      padj</span></span>
 <span><span class="co">## 1         A1BG         1  0.67012895  1.07951394 0.2982819 0.6858344</span></span>
@@ -408,8 +408,8 @@ accessible via a call to <code>logFC</code> function on the
 <code><a href="../reference/seas.html">seas()</a></code> mimic our explicit analysis above by verifying that
 the t-statistics generated by both approaches are identical.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">comp</span> <span class="op">&lt;-</span> <span class="va">tt</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">entrez_id</span>, <span class="va">logFC</span>, <span class="va">t</span>, pval<span class="op">=</span><span class="va">P.Value</span>, padj<span class="op">=</span><span class="va">adj.P.Val</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html" class="external-link">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="va">comp</span> <span class="op">&lt;-</span> <span class="va">tt</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">entrez_id</span>, <span class="va">logFC</span>, <span class="va">t</span>, pval<span class="op">=</span><span class="va">P.Value</span>, padj<span class="op">=</span><span class="va">adj.P.Val</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">inner_join</a></span><span class="op">(</span><span class="va">lfc</span>, by<span class="op">=</span><span class="st">'entrez_id'</span>, suffix<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'.tt'</span>, <span class="st">'.mg'</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">comp</span><span class="op">$</span><span class="va">t.tt</span>, <span class="va">comp</span><span class="op">$</span><span class="va">t.mg</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] TRUE</span></span></code></pre>
@@ -482,10 +482,10 @@ and sorting against the appropriate columns. We can, for instance,
 identify which hallmark gene sets show the strongest enrichment as
 follows:</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">cam.res</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">padj</span> <span class="op">&lt;</span> <span class="fl">0.1</span>, <span class="va">collection</span> <span class="op">==</span> <span class="st">'H'</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">mean.logFC</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">n</span>, <span class="va">mean.logFC</span>, <span class="va">padj</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html" class="external-link">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="va">cam.res</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">padj</span> <span class="op">&lt;</span> <span class="fl">0.1</span>, <span class="va">collection</span> <span class="op">==</span> <span class="st">'H'</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">mean.logFC</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">n</span>, <span class="va">mean.logFC</span>, <span class="va">padj</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="va">head</span></span></code></pre></div>
 <pre><code><span><span class="co">##                                 name   n mean.logFC         padj</span></span>
 <span><span class="co">## 1            HALLMARK_MYC_TARGETS_V2  58  0.4461105 0.0002612790</span></span>
@@ -496,8 +496,8 @@ follows:</p>
 differential expression statistics for the contrast under test using the
 <code>geneSet</code> function.</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/geneSet.html">geneSet</a></span><span class="op">(</span><span class="va">mg</span>, name <span class="op">=</span> <span class="st">'HALLMARK_WNT_BETA_CATENIN_SIGNALING'</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">symbol</span>, <span class="va">entrez_id</span>, <span class="va">logFC</span>, <span class="va">pval</span>, <span class="va">padj</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/geneSet.html">geneSet</a></span><span class="op">(</span><span class="va">mg</span>, name <span class="op">=</span> <span class="st">'HALLMARK_WNT_BETA_CATENIN_SIGNALING'</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">symbol</span>, <span class="va">entrez_id</span>, <span class="va">logFC</span>, <span class="va">pval</span>, <span class="va">padj</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##   symbol entrez_id      logFC       pval      padj</span></span>
 <span><span class="co">## 1  HDAC5     10014  0.8984691 0.02253974 0.2522754</span></span>
@@ -597,7 +597,7 @@ exercise. We’ll take the significant hallmark gene sets, or any other
 significant gene set that has a large (on average) log fold change
 between conditions.</p>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sig.res</span> <span class="op">&lt;-</span> <span class="va">cam.res</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html" class="external-link">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="va">sig.res</span> <span class="op">&lt;-</span> <span class="va">cam.res</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">padj</span> <span class="op">&lt;</span> <span class="fl">0.05</span> <span class="op">&amp;</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"HALLMARK"</span>, <span class="va">name</span><span class="op">)</span> <span class="op">|</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">mean.logFC</span><span class="op">)</span> <span class="op">&gt;=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">gdb.sub</span> <span class="op">&lt;-</span> <span class="va">gdb</span><span class="op">[</span><span class="fu"><a href="../reference/geneSets.html">geneSets</a></span><span class="op">(</span><span class="va">gdb</span><span class="op">)</span><span class="op">$</span><span class="va">name</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">sig.res</span><span class="op">$</span><span class="va">name</span><span class="op">]</span></span></code></pre></div>
 <div class="note">
@@ -662,11 +662,11 @@ these results.</p>
 annotation and observe how these methods score each sample for a few
 gene sets.</p>
 <div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">all.scores</span> <span class="op">&lt;-</span> <span class="va">scores.all</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html" class="external-link">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="va">all.scores</span> <span class="op">&lt;-</span> <span class="va">scores.all</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">inner_join</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">vm.bh</span><span class="op">$</span><span class="va">targets</span>, sample_id<span class="op">=</span><span class="va">Sample_ID</span>, subtype<span class="op">=</span><span class="va">PAM50subtype</span><span class="op">)</span>,</span>
 <span>             by <span class="op">=</span> <span class="st">"sample_id"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">some.scores</span> <span class="op">&lt;-</span> <span class="va">all.scores</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="va">some.scores</span> <span class="op">&lt;-</span> <span class="va">all.scores</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">name</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">all.scores</span><span class="op">$</span><span class="va">name</span><span class="op">)</span>, <span class="fl">5</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">some.scores</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">subtype</span>, <span class="va">score</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -882,7 +882,7 @@ you can do that. This subcatory information is stored in the
 <div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">keep</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/geneSets.html">geneSets</a></span><span class="op">(</span><span class="va">gdb</span><span class="op">)</span><span class="op">$</span><span class="va">subcategory</span> <span class="op">==</span> <span class="st">"CP:PID"</span></span>
 <span><span class="va">gdb.sub</span> <span class="op">&lt;-</span> <span class="va">gdb</span><span class="op">[</span><span class="va">keep</span><span class="op">]</span></span>
-<span><span class="fu"><a href="../reference/geneSets.html">geneSets</a></span><span class="op">(</span><span class="va">gdb.sub</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/geneSets.html">geneSets</a></span><span class="op">(</span><span class="va">gdb.sub</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##   collection                           name active  N  n subcategory gs_id</span></span>
 <span><span class="co">## 1         C2 PID_A6B1_A6B4_INTEGRIN_PATHWAY  FALSE 46 NA      CP:PID  M239</span></span>
 <span><span class="co">## 2         C2            PID_AJDISS_2PATHWAY  FALSE 48 NA      CP:PID  M142</span></span>
@@ -957,8 +957,8 @@ found in <code>vm</code> like so:</p>
 <p>or we can use the <code>geneSet</code> function to return a
 <code>data.frame</code> of these results:</p>
 <div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">gdbc</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/geneSet.html">geneSet</a></span><span class="op">(</span><span class="st">'C2'</span>, <span class="st">'ABBUD_LIF_SIGNALING_1_DN'</span>, active.only <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html" class="external-link">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="va">gdbc</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/geneSet.html">geneSet</a></span><span class="op">(</span><span class="st">'C2'</span>, <span class="st">'ABBUD_LIF_SIGNALING_1_DN'</span>, active.only <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">feature_id</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">missed</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    collection                     name active  N  n feature_id symbol</span></span>
 <span><span class="co">## 4          C2 ABBUD_LIF_SIGNALING_1_DN   TRUE 28 25       1644    DDC</span></span>
