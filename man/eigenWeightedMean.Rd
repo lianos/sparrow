@@ -101,7 +101,8 @@ vm <- exampleExpressionSet(do.voom=TRUE)
 gdb <- conform(exampleGeneSetDb(), vm)
 features <- featureIds(gdb, 'c2', 'BURTON_ADIPOGENESIS_PEAK_AT_2HR',
                        value='x.idx')
-scores <- eigenWeightedMean(vm[features,])$score
+ewm <- eigenWeightedMean(vm[features,])                
+scores <- ewm$score
 
 ## Use scoreSingleSamples to facilitate scoring of all gene sets
 scores.all <- scoreSingleSamples(gdb, vm, 'ewm')

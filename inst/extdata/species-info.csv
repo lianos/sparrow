@@ -1,20 +1,20 @@
-alias,species,bioc_full,bioc_abbrev,kegg,mart_dataset,symbol_name
-,,,Ag,aga,,
-,,,At,ath,,
-,,,Bt,bta,,
-worm,Caenorhabditis elegans,,Ce,cel,,
-fly,Drosophila melanogaster,,Dm,dme,flybasename_gene,dmelanogaster_gene_ensembl
-zebrafish,Danio rerio,,Dr,dre,drerio_gene_ensembl,zfin_id_symbol
-,,,EcK12,eco,,
-,,,EcSakai,ecs,,
-,,,Gg,gga,,
-human,Homo sapiens,,Hs,hsa,hsapiens_gene_ensembl,hgnc_symbol
-cyno,Macaca fascicularis,,Mf,mcf,mfascicularis_gene_ensembl,external_gene_name
-mouse,Mus musculus,,Mm,mmu,mmusculus_gene_ensembl,mgi_symbol
-rhesus,Macaca mulatta,,Mmu,mcc,,
-,,,Pf,pfa,,
-,,,Pt,ptr,,
-rat,Rattus norvegicus,,Rn,rno,,
-dog,Canis lupus familiaris,,,,
-yeast,Saccharomyces cerevisiae,,Ss,ssc,,
+alias,species,taxonomy_id,bioc_full,bioc_abbrev,kegg,mart_dataset,symbol_name
+,,,,Ag,aga,,
+,,,,At,ath,,
+,,,,Bt,bta,,
+worm,Caenorhabditis elegans,6239,,Ce,cel,,
+fly,Drosophila melanogaster,7227,,Dm,dme,flybasename_gene,dmelanogaster_gene_ensembl
+zebrafish,Danio rerio,7955,,Dr,dre,drerio_gene_ensembl,zfin_id_symbol
+,,,,EcK12,eco,,
+,,,,EcSakai,ecs,,
+,,,,Gg,gga,,
+human,Homo sapiens,9606,,Hs,hsa,hsapiens_gene_ensembl,hgnc_symbol
+cyno,Macaca fascicularis,9541,,Mf,mcf,mfascicularis_gene_ensembl,external_gene_name
+mouse,Mus musculus,10090,,Mm,mmu,mmusculus_gene_ensembl,mgi_symbol
+rhesus,Macaca mulatta,9544,,Mmu,mcc,,
+,,,,Pf,pfa,,
+,,,,Pt,ptr,,
+rat,Rattus norvegicus,10116,,Rn,rno,,
+dog,Canis lupus familiaris,9615,,,,
+yeast,Saccharomyces cerevisiae,4932,,Ss,ssc,,
 ,,,Xl,xla,,
