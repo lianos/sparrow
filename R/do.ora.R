@@ -149,7 +149,7 @@ mgres.ora <- function(res, gsd, ...) {
   gs <- copy(geneSets(gsd, active.only=TRUE, as.dt=TRUE))
   gs <- gs[, list(collection, name, N, n, idx = seq_along(name))]
   gs[, Pathway := encode_gskey(gs)]
-  out <- merge(gs, res, by = "Pathway")
+  out <- merge(gs, res, by = "Pathway", sort = FALSE)
   stopifnot(isTRUE(all.equal(out$idx, seq_len(nrow(out)))))
   out[, Pathway := NULL][, idx := NULL]
   out[, padj := p.adjust(pval, 'BH')]

@@ -214,14 +214,15 @@ exampleDgeResult <- function(species = "human",
 #' @export
 #' @examples
 #' gdb.rando <- randomGeneSetDb(exampleDgeResult(), 10, bias = "t")
-randomGeneSetDb <- function(x, n = 10, bias = NULL, ...) {
+randomGeneSetDb <- function(x, n = 10, bias = NULL, include_spaces = TRUE, ...) {
   assert_class(x, "data.frame") # only data.frames for now
   assert_number(n, lower = 2, upper = 100)
+  sep <- if (include_spaces) " " else ""
   gsets <- lapply(seq_len(n), function(i) {
     idx <- sample(nrow(x), 10, prob = abs(x$t))
     wtf <- data.frame(
       collection = rep("random", 10),
-      name = rep(paste0("geneset", i), 10),
+      name = rep(paste("geneset", i, sep = sep), 10),
       feature_id = x$feature_id[idx],
       symbol = x$symbol[idx])
   })
