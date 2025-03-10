@@ -65,6 +65,17 @@ do.fgsea <- function(gsd, x, design, contrast = ncol(design),
       nPermSimple = nPermSimple)
       # absEps = absEps)
   }
+  
+  reordered <- !isTRUE(all.equal(names(pathways), res$pathway))
+  if (reordered) {
+    idx <- match(names(pathways), res$pathway)
+    stopifnot(
+      "missing genesets" = setequal(names(pathways), res$pathway),
+      "duplicated fgsea geneset" = !any(duplicated(res$pathway)),
+      "pathways remathced" = all.equal(res$pathway[idx], names(pathways)))
+    res <- res[idx,,drop = FALSE]
+  }
+
   setattr(res, 'rawresult', TRUE)
 }
 
