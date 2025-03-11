@@ -10,7 +10,7 @@ getMSigCollection(
   species = "human",
   id.type = c("ensembl", "entrez", "symbol"),
   with.kegg = FALSE,
-  promote.subcategory.to.collection = FALSE,
+  promote.subcollection.to.collection = FALSE,
   prefix.collection = FALSE,
   ...
 )
@@ -20,7 +20,7 @@ getMSigGeneSetDb(
   species = "human",
   id.type = c("ensembl", "entrez", "symbol"),
   with.kegg = FALSE,
-  promote.subcategory.to.collection = FALSE,
+  promote.subcollection.to.collection = FALSE,
   prefix.collection = FALSE,
   ...
 )
@@ -45,7 +45,7 @@ restricted license, so by default we do not return them as part of the
 GeneSetDb. To include the KEGG gene sets when asking for the c2
 collection, set this flag to \code{TRUE}.}
 
-\item{promote.subcategory.to.collection}{there are different sources of
+\item{promote.subcollection.to.collection}{there are different sources of
 genesets for a number of the collections in MSigDB. These are included
 in the \code{gs_subcat} column of \code{geneSets(this)}. When this is set to \code{TRUE},
 the collection column for the genesets is appended with the subcatory.

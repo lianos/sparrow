@@ -43,14 +43,20 @@
 #'   restricted license, so by default we do not return them as part of the
 #'   GeneSetDb. To include the KEGG gene sets when asking for the c2
 #'   collection, set this flag to `TRUE`.
-#' @param promote.subcategory.to.collection there are different sources of
+#' @param promote.subcollection there are different sources of
 #'   genesets for a number of the collections in MSigDB. These are included
-#'   in the `gs_subcat` column of `geneSets(this)`. When this is set to `TRUE`,
-#'   the collection column for the genesets is appended with the subcatory.
+#'   in the `gs_subcollection` column of `geneSets(this)`. When this is set to
+#'  `TRUE`, the collection column for the genesets is appended with the
+#'   subcollection.
 #'   So, instead of having a massive `"C2"` collection, you'll have bunch of
 #'   collections like `"C2_CGP"`, `"C2_CP:BIOCARTA"`, etc.
 #' @param prefix.collection When `TRUE` (default: `FALSE`), the `"C1"`, `"C2"`,
 #'   etc. is prefixed with `"MSigDB_*"`
+#' @param strip.subcollection.prefix removes the CGP: type prefixes for the
+#'   `gs_subcollection` column, except for the C5 GO collection.
+#' @param merge.human.into.mouse When `TRUE` (default), the OG human collections
+#'   are merged into the newly  minted (as of 2024) M* mouse collections. Set
+#'   to `FALSE` to not do that.
 #' @param ... pass through parameters
 #' @return a `BiocSet` of the MSigDB collections
 #' @examples
@@ -66,25 +72,217 @@
 #' }
 getMSigCollection <- function(collection = NULL,
                               species = "human",
-                              id.type = c("ensembl", "entrez", "symbol"),
+                              id.type =  c("ensembl", "entrez", "symbol", "uniprot"),
                               with.kegg = FALSE,
-                              promote.subcategory.to.collection = FALSE,
-                              prefix.collection = FALSE, ...) {
+                              promote.subcollection = FALSE,
+                              prefix.collection = FALSE,
+                              strip.subcollection.prefix = TRUE, 
+                              merge.human.into.mouse = TRUE, ...) {
   id.type <- match.arg(id.type)
   out <- getMSigGeneSetDb(
-    collection, species, id.type, with.kegg,
-    promote.subcategory.to.collection, prefix.collection, ...)
+    collection = collection,
+    species = species, 
+    id.type = id.type, 
+    with.kegg = with.kegg,
+    promote.subcollection = promote.subcollection,
+    prefix.collection = prefix.collection, 
+    strip.subcollection.prefix = strip.subcollection.prefix,
+    merge.human.into.mouse = merge.human.into.mouse,
+    ...)
   as(out, "BiocSet")
 }
-
 
 #' @describeIn getMSigCollection retrieval method for a GeneSetDb container
 #' @export
 getMSigGeneSetDb <- function(collection = NULL,
                              species = "human",
+                             id.type = c("ensembl", "entrez", "symbol", "uniprot"),
+                             with.kegg = FALSE,
+                             promote.subcollection = FALSE,
+                             prefix.collection = FALSE,
+                             strip.subcollection.prefix = TRUE,
+                             merge.human.into.mouse = TRUE,
+                             refetch = FALSE, ...) {
+  if (!requireNamespace("msigdbr", quietly = TRUE)) {
+    stop("The msigdbr package is required for this functionality")
+  }
+  id.type <- match.arg(id.type)
+  species.info <- species_info(species)
+  valid.cols <- c("H", paste0("C", 1:8))
+  
+  if (id.type == "uniprot") {
+    stop("No uniprot support just yet")
+  }
+  
+  # if (species.info$alias %in% c("mouse")) {
+  #   # TODO: I think we should mouse geneset db for rats too, but msigdbr does
+  #   # not convert between two other species, when human isn't one of them.
+  #   valid.cols <- paste0("M", valid.cols)
+  #   db.species <- "MM"
+  # } else {
+  #   db.species <- "HS"
+  # }
+  
+  if (!species.info$alias %in% c("human", "mouse")) {
+    valid.cols <- setdiff(valid.cols, "C1")
+  }
+  if (!is.null(collection)) {
+    collection <- assert_subset(toupper(collection), valid.cols)
+    if (species.info$alias == "mouse") paste0("M", collection)
+  }
+  
+  # handle non std eval NOTE in R CMD check when using `:=` mojo
+  # each of these variables are referenced in some data.table NSE mojo below
+  gs_collection <- gs_subcollection <- gs_cat <- gs_subcat <- NULL
+  gs_name <- symbol <- ensembl_id <- gs_id <- NULL
+  
+  cache.key <- species.info$species
+  if (species.info$alias == "mouse" && merge.human.into.mouse) {
+    cache.key <- paste0(cache.key, ".with_human")
+  }
+  sigs.all <- data.table::copy(.pkgcache[["msigdb"]][[cache.key]])
+  if (is.null(sigs.all) || isTRUE(refetch)) {
+    sigs.all <- setDT(msigdbr::msigdbr(species.info$species, db_species = "HS"))
+    # Because I want to merge geneset collections/subcollections between human
+    # and mouse, I am stripping gs_subcollections that have a `NNN:` prefix.
+    # See the bottom of the test-gdb-msigdb.R, there are some collections that
+    # have such a prefix in human db but not mouse, and these prefixes have no
+    # semantic meaning that is used anyway
+    if (strip.subcollection.prefix) {
+      sigs.all[, gs_subcollection := {
+        ifelse(
+          gs_collection == "C5",
+          gs_subcollection,
+          sub(".*?:", "", gs_subcollection))
+      }]
+    }
+    sigs.all[, ncbi_gene := as.character(ncbi_gene)] # sometimes this is an integer
+    sigs.all[, db_species := "HS"]
+    sigs.all[, msigdb_collection := gs_collection]
+    if (species.info$alias == "mouse") {
+      # Let's give mouse genesets precedence
+      sm.all <- setDT(msigdbr::msigdbr(species.info$species, db_species = "MM"))
+      sm.all[, msigdb_collection := gs_collection]
+      sm.all[, db_species := "MM"]
+      sm.all[, ncbi_gene := as.character(ncbi_gene)]
+      sm.all[, gs_collection := {
+        ifelse(
+          gs_collection == "MH", 
+          "H", 
+          sub("^M", "C", gs_collection)
+        )
+      }]
+      if (strip.subcollection.prefix) {
+        sm.all[, gs_subcollection := {
+          ifelse(
+            gs_collection == "M5",
+            gs_subcollection,
+            sub(".*?:", "", gs_subcollection))
+        }]
+      }
+
+      if (merge.human.into.mouse) {
+        # sigs.hs <- sigs.all[!sm.all, on = c("gs_collection", "gs_subcollection", "gs_name")]
+        # We can just antijoin on the gs_name 
+        sigs.hs <- sigs.all[!sm.all, on = "gs_name"]
+        sigs.all <- rbindlist(list(sm.all, sigs.hs), fill = TRUE)
+        sigs.all <- sigs.all[order(gs_collection, gs_subcollection, gs_name)]
+      } else {
+        sigs.all <- sm.all
+      }
+    }
+    
+    axe.cols <- c("gs_pmid", "gs_geoid", "gs_url",
+                  "gs_description", "species_name", "species_common_name",
+                  "ortholog_sources", "num_ortholog_sources")
+    axe.cols <- intersect(axe.cols, colnames(sigs.all))
+    for (axe in axe.cols) sigs.all[, (axe) := NULL]
+    setkeyv(sigs.all, c("gs_collection", "gs_name"))
+    .pkgcache[["msigdb"]][[cache.key]] <- data.table::copy(sigs.all)
+  }
+  
+  if (!is.null(collection)) {
+    out <- sigs.all[gs_collection %in% collection]
+  } else {
+    out <- sigs.all
+  }
+  
+  if (!with.kegg) {
+    # out <- out[gs_subcat != "CP:KEGG"]
+    out <- out[!endsWith(gs_subcollection, "KEGG_LEGACY")]
+  }
+  
+  if (prefix.collection) {
+    out[, collection := paste0("MSigDB_", out$gs_collection)]
+  } else {
+    out[, collection := gs_collection]
+  }
+  
+  if (promote.subcollection) {
+    out[, collection := {
+      ifelse(nchar(out$gs_subcollection) == 0L,
+             out$collection,
+             paste(out$collection, out$gs_subcollection, sep = "_"))
+    }]
+  }
+  
+  if (id.type == "ensembl") {
+    # idtype <- GSEABase::ENSEMBLIdentifier()
+    idcol <- "ensembl_gene"
+  } else if (id.type == "entrez") {
+    # idtype <- GSEABase::EntrezIdentifier()
+    idcol <- "entrez_gene"
+  } else {
+    # idtype <- GSEABase::SymbolIdentifier()
+    idcol <- "gene_symbol"
+  }
+  idtype <- id.type
+  
+  ret <- out[, {
+    list(
+      collection, 
+      name = gs_name, 
+      feature_id = as.character(.SD[[idcol]]),
+      symbol = gene_symbol,
+      subcollection = gs_subcollection,
+      msigdb_collection,
+      db_species)
+  }]
+  if (id.type != "symbol") {
+    ret[, symbol := out[["gene_symbol"]]]
+  } else {
+    ret[, ensembl_id := out[["ensembl_gene"]]]
+  }
+  ret[, gs_id := {
+    ifelse(grepl("GO:", out$gs_exact_source), out$gs_exact_source, out$gs_id)
+  }]
+  
+  ret <- ret[!is.na(feature_id)]
+  ret <- unique(ret, by = c("collection", "name", "feature_id"))
+  
+  # browser()
+  gdb <- GeneSetDb(ret)
+  
+  for (col in unique(geneSets(gdb)$collection)) {
+    geneSetCollectionURLfunction(gdb, col) <- ".geneSetURL.msigdb"
+    featureIdType(gdb, col) <- idtype
+    gdb <- addCollectionMetadata(
+      gdb, col, 'source', as.character(packageVersion("msigdbr")))
+  }
+  
+  # org(gdb) <- gsub(" ", "_", species.info[["species"]])
+  gdb@collectionMetadata <- gdb@collectionMetadata[name != "count"]
+  gdb
+}
+
+
+# @describeIn getMSigCollection retrieval method for a GeneSetDb container
+# @export
+getMSigGeneSetDb.old <- function(collection = NULL,
+                             species = "human",
                              id.type = c("ensembl", "entrez", "symbol"),
                              with.kegg = FALSE,
-                             promote.subcategory.to.collection = FALSE,
+                             promote.subcollection.to.collection = FALSE,
                              prefix.collection = FALSE, ...) {
   if (!requireNamespace("msigdbr", quietly = TRUE)) {
     stop("The msigdbr package is required for this functionality")
@@ -130,7 +328,7 @@ getMSigGeneSetDb <- function(collection = NULL,
     out[, collection := gs_cat]
   }
 
-  if (promote.subcategory.to.collection) {
+  if (promote.subcollection.to.collection) {
     out[, collection := {
       ifelse(nchar(out$gs_subcat) == 0L,
              out$collection,
@@ -151,7 +349,7 @@ getMSigGeneSetDb <- function(collection = NULL,
 
   ret <- out[, {
     list(collection, name = gs_name, feature_id = as.character(.SD[[idcol]]),
-         subcategory = gs_subcat)
+         subcollection = gs_subcat)
   }, .SDcols = c("collection", "gs_name", idcol)]
   if (id.type != "symbol") {
     ret[, symbol := out[["gene_symbol"]]]

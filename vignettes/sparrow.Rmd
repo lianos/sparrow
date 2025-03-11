@@ -715,11 +715,11 @@ One way you can do that is to provide a logical vector that is as long as there
 are gene sets in the GeneSetDb as an index.
 
 For instance, if we want to include only the genesets in [CP:PID][msigdbpid],
-you can do that. This subcatory information is stored in the `"subcategory"`
+you can do that. This subcatory information is stored in the `"subcollection"`
 column from `geneSets(gdb)`
 
 ```{r subset-gdb-by-metadata}
-keep <- geneSets(gdb)$subcategory == "CP:PID"
+keep <- geneSets(gdb)$subcollection == "CP:PID"
 gdb.sub <- gdb[keep]
 geneSets(gdb.sub) %>% head()
 ```

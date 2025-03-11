@@ -773,7 +773,8 @@ function(x, i, value) {
 
 #' @describeIn collectionMetadata sets the feature id type for a collection
 setReplaceMethod("featureIdType", "GeneSetDb", function(x, i, value) {
-  valid <- function(v) is(v, 'GeneIdentifierType')
+  # valid <- function(v) is(v, 'GeneIdentifierType')
+  valid <- checkmate::test_string
   addCollectionMetadata(x, i, 'id_type', value, valid)
 })
 

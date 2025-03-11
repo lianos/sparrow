@@ -1,7 +1,7 @@
 Package: sparrow
 Type: Package
 Title: Take command of set enrichment analyses through a unified interface
-Version: 1.13.6
+Version: 1.13.7
 Authors@R: c(
     person(
         "Steve", "Lianoglou", role = c("aut", "cre"),
@@ -60,7 +60,7 @@ Suggests:
     hexbin,
     magrittr,
     matrixStats,
-    msigdbr (>= 7.4.1),
+    msigdbr (>= 9.0.0),
     KernSmooth,
     knitr,
     PANTHER.db (>= 1.0.3),
