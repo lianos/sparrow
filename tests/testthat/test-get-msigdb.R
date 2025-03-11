@@ -9,21 +9,23 @@ test_that("MSigDB retrieval respects collection subsets", {
 
 test_that("with.kegg honors inclusion/exclusion of KEGG gene sets", {
   with.kegg <- getMSigGeneSetDb("c2", with.kegg = TRUE)
+  gs <- geneSets(with.kegg) |> 
+    subset(endsWith(subcollection, "KEGG_LEGACY"))
+  expect_gt(nrow(gs), 0)
+  
   no.kegg <- getMSigGeneSetDb("c2", with.kegg = FALSE)
-  gs.kegg <- subset(geneSets(with.kegg), subcollection == "CP:KEGG")
-  expect_true(nrow(gs.kegg) > 0L)
-
-  gs.nokegg <- subset(geneSets(no.kegg), subcollection == "CP:KEGG")
-  expect_true(nrow(gs.nokegg) == 0L)
+  gs <- geneSets(no.kegg) |> 
+    subset(endsWith(subcollection, "KEGG_LEGACY"))
+  expect_equal(nrow(gs), 0)
 })
 
 test_that("url function stored correctly", {
-  go.bp.df <- sparrow:::.pkgcache$msigdb$`Homo sapiens`[gs_subcat == "GO:BP"]
-  go.mf.df <- sparrow:::.pkgcache$msigdb$`Homo sapiens`[gs_subcat == "GO:MF"]
-  go.cc.df <- sparrow:::.pkgcache$msigdb$`Homo sapiens`[gs_subcat == "GO:CC"]
+  go.bp.df <- sparrow:::.pkgcache$msigdb$`Homo sapiens`[gs_subcollection == "GO:BP"]
+  go.mf.df <- sparrow:::.pkgcache$msigdb$`Homo sapiens`[gs_subcollection == "GO:MF"]
+  go.cc.df <- sparrow:::.pkgcache$msigdb$`Homo sapiens`[gs_subcollection == "GO:CC"]
 
   gdb.pro <- getMSigGeneSetDb("C5", promote.subcollection = TRUE)
-  gdb.npro <- getMSigGeneSetDb("C5")
+  gdb.npro <- getMSigGeneSetDb("C5", promote.subcollection = FALSE)
 
   genesets <- c(
     BP = "GOBP_LIVER_REGENERATION",
@@ -47,23 +49,23 @@ test_that("url function stored correctly", {
 # Tests to address functionality to support updated msigdbr / msigdbdf backend
 # for newer MsigDB gene sets
 
-test_that("subcategory prefixes are cleaned (or not)", {
+test_that("subcollection prefixes are cleaned (or not)", {
   gs.clean <- getMSigGeneSetDb(
     species = "human",
     strip.subcollection.prefix = TRUE,
     refetch = TRUE)
     
   subcols <- geneSets(gs.clean) |> 
-    filter(subcollection != "") |> 
-    count(subcollection) |> 
-    mutate(with_prefix = grepl(":", subcollection))
+    dplyr::filter(subcollection != "") |> 
+    dplyr::count(subcollection) |> 
+    dplyr::mutate(with_prefix = grepl(":", subcollection))
   # we should have some subcollections
   expect_gt(nrow(subcols), 5)
   
   # The only ones w/ a prefix should be GO:
   prefixed <- subcols |> 
-    filter(with_prefix) |> 
-    pull(subcollection)
+    dplyr::filter(with_prefix) |> 
+    dplyr::pull(subcollection)
   expect_true(all(startsWith(prefixed, "GO:")))
   
   gs.prefix <- getMSigGeneSetDb(
@@ -71,9 +73,9 @@ test_that("subcategory prefixes are cleaned (or not)", {
     strip.subcollection.prefix = FALSE,
     refetch = TRUE)
   subcols.pre <- geneSets(gs.prefix) |> 
-    filter(subcollection != "") |> 
-    count(subcollection) |> 
-    mutate(with_prefix = grepl(":", subcollection))
+    dplyr::filter(subcollection != "") |> 
+    dplyr::count(subcollection) |> 
+    dplyr::mutate(with_prefix = grepl(":", subcollection))
   expect_equal(nrow(subcols.pre), nrow(subcols))  
   
   # there should be more subcollection w/ prefix in the 'notstripped version'
