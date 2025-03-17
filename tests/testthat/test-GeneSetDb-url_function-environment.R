@@ -26,12 +26,16 @@ test_that("url_functions with .fn.local.vars defined trim their environments", {
   expect_lt(size.with.fn / 1024^2 - size.no.fn / 1024^2, 0.2)
 
   restored <- readRDS(with.url_function.fn)
+  # As of sparrow >= 1.13.9 & msigdbr >= 10, we are uising the AMIGO URLs for
+  # GO pathways
+  gs <- geneSet(gdb, name = "GOBP_2FE_2S_CLUSTER_ASSEMBLY")
+  gs.info <- subset(geneSets(gdb), name == gs$name[1])
+  
   expect_equal(
-    geneSetURL(restored, "C5", "GOBP_2FE_2S_CLUSTER_ASSEMBLY"),
-    c("C5" = "http://www.broadinstitute.org/gsea/msigdb/cards/GOBP_2FE_2S_CLUSTER_ASSEMBLY.html"))
+    geneSetURL(restored, gs$collection[1], gs$name[1]),
+    gs.info$geneset_url,
+    check.attributes = FALSE)
 
   unlink(with.url_function.fn)
   unlink(with.url_function.fn)
 })
-
-

@@ -188,8 +188,7 @@ getMSigGeneSetDb <- function(collection = NULL,
         
         sigs.hs <- sigs.all[!sm.all, on = "gs_name"]
         # Remove C5 -- the mouse db has all the mouse GO collections 
-        sigs.hs <- sigs.hs[collection != "C5"]
-        
+        sigs.hs <- subset(sigs.hs, gs_collection != "C5")
         sigs.all <- rbindlist(list(sm.all, sigs.hs), fill = TRUE)
         sigs.all <- sigs.all[order(gs_collection, gs_subcollection, gs_name)]
       } else {

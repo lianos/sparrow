@@ -60,7 +60,7 @@ Suggests:
     hexbin,
     magrittr,
     matrixStats,
-    msigdbr (>= 9.0.0),
+    msigdbr (>= 10.0),
     KernSmooth,
     knitr,
     PANTHER.db (>= 1.0.3),

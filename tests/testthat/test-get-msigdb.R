@@ -31,15 +31,22 @@ test_that("url function stored correctly", {
     BP = "GOBP_LIVER_REGENERATION",
     MF = "GOMF_ENZYME_ACTIVATOR_ACTIVITY",
     CC = "GOCC_GOLGI_APPARATUS")
-
-  base.url <- "http://www.broadinstitute.org/gsea/msigdb/cards/%s.html"
-
+  
+  # As of sparrow >= 1.13.9 & msigdbr >= 10, we are uising the AMIGO URLs for
+  # GO pathways
+  # base.url <- "http://www.broadinstitute.org/gsea/msigdb/cards/%s.html"
+  
   for (gocat in names(genesets)) {
     goname <- genesets[[gocat]]
-    expected.url <- sprintf(base.url, goname)
+    gs <- geneSet(gdb.pro, name = goname)
+    gs.info <- subset(geneSets(gdb.pro), name == gs$name[1])
+    
+    # expected.url <- sprintf(base.url, goname)
+    expected.url <- gs.info$geneset_url
     pro.url <- geneSetURL(gdb.pro, sprintf("C5_GO:%s", gocat), goname)
     expect_equal(unname(pro.url), expected.url,
                  info = paste("promoted subcat url", gocat, goname, sep = ":"))
+    
     npro.url <- geneSetURL(gdb.npro, "C5", goname)
     expect_equal(unname(pro.url), expected.url,
                  info = paste("no promo subcat url", gocat, goname, sep = ":"))
