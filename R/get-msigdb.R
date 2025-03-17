@@ -148,6 +148,7 @@ getMSigGeneSetDb <- function(collection = NULL,
     # See the bottom of the test-gdb-msigdb.R, there are some collections that
     # have such a prefix in human db but not mouse, and these prefixes have no
     # semantic meaning that is used anyway
+    
     if (strip.subcollection.prefix) {
       sigs.all[, gs_subcollection := {
         ifelse(
@@ -175,7 +176,7 @@ getMSigGeneSetDb <- function(collection = NULL,
       if (strip.subcollection.prefix) {
         sm.all[, gs_subcollection := {
           ifelse(
-            gs_collection == "M5",
+            gs_collection == "C5",
             gs_subcollection,
             sub(".*?:", "", gs_subcollection))
         }]
@@ -183,8 +184,12 @@ getMSigGeneSetDb <- function(collection = NULL,
 
       if (merge.human.into.mouse) {
         # sigs.hs <- sigs.all[!sm.all, on = c("gs_collection", "gs_subcollection", "gs_name")]
-        # We can just antijoin on the gs_name 
+        # We can just antijoin on the gs_name
+        
         sigs.hs <- sigs.all[!sm.all, on = "gs_name"]
+        # Remove C5 -- the mouse db has all the mouse GO collections 
+        sigs.hs <- sigs.hs[collection != "C5"]
+        
         sigs.all <- rbindlist(list(sm.all, sigs.hs), fill = TRUE)
         sigs.all <- sigs.all[order(gs_collection, gs_subcollection, gs_name)]
       } else {
@@ -192,7 +197,7 @@ getMSigGeneSetDb <- function(collection = NULL,
       }
     }
     
-    axe.cols <- c("gs_pmid", "gs_geoid", "gs_url",
+    axe.cols <- c("gs_pmid", "gs_geoid",
                   "gs_description", "species_name", "species_common_name",
                   "ortholog_sources", "num_ortholog_sources")
     axe.cols <- intersect(axe.cols, colnames(sigs.all))
@@ -245,6 +250,9 @@ getMSigGeneSetDb <- function(collection = NULL,
       feature_id = as.character(.SD[[idcol]]),
       symbol = gene_symbol,
       subcollection = gs_subcollection,
+      collection_name = gs_collection_name,
+      geneset_id = gs_id,
+      geneset_url = gs_url,
       msigdb_collection,
       db_species)
   }]
@@ -378,8 +386,18 @@ getMSigGeneSetDb.old <- function(collection = NULL,
 
 
 #' @noRd
-.geneSetURL.msigdb <- function(collection, name, ...) {
-  url <- "http://www.broadinstitute.org/gsea/msigdb/cards/%s.html"
-  sprintf(url, name)
+.geneSetURL.msigdb <- function(collection, name, gdb, ...) {
+  default.url <- "http://www.broadinstitute.org/gsea/msigdb/cards/%s.html"
+  default.url <- sprintf(default.url, name)
+
+  gs <- geneSets(gdb)
+  info <- gs[gs$collection == collection & gs$name == name,,drop = FALSE]
+  if (nrow(info) == 1) {
+    url <- info$geneset_url
+  } else {
+    url <- NA_character_
+  }
+  
+  if (test_string(url, na.ok = FALSE, min.chars = 2)) url else default.url
 }
 
