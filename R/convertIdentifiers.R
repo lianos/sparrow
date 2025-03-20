@@ -27,6 +27,11 @@
 #' to make identifier conversion a easier through this function. You can track
 #' this in [sparrow issue #2](https://github.com/lianos/sparrow/issues/2).
 #'
+#' @section Species and Identifier Conversion via orthogene
+#' Babelgene is great, but does not support all species (like cynos), but we
+#' can rely on the orthogene package for that. The downside to orthogene is that
+#' it requires online acces.
+#' 
 #' @export
 #' @param x The GeneSetDb with identifiers to convert
 #' @param from,to If you are doing identifier and/orspecies conversion using
@@ -91,7 +96,9 @@ setGeneric(
            id.type = c("ensembl", "entrez", "symbol"),
            xref = NULL, extra.cols = NULL,
            allow.cartesian = FALSE,
-           min_support = 3, top = TRUE, ...)
+           method = c("orthogene", "babelgene"),
+           min_support = 3, top = TRUE,
+           ...)
     standardGeneric("convertIdentifiers"))
 
 #' @describeIn convertIdentifiers converts identifiers in a BiocSet
@@ -100,6 +107,7 @@ function(x, from = NULL, to = NULL,
          id.type = c("ensembl", "entrez", "symbol"),
          xref = NULL, extra.cols = NULL,
          allow.cartesian = FALSE,
+         method = c("orthogene", "babelgene"),
          min_support = 3, top = TRUE, ...) {
   stop("Not yet implemented")
 })
@@ -110,7 +118,10 @@ function(x, from = NULL, to = NULL,
          id.type = c("ensembl", "entrez", "symbol"),
          xref = NULL, extra.cols = NULL,
          allow.cartesian = FALSE,
+         method = c("orthogene", "babelgene"),
          min_support = 3, top = TRUE, ...) {
+  method <- match.arg(method)
+  
   if (!missing(allow.cartesian)) {
     assert_logical(allow.cartesian)
     dt.opts <- options(datatable.allow.cartesian = allow.cartesian)
@@ -122,11 +133,16 @@ function(x, from = NULL, to = NULL,
          "cf. the 'Species and Identifier Conversion' section ",
          "`?convertIdentifiers`")
     id.type <- match.arg(id.type)
-    bres <- .prep_babelgene_table(featureIds(x), to, id.type,
-                                  from == "human", min_support, top)
-    xref <- bres[["table"]]
-    from <- bres[["id.col"]]
-    to <- bres[["target.col"]]
+    if (method == "babelgene") {
+      xref <- .convert_ids_with_babelgene
+      bres <- .map_ids_babelgene(featureIds(x), to, id.type,
+                                    from == "human", min_support, top)
+      xref <- bres[["table"]]
+      from <- bres[["id.col"]]
+      to <- bres[["target.col"]]
+    } else {
+      xref <- .map_ids_orthogene(featureIds(x), to, id.type)
+    }
   }
   assert_multi_class(xref, c("data.frame", "data.table", "tbl"))
   if (ncol(xref) < 2L) {
@@ -184,6 +200,29 @@ function(x, from = NULL, to = NULL,
   out@collectionMetadata <- x@collectionMetadata[name != "id_type"]
   out
 })
+
+.map_ids_orthogene <- function(x, to, id.type) {
+  mapped <- orthogene::map_orthologs(
+    unique(out$feature_id),
+    input_species = gspecies,
+    output_species = species$species) |>
+    dplyr::rename(
+      input_id = input_ensg,
+      feature_id = ortholog_ensg,
+      symbol = ortholog_gene)
+  orig <- out
+  out <- orig |>
+    dplyr::rename(
+      input_id = feature_id,
+      input_symol = symbol) |>
+    dplyr::left_join(
+      dplyr::select(mapped, input_id, feature_id, symbol),
+      by = "input_id") |>
+    dplyr::relocate(starts_with("input_"), .after = last_col())
+  if (rm_na) {
+    out <- dplyr::filter(out, feature_id != "N/A")
+  }
+}
 
 #' Internal helper function to handle bookkeeping tasks invovled to enable
 #' species conversion from within convertIdentifiers

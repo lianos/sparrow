@@ -235,7 +235,7 @@ getMSigGeneSetDb <- function(collection = NULL,
     idcol <- "ensembl_gene"
   } else if (id.type == "entrez") {
     # idtype <- GSEABase::EntrezIdentifier()
-    idcol <- "entrez_gene"
+    idcol <- "ncbi_gene"
   } else {
     # idtype <- GSEABase::SymbolIdentifier()
     idcol <- "gene_symbol"
