@@ -8,20 +8,25 @@
 getMSigCollection(
   collection = NULL,
   species = "human",
-  id.type = c("ensembl", "entrez", "symbol"),
+  id.type = c("ensembl", "entrez", "symbol", "uniprot"),
   with.kegg = FALSE,
-  promote.subcollection.to.collection = FALSE,
+  promote.subcollection = FALSE,
   prefix.collection = FALSE,
+  strip.subcollection.prefix = TRUE,
+  merge.human.into.mouse = TRUE,
   ...
 )
 
 getMSigGeneSetDb(
   collection = NULL,
   species = "human",
-  id.type = c("ensembl", "entrez", "symbol"),
+  id.type = c("ensembl", "entrez", "symbol", "uniprot"),
   with.kegg = FALSE,
-  promote.subcollection.to.collection = FALSE,
+  promote.subcollection = FALSE,
   prefix.collection = FALSE,
+  strip.subcollection.prefix = TRUE,
+  merge.human.into.mouse = TRUE,
+  refetch = FALSE,
   ...
 )
 }
@@ -45,15 +50,23 @@ restricted license, so by default we do not return them as part of the
 GeneSetDb. To include the KEGG gene sets when asking for the c2
 collection, set this flag to \code{TRUE}.}
 
-\item{promote.subcollection.to.collection}{there are different sources of
+\item{promote.subcollection}{there are different sources of
 genesets for a number of the collections in MSigDB. These are included
-in the \code{gs_subcat} column of \code{geneSets(this)}. When this is set to \code{TRUE},
-the collection column for the genesets is appended with the subcatory.
+in the \code{gs_subcollection} column of \code{geneSets(this)}. When this is set to
+\code{TRUE}, the collection column for the genesets is appended with the
+subcollection.
 So, instead of having a massive \code{"C2"} collection, you'll have bunch of
 collections like \code{"C2_CGP"}, \code{"C2_CP:BIOCARTA"}, etc.}
 
 \item{prefix.collection}{When \code{TRUE} (default: \code{FALSE}), the \code{"C1"}, \code{"C2"},
 etc. is prefixed with \code{"MSigDB_*"}}
+
+\item{strip.subcollection.prefix}{removes the CGP: type prefixes for the
+\code{gs_subcollection} column, except for the C5 GO collection.}
+
+\item{merge.human.into.mouse}{When \code{TRUE} (default), the OG human collections
+are merged into the newly  minted (as of 2024) M* mouse collections. Set
+to \code{FALSE} to not do that.}
 
 \item{...}{pass through parameters}
 }

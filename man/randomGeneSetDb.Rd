@@ -4,7 +4,7 @@
 \alias{randomGeneSetDb}
 \title{Generates a fake GeneSetDb by sampling from features in a seas input.}
 \usage{
-randomGeneSetDb(x, n = 10, bias = NULL, ...)
+randomGeneSetDb(x, n = 10, bias = NULL, include_spaces = TRUE, ...)
 }
 \arguments{
 \item{x}{an input container to \code{\link[=seas]{seas()}}}

@@ -1,6 +1,9 @@
 context("retrieve MSigDB collections")
 
+# msigdbdf.installed <- "msigdbdf" %in% rownames(installed.packages())
+
 test_that("MSigDB retrieval respects collection subsets", {
+  testthat::skip_if_not_installed("misgdbdf")
   gdb.all <- getMSigGeneSetDb()
   expect_setequal(geneSets(gdb.all)$collection, c("H", paste0("C", 1:8)))
   gdb.sub <- getMSigGeneSetDb(c("H", "C6"))
@@ -8,6 +11,7 @@ test_that("MSigDB retrieval respects collection subsets", {
 })
 
 test_that("with.kegg honors inclusion/exclusion of KEGG gene sets", {
+  testthat::skip_if_not_installed("misgdbdf")
   with.kegg <- getMSigGeneSetDb("c2", with.kegg = TRUE)
   gs <- geneSets(with.kegg) |> 
     subset(endsWith(subcollection, "KEGG_LEGACY"))
@@ -20,6 +24,7 @@ test_that("with.kegg honors inclusion/exclusion of KEGG gene sets", {
 })
 
 test_that("url function stored correctly", {
+  testthat::skip_if_not_installed("misgdbdf")
   go.bp.df <- sparrow:::.pkgcache$msigdb$`Homo sapiens`[gs_subcollection == "GO:BP"]
   go.mf.df <- sparrow:::.pkgcache$msigdb$`Homo sapiens`[gs_subcollection == "GO:MF"]
   go.cc.df <- sparrow:::.pkgcache$msigdb$`Homo sapiens`[gs_subcollection == "GO:CC"]
@@ -57,6 +62,7 @@ test_that("url function stored correctly", {
 # for newer MsigDB gene sets
 
 test_that("subcollection prefixes are cleaned (or not)", {
+  testthat::skip_if_not_installed("misgdbdf")
   gs.clean <- getMSigGeneSetDb(
     species = "human",
     strip.subcollection.prefix = TRUE,
@@ -90,6 +96,7 @@ test_that("subcollection prefixes are cleaned (or not)", {
 })
 
 test_that("Mixed mouse/human collection returns mutually exclusive genesets", {
+  testthat::skip_if_not_installed("misgdbdf")
   gdb.hs <- getMSigGeneSetDb(
     species = "human", 
     promote.subcollection = FALSE,

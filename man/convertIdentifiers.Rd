@@ -14,6 +14,7 @@ convertIdentifiers(
   xref = NULL,
   extra.cols = NULL,
   allow.cartesian = FALSE,
+  method = c("orthogene", "babelgene"),
   min_support = 3,
   top = TRUE,
   ...
@@ -27,6 +28,7 @@ convertIdentifiers(
   xref = NULL,
   extra.cols = NULL,
   allow.cartesian = FALSE,
+  method = c("orthogene", "babelgene"),
   min_support = 3,
   top = TRUE,
   ...
@@ -40,6 +42,7 @@ convertIdentifiers(
   xref = NULL,
   extra.cols = NULL,
   allow.cartesian = FALSE,
+  method = c("orthogene", "babelgene"),
   min_support = 3,
   top = TRUE,
   ...
