@@ -212,15 +212,20 @@ We'll use the `getMSigGeneSetDb` convenience function provided by the
 *sparrow* package to load the [hallmark][hallmark] (`"h"`) and
 [c2 (curated)][c2] (`"c2"`) gene set collections from [MSigDB][msigdb].
 
+Note that sparrow uses the {msigdbr} package to retrieve genesets from MSigDB.
+To get access to all the genesets, you will have to also install the companion
+{msigddf} package. As of Q1 2025, msigdbr only includes the Hallmark geneset
+inside the package itself.
+
 ```{r build-gdb}
-gdb <- getMSigGeneSetDb(c("h", "c2"), "human", id.type = "entrez")
+gdb <- getMSigGeneSetDb("H", "human", id.type = "entrez")
 ```
 
 :::note
 To retrieve a `BiocSet` of these same collections, you could do:
 
 ```r
-bsc <- getMSigCollection(c("h", "c2"), "human", id.type = "entrez")
+bsc <- getMSigCollection("H", "human", id.type = "entrez")
 ```
 :::
 
@@ -714,21 +719,31 @@ you want to subset a GeneSetDb to include a subset of, well, gene sets.
 One way you can do that is to provide a logical vector that is as long as there
 are gene sets in the GeneSetDb as an index.
 
+<!--
 For instance, if we want to include only the genesets in [CP:PID][msigdbpid],
 you can do that. This subcatory information is stored in the `"subcollection"`
 column from `geneSets(gdb)`
 
-```{r subset-gdb-by-metadata}
+```r subset-gdb-by-metadata
 keep <- geneSets(gdb)$subcollection == "CP:PID"
 gdb.sub <- gdb[keep]
-geneSets(gdb.sub) %>% head()
+geneSets(gdb.sub) |> head()
+```
+-->
+
+Let's say we just want to keep genesets that have fewer than 100 genes.
+
+```{r subset-gdb-by-metadata}
+keep <- geneSets(gdb)$N < 100
+gdb.sub <- gdb[keep]
+geneSets(gdb.sub) |> head()
 ```
 
 You can also subset a `GeneSetDb` to only include gene sets that contain
 certain features:
 
 ```{r subset-gdb}
-gdb.sub2 <- subsetByFeatures(gdb, c('10014', '1454'))
+gdb.sub2 <- subsetByFeatures(gdb, c('3417', '4609'))
 nrow(gdb); nrow(gdb.sub2)
 ```
 
@@ -774,8 +789,8 @@ For instance, we can identify which genes belong to the
 
 ```{r}
 missed <- setdiff(
-  featureIds(gdbc, 'C2', 'ABBUD_LIF_SIGNALING_1_DN', active.only=FALSE),
-  featureIds(gdbc, 'C2', 'ABBUD_LIF_SIGNALING_1_DN', active.only=TRUE))
+  featureIds(gdbc, 'H', 'HALLMARK_WNT_BETA_CATENIN_SIGNALING', active.only=FALSE),
+  featureIds(gdbc, 'H', 'HALLMARK_WNT_BETA_CATENIN_SIGNALING', active.only=TRUE))
 missed
 ```
 
@@ -783,7 +798,7 @@ or we can use the `geneSet` function to return a `data.frame` of these results:
 
 ```{r}
 gdbc %>%
-  geneSet('C2', 'ABBUD_LIF_SIGNALING_1_DN', active.only = FALSE) %>%
+  geneSet('H', 'HALLMARK_WNT_BETA_CATENIN_SIGNALING', active.only = FALSE) %>%
   subset(feature_id %in% missed)
 ```
 
