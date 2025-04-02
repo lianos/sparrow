@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sparrow</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.13.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.13.10</span>
       </span>
     </div>
 
@@ -124,12 +124,24 @@ function for a <code>GeneSetDb : Collection</code> combination.</p></li>
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="examples.html">exampleGeneSetDb</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">geneSetCollectionURLfunction</span><span class="op">(</span><span class="va">gdb</span>, <span class="st">"c2"</span>, <span class="st">"BIOCARTA_AGPCR_PATHWAY"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> function (collection, name, ...) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> function (collection, name, gdb, ...) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     url &lt;- "http://www.broadinstitute.org/gsea/msigdb/cards/%s.html"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     sprintf(url, name)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     default.url &lt;- "http://www.broadinstitute.org/gsea/msigdb/cards/%s.html"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     default.url &lt;- sprintf(default.url, name)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     gs &lt;- geneSets(gdb)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     info &lt;- gs[gs$collection == collection &amp; gs$name == name, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         , drop = FALSE]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     if (nrow(info) == 1) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         url &lt;- info$geneset_url</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     else {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         url &lt;- NA_character_</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     if (test_string(url, na.ok = FALSE, min.chars = 2)) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         url</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     else default.url</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x559f5dc40dc8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55e5ae8324e0&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:sparrow&gt;</span>
 </code></pre></div>
     </div>

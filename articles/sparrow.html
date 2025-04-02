@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sparrow</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.13.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.13.10</span>
       </span>
     </div>
 
@@ -86,7 +86,7 @@ sparrow</h1>
                         <h4 data-toc-skip class="author">Steve
 Lianoglou</h4>
             
-            <h4 data-toc-skip class="date">10 March 2025</h4>
+            <h4 data-toc-skip class="date">2 April 2025</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/lianos/sparrow/blob/devel/vignettes/sparrow.Rmd" class="external-link"><code>vignettes/sparrow.Rmd</code></a></small>
       <div class="hidden name"><code>sparrow.Rmd</code></div>
@@ -103,7 +103,7 @@ Lianoglou</h4>
       a shiny application provided by the sparrow.shiny package. This
       package also provides an easy wrapper to single sample gene set
       scoring and geneset-centric heatmaps for visualization. sparrow
-      package version: 1.13.6</p>
+      package version: 1.13.10</p>
     </div>
     
 <div class="section level2">
@@ -327,13 +327,17 @@ named using the following pattern:
 provided by the <em>sparrow</em> package to load the <a href="http://www.cell.com/cell-systems/abstract/S2405-4712(15)00218-5" class="external-link">hallmark</a>
 (<code>"h"</code>) and <a href="http://software.broadinstitute.org/gsea/msigdb/collections.jsp#C2" class="external-link">c2
 (curated)</a> (<code>"c2"</code>) gene set collections from <a href="http://software.broadinstitute.org/gsea/msigdb/" class="external-link">MSigDB</a>.</p>
+<p>Note that sparrow uses the {msigdbr} package to retrieve genesets
+from MSigDB. To get access to all the genesets, you will have to also
+install the companion {msigddf} package. As of Q1 2025, msigdbr only
+includes the Hallmark geneset inside the package itself.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/getMSigCollection.html">getMSigGeneSetDb</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"h"</span>, <span class="st">"c2"</span><span class="op">)</span>, <span class="st">"human"</span>, id.type <span class="op">=</span> <span class="st">"entrez"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/getMSigCollection.html">getMSigGeneSetDb</a></span><span class="op">(</span><span class="st">"H"</span>, <span class="st">"human"</span>, id.type <span class="op">=</span> <span class="st">"entrez"</span><span class="op">)</span></span></code></pre></div>
 <div class="note">
 <p>To retrieve a <code>BiocSet</code> of these same collections, you
 could do:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">bsc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/getMSigCollection.html">getMSigCollection</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"h"</span>, <span class="st">"c2"</span><span class="op">)</span>, <span class="st">"human"</span>, id.type <span class="op">=</span> <span class="st">"entrez"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">bsc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/getMSigCollection.html">getMSigCollection</a></span><span class="op">(</span><span class="st">"H"</span>, <span class="st">"human"</span>, id.type <span class="op">=</span> <span class="st">"entrez"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <p>You can view a table of the gene sets defined inside a
 <code>GeneSetDb</code> (<code>gdb</code>)object via its
@@ -342,13 +346,13 @@ could do:</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/geneSets.html">geneSets</a></span><span class="op">(</span><span class="va">gdb</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="va">head</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##   collection                             name active  N</span></span>
-<span><span class="co">## 1         C2         ABBUD_LIF_SIGNALING_1_DN  FALSE 28</span></span>
-<span><span class="co">## 2         C2         ABBUD_LIF_SIGNALING_1_UP  FALSE 43</span></span>
-<span><span class="co">## 3         C2         ABBUD_LIF_SIGNALING_2_DN  FALSE  7</span></span>
-<span><span class="co">## 4         C2         ABBUD_LIF_SIGNALING_2_UP  FALSE 13</span></span>
-<span><span class="co">## 5         C2       ABDELMOHSEN_ELAVL4_TARGETS  FALSE 16</span></span>
-<span><span class="co">## 6         C2 ABDULRAHMAN_KIDNEY_CANCER_VHL_DN  FALSE 13</span></span></code></pre>
+<pre><code><span><span class="co">##   collection                         name active   N</span></span>
+<span><span class="co">## 1          H        HALLMARK_ADIPOGENESIS  FALSE 200</span></span>
+<span><span class="co">## 2          H HALLMARK_ALLOGRAFT_REJECTION  FALSE 200</span></span>
+<span><span class="co">## 3          H   HALLMARK_ANDROGEN_RESPONSE  FALSE 101</span></span>
+<span><span class="co">## 4          H        HALLMARK_ANGIOGENESIS  FALSE  36</span></span>
+<span><span class="co">## 5          H     HALLMARK_APICAL_JUNCTION  FALSE 200</span></span>
+<span><span class="co">## 6          H      HALLMARK_APICAL_SURFACE  FALSE  44</span></span></code></pre>
 </div>
 </div>
 <div class="section level3">
@@ -434,17 +438,12 @@ parameter.</p>
 <code class="sourceCode R"><span><span class="va">mg</span></span></code></pre></div>
 <pre><code><span><span class="co">## SparrowResult (max FDR by collection set to 0.20%)</span></span>
 <span><span class="co">## --------------------------------------------------- </span></span>
-<span><span class="co">##    collection   method geneset_count sig_count sig_up sig_down</span></span>
-<span><span class="co">## 1          C2   camera          6150       349    206      143</span></span>
-<span><span class="co">## 2           H   camera            50         6      5        1</span></span>
-<span><span class="co">## 3          C2      fry          6150        95     33       62</span></span>
-<span><span class="co">## 4           H      fry            50         0      0        0</span></span>
-<span><span class="co">## 5          C2      ora          6150        96     33       63</span></span>
-<span><span class="co">## 6           H      ora            50         3      1        2</span></span>
-<span><span class="co">## 7          C2 ora.down          6150        73      6       67</span></span>
-<span><span class="co">## 8           H ora.down            50         2      0        2</span></span>
-<span><span class="co">## 9          C2   ora.up          6150        24     21        3</span></span>
-<span><span class="co">## 10          H   ora.up            50         0      0        0</span></span></code></pre>
+<span><span class="co">##   collection   method geneset_count sig_count sig_up sig_down</span></span>
+<span><span class="co">## 1          H   camera            50        13      9        4</span></span>
+<span><span class="co">## 2          H      fry            50         0      0        0</span></span>
+<span><span class="co">## 3          H      ora            50         3      1        2</span></span>
+<span><span class="co">## 4          H ora.down            50         4      1        3</span></span>
+<span><span class="co">## 5          H   ora.up            50         1      1        0</span></span></code></pre>
 <p>The table above enumerates the different GSEA methods run over each
 geneset collection in the rows. The columns enumerate the number of
 genesets that the collection has in total (<code>geneset_count</code>),
@@ -487,11 +486,13 @@ follows:</p>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">mean.logFC</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">n</span>, <span class="va">mean.logFC</span>, <span class="va">padj</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="va">head</span></span></code></pre></div>
-<pre><code><span><span class="co">##                                 name   n mean.logFC         padj</span></span>
-<span><span class="co">## 1            HALLMARK_MYC_TARGETS_V2  58  0.4461105 0.0002612790</span></span>
-<span><span class="co">## 2 HALLMARK_INTERFERON_ALPHA_RESPONSE  96  0.3916716 0.0874709010</span></span>
-<span><span class="co">## 3               HALLMARK_E2F_TARGETS 200  0.3465703 0.0001892151</span></span>
-<span><span class="co">## 4            HALLMARK_MYC_TARGETS_V1 200  0.2092836 0.0234431144</span></span></code></pre>
+<pre><code><span><span class="co">##                                  name   n mean.logFC         padj</span></span>
+<span><span class="co">## 1 HALLMARK_WNT_BETA_CATENIN_SIGNALING  37  0.4533102 8.122041e-02</span></span>
+<span><span class="co">## 2             HALLMARK_MYC_TARGETS_V2  58  0.4461105 5.391509e-05</span></span>
+<span><span class="co">## 3  HALLMARK_INTERFERON_ALPHA_RESPONSE  96  0.3916716 3.668135e-02</span></span>
+<span><span class="co">## 4                HALLMARK_E2F_TARGETS 200  0.3465703 5.391509e-05</span></span>
+<span><span class="co">## 5  HALLMARK_INTERFERON_GAMMA_RESPONSE 191  0.3120786 9.692932e-02</span></span>
+<span><span class="co">## 6             HALLMARK_MYC_TARGETS_V1 200  0.2092836 8.003429e-03</span></span></code></pre>
 <p>You can also list the members of a geneset and their individual
 differential expression statistics for the contrast under test using the
 <code>geneSet</code> function.</p>
@@ -782,17 +783,17 @@ need.</p>
 object:</p>
 <div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/conversion.html">as.data.frame</a></span><span class="op">(</span><span class="va">gdb</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="fl">201</span><span class="op">:</span><span class="fl">205</span><span class="op">)</span>,<span class="op">]</span></span></code></pre></div>
-<pre><code><span><span class="co">##     collection                     name feature_id   symbol</span></span>
-<span><span class="co">## 1           C2 ABBUD_LIF_SIGNALING_1_DN  100133941     CD24</span></span>
-<span><span class="co">## 2           C2 ABBUD_LIF_SIGNALING_1_DN      10753    CAPN9</span></span>
-<span><span class="co">## 3           C2 ABBUD_LIF_SIGNALING_1_DN     146556 C16orf89</span></span>
-<span><span class="co">## 4           C2 ABBUD_LIF_SIGNALING_1_DN       1644      DDC</span></span>
-<span><span class="co">## 5           C2 ABBUD_LIF_SIGNALING_1_DN       1943    EFNA2</span></span>
-<span><span class="co">## 201         C2    ABE_VEGFA_TARGETS_2HR       3949     LDLR</span></span>
-<span><span class="co">## 202         C2    ABE_VEGFA_TARGETS_2HR       4171     MCM2</span></span>
-<span><span class="co">## 203         C2    ABE_VEGFA_TARGETS_2HR       5055 SERPINB2</span></span>
-<span><span class="co">## 204         C2    ABE_VEGFA_TARGETS_2HR       5133    PDCD1</span></span>
-<span><span class="co">## 205         C2    ABE_VEGFA_TARGETS_2HR       5493      PPL</span></span></code></pre>
+<pre><code><span><span class="co">##     collection                         name feature_id symbol</span></span>
+<span><span class="co">## 1            H        HALLMARK_ADIPOGENESIS      10010   TANK</span></span>
+<span><span class="co">## 2            H        HALLMARK_ADIPOGENESIS      10113   PREB</span></span>
+<span><span class="co">## 3            H        HALLMARK_ADIPOGENESIS      10124  ARL4A</span></span>
+<span><span class="co">## 4            H        HALLMARK_ADIPOGENESIS      10140   TOB1</span></span>
+<span><span class="co">## 5            H        HALLMARK_ADIPOGENESIS      10162 LPCAT3</span></span>
+<span><span class="co">## 201          H HALLMARK_ALLOGRAFT_REJECTION      10006   ABI1</span></span>
+<span><span class="co">## 202          H HALLMARK_ALLOGRAFT_REJECTION      10225   CD96</span></span>
+<span><span class="co">## 203          H HALLMARK_ALLOGRAFT_REJECTION      10261  IGSF6</span></span>
+<span><span class="co">## 204          H HALLMARK_ALLOGRAFT_REJECTION       1029 CDKN2A</span></span>
+<span><span class="co">## 205          H HALLMARK_ALLOGRAFT_REJECTION      10333   TLR6</span></span></code></pre>
 <p>The <code>(collection,name)</code> tuple is the primary key of a gene
 set. The <code>feature_id</code> column stores gene identifiers. For the
 time being, it will be most natural for these IDs to simply be ensembl
@@ -876,27 +877,44 @@ clunky. We assume you want to subset a GeneSetDb to include a subset of,
 well, gene sets.</p>
 <p>One way you can do that is to provide a logical vector that is as
 long as there are gene sets in the GeneSetDb as an index.</p>
-<p>For instance, if we want to include only the genesets in <a href="https://www.gsea-msigdb.org/gsea/msigdb/genesets.jsp?collection=CP:PID" class="external-link">CP:PID</a>,
-you can do that. This subcatory information is stored in the
-<code>"subcategory"</code> column from <code>geneSets(gdb)</code></p>
+<!--
+For instance, if we want to include only the genesets in [CP:PID][msigdbpid],
+you can do that. This subcatory information is stored in the `"subcollection"`
+column from `geneSets(gdb)`
+
+```r subset-gdb-by-metadata
+keep <- geneSets(gdb)$subcollection == "CP:PID"
+gdb.sub <- gdb[keep]
+geneSets(gdb.sub) |> head()
+```
+-->
+<p>Let’s say we just want to keep genesets that have fewer than 100
+genes.</p>
 <div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">keep</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/geneSets.html">geneSets</a></span><span class="op">(</span><span class="va">gdb</span><span class="op">)</span><span class="op">$</span><span class="va">subcategory</span> <span class="op">==</span> <span class="st">"CP:PID"</span></span>
+<code class="sourceCode R"><span><span class="va">keep</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/geneSets.html">geneSets</a></span><span class="op">(</span><span class="va">gdb</span><span class="op">)</span><span class="op">$</span><span class="va">N</span> <span class="op">&lt;</span> <span class="fl">100</span></span>
 <span><span class="va">gdb.sub</span> <span class="op">&lt;-</span> <span class="va">gdb</span><span class="op">[</span><span class="va">keep</span><span class="op">]</span></span>
-<span><span class="fu"><a href="../reference/geneSets.html">geneSets</a></span><span class="op">(</span><span class="va">gdb.sub</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##   collection                           name active  N  n subcategory gs_id</span></span>
-<span><span class="co">## 1         C2 PID_A6B1_A6B4_INTEGRIN_PATHWAY  FALSE 46 NA      CP:PID  M239</span></span>
-<span><span class="co">## 2         C2            PID_AJDISS_2PATHWAY  FALSE 48 NA      CP:PID  M142</span></span>
-<span><span class="co">## 3         C2               PID_ALK1_PATHWAY  FALSE 26 NA      CP:PID  M185</span></span>
-<span><span class="co">## 4         C2               PID_ALK2_PATHWAY  FALSE 11 NA      CP:PID  M203</span></span>
-<span><span class="co">## 5         C2    PID_ALPHA_SYNUCLEIN_PATHWAY  FALSE 32 NA      CP:PID  M275</span></span>
-<span><span class="co">## 6         C2   PID_AMB2_NEUTROPHILS_PATHWAY  FALSE 41 NA      CP:PID  M159</span></span></code></pre>
+<span><span class="fu"><a href="../reference/geneSets.html">geneSets</a></span><span class="op">(</span><span class="va">gdb.sub</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##   collection                               name active  N  n subcollection</span></span>
+<span><span class="co">## 1          H              HALLMARK_ANGIOGENESIS  FALSE 36 NA              </span></span>
+<span><span class="co">## 2          H            HALLMARK_APICAL_SURFACE  FALSE 44 NA              </span></span>
+<span><span class="co">## 3          H   HALLMARK_CHOLESTEROL_HOMEOSTASIS  FALSE 74 NA              </span></span>
+<span><span class="co">## 4          H        HALLMARK_HEDGEHOG_SIGNALING  FALSE 36 NA              </span></span>
+<span><span class="co">## 5          H   HALLMARK_IL6_JAK_STAT3_SIGNALING  FALSE 87 NA              </span></span>
+<span><span class="co">## 6          H HALLMARK_INTERFERON_ALPHA_RESPONSE  FALSE 97 NA              </span></span>
+<span><span class="co">##   collection_name geneset_id geneset_url msigdb_collection db_species gs_id</span></span>
+<span><span class="co">## 1        Hallmark      M5944                             H         HS    NA</span></span>
+<span><span class="co">## 2        Hallmark      M5916                             H         HS    NA</span></span>
+<span><span class="co">## 3        Hallmark      M5892                             H         HS    NA</span></span>
+<span><span class="co">## 4        Hallmark      M5919                             H         HS    NA</span></span>
+<span><span class="co">## 5        Hallmark      M5897                             H         HS    NA</span></span>
+<span><span class="co">## 6        Hallmark      M5911                             H         HS    NA</span></span></code></pre>
 <p>You can also subset a <code>GeneSetDb</code> to only include gene
 sets that contain certain features:</p>
 <div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">gdb.sub2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/subsetByFeatures.html">subsetByFeatures</a></span><span class="op">(</span><span class="va">gdb</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'10014'</span>, <span class="st">'1454'</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">gdb.sub2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/subsetByFeatures.html">subsetByFeatures</a></span><span class="op">(</span><span class="va">gdb</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'3417'</span>, <span class="st">'4609'</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">gdb</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">gdb.sub2</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] 6230</span></span></code></pre>
-<pre><code><span><span class="co">## [1] 120</span></span></code></pre>
+<pre><code><span><span class="co">## [1] 50</span></span></code></pre>
+<pre><code><span><span class="co">## [1] 18</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="active-vs-inactive-gene-sets">Active vs Inactive Gene Sets<a class="anchor" aria-label="anchor" href="#active-vs-inactive-gene-sets"></a>
@@ -920,13 +938,20 @@ found in <code>vm</code>:</p>
 <div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">gdbc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/conform.html">conform</a></span><span class="op">(</span><span class="va">gdb</span>, <span class="va">vm</span>, min.gs.size<span class="op">=</span><span class="fl">10</span>, max.gs.size<span class="op">=</span><span class="fl">100</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="../reference/geneSets.html">geneSets</a></span><span class="op">(</span><span class="va">gdbc</span>, active.only<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##   collection                             name active  N  n subcategory gs_id</span></span>
-<span><span class="co">## 1         C2         ABBUD_LIF_SIGNALING_1_DN   TRUE 28 25         CGP M1423</span></span>
-<span><span class="co">## 2         C2         ABBUD_LIF_SIGNALING_1_UP   TRUE 43 37         CGP M1458</span></span>
-<span><span class="co">## 3         C2         ABBUD_LIF_SIGNALING_2_DN  FALSE  7  5         CGP M1481</span></span>
-<span><span class="co">## 4         C2         ABBUD_LIF_SIGNALING_2_UP   TRUE 13 12         CGP M1439</span></span>
-<span><span class="co">## 5         C2       ABDELMOHSEN_ELAVL4_TARGETS   TRUE 16 15         CGP M2509</span></span>
-<span><span class="co">## 6         C2 ABDULRAHMAN_KIDNEY_CANCER_VHL_DN   TRUE 13 12         CGP M2096</span></span></code></pre>
+<pre><code><span><span class="co">##   collection                         name active   N   n subcollection</span></span>
+<span><span class="co">## 1          H        HALLMARK_ADIPOGENESIS  FALSE 200 198              </span></span>
+<span><span class="co">## 2          H HALLMARK_ALLOGRAFT_REJECTION  FALSE 200 167              </span></span>
+<span><span class="co">## 3          H   HALLMARK_ANDROGEN_RESPONSE   TRUE 101  99              </span></span>
+<span><span class="co">## 4          H        HALLMARK_ANGIOGENESIS   TRUE  36  31              </span></span>
+<span><span class="co">## 5          H     HALLMARK_APICAL_JUNCTION  FALSE 200 179              </span></span>
+<span><span class="co">## 6          H      HALLMARK_APICAL_SURFACE   TRUE  44  37              </span></span>
+<span><span class="co">##   collection_name geneset_id geneset_url msigdb_collection db_species gs_id</span></span>
+<span><span class="co">## 1        Hallmark      M5905                             H         HS    NA</span></span>
+<span><span class="co">## 2        Hallmark      M5950                             H         HS    NA</span></span>
+<span><span class="co">## 3        Hallmark      M5908                             H         HS    NA</span></span>
+<span><span class="co">## 4        Hallmark      M5944                             H         HS    NA</span></span>
+<span><span class="co">## 5        Hallmark      M5915                             H         HS    NA</span></span>
+<span><span class="co">## 6        Hallmark      M5916                             H         HS    NA</span></span></code></pre>
 <p>We can see that, only 23 of the 26 genes in the
 <code>(C2,ABBUD_LIF_SIGNALING_1_DN)</code> were found in the rows of
 <code>vm</code>, and the <code>(C2,ABBUD_LIF_SIGNALING_2_DN)</code> was
@@ -950,20 +975,28 @@ are returned.</p>
 found in <code>vm</code> like so:</p>
 <div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">missed</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://generics.r-lib.org/reference/setops.html" class="external-link">setdiff</a></span><span class="op">(</span></span>
-<span>  <span class="fu"><a href="../reference/featureIds.html">featureIds</a></span><span class="op">(</span><span class="va">gdbc</span>, <span class="st">'C2'</span>, <span class="st">'ABBUD_LIF_SIGNALING_1_DN'</span>, active.only<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>,</span>
-<span>  <span class="fu"><a href="../reference/featureIds.html">featureIds</a></span><span class="op">(</span><span class="va">gdbc</span>, <span class="st">'C2'</span>, <span class="st">'ABBUD_LIF_SIGNALING_1_DN'</span>, active.only<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="../reference/featureIds.html">featureIds</a></span><span class="op">(</span><span class="va">gdbc</span>, <span class="st">'H'</span>, <span class="st">'HALLMARK_WNT_BETA_CATENIN_SIGNALING'</span>, active.only<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="../reference/featureIds.html">featureIds</a></span><span class="op">(</span><span class="va">gdbc</span>, <span class="st">'H'</span>, <span class="st">'HALLMARK_WNT_BETA_CATENIN_SIGNALING'</span>, active.only<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">missed</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] "1644" "1943" "3170"</span></span></code></pre>
+<pre><code><span><span class="co">## [1] "10023" "27121" "7471"  "7475"  "85407"</span></span></code></pre>
 <p>or we can use the <code>geneSet</code> function to return a
 <code>data.frame</code> of these results:</p>
 <div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">gdbc</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/geneSet.html">geneSet</a></span><span class="op">(</span><span class="st">'C2'</span>, <span class="st">'ABBUD_LIF_SIGNALING_1_DN'</span>, active.only <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/geneSet.html">geneSet</a></span><span class="op">(</span><span class="st">'H'</span>, <span class="st">'HALLMARK_WNT_BETA_CATENIN_SIGNALING'</span>, active.only <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">feature_id</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">missed</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##    collection                     name active  N  n feature_id symbol</span></span>
-<span><span class="co">## 4          C2 ABBUD_LIF_SIGNALING_1_DN   TRUE 28 25       1644    DDC</span></span>
-<span><span class="co">## 5          C2 ABBUD_LIF_SIGNALING_1_DN   TRUE 28 25       1943  EFNA2</span></span>
-<span><span class="co">## 12         C2 ABBUD_LIF_SIGNALING_1_DN   TRUE 28 25       3170  FOXA2</span></span></code></pre>
+<pre><code><span><span class="co">##    collection                                name active  N  n feature_id</span></span>
+<span><span class="co">## 2           H HALLMARK_WNT_BETA_CATENIN_SIGNALING   TRUE 42 37      10023</span></span>
+<span><span class="co">## 12          H HALLMARK_WNT_BETA_CATENIN_SIGNALING   TRUE 42 37      27121</span></span>
+<span><span class="co">## 29          H HALLMARK_WNT_BETA_CATENIN_SIGNALING   TRUE 42 37       7471</span></span>
+<span><span class="co">## 30          H HALLMARK_WNT_BETA_CATENIN_SIGNALING   TRUE 42 37       7475</span></span>
+<span><span class="co">## 38          H HALLMARK_WNT_BETA_CATENIN_SIGNALING   TRUE 42 37      85407</span></span>
+<span><span class="co">##    symbol</span></span>
+<span><span class="co">## 2   FRAT1</span></span>
+<span><span class="co">## 12   DKK4</span></span>
+<span><span class="co">## 29   WNT1</span></span>
+<span><span class="co">## 30   WNT6</span></span>
+<span><span class="co">## 38   NKD1</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="mapping-of-gene-set-featureids-to-target-expression-containers">Mapping of gene set featureIds to target expression containers<a class="anchor" aria-label="anchor" href="#mapping-of-gene-set-featureids-to-target-expression-containers"></a>
@@ -1087,35 +1120,35 @@ Session Information
 <span><span class="co">## [8] base     </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## other attached packages:</span></span>
-<span><span class="co">##  [1] data.table_1.17.0     edgeR_4.5.8           limma_3.63.8         </span></span>
+<span><span class="co">##  [1] data.table_1.17.0     edgeR_4.5.9           limma_3.63.10        </span></span>
 <span><span class="co">##  [4] circlize_0.4.16       ComplexHeatmap_2.23.0 ggplot2_3.5.1        </span></span>
-<span><span class="co">##  [7] dplyr_1.1.4           magrittr_2.0.3        sparrow_1.13.6       </span></span>
+<span><span class="co">##  [7] dplyr_1.1.4           magrittr_2.0.3        sparrow_1.13.10      </span></span>
 <span><span class="co">## [10] BiocStyle_2.35.0     </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## loaded via a namespace (and not attached):</span></span>
-<span><span class="co">##   [1] RColorBrewer_1.1-3          jsonlite_1.9.1             </span></span>
-<span><span class="co">##   [3] shape_1.4.6.1               magick_2.8.5               </span></span>
+<span><span class="co">##   [1] RColorBrewer_1.1-3          jsonlite_2.0.0             </span></span>
+<span><span class="co">##   [3] shape_1.4.6.1               magick_2.8.6               </span></span>
 <span><span class="co">##   [5] farver_2.1.2                rmarkdown_2.29             </span></span>
 <span><span class="co">##   [7] BiocSet_1.21.0              GlobalOptions_0.1.2        </span></span>
 <span><span class="co">##   [9] fs_1.6.5                    BiocIO_1.17.1              </span></span>
 <span><span class="co">##  [11] ragg_1.3.3                  vctrs_0.6.5                </span></span>
 <span><span class="co">##  [13] memoise_2.0.1               DelayedMatrixStats_1.29.1  </span></span>
 <span><span class="co">##  [15] htmltools_0.5.8.1           S4Arrays_1.7.3             </span></span>
-<span><span class="co">##  [17] Rhdf5lib_1.29.1             SparseArray_1.7.6          </span></span>
+<span><span class="co">##  [17] Rhdf5lib_1.29.2             SparseArray_1.7.7          </span></span>
 <span><span class="co">##  [19] rhdf5_2.51.2                sass_0.4.9                 </span></span>
 <span><span class="co">##  [21] bslib_0.9.0                 htmlwidgets_1.6.4          </span></span>
 <span><span class="co">##  [23] desc_1.4.3                  plyr_1.8.9                 </span></span>
 <span><span class="co">##  [25] plotly_4.10.4               cachem_1.1.0               </span></span>
 <span><span class="co">##  [27] lifecycle_1.0.4             iterators_1.0.14           </span></span>
 <span><span class="co">##  [29] pkgconfig_2.0.3             rsvd_1.0.5                 </span></span>
-<span><span class="co">##  [31] Matrix_1.7-2                R6_2.6.1                   </span></span>
-<span><span class="co">##  [33] fastmap_1.2.0               GenomeInfoDbData_1.2.13    </span></span>
+<span><span class="co">##  [31] Matrix_1.7-3                R6_2.6.1                   </span></span>
+<span><span class="co">##  [33] fastmap_1.2.0               GenomeInfoDbData_1.2.14    </span></span>
 <span><span class="co">##  [35] MatrixGenerics_1.19.1       clue_0.3-66                </span></span>
 <span><span class="co">##  [37] digest_0.6.37               colorspace_2.1-1           </span></span>
 <span><span class="co">##  [39] AnnotationDbi_1.69.0        S4Vectors_0.45.4           </span></span>
-<span><span class="co">##  [41] irlba_2.3.5.1               textshaping_1.0.0          </span></span>
-<span><span class="co">##  [43] GenomicRanges_1.59.1        RSQLite_2.3.9              </span></span>
-<span><span class="co">##  [45] beachmat_2.23.6             labeling_0.4.3             </span></span>
+<span><span class="co">##  [41] irlba_2.3.5.1               GenomicRanges_1.59.1       </span></span>
+<span><span class="co">##  [43] textshaping_1.0.0           RSQLite_2.3.9              </span></span>
+<span><span class="co">##  [45] beachmat_2.23.7             labeling_0.4.3             </span></span>
 <span><span class="co">##  [47] httr_1.4.7                  abind_1.4-8                </span></span>
 <span><span class="co">##  [49] compiler_4.5.0              bit64_4.6.0-1              </span></span>
 <span><span class="co">##  [51] withr_3.0.2                 doParallel_1.0.17          </span></span>
@@ -1123,19 +1156,19 @@ Session Information
 <span><span class="co">##  [55] viridis_0.6.5               DBI_1.2.3                  </span></span>
 <span><span class="co">##  [57] BiasedUrn_2.0.12            HDF5Array_1.35.15          </span></span>
 <span><span class="co">##  [59] DelayedArray_0.33.6         rjson_0.2.23               </span></span>
-<span><span class="co">##  [61] tools_4.5.0                 msigdbr_7.5.1              </span></span>
+<span><span class="co">##  [61] tools_4.5.0                 msigdbr_10.0.1             </span></span>
 <span><span class="co">##  [63] glue_1.8.0                  h5mread_0.99.4             </span></span>
 <span><span class="co">##  [65] rhdf5filters_1.19.2         checkmate_2.3.2            </span></span>
-<span><span class="co">##  [67] cluster_2.1.8               generics_0.1.3             </span></span>
+<span><span class="co">##  [67] cluster_2.1.8.1             generics_0.1.3             </span></span>
 <span><span class="co">##  [69] gtable_0.3.6                tidyr_1.3.1                </span></span>
 <span><span class="co">##  [71] BiocSingular_1.23.0         ScaledMatrix_1.15.0        </span></span>
 <span><span class="co">##  [73] XVector_0.47.2              BiocGenerics_0.53.6        </span></span>
 <span><span class="co">##  [75] foreach_1.5.2               pillar_1.10.1              </span></span>
-<span><span class="co">##  [77] babelgene_22.9              GSVA_2.1.7                 </span></span>
+<span><span class="co">##  [77] babelgene_22.9              GSVA_2.1.10                </span></span>
 <span><span class="co">##  [79] lattice_0.22-6              bit_4.6.0                  </span></span>
 <span><span class="co">##  [81] annotate_1.85.0             tidyselect_1.2.1           </span></span>
 <span><span class="co">##  [83] SingleCellExperiment_1.29.2 locfit_1.5-9.12            </span></span>
-<span><span class="co">##  [85] Biostrings_2.75.4           knitr_1.49                 </span></span>
+<span><span class="co">##  [85] Biostrings_2.75.4           knitr_1.50                 </span></span>
 <span><span class="co">##  [87] gridExtra_2.3               bookdown_0.42              </span></span>
 <span><span class="co">##  [89] IRanges_2.41.3              SummarizedExperiment_1.37.0</span></span>
 <span><span class="co">##  [91] stats4_4.5.0                xfun_0.51                  </span></span>
@@ -1144,18 +1177,19 @@ Session Information
 <span><span class="co">##  [97] lazyeval_0.2.2              yaml_2.3.10                </span></span>
 <span><span class="co">##  [99] evaluate_1.0.3              codetools_0.2-20           </span></span>
 <span><span class="co">## [101] tibble_3.2.1                BiocManager_1.30.25        </span></span>
-<span><span class="co">## [103] graph_1.85.1                cli_3.6.4                  </span></span>
+<span><span class="co">## [103] graph_1.85.3                cli_3.6.4                  </span></span>
 <span><span class="co">## [105] ontologyIndex_2.12          xtable_1.8-4               </span></span>
 <span><span class="co">## [107] systemfonts_1.2.1           munsell_0.5.1              </span></span>
 <span><span class="co">## [109] jquerylib_0.1.4             Rcpp_1.0.14                </span></span>
 <span><span class="co">## [111] GenomeInfoDb_1.43.4         png_0.1-8                  </span></span>
 <span><span class="co">## [113] XML_3.99-0.18               parallel_4.5.0             </span></span>
-<span><span class="co">## [115] pkgdown_2.1.1               blob_1.2.4                 </span></span>
-<span><span class="co">## [117] sparseMatrixStats_1.19.0    SpatialExperiment_1.17.0   </span></span>
-<span><span class="co">## [119] viridisLite_0.4.2           GSEABase_1.69.1            </span></span>
-<span><span class="co">## [121] scales_1.3.0                purrr_1.0.4                </span></span>
-<span><span class="co">## [123] crayon_1.5.3                GetoptLong_1.0.5           </span></span>
-<span><span class="co">## [125] rlang_1.1.5                 KEGGREST_1.47.0</span></span></code></pre>
+<span><span class="co">## [115] pkgdown_2.1.1               assertthat_0.2.1           </span></span>
+<span><span class="co">## [117] blob_1.2.4                  sparseMatrixStats_1.19.0   </span></span>
+<span><span class="co">## [119] SpatialExperiment_1.17.0    viridisLite_0.4.2          </span></span>
+<span><span class="co">## [121] GSEABase_1.69.1             scales_1.3.0               </span></span>
+<span><span class="co">## [123] purrr_1.0.4                 crayon_1.5.3               </span></span>
+<span><span class="co">## [125] GetoptLong_1.0.5            rlang_1.1.5                </span></span>
+<span><span class="co">## [127] KEGGREST_1.47.0</span></span></code></pre>
 </details>
 </div>
   </div>

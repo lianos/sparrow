@@ -19,7 +19,7 @@ be retrieved by their collection name, ie c("H", "C2", "C7").'><!-- mathjax --><
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sparrow</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.13.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.13.10</span>
       </span>
     </div>
 
@@ -73,20 +73,25 @@ be retrieved by their collection name, ie <code>c("H", "C2", "C7")</code>.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">getMSigCollection</span><span class="op">(</span></span>
 <span>  collection <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  species <span class="op">=</span> <span class="st">"human"</span>,</span>
-<span>  id.type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ensembl"</span>, <span class="st">"entrez"</span>, <span class="st">"symbol"</span><span class="op">)</span>,</span>
+<span>  id.type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ensembl"</span>, <span class="st">"entrez"</span>, <span class="st">"symbol"</span>, <span class="st">"uniprot"</span><span class="op">)</span>,</span>
 <span>  with.kegg <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  promote.subcategory.to.collection <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  promote.subcollection <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  prefix.collection <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  strip.subcollection.prefix <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  merge.human.into.mouse <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">getMSigGeneSetDb</span><span class="op">(</span></span>
 <span>  collection <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  species <span class="op">=</span> <span class="st">"human"</span>,</span>
-<span>  id.type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ensembl"</span>, <span class="st">"entrez"</span>, <span class="st">"symbol"</span><span class="op">)</span>,</span>
+<span>  id.type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ensembl"</span>, <span class="st">"entrez"</span>, <span class="st">"symbol"</span>, <span class="st">"uniprot"</span><span class="op">)</span>,</span>
 <span>  with.kegg <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  promote.subcategory.to.collection <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  promote.subcollection <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  prefix.collection <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  strip.subcollection.prefix <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  merge.human.into.mouse <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  refetch <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -122,11 +127,12 @@ GeneSetDb. To include the KEGG gene sets when asking for the c2
 collection, set this flag to <code>TRUE</code>.</p></dd>
 
 
-<dt id="arg-promote-subcategory-to-collection">promote.subcategory.to.collection<a class="anchor" aria-label="anchor" href="#arg-promote-subcategory-to-collection"></a></dt>
+<dt id="arg-promote-subcollection">promote.subcollection<a class="anchor" aria-label="anchor" href="#arg-promote-subcollection"></a></dt>
 <dd><p>there are different sources of
 genesets for a number of the collections in MSigDB. These are included
-in the <code>gs_subcat</code> column of <code>geneSets(this)</code>. When this is set to <code>TRUE</code>,
-the collection column for the genesets is appended with the subcatory.
+in the <code>gs_subcollection</code> column of <code>geneSets(this)</code>. When this is set to
+<code>TRUE</code>, the collection column for the genesets is appended with the
+subcollection.
 So, instead of having a massive <code>"C2"</code> collection, you'll have bunch of
 collections like <code>"C2_CGP"</code>, <code>"C2_CP:BIOCARTA"</code>, etc.</p></dd>
 
@@ -134,6 +140,17 @@ collections like <code>"C2_CGP"</code>, <code>"C2_CP:BIOCARTA"</code>, etc.</p><
 <dt id="arg-prefix-collection">prefix.collection<a class="anchor" aria-label="anchor" href="#arg-prefix-collection"></a></dt>
 <dd><p>When <code>TRUE</code> (default: <code>FALSE</code>), the <code>"C1"</code>, <code>"C2"</code>,
 etc. is prefixed with <code>"MSigDB_*"</code></p></dd>
+
+
+<dt id="arg-strip-subcollection-prefix">strip.subcollection.prefix<a class="anchor" aria-label="anchor" href="#arg-strip-subcollection-prefix"></a></dt>
+<dd><p>removes the CGP: type prefixes for the
+<code>gs_subcollection</code> column, except for the C5 GO collection.</p></dd>
+
+
+<dt id="arg-merge-human-into-mouse">merge.human.into.mouse<a class="anchor" aria-label="anchor" href="#arg-merge-human-into-mouse"></a></dt>
+<dd><p>When <code>TRUE</code> (default), the OG human collections
+are merged into the newly  minted (as of 2024) M* mouse collections. Set
+to <code>FALSE</code> to not do that.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
@@ -184,9 +201,18 @@ or more of the following as appropriate:</p><ul><li><p>Liberzon, et al. (2011, B
 <span class="r-in"><span>  <span class="co"># these take a while to load initially, so put them in dontrun blocks.</span></span></span>
 <span class="r-in"><span>  <span class="co"># you should run these interactively to understand what they return</span></span></span>
 <span class="r-in"><span>  <span class="va">bcs</span> <span class="op">&lt;-</span> <span class="fu">getMSigCollection</span><span class="op">(</span><span class="st">"h"</span>, <span class="st">"human"</span>, <span class="st">"entrez"</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The 'msigdbdf' package must be installed to access the full dataset.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Please run the following command to install the 'msigdbdf' package:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> install.packages('msigdbdf', repos = 'https://igordot.r-universe.dev')</span>
 <span class="r-in"><span>  <span class="va">bcs.h.entrez</span> <span class="op">&lt;-</span> <span class="fu">getMSigCollection</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"h"</span>, <span class="st">"c2"</span><span class="op">)</span>, <span class="st">"human"</span>, <span class="st">"entrez"</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="va">bcs.h.ens</span> <span class="op">&lt;-</span> <span class="fu">getMSigCollection</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"h"</span>, <span class="st">"c2"</span><span class="op">)</span>, <span class="st">"human"</span>, <span class="st">"ensembl"</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="va">bcs.m.entrez</span> <span class="op">&lt;-</span> <span class="fu">getMSigCollection</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"h"</span>, <span class="st">"c2"</span><span class="op">)</span>, <span class="st">"mouse"</span>, <span class="st">"entrez"</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The 'msigdbdf' package must be installed to access the full dataset.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Please run the following command to install the 'msigdbdf' package:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> install.packages('msigdbdf', repos = 'https://igordot.r-universe.dev')</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The 'msigdbdf' package must be installed to access the full dataset.</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in msigdbr_check_data(require_data = TRUE):</span> Please run the following command to install the 'msigdbdf' package:</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> install.packages('msigdbdf', repos = 'https://igordot.r-universe.dev')</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu">getMSigGeneSetDb</span><span class="op">(</span><span class="st">"h"</span>, <span class="st">"human"</span>, <span class="st">"entrez"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>

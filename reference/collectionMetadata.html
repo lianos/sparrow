@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sparrow</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.13.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.13.10</span>
       </span>
     </div>
 
@@ -263,8 +263,9 @@ methods <code>featureIdType&lt;-</code>, <code>geneSetURLfunction&lt;-</code>, e
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># feature id types</span></span></span>
 <span class="r-in"><span><span class="fu">featureIdType</span><span class="op">(</span><span class="va">gdb</span>, <span class="st">"c2"</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu">GSEABase</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/GSEABase/man/GeneIdentifierType-constructors.html" class="external-link">EntrezIdentifier</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in addCollectionMetadata(x, i, "id_type", value, valid):</span> Invalid value used to update c2,id_type</span>
 <span class="r-in"><span><span class="fu">featureIdType</span><span class="op">(</span><span class="va">gdb</span>, <span class="st">"c2"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> geneIdType: EntrezId</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Arbitrary metadata</span></span></span>
 <span class="r-in"><span><span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu">addCollectionMetadata</span><span class="op">(</span><span class="va">gdb</span>, <span class="st">'c2'</span>, <span class="st">'foo'</span>, <span class="st">'bar'</span><span class="op">)</span></span></span>
