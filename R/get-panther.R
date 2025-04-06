@@ -21,7 +21,6 @@
 #' it's not clear how often these get updated.
 #'
 #' @export
-#' @importFrom GSEABase EntrezIdentifier
 #' @param type "pathway" or, "goslim"
 #' @param species "human" or "mouse"
 #'
@@ -93,7 +92,7 @@ getPantherPathways <- function(p.db, org.db) {
 
   gdb <- GeneSetDb(m, collectionName = cname)
   geneSetCollectionURLfunction(gdb, cname) <- ".geneSetURL.PANTHERpathway"
-  featureIdType(gdb, cname) <- EntrezIdentifier()
+  featureIdType(gdb, cname) <- "entrez" # EntrezIdentifier()
   gdb
 }
 
@@ -146,7 +145,7 @@ getPantherGOSLIM <- function(p.db, org.db) {
 
   for (coll in unique(GO$collection)) {
     geneSetCollectionURLfunction(gdb, coll) <- ".geneSetURL.GOSLIM"
-    featureIdType(gdb, coll) <- EntrezIdentifier()
+    featureIdType(gdb, coll) <- "entrez" # EntrezIdentifier()
   }
 
   gdb

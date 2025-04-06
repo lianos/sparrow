@@ -46,10 +46,10 @@ getKeggGeneSetDb <- function(species = "human",
   gdb <- .get_kegg_pathway_db(sinfo, id.type, ...)
 
   if (id.type == "entrez") {
-    featureIdType(gdb, "KEGG") <- GSEABase::EntrezIdentifier()
+    featureIdType(gdb, "KEGG") <- "entrez" # GSEABase::EntrezIdentifier()
   } else {
     gdb <- convertIdentifiers(gdb, from = species, id.type = "ensembl")
-    featureIdType(gdb, "KEGG") <- GSEABase::ENSEMBLIdentifier()
+    featureIdType(gdb, "KEGG") <- "ensembl" # GSEABase::ENSEMBLIdentifier()
   }
   gdb
 }

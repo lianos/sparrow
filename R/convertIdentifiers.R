@@ -27,7 +27,7 @@
 #' to make identifier conversion a easier through this function. You can track
 #' this in [sparrow issue #2](https://github.com/lianos/sparrow/issues/2).
 #'
-#' @section Species and Identifier Conversion via orthogene
+#' @section Species and Identifier Conversion via orthogene:
 #' Babelgene is great, but does not support all species (like cynos), but we
 #' can rely on the orthogene package for that. The downside to orthogene is that
 #' it requires online acces.

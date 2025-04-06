@@ -27,6 +27,8 @@ pdata.default <- function(x, ...) NULL
 }
 
 # DGEList ======================================================================
+
+#' @noRd
 fdata.DGEList <- function(x, as.df = FALSE, ...) {
   out <- x$genes
   if (!is.data.frame(out)) {
@@ -35,40 +37,50 @@ fdata.DGEList <- function(x, as.df = FALSE, ...) {
   out
 }
 
+#' @noRd
 `fdata<-.DGEList` <- function(x, value) {
   x$genes <- value
   x
 }
 
+#' @noRd
 pdata.DGEList <- function(x, ...) {
   x$samples
 }
 
+#' @noRd
 `pdata<-.DGEList` <- function(x, value) {
   x$samples <- value
   x
 }
 
 # EList ========================================================================
+
+#' @noRd
 fdata.EList <- fdata.DGEList
 `fdata<-.EList` <- `fdata<-.DGEList`
 
+#' @noRd
 pdata.EList <- function(x, ...) {
   x$targets
 }
 
+#' @noRd
 `pdata<-.EList` <- function(x, value) {
   x$targets <- value
   x
 }
 
 # eSet =========================================================================
+
+#' @noRd
 fdata.eSet <- function(x, ...) {
   ns <- tryCatch(loadNamespace("Biobase"), error = function(e) NULL)
   if (is.null(ns)) stop("Biobase required")
   ns$fData(x)
 }
 
+#' @noRd
 `fdata<-.eSet` <- function(x, value) {
   ns <- tryCatch(loadNamespace("Biobase"), error = function(e) NULL)
   if (is.null(ns)) stop("Biobase required")
@@ -76,12 +88,14 @@ fdata.eSet <- function(x, ...) {
   x
 }
 
+#' @noRd
 pdata.eSet <- function(x, ...) {
   ns <- tryCatch(loadNamespace("Biobase"), error = function(e) NULL)
   if (is.null(ns)) stop("Biobase required")
   ns$pData(x)
 }
 
+#' @noRd
 `pdata<-.eSet` <- function(x, value) {
   ns <- tryCatch(loadNamespace("Biobase"), error = function(e) NULL)
   if (is.null(ns)) stop("Biobase required")
@@ -91,6 +105,7 @@ pdata.eSet <- function(x, ...) {
 
 # SummarizedExperiment =========================================================
 
+#' @noRd
 fdata.SummarizedExperiment <- function(x, as.df = FALSE, ...) {
   if (!requireNamespace("SummarizedExperiment")) {
     stop("SummarizedExperiment package required")
@@ -100,6 +115,7 @@ fdata.SummarizedExperiment <- function(x, as.df = FALSE, ...) {
   out
 }
 
+#' @noRd
 `fdata<-.SummarizedExperiment` <- function(x, value) {
   if (!requireNamespace("SummarizedExperiment")) {
     stop("SummarizedExperiment package required")
@@ -108,6 +124,7 @@ fdata.SummarizedExperiment <- function(x, as.df = FALSE, ...) {
   x
 }
 
+#' @noRd
 pdata.SummarizedExperiment <- function(x, as.df = FALSE, ...) {
   if (!requireNamespace("SummarizedExperiment")) {
     stop("SummarizedExperiment package required")
@@ -117,6 +134,7 @@ pdata.SummarizedExperiment <- function(x, as.df = FALSE, ...) {
   out
 }
 
+#' @noRd
 `pdata<-.SummarizedExperiment` <- function(x, value) {
   if (!requireNamespace("SummarizedExperiment")) {
     stop("SummarizedExperiment package required")

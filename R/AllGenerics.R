@@ -118,7 +118,7 @@ setGeneric("featureIdMap<-", function(x, value)
 #'            c('BIOCARTA_AGPCR_PATHWAY', 'GSE14308_TH2_VS_TH1_UP'))
 #'
 #' # feature id types
-#' featureIdType(gdb, "c2") <- GSEABase::EntrezIdentifier()
+#' featureIdType(gdb, "c2") <- "entrez" # GSEABase::EntrezIdentifier()
 #' featureIdType(gdb, "c2")
 #'
 #' ## Arbitrary metadata
@@ -191,9 +191,9 @@ setGeneric("geneSetCollectionURLfunction<-",
 #'
 #' ```
 #' gdb <- getMSigGeneSetDb('H')
-#' featureIdType(gdb, 'H') <- GSEABase::ENSEMBLIdentifier()
+#' featureIdType(gdb, 'H') <- "ensembl"
 #' ## or, equivalently (but you don't want to use this)
-#' gdb <- addCollectionMetadata(gdb, 'H', 'id_type', GSEABase::ENSEMBLIdentifier())
+#' gdb <- addCollectionMetadata(gdb, 'H', 'id_type', "ensembl")
 #' ```
 #'
 #' @exportMethod featureIdType

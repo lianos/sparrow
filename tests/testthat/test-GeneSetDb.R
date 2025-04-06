@@ -99,7 +99,7 @@ test_that("GeneSetDb contructor converts list of GeneSetCollection properly", {
   gdb.all <- exampleGeneSetDb()
   gdb.c2 <- gdb.all[gdb.all@table$collection == "c2"]
   gdb.c7 <- gdb.all[gdb.all@table$collection == "c7"]
-  gdbo <- combine(gdb.c2, gdb.c7)
+  gdbo <- sparrow::combine(gdb.c2, gdb.c7)
 
   gscl <- list(c2 = as(gdb.c2, 'GeneSetCollection'),
                c7 = as(gdb.c7, 'GeneSetCollection'))
@@ -114,7 +114,7 @@ test_that("GeneSetDb constructor honors custom collectionName args", {
   gdb.all <- exampleGeneSetDb()
   gdb.c2 <- gdb.all[gdb.all@table$collection == "c2"]
   gdb.c7 <- gdb.all[gdb.all@table$collection == "c7"]
-  gdbo <- combine(gdb.c2, gdb.c7)
+  gdbo <- sparrow::combine(gdb.c2, gdb.c7)
 
   lol <- as.list(gdbo, nested=TRUE)
   new.cnames <- setNames(c('x1', 'x2'), names(lol))
@@ -270,7 +270,7 @@ test_that("combine,GeneSetDb works", {
   gsl <- exampleGeneSets()
   gsd <- GeneSetDb(gsl)
   extra <- list(more=list(first=head(letters, 10), second=tail(letters, 10)))
-  gst2 <- combine(gsd, GeneSetDb(extra))
+  gst2 <- sparrow::combine(gsd, GeneSetDb(extra))
   expect_is(gst2, 'GeneSetDb')
   expect_true(validObject(gst2))
 
@@ -309,7 +309,7 @@ test_that("combine,GeneSetDb honors geneset metadata in columns of geneSets()", 
 
   gdb.rest <- gdb.all[gdb.all@table$collection != "c2"]
   gdb.rest@table$rest <- "things"
-  gdb2 <- combine(gdb.c2, gdb.rest)
+  gdb2 <- sparrow::combine(gdb.c2, gdb.rest)
 
   # Check that all columns are there
   gs.c2 <- geneSets(gdb.c2, as.dt = TRUE)
@@ -326,7 +326,7 @@ test_that("combine,GeneSetDb's that have duplicate genesets works", {
 
   gdb.rest <- gdb.all[gdb.all@table$collection != "c7"]
   gdb.rest@table$rest <- "things"
-  gdb2 <- combine(gdb.c2, gdb.rest)
+  gdb2 <- sparrow::combine(gdb.c2, gdb.rest)
 
   # Check that all columns are there
   gs.c2 <- geneSets(gdb.c2, as.dt = TRUE)

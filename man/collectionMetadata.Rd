@@ -157,9 +157,9 @@ As such, you'd define that your collection uses geneset identifiers like
 so:
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{gdb <- getMSigGeneSetDb('H')
-featureIdType(gdb, 'H') <- GSEABase::ENSEMBLIdentifier()
+featureIdType(gdb, 'H') <- "ensembl"
 ## or, equivalently (but you don't want to use this)
-gdb <- addCollectionMetadata(gdb, 'H', 'id_type', GSEABase::ENSEMBLIdentifier())
+gdb <- addCollectionMetadata(gdb, 'H', 'id_type', "ensembl")
 }\if{html}{\out{</div>}}
 }
 
@@ -188,7 +188,7 @@ geneSetURL(gdb, c('c2', 'c7'),
            c('BIOCARTA_AGPCR_PATHWAY', 'GSE14308_TH2_VS_TH1_UP'))
 
 # feature id types
-featureIdType(gdb, "c2") <- GSEABase::EntrezIdentifier()
+featureIdType(gdb, "c2") <- "entrez" # GSEABase::EntrezIdentifier()
 featureIdType(gdb, "c2")
 
 ## Arbitrary metadata

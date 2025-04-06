@@ -6,8 +6,13 @@
 test_that("url_functions with .fn.local.vars defined trim their environments", {
   with.url_function.fn <- tempfile("GeneSetDb.with.uf", fileext = ".rds")
   no.url_function.fn <- tempfile("GeneSetDb.no.uf", fileext = ".rds")
-
-  gdb <- getMSigGeneSetDb("C5")
+  
+  gdb <- sparrow::exampleGeneSetDb()
+  
+  gs.col <- "c2"
+  gs.name <- "REACTOME_RNA_POL_III_TRANSCRIPTION"
+  url.expected <- geneSetURL(gdb, gs.col, gs.name)
+  
   gdb2 <- gdb
   gdb2@collectionMetadata <-
     data.table::copy(gdb2@collectionMetadata)[name != "url_function"]
@@ -26,14 +31,10 @@ test_that("url_functions with .fn.local.vars defined trim their environments", {
   expect_lt(size.with.fn / 1024^2 - size.no.fn / 1024^2, 0.2)
 
   restored <- readRDS(with.url_function.fn)
-  # As of sparrow >= 1.13.9 & msigdbr >= 10, we are uising the AMIGO URLs for
-  # GO pathways
-  gs <- geneSet(gdb, name = "GOBP_2FE_2S_CLUSTER_ASSEMBLY")
-  gs.info <- subset(geneSets(gdb), name == gs$name[1])
   
   expect_equal(
-    geneSetURL(restored, gs$collection[1], gs$name[1]),
-    gs.info$geneset_url,
+    geneSetURL(restored, gs.col, gs.name),
+    url.expected,
     check.attributes = FALSE)
 
   unlink(with.url_function.fn)

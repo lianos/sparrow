@@ -99,7 +99,7 @@ getReactomeGeneSetDb <- function(species = 'human',
 
   gdb <- GeneSetDb(info)
   geneSetCollectionURLfunction(gdb, "Reactome") <- ".geneSetURL.REACTOME"
-  featureIdType(gdb, "Reactome") <- GSEABase::EntrezIdentifier()
+  featureIdType(gdb, "Reactome") <- "entrez" # GSEABase::EntrezIdentifier()
   gdb
 }
 

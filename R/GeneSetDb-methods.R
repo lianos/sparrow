@@ -1206,8 +1206,17 @@ setAs("GeneSetDb", "GeneSetCollection", function(from) {
     name <- gs$name[i]
     coll <- gs$collection[i]
     idt <- id.type[coll]$value[[1]]
-    if (!is(idt, 'GeneIdentifierType')) {
-      idt <- NullIdentifier()
+    if (!checkmate::test_string(idt)) {
+      idt <- GSEABase::NullIdentifier()
+    } else {
+      idt <- switch(
+        ensembl = GSEABase::ENSEMBLIdentifier(),
+        entrez = GSEABase::EntrezIdentifier(),
+        symbol = GSEABase::GenenameIdentifier(),
+        refseq = GSEABase::RefseqIdentifier(),
+        uniprot = GSEABase::UniprotIdentifier(),
+        GSEABase::NullIdentifier()
+      )
     }
     ids <- featureIds(from, coll, name, 'feature_id')
     xorg <- org[coll]$value[[1]]
