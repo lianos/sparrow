@@ -1,4 +1,11 @@
-# sparrow 1.2 (devel)
+# sparrow 1.14
+
+## Enhancements
+
+* Updated to support refactored msigdbr package (version >= 10.0.0), which now
+  only includse the human Hallmark genesets internally. The msigdbr package
+  relies on an external (non CRAN) msigdbdf package, for the rest of the
+  (now more recent) definitions of the MSigDB gene set collections.
 
 ## Enhancements
 
