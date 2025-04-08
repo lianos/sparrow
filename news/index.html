@@ -61,13 +61,17 @@
     </div>
 
     <div class="section level2">
-<h2 class="page-header" data-toc-text="1.2" id="sparrow-12-devel">sparrow 1.2 (devel)<a class="anchor" aria-label="anchor" href="#sparrow-12-devel"></a></h2>
+<h2 class="page-header" data-toc-text="1.14" id="sparrow-114">sparrow 1.14<a class="anchor" aria-label="anchor" href="#sparrow-114"></a></h2>
 <div class="section level3">
-<h3 id="enhancements-1-2">Enhancements<a class="anchor" aria-label="anchor" href="#enhancements-1-2"></a></h3>
+<h3 id="enhancements-1-14">Enhancements<a class="anchor" aria-label="anchor" href="#enhancements-1-14"></a></h3>
+<ul><li>Updated to support refactored msigdbr package (version &gt;= 10.0.0), which now only includse the human Hallmark genesets internally. The msigdbr package relies on an external (non CRAN) msigdbdf package, for the rest of the (now more recent) definitions of the MSigDB gene set collections.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="enhancements-1-14-1">Enhancements<a class="anchor" aria-label="anchor" href="#enhancements-1-14-1"></a></h3>
 <ul><li>The default “zero-centering” logic is updated in mgheatmap2 when <code>col</code> isn’t specified, but <code>recenter</code> is (backported to release 3.14)</li>
 </ul></div>
 <div class="section level3">
-<h3 id="bug-fixes-1-2">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-2"></a></h3>
+<h3 id="bug-fixes-1-14">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-14"></a></h3>
 <ul><li>
 <code>calculateIndividualLogFC</code> is updated to handle situations when <code>$genes</code> data.frame has column names that collide with statistics generated from differential expression, like <code>pval</code>, <code>padg</code>, and <code>AveExpr</code>. Thanks to <a href="https://github.com/sandersen12" class="external-link">@sandersen12</a> for the bug report.</li>
 </ul></div>
