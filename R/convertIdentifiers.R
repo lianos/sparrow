@@ -54,6 +54,12 @@
 #'   map of your identifiers, you may trigger this error. You can temporarily
 #'   turn this option/error off by setting `allow.cartesian = TRUE`. The
 #'   option will be restored to its "pre-function call" value `on.exit`.
+#' @param method The method used to convert identifers, either `"orthogene"` or
+#'   `"babelgene"`. `"orthogene"` (the default) is more powerful, supports
+#'   more organisms, and (unlike `"babelgene"`) can map between any two
+#'   arbitrary species -- babelgene requires one of the species in the mapping
+#'   to be human. The downside to `"orthogene"` is that you need internet access
+#'   to run.
 #' @param min_support,top Parameters used in the internal call to
 #'   [babelgene::orthologs()]
 #' @param ... pass through args (not used)

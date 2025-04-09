@@ -76,6 +76,13 @@ map of your identifiers, you may trigger this error. You can temporarily
 turn this option/error off by setting \code{allow.cartesian = TRUE}. The
 option will be restored to its "pre-function call" value \code{on.exit}.}
 
+\item{method}{The method used to convert identifers, either \code{"orthogene"} or
+\code{"babelgene"}. \code{"orthogene"} (the default) is more powerful, supports
+more organisms, and (unlike \code{"babelgene"}) can map between any two
+arbitrary species -- babelgene requires one of the species in the mapping
+to be human. The downside to \code{"orthogene"} is that you need internet access
+to run.}
+
 \item{min_support, top}{Parameters used in the internal call to
 \code{\link[babelgene:orthologs]{babelgene::orthologs()}}}
 

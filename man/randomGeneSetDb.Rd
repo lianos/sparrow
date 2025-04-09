@@ -13,6 +13,10 @@ randomGeneSetDb(x, n = 10, bias = NULL, include_spaces = TRUE, ...)
 
 \item{bias}{column in \code{x} to bias the geneset creation by}
 
+\item{include_spaces}{If \code{TRUE} (default), geneset names will have a space
+in them. This is used to test corner cases around the assumption of
+geneset naming conventions.}
+
 \item{...}{pass through args}
 }
 \value{

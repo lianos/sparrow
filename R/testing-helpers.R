@@ -209,6 +209,9 @@ exampleDgeResult <- function(species = "human",
 #' @param x an input container to [seas()]
 #' @param n number of genesets
 #' @param bias column in `x` to bias the geneset creation by
+#' @param include_spaces If `TRUE` (default), geneset names will have a space
+#'   in them. This is used to test corner cases around the assumption of
+#'   geneset naming conventions.
 #' @param ... pass through args
 #' @return A randomly generated GeneSetDb you can use against `x` for testing.
 #' @export

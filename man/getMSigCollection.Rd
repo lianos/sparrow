@@ -69,6 +69,10 @@ are merged into the newly  minted (as of 2024) M* mouse collections. Set
 to \code{FALSE} to not do that.}
 
 \item{...}{pass through parameters}
+
+\item{refetch}{If \code{TRUE}, this function will requiry the msigdbr package to
+fetch genesets it has already retrieved and converted. When \code{FALSE},
+the cached version of the genesets will be returned.}
 }
 \value{
 a \code{BiocSet} of the MSigDB collections

@@ -94,6 +94,9 @@ getMSigCollection <- function(collection = NULL,
 
 #' @describeIn getMSigCollection retrieval method for a GeneSetDb container
 #' @export
+#' @param refetch If `TRUE`, this function will requiry the msigdbr package to
+#'   fetch genesets it has already retrieved and converted. When `FALSE`, 
+#'   the cached version of the genesets will be returned.
 getMSigGeneSetDb <- function(collection = NULL,
                              species = "human",
                              id.type = c("ensembl", "entrez", "symbol", "uniprot"),
