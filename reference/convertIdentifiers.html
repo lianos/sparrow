@@ -158,6 +158,15 @@ turn this option/error off by setting <code>allow.cartesian = TRUE</code>. The
 option will be restored to its "pre-function call" value <code>on.exit</code>.</p></dd>
 
 
+<dt id="arg-method">method<a class="anchor" aria-label="anchor" href="#arg-method"></a></dt>
+<dd><p>The method used to convert identifers, either <code>"orthogene"</code> or
+<code>"babelgene"</code>. <code>"orthogene"</code> (the default) is more powerful, supports
+more organisms, and (unlike <code>"babelgene"</code>) can map between any two
+arbitrary species – babelgene requires one of the species in the mapping
+to be human. The downside to <code>"orthogene"</code> is that you need internet access
+to run.</p></dd>
+
+
 <dt id="arg-min-support-top">min_support, top<a class="anchor" aria-label="anchor" href="#arg-min-support-top"></a></dt>
 <dd><p>Parameters used in the internal call to
 <code><a href="https://igordot.github.io/babelgene/reference/orthologs.html" class="external-link">babelgene::orthologs()</a></code></p></dd>
