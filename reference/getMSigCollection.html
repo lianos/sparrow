@@ -207,18 +207,9 @@ or more of the following as appropriate:</p><ul><li><p>Liberzon, et al. (2011, B
 <span class="r-in"><span>  <span class="co"># these take a while to load initially, so put them in dontrun blocks.</span></span></span>
 <span class="r-in"><span>  <span class="co"># you should run these interactively to understand what they return</span></span></span>
 <span class="r-in"><span>  <span class="va">bcs</span> <span class="op">&lt;-</span> <span class="fu">getMSigCollection</span><span class="op">(</span><span class="st">"h"</span>, <span class="st">"human"</span>, <span class="st">"entrez"</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> The 'msigdbdf' package must be installed to access the full dataset.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Please run the following command to install the 'msigdbdf' package:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> install.packages('msigdbdf', repos = 'https://igordot.r-universe.dev')</span>
 <span class="r-in"><span>  <span class="va">bcs.h.entrez</span> <span class="op">&lt;-</span> <span class="fu">getMSigCollection</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"h"</span>, <span class="st">"c2"</span><span class="op">)</span>, <span class="st">"human"</span>, <span class="st">"entrez"</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="va">bcs.h.ens</span> <span class="op">&lt;-</span> <span class="fu">getMSigCollection</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"h"</span>, <span class="st">"c2"</span><span class="op">)</span>, <span class="st">"human"</span>, <span class="st">"ensembl"</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="va">bcs.m.entrez</span> <span class="op">&lt;-</span> <span class="fu">getMSigCollection</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"h"</span>, <span class="st">"c2"</span><span class="op">)</span>, <span class="st">"mouse"</span>, <span class="st">"entrez"</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> The 'msigdbdf' package must be installed to access the full dataset.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Please run the following command to install the 'msigdbdf' package:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> install.packages('msigdbdf', repos = 'https://igordot.r-universe.dev')</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> The 'msigdbdf' package must be installed to access the full dataset.</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in msigdbr_check_data(require_data = TRUE):</span> Please run the following command to install the 'msigdbdf' package:</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> install.packages('msigdbdf', repos = 'https://igordot.r-universe.dev')</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu">getMSigGeneSetDb</span><span class="op">(</span><span class="st">"h"</span>, <span class="st">"human"</span>, <span class="st">"entrez"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
