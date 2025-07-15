@@ -204,7 +204,7 @@ getMSigGeneSetDb <- function(collection = NULL,
                   "ortholog_sources", "num_ortholog_sources")
     axe.cols <- intersect(axe.cols, colnames(sigs.all))
     for (axe in axe.cols) sigs.all[, (axe) := NULL]
-    setkeyv(sigs.all, c("gs_collection", "gs_name"))
+    setkeyv(sigs.all, c("gs_collection", "gs_name", "gene_symbol"))
     .pkgcache[["msigdb"]][[cache.key]] <- data.table::copy(sigs.all)
   }
   
