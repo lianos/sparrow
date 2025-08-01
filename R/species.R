@@ -16,8 +16,8 @@ species_info <- function(query = NULL, ...) {
     stringsAsFactors = FALSE,
     system.file("extdata", "species-info.csv", package = "sparrow"))
   if (is.null(query)) return(info)
-  query <- assert_string(query)
-  query <- gsub(" +", "_", tolower(query))
+  query.in <- assert_string(query)
+  query <- gsub(" +", "_", tolower(query.in))
   idx <- NA
   for (cname in names(info)) {
     vals <- tolower(info[[cname]])
@@ -28,7 +28,7 @@ species_info <- function(query = NULL, ...) {
   if (is.na(idx)) {
     stop("No match found for query: ", query)
   }
-  as.list(info[idx,])
+  append(list(query = query.in), as.list(info[idx,]))
 }
 
 #' @noRd
