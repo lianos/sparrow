@@ -140,7 +140,7 @@ exampleGeneSetDF <- function() {
 #'   Otherwise calculates a fresh one using the `methods` provided
 #' @param methods the methods to use to create a new SparrowResult for.
 exampleSparrowResult <- function(cached = TRUE,
-                                 methods = c("cameraPR", "fry")) {
+                                 methods = c("cameraPR", "fgsea", "ora")) {
   if (cached) {
     fn <- system.file('extdata', 'testdata', 'test-SparrowResult.rds',
                       package='sparrow')

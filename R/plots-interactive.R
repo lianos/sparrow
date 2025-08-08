@@ -35,6 +35,9 @@
 #' @param collection If you have genesets with duplicate names in `x`
 #'   (only possible with a `GeneSetDb` object), provide the name of the
 #'   collection here to disambiguate (default: `NULL`).
+#' @param result_name if not `NULL` (the default), it fetches statistics for the
+#'   given GSEA result using `result(x, name = result_name, ...)` which can then
+#'   be used for plotting.
 #' @param shiny_source the name of this element that is used in shiny callbacks.
 #'   Defaults to `"mggenes"`.
 #' @param width,height the width and height of the output plotly plot
@@ -47,20 +50,20 @@
 #' @return the ploty plot object
 #' @examples
 #' mgr <- exampleSparrowResult()
-#' iplot(mgr, "BURTON_ADIPOGENESIS_PEAK_AT_2HR",
-#'       value = c("t-statistic" = "t"),
-#'       type = "density")
-#' iplot(mgr, "BURTON_ADIPOGENESIS_PEAK_AT_2HR",
-#'       value = c("log2FC" = "logFC"),
-#'       type = "boxplot")
-#' iplot(mgr, "BURTON_ADIPOGENESIS_PEAK_AT_2HR",
-#'       value = c("-statistic" = "t"),
-#'       type = "gsea")
+#' upreg <- "SOTIRIOU_BREAST_CANCER_GRADE_1_VS_3_UP"
+#' dnreg <- "TURASHVILI_BREAST_LOBULAR_CARCINOMA_VS_DUCTAL_NORMAL_DN"
+#' 
+#' iplot(mgr, upreg, value = c("t-statistic" = "t"), type = "density")
+#' iplot(mgr, upreg, value = c("log2FC" = "logFC"), type = "boxplot")
+#' iplot(mgr, upreg, value = c("t-statistic" = "t"), type = "gsea")
+#' iplot(mgr, dnreg, value = c("t-statistic" = "t"), type = "gsea")
 iplot <- function(x, name, value = "logFC",
                   type = c("density", "gsea", "boxplot"),
                   tools = c('wheel_zoom', 'box_select', 'reset', 'save'),
                   main = NULL, with.legend = TRUE,
                   collection = NULL,
+                  result_name = NULL,
+                  stats.report = c("NES", "logFC", "pval", "padj", "n"),
                   shiny_source = 'mggenes', width = NULL, height = NULL,
                   ggtheme = ggplot2::theme_bw(), trim = 0.005, ...) {
   if (FALSE) {
@@ -71,7 +74,10 @@ iplot <- function(x, name, value = "logFC",
   assert_string(name)
   assert_string(collection, null.ok = TRUE)
   assert_string(main, null.ok = TRUE)
-
+  assert_character(stats.report, null.ok = TRUE)
+  if (missing(result_name) && type == "gsea") {
+    result_name <- "fgsea"
+  }
   type <- match.arg(type)
   lfc <- copy(logFC(x, as.dt = TRUE)[, group := "bg"])
   match.arg(value, colnames(lfc))
@@ -83,11 +89,41 @@ iplot <- function(x, name, value = "logFC",
   }
 
   gset <- geneSet(x, name = name, collection = collection, as.dt = TRUE)
-  collection <- gset$collection[1L]
-  name <- gset$name[1L]
+  gcoll <- gset$collection[1L]
+  gname <- gset$name[1L]
+  gstats <- NULL
 
+  if (test_character(stats.report, min.len = 1L) && test_string(result_name) ) {
+    if (!result_name %in% resultNames(x)) {
+      warning("No GSEA method result for `'", result_name, "'`")
+    } else {
+      gstats <- result(x, result_name, as.dt = TRUE)[J(gcoll, gname)]
+      if (is.na(gstats$N)) {
+        # How could we not found geneset?
+        warning(
+          "geneset not found for stat retrieval: ",
+          paste(gcoll, gname, collapse = ",")
+        )
+        gstats <- NULL
+      } else {
+        stats.report <- intersect(stats.report, colnames(gstats))
+        gstats <- as.list(gstats)[stats.report]
+      }
+    }
+  }
+  
   if (type == "gsea") {
-    return(iplot.gsea.plot(lfc, gset, rank_by = value, title = main, ...))
+    ret <- iplot.gsea.plot(
+      lfc, 
+      gset,
+      rank_by = value,
+      title = main,
+      gstats = gstats,
+      spr = x,
+      result_name = result_name,
+      ...
+    )
+    return(ret)
   }
 
   # Avoid notes in R CMD check from data.table NSE mojo
@@ -109,13 +145,16 @@ iplot <- function(x, name, value = "logFC",
     out <- iplot.density.plotly(x, dat, value, main,
                                 with.legend=with.legend, tools=tools,
                                 shiny_source=shiny_source,
-                                ggtheme=ggtheme, trim=trim, ...)
+                                ggtheme=ggtheme, trim = trim,
+                                result_name = result_name,
+                                gstats = gstats,
+                                ...)
   } else if (type == 'boxplot') {
     out <- iplot.boxplot.plotly(x, dat, value, main,
                                 with.legend=with.legend, tools=tools,
                                 shiny_source=shiny_source,
                                 width=width, height=height, ggtheme=ggtheme,
-                                trim=trim, ...)
+                                trim=trim, gstats = gstats, ...)
   } else if (type == 'volcano') {
   }
 
@@ -130,11 +169,19 @@ iplot <- function(x, name, value = "logFC",
 #' Lots of code here is copied from fgsea
 #'
 #' @noRd
-iplot.gsea.plot <- function(lfc, geneset, rank_by, title, gseaParam = 1,
-                            ticksSize = 0.2, ..., .plot_default = FALSE,
+#' @examples
+#' 
+#' 
+iplot.gsea.plot <- function(lfc, geneset, rank_by, title, spr, gseaParam = 1,
+                            ticksSize = 0.2, result_name = "fgsea", 
+                            # gstats is the geneset statistics for this gs
+                            gstats = NULL, ...,
+                            .plot_default = FALSE,
                             .plot_static = FALSE) {
+  checkmate::expect_class(spr, "SparrowResult")
   if (!requireNamespace("fgsea")) stop("'fgsea' package required")
-
+  gcoll <- geneset$collection[1]
+  gname <- geneset$name[1]
   # Setup params so we can just copy and paste fgsea::plotEnrichment code
   pathway <- geneset[["feature_id"]]
   stats <- setNames(lfc[[rank_by]], lfc[["feature_id"]])
@@ -142,7 +189,25 @@ iplot.gsea.plot <- function(lfc, geneset, rank_by, title, gseaParam = 1,
   if (.plot_default) {
     return(fgsea::plotEnrichment(pathway, stats, gseaParam, ticksSize))
   }
-
+  
+  stats.anno <- NULL  
+  if (!is.null(gstats)) {
+    stats.anno <- sapply(gstats, function(val) {
+      if (is.character(val)) return(val)
+      if (test_int(val)) return(sprintf("%d", as.integer(val)))
+      if (is.numeric(val)) return(sprintf("%0.3f", val))
+      if (is.logical(val)) return(tolower(as.character(val)))
+      as.character(val)
+    })
+    # stats.anno <- sprintf("%s: %s\n", names(stats.anno), unname(stats.anno))
+    stats.anno <- paste(
+      names(stats.anno),
+      unname(stats.anno),
+      sep = ": ",
+      collapse = "\n"
+    )
+  }
+  
   # fgsea::plotEnrichment ......................................................
   rnk <- rank(-stats)
   ord <- order(rnk)
@@ -215,7 +280,6 @@ iplot.gsea.plot <- function(lfc, geneset, rank_by, title, gseaParam = 1,
   } else {
     xlabel <- sprintf("rank\n(by: %s)", names(rank_by))               # :custom
   }
-
   xend <- yend <- NULL # Silence NSE note in R CMD check
   g <- ggplot2::ggplot(toPlot, ggplot2::aes(x=x, y=y)) +
     ggplot2::geom_point(color = "green", size = 0.1) +
@@ -244,6 +308,41 @@ iplot.gsea.plot <- function(lfc, geneset, rank_by, title, gseaParam = 1,
       x = xlabel,
       y = "enrichment score",
       title = title)
+  
+  if (!is.null(stats.anno)) {
+    if (.plot_static) {
+      geom <- "label"
+    } else {
+      # ggplot2 can't do geom_label yet?
+      geom <- "text"
+    }
+    
+    # if NES is positive, go top right, otherwise, bottom left
+    if (is.null(gstats$NES) || gstats$NES > 0) {
+      # topright
+      # x = I(0.95), y = I(0.95), vjust = 1, hjust = 1
+      x <- 0.95
+      y <- 0.95
+      vjust <- 1
+      hjust <- 1
+    } else {
+      # x = I(0.05); y = I(0.05), vjust = 0, hjust = 0
+      x <- 0.05
+      y <- 0.05
+      vjust <- 0
+      hjust <- 0
+    }
+    
+    g <- g +
+      ggplot2::annotate(
+        geom,
+        x = I(x),
+        y = I(y),
+        label = stats.anno,
+        hjust = hjust,
+        vjust = vjust
+      )
+  }
 
   if (!.plot_static) {
     g <- plotly::ggplotly(g, tooltip = "label")
