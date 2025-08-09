@@ -25,7 +25,7 @@ generated x."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/lib
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sparrow</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.15.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.15.2</span>
       </span>
     </div>
 
@@ -196,36 +196,9 @@ the specified FDR thresholds.</p>
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="examples.html">exampleSparrowResult</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">resultNames</span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "camera" "fry"   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "cameraPR" "fgsea"    "ora"      "ora.down" "ora.up"  </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu">result</span><span class="op">(</span><span class="va">res</span>, <span class="st">"camera"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   collection                                          name active  N  n</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1         c2                        BIOCARTA_AGPCR_PATHWAY   TRUE 13 11</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2         c2         BOYAULT_LIVER_CANCER_SUBCLASS_G123_DN   TRUE 51 41</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3         c2               BURTON_ADIPOGENESIS_PEAK_AT_2HR   TRUE 51 50</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4         c2        BYSTRYKH_HEMATOPOIESIS_STEM_CELL_IL3RA   TRUE  9  6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5         c2             CAIRO_PML_TARGETS_BOUND_BY_MYC_UP   TRUE 23 23</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6         c2 CHARAFE_BREAST_CANCER_BASAL_VS_MESENCHYMAL_DN   TRUE 50 45</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           pval         padj padj.by.collection n.sig n.neutral n.up n.down</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.0227176661 0.0822694116        0.048680713     1        10    3      8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 0.0000431032 0.0005459739        0.000215516     9        32   11     30</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 0.0014736432 0.0106445384        0.005135523     9        41   14     36</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 0.5128750806 0.6187064464        0.569861201     0         6    1      5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 0.0621180232 0.1331287916        0.116471293     2        21   14      9</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 0.0015406569 0.0106445384        0.005135523     7        38   13     32</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   n.sig.up n.sig.down mean.logFC mean.logFC.trim     mean.t mean.t.trim</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1        0          1 -0.4953724      -0.5044566 -1.3726441  -1.3765614</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2        0          9 -0.7685127      -0.6500474 -1.5021451  -1.5212565</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3        1          8 -0.7654912      -0.7382118 -1.0964370  -1.1564061</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4        0          0 -0.2319652      -0.2319652 -0.5767635  -0.5767635</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5        2          0  0.3419176       0.2139964  0.6136099   0.4334291</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6        0          7 -0.4568979      -0.4711493 -1.1350462  -1.0681036</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Direction rank</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1      Down   20</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2      Down    6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3      Down   10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4      Down   63</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5        Up   35</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6      Down   11</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in invalidMethods(x, name, as.error = TRUE):</span> Illegal result names queried: camera</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu">results</span><span class="op">(</span><span class="va">res</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   collection                                          name active  N  n</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1         c2                        BIOCARTA_AGPCR_PATHWAY   TRUE 13 11</span>
@@ -234,34 +207,55 @@ the specified FDR thresholds.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4         c2        BYSTRYKH_HEMATOPOIESIS_STEM_CELL_IL3RA   TRUE  9  6</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5         c2             CAIRO_PML_TARGETS_BOUND_BY_MYC_UP   TRUE 23 23</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6         c2 CHARAFE_BREAST_CANCER_BASAL_VS_MESENCHYMAL_DN   TRUE 50 45</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    pval.camera  padj.camera padj.by.collection.camera     pval.fry   padj.fry</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.0227176661 0.0822694116               0.048680713 0.0013287077 0.02141405</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 0.0000431032 0.0005459739               0.000215516 0.0009023934 0.02141405</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 0.0014736432 0.0106445384               0.005135523 0.0510869578 0.11086895</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 0.5128750806 0.6187064464               0.569861201 0.2692576321 0.35282035</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 0.0621180232 0.1331287916               0.116471293 0.2265804573 0.33764931</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 0.0015406569 0.0106445384               0.005135523 0.0290220163 0.07605770</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   pval.mixed.fry padj.mixed.fry padj.by.collection.fry n.sig n.neutral n.up</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1   1.059937e-02   1.258676e-02             0.01014350     1        10    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2   5.202474e-07   4.626506e-06             0.01014350     9        32   11</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   5.030725e-04   7.646702e-04             0.10616306     9        41   14</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4   9.573635e-01   9.573635e-01             0.35120561     0         6    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5   2.279844e-02   2.548061e-02             0.32368637     2        21   14</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6   2.194651e-04   3.706522e-04             0.07255504     7        38   13</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   n.down n.sig.up n.sig.down mean.logFC mean.logFC.trim     mean.t mean.t.trim</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1      8        0          1 -0.4953724      -0.5044566 -1.3726441  -1.3765614</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2     30        0          9 -0.7685127      -0.6500474 -1.5021451  -1.5212565</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3     36        1          8 -0.7654912      -0.7382118 -1.0964370  -1.1564061</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4      5        0          0 -0.2319652      -0.2319652 -0.5767635  -0.5767635</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5      9        2          0  0.3419176       0.2139964  0.6136099   0.4334291</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6     32        0          7 -0.4568979      -0.4711493 -1.1350462  -1.0681036</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   rank.camera rank.fry</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1          20        3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2           6        2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3          10       35</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4          63       58</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5          35       51</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6          11       29</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   pval.cameraPR padj.cameraPR padj.by.collection.cameraPR   pval.fgsea</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  2.694636e-02  0.0890401468                0.0577422005 2.489282e-02</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  2.693973e-05  0.0003412366                0.0001346986 7.403238e-06</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  1.719765e-03  0.0108918465                0.0051592957 1.911954e-03</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  5.663255e-01  0.6651867043                0.6067772992 4.480969e-01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  5.191257e-02  0.1195562274                0.0973360733 3.598428e-02</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  1.637298e-03  0.0108918465                0.0051592957 5.372130e-04</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     padj.fgsea padj.by.collection.fgsea    pval.ora   padj.ora</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 4.966152e-02             4.497212e-02 0.598693324 0.78449470</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 5.626461e-05             2.776214e-05 0.004582821 0.03482944</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 6.919453e-03             4.779885e-03 0.007237781 0.04583928</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 5.008142e-01             5.170349e-01 1.000000000 1.00000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 6.511441e-02             5.997380e-02 0.470743114 0.68800917</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 2.721879e-03             1.611639e-03 0.070859208 0.18285307</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   padj.by.collection.ora pval.ora.down padj.ora.down</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1             0.78090434  0.4987312569    0.93918209</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2             0.02291410  0.0007124426    0.01804855</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3             0.03101906  0.0046853073    0.03560834</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4             1.00000000  1.0000000000    1.00000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5             0.74212771  1.0000000000    1.00000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6             0.18044711  0.0205324330    0.09752906</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   padj.by.collection.ora.down pval.ora.up padj.ora.up padj.by.collection.ora.up</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                 1.000000000  1.00000000   1.0000000                 1.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                 0.007124426  1.00000000   1.0000000                 1.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                 0.028111844  0.56430800   1.0000000                 1.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                 1.000000000  1.00000000   1.0000000                 1.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5                 1.000000000  0.05174316   0.3574982                 0.2828932</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6                 0.087996141  1.00000000   1.0000000                 1.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   n.sig n.neutral n.up n.down n.sig.up n.sig.down mean.logFC mean.logFC.trim</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1     1        10    3      8        0          1 -0.4953724      -0.5044566</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2     9        32   11     30        0          9 -0.7685127      -0.6500474</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3     9        41   14     36        1          8 -0.7654912      -0.7382118</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4     0         6    1      5        0          0 -0.2319652      -0.2319652</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5     2        21   14      9        2          0  0.3419176       0.2139964</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6     7        38   13     32        0          7 -0.4568979      -0.4711493</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       mean.t mean.t.trim rank.cameraPR rank.fgsea rank.ora rank.ora.down</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 -1.3726441  -1.3765614            23         38       58            40</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 -1.5021451  -1.5212565             6         10       10             3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 -1.0964370  -1.1564061            12         21       12            10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 -0.5767635  -0.5767635            64         68       72            64</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  0.6136099   0.4334291            33         42       52            64</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 -1.1350462  -1.0681036            11         15       29            16</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   rank.ora.up</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1          63</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2          63</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3          38</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4          76</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5          11</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6          63</span>
 </code></pre></div>
     </div>
   </div>
