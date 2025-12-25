@@ -86,7 +86,7 @@ sparrow</h1>
                         <h4 data-toc-skip class="author">Steve
 Lianoglou</h4>
             
-            <h4 data-toc-skip class="date">21 December 2025</h4>
+            <h4 data-toc-skip class="date">25 December 2025</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/lianos/sparrow/blob/devel/vignettes/sparrow.Rmd" class="external-link"><code>vignettes/sparrow.Rmd</code></a></small>
       <div class="hidden name"><code>sparrow.Rmd</code></div>
@@ -636,7 +636,7 @@ other:</p>
 <code class="sourceCode R"><span><span class="co"># We miss you, reshape2::acast</span></span>
 <span><span class="va">sw</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/dcast.data.table.html" class="external-link">dcast</a></span><span class="op">(</span><span class="va">scores</span>, <span class="va">name</span> <span class="op">+</span> <span class="va">sample_id</span> <span class="op">~</span> <span class="va">method</span>, value.var<span class="op">=</span><span class="st">"score"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/corplot.html">corplot</a></span><span class="op">(</span><span class="va">sw</span><span class="op">[</span>, <span class="op">-</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span>, with <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span>, cluster<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="sparrow_files/figure-html/sss-pairs-1.png" class="r-plt" width="700"></p>
+<p><img src="sparrow_files/figure-html/sss-pairs-1.png" class="r-plt" alt="" width="700"></p>
 <p>It is, perhaps, interesting to compare how the <code>ewm</code>
 method scores change when we choose not to “uncenter” and “unscale”
 them:</p>
@@ -647,7 +647,7 @@ them:</p>
 <span><span class="va">scores.all</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">scores</span>, <span class="va">ewmu</span><span class="op">)</span></span>
 <span><span class="va">swa</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/dcast.data.table.html" class="external-link">dcast</a></span><span class="op">(</span><span class="va">scores.all</span>, <span class="va">name</span> <span class="op">+</span> <span class="va">sample_id</span> <span class="op">~</span> <span class="va">method</span>, value.var<span class="op">=</span><span class="st">"score"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/corplot.html">corplot</a></span><span class="op">(</span><span class="va">swa</span><span class="op">[</span>, <span class="op">-</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span>, with <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span>, cluster<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="sparrow_files/figure-html/unnamed-chunk-3-1.png" class="r-plt" width="700"></p>
+<p><img src="sparrow_files/figure-html/unnamed-chunk-3-1.png" class="r-plt" alt="" width="700"></p>
 <p>Further exposition on the “ewm” (eigenWeightedMean) scoring method
 can be found in the <code><a href="../reference/eigenWeightedMean.html">?eigenWeightedMean</a></code> function.</p>
 </div>
@@ -674,7 +674,7 @@ gene sets.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html" class="external-link">geom_boxplot</a></span><span class="op">(</span>outlier.shape<span class="op">=</span><span class="cn">NA</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html" class="external-link">geom_jitter</a></span><span class="op">(</span>width<span class="op">=</span><span class="fl">0.25</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_grid.html" class="external-link">facet_grid</a></span><span class="op">(</span><span class="va">name</span> <span class="op">~</span> <span class="va">method</span><span class="op">)</span></span></code></pre></div>
-<p><img src="sparrow_files/figure-html/anno-scores-1.png" class="r-plt" width="700"></p>
+<p><img src="sparrow_files/figure-html/anno-scores-1.png" class="r-plt" alt="" width="700"></p>
 </div>
 </div>
 <div class="section level2">
@@ -719,7 +719,7 @@ expression.</p>
 <span><span class="fu"><a href="../reference/mgheatmap.html">mgheatmap</a></span><span class="op">(</span><span class="va">vm.bh</span>, <span class="va">gdb.2</span>, aggregate.by <span class="op">=</span> <span class="st">"none"</span>, split <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>          show_row_names <span class="op">=</span> <span class="cn">FALSE</span>, show_column_names <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>          recenter <span class="op">=</span> <span class="cn">TRUE</span>, top_annotation <span class="op">=</span> <span class="va">col.anno</span>, zlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">3</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="sparrow_files/figure-html/gheatmap-1.png" class="r-plt" width="384"></p>
+<p><img src="sparrow_files/figure-html/gheatmap-1.png" class="r-plt" alt="" width="384"></p>
 </div>
 <div class="section level3">
 <h3 id="gene-set-based-heatmap">Gene set-based heatmap<a class="anchor" aria-label="anchor" href="#gene-set-based-heatmap"></a>
@@ -733,7 +733,7 @@ looks like:</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mgheatmap.html">mgheatmap</a></span><span class="op">(</span><span class="va">vm.bh</span>, <span class="va">gdb.2</span>, aggregate.by <span class="op">=</span> <span class="st">"ewm"</span>, split <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>          show_row_names <span class="op">=</span> <span class="cn">TRUE</span>, show_column_names <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>          top_annotation <span class="op">=</span> <span class="va">col.anno</span><span class="op">)</span></span></code></pre></div>
-<p><img src="sparrow_files/figure-html/gshm2-1.png" class="r-plt" width="768"></p>
+<p><img src="sparrow_files/figure-html/gshm2-1.png" class="r-plt" alt="" width="768"></p>
 <p>Plotted in this way, we can now show the activity of a greater number
 of genesets</p>
 <div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
@@ -741,7 +741,7 @@ of genesets</p>
 <span>          aggregate.by <span class="op">=</span> <span class="st">'ewm'</span>, split<span class="op">=</span><span class="cn">TRUE</span>, recenter <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>          show_row_names<span class="op">=</span><span class="cn">TRUE</span>, show_column_names<span class="op">=</span><span class="cn">FALSE</span>,</span>
 <span>          top_annotation<span class="op">=</span><span class="va">col.anno</span>, zlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">2.5</span>, <span class="fl">2.5</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="sparrow_files/figure-html/gshm-all-1.png" class="r-plt" width="768"></p>
+<p><img src="sparrow_files/figure-html/gshm-all-1.png" class="r-plt" alt="" width="768"></p>
 </div>
 </div>
 <div class="section level2">
@@ -1096,7 +1096,7 @@ the number of rotations used via the <code>nrot</code> parameter.</p>
 Session Information
 </summary><div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## R Under development (unstable) (2025-12-13 r89166)</span></span>
+<pre><code><span><span class="co">## R Under development (unstable) (2025-12-21 r89216)</span></span>
 <span><span class="co">## Platform: x86_64-pc-linux-gnu</span></span>
 <span><span class="co">## Running under: Ubuntu 24.04.3 LTS</span></span>
 <span><span class="co">## </span></span>
@@ -1120,7 +1120,7 @@ Session Information
 <span><span class="co">## [8] base     </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## other attached packages:</span></span>
-<span><span class="co">##  [1] data.table_1.17.8     edgeR_4.9.1           limma_3.67.0         </span></span>
+<span><span class="co">##  [1] data.table_1.18.0     edgeR_4.9.2           limma_3.67.0         </span></span>
 <span><span class="co">##  [4] circlize_0.4.17       ComplexHeatmap_2.27.0 ggplot2_4.0.1        </span></span>
 <span><span class="co">##  [7] dplyr_1.1.4           magrittr_2.0.4        sparrow_1.15.2       </span></span>
 <span><span class="co">## [10] BiocStyle_2.39.0     </span></span>
@@ -1146,8 +1146,8 @@ Session Information
 <span><span class="co">##  [35] MatrixGenerics_1.23.0       clue_0.3-66                </span></span>
 <span><span class="co">##  [37] digest_0.6.39               colorspace_2.1-2           </span></span>
 <span><span class="co">##  [39] AnnotationDbi_1.73.0        S4Vectors_0.49.0           </span></span>
-<span><span class="co">##  [41] irlba_2.3.5.1               textshaping_1.0.4          </span></span>
-<span><span class="co">##  [43] GenomicRanges_1.63.1        RSQLite_2.4.5              </span></span>
+<span><span class="co">##  [41] irlba_2.3.5.1               GenomicRanges_1.63.1       </span></span>
+<span><span class="co">##  [43] textshaping_1.0.4           RSQLite_2.4.5              </span></span>
 <span><span class="co">##  [45] beachmat_2.27.1             labeling_0.4.3             </span></span>
 <span><span class="co">##  [47] httr_1.4.7                  abind_1.4-8                </span></span>
 <span><span class="co">##  [49] compiler_4.6.0              bit64_4.6.0-1              </span></span>
@@ -1157,39 +1157,39 @@ Session Information
 <span><span class="co">##  [57] DBI_1.2.3                   BiasedUrn_2.0.12           </span></span>
 <span><span class="co">##  [59] HDF5Array_1.39.0            DelayedArray_0.37.0        </span></span>
 <span><span class="co">##  [61] rjson_0.2.23                tools_4.6.0                </span></span>
-<span><span class="co">##  [63] msigdbr_25.1.1              glue_1.8.0                 </span></span>
-<span><span class="co">##  [65] h5mread_1.3.1               rhdf5filters_1.23.3        </span></span>
-<span><span class="co">##  [67] checkmate_2.3.3             cluster_2.1.8.1            </span></span>
-<span><span class="co">##  [69] memuse_4.2-3                generics_0.1.4             </span></span>
-<span><span class="co">##  [71] gtable_0.3.6                tidyr_1.3.1                </span></span>
-<span><span class="co">##  [73] BiocSingular_1.27.1         ScaledMatrix_1.19.0        </span></span>
-<span><span class="co">##  [75] XVector_0.51.0              BiocGenerics_0.57.0        </span></span>
-<span><span class="co">##  [77] foreach_1.5.2               pillar_1.11.1              </span></span>
-<span><span class="co">##  [79] babelgene_22.9              GSVA_2.5.15                </span></span>
-<span><span class="co">##  [81] lattice_0.22-7              bit_4.6.0                  </span></span>
-<span><span class="co">##  [83] annotate_1.89.0             tidyselect_1.2.1           </span></span>
-<span><span class="co">##  [85] SingleCellExperiment_1.33.0 locfit_1.5-9.12            </span></span>
-<span><span class="co">##  [87] Biostrings_2.79.2           knitr_1.50                 </span></span>
-<span><span class="co">##  [89] gridExtra_2.3               bookdown_0.46              </span></span>
-<span><span class="co">##  [91] IRanges_2.45.0              Seqinfo_1.1.0              </span></span>
-<span><span class="co">##  [93] SummarizedExperiment_1.41.0 stats4_4.6.0               </span></span>
-<span><span class="co">##  [95] xfun_0.55                   Biobase_2.71.0             </span></span>
-<span><span class="co">##  [97] statmod_1.5.1               matrixStats_1.5.0          </span></span>
-<span><span class="co">##  [99] lazyeval_0.2.2              yaml_2.3.12                </span></span>
-<span><span class="co">## [101] evaluate_1.0.5              codetools_0.2-20           </span></span>
-<span><span class="co">## [103] tibble_3.3.0                BiocManager_1.30.27        </span></span>
-<span><span class="co">## [105] graph_1.89.1                cli_3.6.5                  </span></span>
-<span><span class="co">## [107] ontologyIndex_2.12          xtable_1.8-4               </span></span>
-<span><span class="co">## [109] systemfonts_1.3.1           jquerylib_0.1.4            </span></span>
-<span><span class="co">## [111] Rcpp_1.1.0.8.1              png_0.1-8                  </span></span>
-<span><span class="co">## [113] XML_3.99-0.20               parallel_4.6.0             </span></span>
-<span><span class="co">## [115] pkgdown_2.2.0               assertthat_0.2.1           </span></span>
-<span><span class="co">## [117] blob_1.2.4                  sparseMatrixStats_1.23.0   </span></span>
-<span><span class="co">## [119] SpatialExperiment_1.21.0    viridisLite_0.4.2          </span></span>
-<span><span class="co">## [121] GSEABase_1.73.0             scales_1.4.0               </span></span>
-<span><span class="co">## [123] purrr_1.2.0                 crayon_1.5.3               </span></span>
-<span><span class="co">## [125] GetoptLong_1.1.0            rlang_1.1.6                </span></span>
-<span><span class="co">## [127] KEGGREST_1.51.1</span></span></code></pre>
+<span><span class="co">##  [63] otel_0.2.0                  msigdbr_25.1.1             </span></span>
+<span><span class="co">##  [65] glue_1.8.0                  h5mread_1.3.1              </span></span>
+<span><span class="co">##  [67] rhdf5filters_1.23.3         checkmate_2.3.3            </span></span>
+<span><span class="co">##  [69] cluster_2.1.8.1             memuse_4.2-3               </span></span>
+<span><span class="co">##  [71] generics_0.1.4              gtable_0.3.6               </span></span>
+<span><span class="co">##  [73] tidyr_1.3.2                 BiocSingular_1.27.1        </span></span>
+<span><span class="co">##  [75] ScaledMatrix_1.19.0         XVector_0.51.0             </span></span>
+<span><span class="co">##  [77] BiocGenerics_0.57.0         foreach_1.5.2              </span></span>
+<span><span class="co">##  [79] pillar_1.11.1               babelgene_22.9             </span></span>
+<span><span class="co">##  [81] GSVA_2.5.15                 lattice_0.22-7             </span></span>
+<span><span class="co">##  [83] bit_4.6.0                   annotate_1.89.0            </span></span>
+<span><span class="co">##  [85] tidyselect_1.2.1            SingleCellExperiment_1.33.0</span></span>
+<span><span class="co">##  [87] locfit_1.5-9.12             Biostrings_2.79.3          </span></span>
+<span><span class="co">##  [89] knitr_1.51                  gridExtra_2.3              </span></span>
+<span><span class="co">##  [91] bookdown_0.46               IRanges_2.45.0             </span></span>
+<span><span class="co">##  [93] Seqinfo_1.1.0               SummarizedExperiment_1.41.0</span></span>
+<span><span class="co">##  [95] stats4_4.6.0                xfun_0.55                  </span></span>
+<span><span class="co">##  [97] Biobase_2.71.0              statmod_1.5.1              </span></span>
+<span><span class="co">##  [99] matrixStats_1.5.0           lazyeval_0.2.2             </span></span>
+<span><span class="co">## [101] yaml_2.3.12                 evaluate_1.0.5             </span></span>
+<span><span class="co">## [103] codetools_0.2-20            tibble_3.3.0               </span></span>
+<span><span class="co">## [105] BiocManager_1.30.27         graph_1.89.1               </span></span>
+<span><span class="co">## [107] cli_3.6.5                   ontologyIndex_2.12         </span></span>
+<span><span class="co">## [109] xtable_1.8-4                systemfonts_1.3.1          </span></span>
+<span><span class="co">## [111] jquerylib_0.1.4             Rcpp_1.1.0.8.1             </span></span>
+<span><span class="co">## [113] png_0.1-8                   XML_3.99-0.20              </span></span>
+<span><span class="co">## [115] parallel_4.6.0              pkgdown_2.2.0              </span></span>
+<span><span class="co">## [117] assertthat_0.2.1            blob_1.2.4                 </span></span>
+<span><span class="co">## [119] sparseMatrixStats_1.23.0    SpatialExperiment_1.21.0   </span></span>
+<span><span class="co">## [121] viridisLite_0.4.2           GSEABase_1.73.0            </span></span>
+<span><span class="co">## [123] scales_1.4.0                purrr_1.2.0                </span></span>
+<span><span class="co">## [125] crayon_1.5.3                GetoptLong_1.1.0           </span></span>
+<span><span class="co">## [127] rlang_1.1.6                 KEGGREST_1.51.1</span></span></code></pre>
 </details>
 </div>
   </div>
