@@ -320,7 +320,7 @@ seas <- function(x, gsd, methods = NULL,
     names(results) <- sub('\\.all$', '', names(results))
   }
 
-  out <- .SparrowResult(gsd=gsd, results=results, logFC=logFC)
+  out <- .SparrowResult(gsd = gsd, results = results, logFC = logFC)
   gs.stats <- geneSetsStats(out, feature.min.logFC=feature.min.logFC,
                             feature.max.padj=feature.max.padj,
                             trim=trim, reannotate.significance = FALSE,

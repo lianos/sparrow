@@ -87,7 +87,7 @@ not use this.}
 
 \item{BPPARAM}{a \emph{BiocParallel} parameter definition, like one generated from
 \code{\link[BiocParallel:MulticoreParam-class]{BiocParallel::MulticoreParam()}}, or \code{\link[BiocParallel:BatchtoolsParam-class]{BiocParallel::BatchtoolsParam()}},
-for instance, which is passed down to \link{BiocParallel}::bplapply()]. Default
+for instance, which is passed down to \link[BiocParallel:BiocParallel-package]{BiocParallel::BiocParallel}::bplapply()]. Default
 is set to \code{\link[BiocParallel:SerialParam-class]{BiocParallel::SerialParam()}}}
 }
 \value{

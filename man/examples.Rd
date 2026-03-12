@@ -23,7 +23,7 @@ exampleBiocSet()
 
 exampleGeneSetDF()
 
-exampleSparrowResult(cached = TRUE, methods = c("cameraPR", "fry"))
+exampleSparrowResult(cached = TRUE, methods = c("cameraPR", "fgsea", "ora"))
 
 exampleDgeResult(
   species = "human",

@@ -54,6 +54,7 @@
 #' dnreg <- "TURASHVILI_BREAST_LOBULAR_CARCINOMA_VS_DUCTAL_NORMAL_DN"
 #' 
 #' iplot(mgr, upreg, value = c("t-statistic" = "t"), type = "density")
+#' iplot(mgr, upreg, value = c("t-statistic" = "t"), type = "density", .plot_static = TRUE)
 #' iplot(mgr, upreg, value = c("log2FC" = "logFC"), type = "boxplot")
 #' iplot(mgr, upreg, value = c("t-statistic" = "t"), type = "gsea")
 #' iplot(mgr, dnreg, value = c("t-statistic" = "t"), type = "gsea")
@@ -65,7 +66,9 @@ iplot <- function(x, name, value = "logFC",
                   result_name = NULL,
                   stats.report = c("NES", "logFC", "pval", "padj", "n"),
                   shiny_source = 'mggenes', width = NULL, height = NULL,
-                  ggtheme = ggplot2::theme_bw(), trim = 0.005, ...) {
+                  ggtheme = ggplot2::theme_bw(), trim = 0.005, 
+                  interactive = TRUE,
+                  ...) {
   if (FALSE) {
     x <- xmg; y <- 'H'; j <- 'HALLMARK_E2F_TARGETS'; value <- 'logFC';
     main <- NULL; type <- 'boxplot'; with.legend <- TRUE
@@ -121,6 +124,7 @@ iplot <- function(x, name, value = "logFC",
       gstats = gstats,
       spr = x,
       result_name = result_name,
+      .plot_static = !interactive,
       ...
     )
     return(ret)
@@ -148,13 +152,17 @@ iplot <- function(x, name, value = "logFC",
                                 ggtheme=ggtheme, trim = trim,
                                 result_name = result_name,
                                 gstats = gstats,
+                                .plot_static = !interactive,
+                                
                                 ...)
   } else if (type == 'boxplot') {
     out <- iplot.boxplot.plotly(x, dat, value, main,
                                 with.legend=with.legend, tools=tools,
                                 shiny_source=shiny_source,
                                 width=width, height=height, ggtheme=ggtheme,
-                                trim=trim, gstats = gstats, ...)
+                                trim=trim, gstats = gstats,
+                                .plot_static = !interactive,
+                                ...)
   } else if (type == 'volcano') {
   }
 
@@ -359,6 +367,8 @@ iplot.density.plotly <- function(x, dat, value, main, with.legend=TRUE,
                                  with.points=TRUE, shiny_source='mggenes',
                                  legend.pos=c('inside', 'outside'),
                                  height=NULL, width=NULL, trim=0.02,
+                                 colors = NULL,
+                                 .plot_static = FALSE,
                                  square=TRUE, ...) {
   stopifnot(is(x, 'SparrowResult'))
   legend.pos <- match.arg(legend.pos)
@@ -366,6 +376,19 @@ iplot.density.plotly <- function(x, dat, value, main, with.legend=TRUE,
   cols <- c('bg'='black', 'geneset'='red',
             'notsig'='grey', 'psig'='lightblue', 'sig'='darkblue')
 
+  colors.default <- list(
+    zeroline = "lightgrey",
+    bg = "darkgrey",
+    geneset = "darkorange",
+    genes = "darkorange"
+  )
+  if (is.list(colors)) {
+    colors <- c(colors, colors.default)
+    colors[!duplicated(names(colors))]
+  } else{
+    colors <- colors.default  
+  }
+  
   if (value == 't') {
     gs.dat$y <- 0.0015 + runif(nrow(gs.dat), 0, 0.004)
     jitter <- 0.005
@@ -399,30 +422,65 @@ iplot.density.plotly <- function(x, dat, value, main, with.legend=TRUE,
     xrange <- c(-extreme, extreme)
   }
 
-  p <- plot_ly(source=shiny_source, width=width, height=height)
-  p <- add_lines(p, x=bgd$x, y=bgd$y, name='All Genes', hoverinfo='none', line=lmeta)
-  p <- add_lines(p, x=gsd$x, y=gsd$y, name='Geneset', hoverinfo='none', line=lmeta)
-  p <- layout(p, xaxis=list(title=label, range=xrange),
-              yaxis=list(title="Density"),
-              showlegend = with.legend, title=main, dragmode="select")
-  if ('symbol' %in% names(gs.dat) && with.points) {
-    p <- add_markers(p, x=~val, y=~y, key=~feature_id, data=gs.dat, name="Genes",
-                     hoverinfo='text',
-                     text=~paste0('Symbol: ', symbol, '<br>',
-                                  'logFC: ', sprintf('%.3f', logFC), '<br>',
-                                  'FDR: ', sprintf('%.3f', padj)))
-  } else if (with.points) {
-    p <- add_markers(p, x=~val, y=~y, key=~feature_id, data=gs.dat,
-                     name="Genes",
-                     text=~paste0('feature_id: ', feature_id, '<br>',
-                                  'logFC: ', logFC, '<br>',
-                                  'FDR: ', padj))
+  if (.plot_static) {
+    p <- ggplot2::ggplot() +
+      ggplot2::geom_vline(
+        xintercept = 0,
+        linetype = "dashed",
+        color = colors$zeroline
+      ) +
+      ggplot2::geom_density(
+        ggplot2::aes(x = val),
+        color = colors$bg,
+        linewidth = 1,
+        data = dat
+      ) +
+      ggplot2::geom_density(
+        ggplot2::aes(x = val),
+        color = colors$geneset,
+        linewidth = 1,
+        data = gs.dat
+      ) +
+      ggplot2::geom_point(
+        ggplot2::aes(x = val, y = y),
+        size = 0.8,
+        data = gs.dat,
+        color = colors$genes
+      ) +
+      ggplot2::xlim(xrange) +
+      ggplot2::labs(
+        title = main,
+        y = "Density",
+        x = label
+      )
+  } else {
+    p <- plot_ly(source=shiny_source, width=width, height=height)
+    p <- add_lines(p, x=bgd$x, y=bgd$y, name='All Genes', hoverinfo='none', line=lmeta)
+    p <- add_lines(p, x=gsd$x, y=gsd$y, name='Geneset', hoverinfo='none', line=lmeta)
+    p <- layout(p, xaxis=list(title=label, range=xrange),
+                yaxis=list(title="Density"),
+                showlegend = with.legend, title=main, dragmode="select")
+    if ('symbol' %in% names(gs.dat) && with.points) {
+      p <- add_markers(p, x=~val, y=~y, key=~feature_id, data=gs.dat, name="Genes",
+                       hoverinfo='text',
+                       text=~paste0('Symbol: ', symbol, '<br>',
+                                    'logFC: ', sprintf('%.3f', logFC), '<br>',
+                                    'FDR: ', sprintf('%.3f', padj)))
+    } else if (with.points) {
+      p <- add_markers(p, x=~val, y=~y, key=~feature_id, data=gs.dat,
+                       name="Genes",
+                       text=~paste0('feature_id: ', feature_id, '<br>',
+                                    'logFC: ', logFC, '<br>',
+                                    'FDR: ', padj))
+    }
+    if (legend.pos == 'inside') {
+      p <- layout(p, legend=list(x=0.75, y=1))
+    }
+    
+    config(p, displaylogo=FALSE)    
   }
-  if (legend.pos == 'inside') {
-    p <- layout(p, legend=list(x=0.75, y=1))
-  }
-
-  config(p, displaylogo=FALSE)
+  
+  p
 }
 
 #' @noRd

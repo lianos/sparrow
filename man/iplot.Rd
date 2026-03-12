@@ -13,11 +13,14 @@ iplot(
   main = NULL,
   with.legend = TRUE,
   collection = NULL,
+  result_name = NULL,
+  stats.report = c("NES", "logFC", "pval", "padj", "n"),
   shiny_source = "mggenes",
   width = NULL,
   height = NULL,
   ggtheme = ggplot2::theme_bw(),
   trim = 0.005,
+  interactive = TRUE,
   ...
 )
 }
@@ -51,6 +54,10 @@ that both the FDR <= 10\% and the logFC >= 1}
 (only possible with a \code{GeneSetDb} object), provide the name of the
 collection here to disambiguate (default: \code{NULL}).}
 
+\item{result_name}{if not \code{NULL} (the default), it fetches statistics for the
+given GSEA result using \code{result(x, name = result_name, ...)} which can then
+be used for plotting.}
+
 \item{shiny_source}{the name of this element that is used in shiny callbacks.
 Defaults to \code{"mggenes"}.}
 
@@ -79,13 +86,12 @@ You can visualize this behavior via a \code{type = "density"} plot, or a
 }
 \examples{
 mgr <- exampleSparrowResult()
-iplot(mgr, "BURTON_ADIPOGENESIS_PEAK_AT_2HR",
-      value = c("t-statistic" = "t"),
-      type = "density")
-iplot(mgr, "BURTON_ADIPOGENESIS_PEAK_AT_2HR",
-      value = c("log2FC" = "logFC"),
-      type = "boxplot")
-iplot(mgr, "BURTON_ADIPOGENESIS_PEAK_AT_2HR",
-      value = c("-statistic" = "t"),
-      type = "gsea")
+upreg <- "SOTIRIOU_BREAST_CANCER_GRADE_1_VS_3_UP"
+dnreg <- "TURASHVILI_BREAST_LOBULAR_CARCINOMA_VS_DUCTAL_NORMAL_DN"
+
+iplot(mgr, upreg, value = c("t-statistic" = "t"), type = "density")
+iplot(mgr, upreg, value = c("t-statistic" = "t"), type = "density", .plot_static = TRUE)
+iplot(mgr, upreg, value = c("log2FC" = "logFC"), type = "boxplot")
+iplot(mgr, upreg, value = c("t-statistic" = "t"), type = "gsea")
+iplot(mgr, dnreg, value = c("t-statistic" = "t"), type = "gsea")
 }

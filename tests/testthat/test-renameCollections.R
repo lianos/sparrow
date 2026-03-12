@@ -8,7 +8,7 @@ test_that("Renaming collections maintains dataset integreity", {
   rename <- setNames(check$old_collection, check$new_collection)
 
   gdb <- exampleGeneSetDb()
-  ngdb <- renameCollections(gdb, rename)
+  ngdb <- renameCollection(gdb, rename)
 
   for (i in seq_len(nrow(check))) {
     params <- check[i,]
