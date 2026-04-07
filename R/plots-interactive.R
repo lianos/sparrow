@@ -318,29 +318,37 @@ iplot.gsea.plot <- function(lfc, geneset, rank_by, title, spr, gseaParam = 1,
       title = title)
   
   if (!is.null(stats.anno)) {
-    if (.plot_static) {
-      geom <- "label"
-    } else {
-      # ggplot2 can't do geom_label yet?
-      geom <- "text"
-    }
-    
-    # if NES is positive, go top right, otherwise, bottom left
     if (is.null(gstats$NES) || gstats$NES > 0) {
-      # topright
-      # x = I(0.95), y = I(0.95), vjust = 1, hjust = 1
-      x <- 0.95
-      y <- 0.95
-      vjust <- 1
+      position <- "topright"
       hjust <- 1
+      vjust <- 1
     } else {
-      # x = I(0.05); y = I(0.05), vjust = 0, hjust = 0
-      x <- 0.05
-      y <- 0.05
+      position <- "bottomleft"
       vjust <- 0
       hjust <- 0
     }
     
+    if (.plot_static) {
+      geom <- "label"
+      if  (position == "topright") {
+        x <- 0.95
+        y <- 0.95
+      } else {
+        x <- 0.05
+        y <- 0.05
+      }
+    } else {
+      # ggplot2 can't do geom_label yet?
+      geom <- "text"
+      if (position == "topright") {
+        x <- tail(toPlot$x, 1) - 100
+        y <- max(tops) - 0.1 # 0.75
+      } else {
+        y <- min(bottoms) + 0.1 # -0.1
+        x <- (toPlot$x[2] + toPlot$x[1]) / 2 # 10
+      }
+    }
+
     g <- g +
       ggplot2::annotate(
         geom,
