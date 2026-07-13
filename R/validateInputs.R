@@ -162,6 +162,7 @@ validate.xmeta <- function(xmeta. = NULL, ...) {
   # }
   # colnames(xmeta.)[xref.col] <- "feature_id"
   stopifnot(is.character(xmeta.[["feature_id"]]))
+  rownames(xmeta.) <- xmeta.[["feature_id"]]
   xmeta.
 }
 
