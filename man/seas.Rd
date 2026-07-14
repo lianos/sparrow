@@ -86,9 +86,9 @@ the \code{rank_by} column. Accepted values are:
 not use this.}
 
 \item{BPPARAM}{a \emph{BiocParallel} parameter definition, like one generated from
-\code{\link[BiocParallel:MulticoreParam-class]{BiocParallel::MulticoreParam()}}, or \code{\link[BiocParallel:BatchtoolsParam-class]{BiocParallel::BatchtoolsParam()}},
-for instance, which is passed down to \link[BiocParallel:BiocParallel-package]{BiocParallel::BiocParallel}::bplapply()]. Default
-is set to \code{\link[BiocParallel:SerialParam-class]{BiocParallel::SerialParam()}}}
+\code{\link[BiocParallel:MulticoreParam]{BiocParallel::MulticoreParam()}}, or \code{\link[BiocParallel:BatchtoolsParam]{BiocParallel::BatchtoolsParam()}},
+for instance, which is passed down to \link[BiocParallel:BiocParallel]{BiocParallel}::bplapply()]. Default
+is set to \code{\link[BiocParallel:SerialParam]{BiocParallel::SerialParam()}}}
 }
 \value{
 A \code{\link[=SparrowResult]{SparrowResult()}} which holds the results of all the analyses
@@ -120,7 +120,7 @@ In addition to performing GSEA, this function also internally orchestrates
 a differential expression analysis, which can be tweaked by identifying
 the parameters in the \code{\link[=calculateIndividualLogFC]{calculateIndividualLogFC()}} function, and
 passing them down through \code{...} here. The results of the differential
-expression analysis (ie. the \code{\link[limma:toptable]{limma::topTable()}}) are accessible by calling
+expression analysis (ie. the \code{\link[limma:topTable]{limma::topTable()}}) are accessible by calling
 the \code{\link[=logFC]{logFC()}} function on the \code{\link[=SparrowResult]{SparrowResult()}} object returned from this
 function call.
 
@@ -134,12 +134,12 @@ vector of GSEA method names to the \code{methods} parameter. Valid methods
 you can select from include:
 \itemize{
 \item \code{"camera"}: from \code{\link[limma:camera]{limma::camera()}} (*)
-\item \code{"cameraPR"}: from \code{\link[limma:camera]{limma::cameraPR()}}
+\item \code{"cameraPR"}: from \code{\link[limma:cameraPR]{limma::cameraPR()}}
 \item \code{"ora"}: overrepresentation analysis optionally accounting for bias
 (\code{\link[=ora]{ora()}}). This method is a wrapper function that makes the functionality
-in \code{\link[limma:goana]{limma::kegga()}} available to an arbitrary GeneSetDb.
+in \code{\link[limma:kegga]{limma::kegga()}} available to an arbitrary GeneSetDb.
 \item \code{"roast"}: from \code{\link[limma:roast]{limma::roast()}} (*)
-\item \code{"fry"}: from \code{\link[limma:roast]{limma::fry()}} (*)
+\item \code{"fry"}: from \code{\link[limma:fry]{limma::fry()}} (*)
 \item \code{"romer"}: from \code{\link[limma:romer]{limma::romer()}} (*)
 \item \code{"geneSetTest"}: from \code{\link[limma:geneSetTest]{limma::geneSetTest()}}
 \item \code{"goseq"}: from \code{\link[goseq:goseq]{goseq::goseq()}}
@@ -201,7 +201,7 @@ If \code{x} is a \code{DGEList}, then ensure that you have already called
 \code{\link[edgeR:estimateDisp]{edgeR::estimateDisp()}} on \code{x} and edgeR's quasilikelihood framework will be
 used, otherwise we'll use limma (note that \code{x} can be an \code{EList} run through
 \code{voom()}, \code{voomWithQuailityWeights()}, or when where you have leveraged
-limma's \code{\link[limma:dupcor]{limma::duplicateCorrelation()}} functionality, even.
+limma's \code{\link[limma:duplicateCorrelation]{limma::duplicateCorrelation()}} functionality, even.
 
 The parameters of this differential expression analysis can also be
 customized. Please refer to the \code{\link[=calculateIndividualLogFC]{calculateIndividualLogFC()}} function for

@@ -7,14 +7,16 @@
 \usage{
 getReactomeCollection(
   species = "human",
-  id.type = c("entrez", "ensembl"),
-  rm.species.prefix = TRUE
+  id.type = c("ensembl", "entrez"),
+  rm.species.prefix = TRUE,
+  org.db = NULL
 )
 
 getReactomeGeneSetDb(
   species = "human",
-  id.type = c("entrez", "ensembl"),
-  rm.species.prefix = TRUE
+  id.type = c("ensembl", "entrez"),
+  rm.species.prefix = TRUE,
+  org.db = NULL
 )
 }
 \arguments{
@@ -40,6 +42,16 @@ Retrieve gene set collections from from reactome.db
 \examples{
 \donttest{
   bsc.h <- getReactomeCollection("human")
-  gdb.h <- getReactomeGeneSetDb("human")
+  gdb.h <- getReactomeGeneSetDb(
+    "human",
+    id.type = "ensembl",
+    org.db = org.Hs.eg.db::org.Hs.eg.db
+   )
+ 
+ gdb.m <- getReactomeGeneSetDb(
+    "mouse",
+    id.type = "ensembl",
+    org.db = org.Mm.eg.db::org.Mm.eg.db
+   )
 }
 }

@@ -11,21 +11,41 @@
 #' @examples
 #' \donttest{
 #'   bsc.h <- getReactomeCollection("human")
-#'   gdb.h <- getReactomeGeneSetDb("human")
+#'   gdb.h <- getReactomeGeneSetDb(
+#'     "human",
+#'     id.type = "ensembl",
+#'     org.db = org.Hs.eg.db::org.Hs.eg.db
+#'    )
+#'  
+#'  gdb.m <- getReactomeGeneSetDb(
+#'     "mouse",
+#'     id.type = "ensembl",
+#'     org.db = org.Mm.eg.db::org.Mm.eg.db
+#'    )
 #' }
 getReactomeCollection <- function(species = 'human',
-                                  id.type = c("entrez", "ensembl"),
-                                  rm.species.prefix = TRUE) {
+                                  id.type = c("ensembl", "entrez"),
+                                  rm.species.prefix = TRUE,
+                                  org.db = NULL) {
   id.type <- match.arg(id.type)
   out <- getReactomeGeneSetDb(species, id.type, rm.species.prefix)
   as(out, "BiocSet")
 }
 
 #' @describeIn getReactomeCollection returns a GeneSetDb object
+#' @export
 getReactomeGeneSetDb <- function(species = 'human',
-                                 id.type = c("entrez", "ensembl"),
-                                 rm.species.prefix = TRUE) {
+                                 id.type = c("ensembl", "entrez"),
+                                 rm.species.prefix = TRUE,
+                                 org.db = NULL) {
   id.type <- match.arg(id.type)
+  if (id.type == "ensembl") {
+    # user needs to pass in org.db package to to the entrez <> ensembl mapping
+    if (!is(org.db, "OrgDb")) {
+      stop("User has to provide species approriate org.db to convert reactome id's to ensembl")
+    }
+  }
+  
   id.col <- if (id.type == "entrez") "ENTREZID" else "ENSG"
   rdb <- tryCatch(loadNamespace('reactome.db'), error=function(e) NULL)
   if (is.null(rdb)) {
@@ -96,10 +116,29 @@ getReactomeGeneSetDb <- function(species = 'human',
     gs_id <- NULL
     info <- info[!gs_id %in% axid]
   }
-
+  
+  # feature_id should be entrez here (character), if yuo want to convert to
+  # ensembl, now is your time
+  if (id.type == "ensembl") {
+    fid.map <- dbi$select(
+      org.db,
+      keys = unique(info$feature_id),
+      columns = c("ENTREZID", "SYMBOL", "ENSEMBL"),
+      keytype = "ENTREZID"
+    )
+    colnames(fid.map) <- c("feature_id", "symbol", "ensembl_id")
+    fid.map <- fid.map[!is.na(fid.map$ensembl_id),,drop = FALSE]
+    # info <- merge(info, fid.map, by = "feature_id")
+    # there are duplicate enseml identifiers for some genes
+    info <- merge(info, fid.map, by = "feature_id", allow.cartesian = TRUE)
+    info[, entrez_id := feature_id]
+    info[, feature_id := ensembl_id]
+    info[, ensembl_id := NULL]
+  }
+  info <- unique(info, by = c("name", "feature_id"))
   gdb <- GeneSetDb(info)
   geneSetCollectionURLfunction(gdb, "Reactome") <- ".geneSetURL.REACTOME"
-  featureIdType(gdb, "Reactome") <- "entrez" # GSEABase::EntrezIdentifier()
+  featureIdType(gdb, "Reactome") <- id.type
   gdb
 }
 

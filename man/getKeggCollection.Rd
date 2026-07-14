@@ -24,7 +24,7 @@ you need to provide an idxref table that works with \code{\link[=convertIdentifi
 A BiocSet of the kegg stuffs
 }
 \description{
-Uses \code{\link[limma:goana]{limma::getGeneKEGGLinks()}} and \code{\link[limma:goana]{limma::getKEGGPathwayNames()}}
+Uses \code{\link[limma:getGeneKEGGLinks]{limma::getGeneKEGGLinks()}} and \code{\link[limma:getKEGGPathwayNames]{limma::getKEGGPathwayNames()}}
 internally.
 }
 \details{

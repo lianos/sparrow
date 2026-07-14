@@ -145,7 +145,11 @@ getMSigGeneSetDb <- function(collection = NULL,
   }
   sigs.all <- data.table::copy(.pkgcache[["msigdb"]][[cache.key]])
   if (is.null(sigs.all) || isTRUE(refetch)) {
-    sigs.all <- setDT(msigdbr::msigdbr(species.info$species, db_species = "HS"))
+    sigs.all <- msigdbr::msigdbr(
+      species = species.info$species,
+      db_species = "HS"
+    )
+    setDT(sigs.all)
     # Because I want to merge geneset collections/subcollections between human
     # and mouse, I am stripping gs_subcollections that have a `NNN:` prefix.
     # See the bottom of the test-gdb-msigdb.R, there are some collections that
@@ -165,7 +169,11 @@ getMSigGeneSetDb <- function(collection = NULL,
     sigs.all[, msigdb_collection := gs_collection]
     if (species.info$alias == "mouse") {
       # Let's give mouse genesets precedence
-      sm.all <- setDT(msigdbr::msigdbr(species.info$species, db_species = "MM"))
+      sm.all <- msigdbr::msigdbr(
+        db_species = "MM",
+        species = species.info$species
+      )
+      setDT(sm.all)
       sm.all[, msigdb_collection := gs_collection]
       sm.all[, db_species := "MM"]
       sm.all[, ncbi_gene := as.character(ncbi_gene)]
@@ -207,7 +215,7 @@ getMSigGeneSetDb <- function(collection = NULL,
     setkeyv(sigs.all, c("gs_collection", "gs_name", "gene_symbol"))
     .pkgcache[["msigdb"]][[cache.key]] <- data.table::copy(sigs.all)
   }
-  
+  browser()
   if (!is.null(collection)) {
     out <- sigs.all[gs_collection %in% collection]
   } else {

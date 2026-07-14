@@ -51,9 +51,9 @@ As awesome as a GeneSetDb is, you might find a time when you'll need your
 gene set information in an other format. To do that, we provide the
 following functions:
 \itemize{
-\item \verb{as(gdb, "BiocSetf')}: convert to a \code{\link[BiocSet:BiocSet-class]{BiocSet::BiocSet()}}.
+\item \verb{as(gdb, "BiocSetf')}: convert to a \code{\link[BiocSet:BiocSet]{BiocSet::BiocSet()}}.
 \item \code{as(gdb, "GeneSetCollection")}: Convert to a
-\code{\link[GSEABase:GeneSetCollection-methods]{GSEABase::GeneSetCollection()}} object.
+\code{\link[GSEABase:GeneSetCollection]{GSEABase::GeneSetCollection()}} object.
 \item \code{as.data.(table|frame)(gdb)}: Perhaps the most natural format to convert to in
 order to save locally and examine outside of Bioconductor's GSEA universe,
 but not many other tools accept gene set definitions in this format.
