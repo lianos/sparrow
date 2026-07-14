@@ -19,7 +19,7 @@ be retrieved by their collection name, ie c("H", "C2", "C7").'><!-- mathjax --><
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sparrow</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.17.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.19.1</span>
       </span>
     </div>
 
@@ -207,13 +207,359 @@ or more of the following as appropriate:</p><ul><li><p>Liberzon, et al. (2011, B
 <span class="r-in"><span>  <span class="co"># these take a while to load initially, so put them in dontrun blocks.</span></span></span>
 <span class="r-in"><span>  <span class="co"># you should run these interactively to understand what they return</span></span></span>
 <span class="r-in"><span>  <span class="va">bcs</span> <span class="op">&lt;-</span> <span class="fu">getMSigCollection</span><span class="op">(</span><span class="st">"h"</span>, <span class="st">"human"</span>, <span class="st">"entrez"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Called from: getMSigGeneSetDb(collection = collection, species = species, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     id.type = id.type, with.kegg = with.kegg, promote.subcollection = promote.subcollection, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     prefix.collection = prefix.collection, strip.subcollection.prefix = strip.subcollection.prefix, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     merge.human.into.mouse = merge.human.into.mouse, ...)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: if (!is.null(collection)) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     out &lt;- sigs.all[gs_collection %in% collection]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> } else {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     out &lt;- sigs.all</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: out &lt;- sigs.all[gs_collection %in% collection]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: if (!with.kegg) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     out &lt;- out[!endsWith(gs_subcollection, "KEGG_LEGACY")]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: out &lt;- out[!endsWith(gs_subcollection, "KEGG_LEGACY")]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: if (prefix.collection) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     out[, `:=`(collection, paste0("MSigDB_", out$gs_collection))]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> } else {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     out[, `:=`(collection, gs_collection)]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: out[, `:=`(collection, gs_collection)]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: if (promote.subcollection) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     out[, `:=`(collection, {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         ifelse(nchar(out$gs_subcollection) == 0L, out$collection, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             paste(out$collection, out$gs_subcollection, sep = "_"))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     })]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: if (id.type == "ensembl") {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     idcol &lt;- "ensembl_gene"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> } else if (id.type == "entrez") {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     idcol &lt;- "ncbi_gene"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> } else {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     idcol &lt;- "gene_symbol"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: if (id.type == "entrez") {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     idcol &lt;- "ncbi_gene"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> } else {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     idcol &lt;- "gene_symbol"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: idcol &lt;- "ncbi_gene"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: idtype &lt;- id.type</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: ret &lt;- out[, {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     list(collection, name = gs_name, feature_id = as.character(.SD[[idcol]]), </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         symbol = gene_symbol, subcollection = gs_subcollection, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         collection_name = gs_collection_name, geneset_id = gs_id, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         geneset_url = gs_url, msigdb_collection, db_species)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> }]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: if (id.type != "symbol") {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     ret[, `:=`(symbol, out[["gene_symbol"]])]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> } else {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     ret[, `:=`(ensembl_id, out[["ensembl_gene"]])]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: ret[, `:=`(symbol, out[["gene_symbol"]])]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: ret[, `:=`(gs_id, {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     ifelse(grepl("GO:", out$gs_exact_source), out$gs_exact_source, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         out$gs_id)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> })]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: ret &lt;- ret[!is.na(feature_id)]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: ret &lt;- unique(ret, by = c("collection", "name", "feature_id"))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: gdb &lt;- GeneSetDb(ret)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: for (col in unique(geneSets(gdb)$collection)) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     geneSetCollectionURLfunction(gdb, col) &lt;- ".geneSetURL.msigdb"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     featureIdType(gdb, col) &lt;- idtype</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     gdb &lt;- addCollectionMetadata(gdb, col, "source", as.character(packageVersion("msigdbr")))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: geneSetCollectionURLfunction(gdb, col) &lt;- ".geneSetURL.msigdb"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: featureIdType(gdb, col) &lt;- idtype</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: gdb &lt;- addCollectionMetadata(gdb, col, "source", as.character(packageVersion("msigdbr")))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: gdb@collectionMetadata &lt;- gdb@collectionMetadata[name != "count"]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: gdb</span>
 <span class="r-in"><span>  <span class="va">bcs.h.entrez</span> <span class="op">&lt;-</span> <span class="fu">getMSigCollection</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"h"</span>, <span class="st">"c2"</span><span class="op">)</span>, <span class="st">"human"</span>, <span class="st">"entrez"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Called from: getMSigGeneSetDb(collection = collection, species = species, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     id.type = id.type, with.kegg = with.kegg, promote.subcollection = promote.subcollection, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     prefix.collection = prefix.collection, strip.subcollection.prefix = strip.subcollection.prefix, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     merge.human.into.mouse = merge.human.into.mouse, ...)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: if (!is.null(collection)) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     out &lt;- sigs.all[gs_collection %in% collection]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> } else {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     out &lt;- sigs.all</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: out &lt;- sigs.all[gs_collection %in% collection]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: if (!with.kegg) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     out &lt;- out[!endsWith(gs_subcollection, "KEGG_LEGACY")]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: out &lt;- out[!endsWith(gs_subcollection, "KEGG_LEGACY")]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: if (prefix.collection) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     out[, `:=`(collection, paste0("MSigDB_", out$gs_collection))]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> } else {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     out[, `:=`(collection, gs_collection)]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: out[, `:=`(collection, gs_collection)]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: if (promote.subcollection) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     out[, `:=`(collection, {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         ifelse(nchar(out$gs_subcollection) == 0L, out$collection, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             paste(out$collection, out$gs_subcollection, sep = "_"))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     })]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: if (id.type == "ensembl") {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     idcol &lt;- "ensembl_gene"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> } else if (id.type == "entrez") {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     idcol &lt;- "ncbi_gene"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> } else {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     idcol &lt;- "gene_symbol"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: if (id.type == "entrez") {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     idcol &lt;- "ncbi_gene"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> } else {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     idcol &lt;- "gene_symbol"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: idcol &lt;- "ncbi_gene"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: idtype &lt;- id.type</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: ret &lt;- out[, {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     list(collection, name = gs_name, feature_id = as.character(.SD[[idcol]]), </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         symbol = gene_symbol, subcollection = gs_subcollection, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         collection_name = gs_collection_name, geneset_id = gs_id, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         geneset_url = gs_url, msigdb_collection, db_species)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> }]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: if (id.type != "symbol") {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     ret[, `:=`(symbol, out[["gene_symbol"]])]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> } else {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     ret[, `:=`(ensembl_id, out[["ensembl_gene"]])]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: ret[, `:=`(symbol, out[["gene_symbol"]])]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: ret[, `:=`(gs_id, {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     ifelse(grepl("GO:", out$gs_exact_source), out$gs_exact_source, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         out$gs_id)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> })]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: ret &lt;- ret[!is.na(feature_id)]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: ret &lt;- unique(ret, by = c("collection", "name", "feature_id"))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: gdb &lt;- GeneSetDb(ret)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: for (col in unique(geneSets(gdb)$collection)) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     geneSetCollectionURLfunction(gdb, col) &lt;- ".geneSetURL.msigdb"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     featureIdType(gdb, col) &lt;- idtype</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     gdb &lt;- addCollectionMetadata(gdb, col, "source", as.character(packageVersion("msigdbr")))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: geneSetCollectionURLfunction(gdb, col) &lt;- ".geneSetURL.msigdb"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: featureIdType(gdb, col) &lt;- idtype</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: gdb &lt;- addCollectionMetadata(gdb, col, "source", as.character(packageVersion("msigdbr")))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: geneSetCollectionURLfunction(gdb, col) &lt;- ".geneSetURL.msigdb"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: featureIdType(gdb, col) &lt;- idtype</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: gdb &lt;- addCollectionMetadata(gdb, col, "source", as.character(packageVersion("msigdbr")))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: gdb@collectionMetadata &lt;- gdb@collectionMetadata[name != "count"]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: gdb</span>
 <span class="r-in"><span>  <span class="va">bcs.h.ens</span> <span class="op">&lt;-</span> <span class="fu">getMSigCollection</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"h"</span>, <span class="st">"c2"</span><span class="op">)</span>, <span class="st">"human"</span>, <span class="st">"ensembl"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Called from: getMSigGeneSetDb(collection = collection, species = species, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     id.type = id.type, with.kegg = with.kegg, promote.subcollection = promote.subcollection, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     prefix.collection = prefix.collection, strip.subcollection.prefix = strip.subcollection.prefix, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     merge.human.into.mouse = merge.human.into.mouse, ...)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: if (!is.null(collection)) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     out &lt;- sigs.all[gs_collection %in% collection]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> } else {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     out &lt;- sigs.all</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: out &lt;- sigs.all[gs_collection %in% collection]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: if (!with.kegg) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     out &lt;- out[!endsWith(gs_subcollection, "KEGG_LEGACY")]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: out &lt;- out[!endsWith(gs_subcollection, "KEGG_LEGACY")]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: if (prefix.collection) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     out[, `:=`(collection, paste0("MSigDB_", out$gs_collection))]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> } else {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     out[, `:=`(collection, gs_collection)]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: out[, `:=`(collection, gs_collection)]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: if (promote.subcollection) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     out[, `:=`(collection, {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         ifelse(nchar(out$gs_subcollection) == 0L, out$collection, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             paste(out$collection, out$gs_subcollection, sep = "_"))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     })]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: if (id.type == "ensembl") {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     idcol &lt;- "ensembl_gene"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> } else if (id.type == "entrez") {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     idcol &lt;- "ncbi_gene"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> } else {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     idcol &lt;- "gene_symbol"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: idcol &lt;- "ensembl_gene"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: idtype &lt;- id.type</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: ret &lt;- out[, {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     list(collection, name = gs_name, feature_id = as.character(.SD[[idcol]]), </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         symbol = gene_symbol, subcollection = gs_subcollection, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         collection_name = gs_collection_name, geneset_id = gs_id, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         geneset_url = gs_url, msigdb_collection, db_species)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> }]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: if (id.type != "symbol") {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     ret[, `:=`(symbol, out[["gene_symbol"]])]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> } else {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     ret[, `:=`(ensembl_id, out[["ensembl_gene"]])]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: ret[, `:=`(symbol, out[["gene_symbol"]])]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: ret[, `:=`(gs_id, {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     ifelse(grepl("GO:", out$gs_exact_source), out$gs_exact_source, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         out$gs_id)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> })]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: ret &lt;- ret[!is.na(feature_id)]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: ret &lt;- unique(ret, by = c("collection", "name", "feature_id"))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: gdb &lt;- GeneSetDb(ret)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: for (col in unique(geneSets(gdb)$collection)) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     geneSetCollectionURLfunction(gdb, col) &lt;- ".geneSetURL.msigdb"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     featureIdType(gdb, col) &lt;- idtype</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     gdb &lt;- addCollectionMetadata(gdb, col, "source", as.character(packageVersion("msigdbr")))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: geneSetCollectionURLfunction(gdb, col) &lt;- ".geneSetURL.msigdb"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: featureIdType(gdb, col) &lt;- idtype</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: gdb &lt;- addCollectionMetadata(gdb, col, "source", as.character(packageVersion("msigdbr")))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: geneSetCollectionURLfunction(gdb, col) &lt;- ".geneSetURL.msigdb"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: featureIdType(gdb, col) &lt;- idtype</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: gdb &lt;- addCollectionMetadata(gdb, col, "source", as.character(packageVersion("msigdbr")))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: gdb@collectionMetadata &lt;- gdb@collectionMetadata[name != "count"]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: gdb</span>
 <span class="r-in"><span>  <span class="va">bcs.m.entrez</span> <span class="op">&lt;-</span> <span class="fu">getMSigCollection</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"h"</span>, <span class="st">"c2"</span><span class="op">)</span>, <span class="st">"mouse"</span>, <span class="st">"entrez"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Using human MSigDB with ortholog mapping to mouse. Use `db_species = "MM"` for mouse-native gene sets.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #555555;">This message is displayed once per session.</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Called from: getMSigGeneSetDb(collection = collection, species = species, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     id.type = id.type, with.kegg = with.kegg, promote.subcollection = promote.subcollection, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     prefix.collection = prefix.collection, strip.subcollection.prefix = strip.subcollection.prefix, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     merge.human.into.mouse = merge.human.into.mouse, ...)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: if (!is.null(collection)) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     out &lt;- sigs.all[gs_collection %in% collection]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> } else {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     out &lt;- sigs.all</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: out &lt;- sigs.all[gs_collection %in% collection]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: if (!with.kegg) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     out &lt;- out[!endsWith(gs_subcollection, "KEGG_LEGACY")]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: out &lt;- out[!endsWith(gs_subcollection, "KEGG_LEGACY")]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: if (prefix.collection) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     out[, `:=`(collection, paste0("MSigDB_", out$gs_collection))]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> } else {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     out[, `:=`(collection, gs_collection)]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: out[, `:=`(collection, gs_collection)]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: if (promote.subcollection) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     out[, `:=`(collection, {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         ifelse(nchar(out$gs_subcollection) == 0L, out$collection, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             paste(out$collection, out$gs_subcollection, sep = "_"))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     })]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: if (id.type == "ensembl") {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     idcol &lt;- "ensembl_gene"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> } else if (id.type == "entrez") {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     idcol &lt;- "ncbi_gene"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> } else {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     idcol &lt;- "gene_symbol"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: if (id.type == "entrez") {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     idcol &lt;- "ncbi_gene"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> } else {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     idcol &lt;- "gene_symbol"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: idcol &lt;- "ncbi_gene"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: idtype &lt;- id.type</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: ret &lt;- out[, {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     list(collection, name = gs_name, feature_id = as.character(.SD[[idcol]]), </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         symbol = gene_symbol, subcollection = gs_subcollection, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         collection_name = gs_collection_name, geneset_id = gs_id, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         geneset_url = gs_url, msigdb_collection, db_species)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> }]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: if (id.type != "symbol") {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     ret[, `:=`(symbol, out[["gene_symbol"]])]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> } else {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     ret[, `:=`(ensembl_id, out[["ensembl_gene"]])]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: ret[, `:=`(symbol, out[["gene_symbol"]])]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: ret[, `:=`(gs_id, {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     ifelse(grepl("GO:", out$gs_exact_source), out$gs_exact_source, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         out$gs_id)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> })]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: ret &lt;- ret[!is.na(feature_id)]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: ret &lt;- unique(ret, by = c("collection", "name", "feature_id"))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: gdb &lt;- GeneSetDb(ret)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: for (col in unique(geneSets(gdb)$collection)) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     geneSetCollectionURLfunction(gdb, col) &lt;- ".geneSetURL.msigdb"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     featureIdType(gdb, col) &lt;- idtype</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     gdb &lt;- addCollectionMetadata(gdb, col, "source", as.character(packageVersion("msigdbr")))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: geneSetCollectionURLfunction(gdb, col) &lt;- ".geneSetURL.msigdb"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: featureIdType(gdb, col) &lt;- idtype</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: gdb &lt;- addCollectionMetadata(gdb, col, "source", as.character(packageVersion("msigdbr")))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: geneSetCollectionURLfunction(gdb, col) &lt;- ".geneSetURL.msigdb"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: featureIdType(gdb, col) &lt;- idtype</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: gdb &lt;- addCollectionMetadata(gdb, col, "source", as.character(packageVersion("msigdbr")))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: gdb@collectionMetadata &lt;- gdb@collectionMetadata[name != "count"]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: gdb</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="va">gdb</span> <span class="op">&lt;-</span> <span class="fu">getMSigGeneSetDb</span><span class="op">(</span><span class="st">"h"</span>, <span class="st">"human"</span>, <span class="st">"entrez"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Called from: getMSigGeneSetDb("h", "human", "entrez")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: if (!is.null(collection)) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     out &lt;- sigs.all[gs_collection %in% collection]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> } else {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     out &lt;- sigs.all</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: out &lt;- sigs.all[gs_collection %in% collection]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: if (!with.kegg) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     out &lt;- out[!endsWith(gs_subcollection, "KEGG_LEGACY")]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: out &lt;- out[!endsWith(gs_subcollection, "KEGG_LEGACY")]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: if (prefix.collection) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     out[, `:=`(collection, paste0("MSigDB_", out$gs_collection))]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> } else {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     out[, `:=`(collection, gs_collection)]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: out[, `:=`(collection, gs_collection)]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: if (promote.subcollection) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     out[, `:=`(collection, {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         ifelse(nchar(out$gs_subcollection) == 0L, out$collection, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             paste(out$collection, out$gs_subcollection, sep = "_"))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     })]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: if (id.type == "ensembl") {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     idcol &lt;- "ensembl_gene"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> } else if (id.type == "entrez") {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     idcol &lt;- "ncbi_gene"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> } else {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     idcol &lt;- "gene_symbol"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: if (id.type == "entrez") {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     idcol &lt;- "ncbi_gene"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> } else {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     idcol &lt;- "gene_symbol"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: idcol &lt;- "ncbi_gene"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: idtype &lt;- id.type</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: ret &lt;- out[, {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     list(collection, name = gs_name, feature_id = as.character(.SD[[idcol]]), </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         symbol = gene_symbol, subcollection = gs_subcollection, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         collection_name = gs_collection_name, geneset_id = gs_id, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         geneset_url = gs_url, msigdb_collection, db_species)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> }]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: if (id.type != "symbol") {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     ret[, `:=`(symbol, out[["gene_symbol"]])]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> } else {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     ret[, `:=`(ensembl_id, out[["ensembl_gene"]])]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: ret[, `:=`(symbol, out[["gene_symbol"]])]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: ret[, `:=`(gs_id, {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     ifelse(grepl("GO:", out$gs_exact_source), out$gs_exact_source, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         out$gs_id)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> })]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: ret &lt;- ret[!is.na(feature_id)]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: ret &lt;- unique(ret, by = c("collection", "name", "feature_id"))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: gdb &lt;- GeneSetDb(ret)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: for (col in unique(geneSets(gdb)$collection)) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     geneSetCollectionURLfunction(gdb, col) &lt;- ".geneSetURL.msigdb"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     featureIdType(gdb, col) &lt;- idtype</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     gdb &lt;- addCollectionMetadata(gdb, col, "source", as.character(packageVersion("msigdbr")))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: geneSetCollectionURLfunction(gdb, col) &lt;- ".geneSetURL.msigdb"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: featureIdType(gdb, col) &lt;- idtype</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: gdb &lt;- addCollectionMetadata(gdb, col, "source", as.character(packageVersion("msigdbr")))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: gdb@collectionMetadata &lt;- gdb@collectionMetadata[name != "count"]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: gdb</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
