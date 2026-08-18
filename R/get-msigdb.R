@@ -215,7 +215,7 @@ getMSigGeneSetDb <- function(collection = NULL,
     setkeyv(sigs.all, c("gs_collection", "gs_name", "gene_symbol"))
     .pkgcache[["msigdb"]][[cache.key]] <- data.table::copy(sigs.all)
   }
-  browser()
+  # browser()
   if (!is.null(collection)) {
     out <- sigs.all[gs_collection %in% collection]
   } else {
