@@ -243,7 +243,7 @@ as_matrix <- function(y, gdb = NULL, calc.norm.factors = TRUE, prior.count = 3,
   }
   if (is(y, "DESeqDataSet") && calc.norm.factors) {
     y <- edgeR::DGEList(SummarizedExperiment::assay(y))
-    y <- edgeR::calcNormFactors(y)
+    y <- edgeR::normLibSizes(y)
   }
 
 

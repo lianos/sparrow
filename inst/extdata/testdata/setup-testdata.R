@@ -36,7 +36,7 @@ y <- edgeR::DGEList(
   counts(out),
   genes = as.data.frame(rowData(out))[, 'symbol', drop=FALSE],
   samples = as.data.frame(colData(out)))
-y <- edgeR::calcNormFactors(y)
+y <- edgeR::normLibSizes(y)
 saveRDS(y, 'TCGA-BRCA-some.DGEList.rds')
 
 ## -----------------------------------------------------------------------------

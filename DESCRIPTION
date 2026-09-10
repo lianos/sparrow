@@ -1,7 +1,7 @@
 Package: sparrow
 Type: Package
 Title: Take command of set enrichment analyses through a unified interface
-Version: 1.19.3
+Version: 1.19.4
 Authors@R: c(
     person(
         "Steve", "Lianoglou", role = c("aut", "cre"),
@@ -32,7 +32,7 @@ Imports:
     ComplexHeatmap (>= 2.0),
     data.table (>= 1.10.4),
     DelayedMatrixStats,
-    edgeR (>= 3.18.1),
+    edgeR (>= 3.42.0),
     ggplot2 (>= 2.2.0),
     graphics,
     grDevices,
