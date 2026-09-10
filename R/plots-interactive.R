@@ -53,8 +53,8 @@
 #' upreg <- "SOTIRIOU_BREAST_CANCER_GRADE_1_VS_3_UP"
 #' dnreg <- "TURASHVILI_BREAST_LOBULAR_CARCINOMA_VS_DUCTAL_NORMAL_DN"
 #' 
-#' iplot(mgr, upreg, value = c("t-statistic" = "t"), type = "density")
-#' iplot(mgr, upreg, value = c("t-statistic" = "t"), type = "density", .plot_static = TRUE)
+#' iplot(mgr, upreg, value = c("t-statistic" = "t"), type = "density", interactive = FALSE)
+#' iplot(mgr, upreg, value = c("t-statistic" = "t"), type = "density", interactive = TRUE)
 #' iplot(mgr, upreg, value = c("log2FC" = "logFC"), type = "boxplot")
 #' iplot(mgr, upreg, value = c("t-statistic" = "t"), type = "gsea")
 #' iplot(mgr, dnreg, value = c("t-statistic" = "t"), type = "gsea")
@@ -198,7 +198,7 @@ iplot.gsea.plot <- function(lfc, geneset, rank_by, title, spr, gseaParam = 1,
     return(fgsea::plotEnrichment(pathway, stats, gseaParam, ticksSize))
   }
   
-  stats.anno <- NULL  
+  stats.anno <- NULL
   if (!is.null(gstats)) {
     stats.anno <- sapply(gstats, function(val) {
       if (is.character(val)) return(val)
@@ -224,6 +224,7 @@ iplot.gsea.plot <- function(lfc, geneset, rank_by, title, spr, gseaParam = 1,
   statsAdj <- sign(statsAdj) * (abs(statsAdj) ^ gseaParam)
   statsAdj <- statsAdj / max(abs(statsAdj))
 
+  # calulate the position inside the ranked list for each gene in pathway
   pathway <- unname(as.vector(stats::na.omit(match(pathway, names(statsAdj)))))
   pathway <- sort(pathway)
 
@@ -265,7 +266,7 @@ iplot.gsea.plot <- function(lfc, geneset, rank_by, title, spr, gseaParam = 1,
   }
   add.xtra <- c("logFC", "t", "pval", "padj")
   for (add.me in intersect(add.xtra, colnames(geneset))) {
-    features[[add.me]] <- geneset[[add.me]]
+    features[[add.me]] <- geneset[[add.me]][xref]
     add.labels <- c(add.labels, add.me)
   }
 
@@ -469,11 +470,20 @@ iplot.density.plotly <- function(x, dat, value, main, with.legend=TRUE,
                 yaxis=list(title="Density"),
                 showlegend = with.legend, title=main, dragmode="select")
     if ('symbol' %in% names(gs.dat) && with.points) {
-      p <- add_markers(p, x=~val, y=~y, key=~feature_id, data=gs.dat, name="Genes",
-                       hoverinfo='text',
-                       text=~paste0('Symbol: ', symbol, '<br>',
-                                    'logFC: ', sprintf('%.3f', logFC), '<br>',
-                                    'FDR: ', sprintf('%.3f', padj)))
+      p <- add_markers(
+        p, 
+        x = ~val,
+        y = ~y,
+        key = ~feature_id,
+        data = gs.dat,
+        name = "Genes",
+        hoverinfo = "text",
+        text = ~paste0(
+          'Symbol: ', symbol, '<br>',
+          'logFC: ', sprintf('%.3f', logFC), '<br>',
+          if (is.numeric(gs.dat$t)) sprintf("t: %0.3f<br>", t) else NULL,
+          'FDR: ', sprintf('%.3f', padj))
+      )
     } else if (with.points) {
       p <- add_markers(p, x=~val, y=~y, key=~feature_id, data=gs.dat,
                        name="Genes",

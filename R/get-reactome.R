@@ -136,6 +136,7 @@ getReactomeGeneSetDb <- function(species = 'human',
     info[, ensembl_id := NULL]
   }
   info <- unique(info, by = c("name", "feature_id"))
+  info[, geneset_url := sprintf("https://reactome.org/content/detail/%s", gs_id)]
   gdb <- GeneSetDb(info)
   geneSetCollectionURLfunction(gdb, "Reactome") <- ".geneSetURL.REACTOME"
   featureIdType(gdb, "Reactome") <- id.type
